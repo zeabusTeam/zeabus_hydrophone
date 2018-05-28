@@ -1,0 +1,6 @@
+19:41:39 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+make all 
+make: Nothing to be done for 'all'.
+
+19:41:39 Build Finished (took 349ms)
+
