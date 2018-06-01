@@ -4,4 +4,4 @@
 //org.eclipse.debug.core.PREFERRED_DELEGATES/org.eclipse.cdt.launch.remoteApplicationLaunchType=org.eclipse.rse.remotecdt.dsf.debug,debug,;
 eclipse.preferences.version=1
 org.eclipse.debug.core.PREF_BREAKPOINT_MANAGER_ENABLED_STATE=true
-prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n<expression enabled\="true" text\="hadc1"/>\r\n<expression enabled\="true" text\="g_buffer"/>\r\n<expression enabled\="true" text\="hdma_memtomem_dma1_stream1"/>\r\n<expression enabled\="true" text\="g_adc1_swap"/>\r\n</watchExpressions>\r\n
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n<expression enabled\="true" text\="g_adc_1_h[0]"/>\r\n<expression enabled\="true" text\="hmdma_mdma_channel0_dma1_stream0_tc_0"/>\r\n<expression enabled\="true" text\="((hmdma_mdma_channel0_dma1_stream0_tc_0).Instance)-&gt;CTBR"/>\r\n<expression enabled\="true" text\="DESTBuffer0_D1_AXISRAM"/>\r\n<expression enabled\="true" text\="SRC_Const_Buffer0"/>\r\n</watchExpressions>\r\n

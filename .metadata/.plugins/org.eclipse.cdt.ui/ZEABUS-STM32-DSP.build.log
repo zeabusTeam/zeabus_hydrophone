@@ -1,6 +1,279 @@
-19:41:39 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+13:33:48 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
 make all 
-make: Nothing to be done for 'all'.
+Building file: ../Src/adc.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/adc.d" -MT"Src/adc.o" -o "Src/adc.o" "../Src/adc.c"
+Finished building: ../Src/adc.c
+ 
+Building file: ../Src/dma.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/dma.d" -MT"Src/dma.o" -o "Src/dma.o" "../Src/dma.c"
+Finished building: ../Src/dma.c
+ 
+Building file: ../Src/gpio.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/gpio.d" -MT"Src/gpio.o" -o "Src/gpio.o" "../Src/gpio.c"
+Finished building: ../Src/gpio.c
+ 
+Building file: ../Src/i2c.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/i2c.d" -MT"Src/i2c.o" -o "Src/i2c.o" "../Src/i2c.c"
+Finished building: ../Src/i2c.c
+ 
+Building file: ../Src/main.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/main.d" -MT"Src/main.o" -o "Src/main.o" "../Src/main.c"
+Finished building: ../Src/main.c
+ 
+Building file: ../Src/mdma.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/mdma.d" -MT"Src/mdma.o" -o "Src/mdma.o" "../Src/mdma.c"
+../Src/mdma.c: In function 'MX_MDMA_Init':
+../Src/mdma.c:77:28: warning: variable 'nodeConfig' set but not used [-Wunused-but-set-variable]
+   MDMA_LinkNodeConfTypeDef nodeConfig;
+                            ^~~~~~~~~~
+Finished building: ../Src/mdma.c
+ 
+Building file: ../Src/stm32h7xx_hal_msp.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/stm32h7xx_hal_msp.d" -MT"Src/stm32h7xx_hal_msp.o" -o "Src/stm32h7xx_hal_msp.o" "../Src/stm32h7xx_hal_msp.c"
+Finished building: ../Src/stm32h7xx_hal_msp.c
+ 
+Building file: ../Src/stm32h7xx_it.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/stm32h7xx_it.d" -MT"Src/stm32h7xx_it.o" -o "Src/stm32h7xx_it.o" "../Src/stm32h7xx_it.c"
+Finished building: ../Src/stm32h7xx_it.c
+ 
+Building file: ../Src/system_stm32h7xx.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/system_stm32h7xx.d" -MT"Src/system_stm32h7xx.o" -o "Src/system_stm32h7xx.o" "../Src/system_stm32h7xx.c"
+Finished building: ../Src/system_stm32h7xx.c
+ 
+Building file: ../Src/tim.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/tim.d" -MT"Src/tim.o" -o "Src/tim.o" "../Src/tim.c"
+Finished building: ../Src/tim.c
+ 
+Building file: ../Src/usart.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/usart.d" -MT"Src/usart.o" -o "Src/usart.o" "../Src/usart.c"
+Finished building: ../Src/usart.c
+ 
+Building file: ../Src/usb_device.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/usb_device.d" -MT"Src/usb_device.o" -o "Src/usb_device.o" "../Src/usb_device.c"
+Finished building: ../Src/usb_device.c
+ 
+Building file: ../Src/usbd_cdc_if.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/usbd_cdc_if.d" -MT"Src/usbd_cdc_if.o" -o "Src/usbd_cdc_if.o" "../Src/usbd_cdc_if.c"
+Finished building: ../Src/usbd_cdc_if.c
+ 
+Building file: ../Src/usbd_conf.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/usbd_conf.d" -MT"Src/usbd_conf.o" -o "Src/usbd_conf.o" "../Src/usbd_conf.c"
+Finished building: ../Src/usbd_conf.c
+ 
+Building file: ../Src/usbd_desc.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/usbd_desc.d" -MT"Src/usbd_desc.o" -o "Src/usbd_desc.o" "../Src/usbd_desc.c"
+Finished building: ../Src/usbd_desc.c
+ 
+Building file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.d" -MT"Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o" -o "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o" "../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c"
+Finished building: ../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c
+ 
+Building file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.d" -MT"Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o" -o "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o" "../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c"
+Finished building: ../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
+ 
+Building file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.d" -MT"Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o" -o "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o" "../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c"
+Finished building: ../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
+ 
+Building file: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.d" -MT"Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o" -o "Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o" "../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c"
+Finished building: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
+ 
+Building file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.c
+Invoking: MCU GCC Compiler
+D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/ZEABUS-STM32-DSP/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.d" -MT"Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o" -o "Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o" "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.c"
+Finished building: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.c
+ 
+Building target: ZEABUS-STM32-DSP.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 -specs=nosys.specs -specs=nano.specs -T"../STM32H743ZITx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "ZEABUS-STM32-DSP.elf" @"objects.list"   -lm
+Finished building target: ZEABUS-STM32-DSP.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "ZEABUS-STM32-DSP.elf" "ZEABUS-STM32-DSP.bin"
+arm-none-eabi-size "ZEABUS-STM32-DSP.elf"
+   text	   data	    bss	    dec	    hex	filename
+  32696	   8672	  65976	 107344	  1a350	ZEABUS-STM32-DSP.elf
+ 
 
-19:41:39 Build Finished (took 349ms)
+13:36:06 Build Finished (took 2m:18s.16ms)
 

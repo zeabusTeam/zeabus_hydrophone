@@ -1,0 +1,6 @@
+13:23:31 **** Incremental Build of configuration Debug for project STM32H743I_EVAL ****
+make all 
+make: Nothing to be done for 'all'.
+
+13:23:32 Build Finished (took 316ms)
+

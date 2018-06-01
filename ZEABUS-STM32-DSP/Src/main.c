@@ -4,35 +4,45 @@
   * @file           : main.c
   * @brief          : Main program body
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
+  * This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
   * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * Copyright (c) 2018 STMicroelectronics International N.V. 
+  * All rights reserved.
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
+  * Redistribution and use in source and binary forms, with or without 
+  * modification, are permitted, provided that the following conditions are met:
   *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * 1. Redistribution of source code must retain the above copyright notice, 
+  *    this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  *    this list of conditions and the following disclaimer in the documentation
+  *    and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of other 
+  *    contributors to this software may be used to endorse or promote products 
+  *    derived from this software without specific written permission.
+  * 4. This software, including modifications and/or derivative works of this 
+  *    software, must execute solely and exclusively on microcontroller or
+  *    microprocessor devices manufactured by or for STMicroelectronics.
+  * 5. Redistribution and use of this software other than as permitted under 
+  *    this license is void and will automatically terminate your rights under 
+  *    this license. 
+  *
+  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
   */
@@ -42,12 +52,15 @@
 #include "adc.h"
 #include "dma.h"
 #include "i2c.h"
+#include "mdma.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_otg.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include "common.h"
+
 #define __SECTION_AXIRAM __attribute__((section(".RAM_AXI"))) /* AXI SRAM (D1 domain): */
 
 #define __SECTION_RAM_D2 __attribute__((section(".RAM_D2"))) /* AHB SRAM (D2 domain): */
@@ -60,15 +73,15 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-__SECTION_RAM_D2 uint32_t g_adc1_buffer[2];
-__SECTION_RAM_D2 uint32_t g_adc3_buffer[2];
-uint32_t g_circular_buffer[4][1024];
-uint32_t g_adc1_addr = 0;
-uint32_t g_adc3_addr = 0;
-uint32_t g_adc1_swap = 0;
-uint32_t g_adc3_swap = 0;
-uint32_t state_adc = 0;
-
+__SECTION_RAM_D2 uint32_t g_adc1_2_buffer[2];
+__SECTION_RAM_D2 uint32_t g_adc3_4_buffer[2];
+__SECTION_AXIRAM uint32_t g_adc_1_h[BUFFER_SIZE];
+uint32_t g_adc_2_h[BUFFER_SIZE];
+uint32_t g_adc_3_h[BUFFER_SIZE];
+uint32_t g_adc_4_h[BUFFER_SIZE];
+uint32_t g_circular_buffer[4][BUFFER_SIZE];
+uint16_t g_i2c_dev_addr = 0x2F<<1;
+uint8_t g_i2c_val[2];
 
 /* USER CODE END PV */
 
@@ -77,43 +90,6 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-	if(hadc->Instance == ADC1){
-		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_14);
-//		if(g_adc1_swap == 0){
-//			g_circular_buffer[0][g_adc1_addr] = HAL_ADC_GetValue(&hadc1);
-//		}
-//		else if(g_adc1_swap == 1){
-//			g_circular_buffer[1][g_adc1_addr] = HAL_ADC_GetValue(&hadc1);
-//			g_adc1_addr++;
-//		}
-//		g_adc1_swap = !g_adc1_swap;
-		g_circular_buffer[0][g_adc1_addr] = g_adc1_buffer[0];
-		g_circular_buffer[1][g_adc1_addr] = g_adc1_buffer[1];
-		g_adc1_addr++;
-	}
-	if(hadc->Instance == ADC3){
-//		if(g_adc1_swap == 0){
-//			g_circular_buffer[2][g_adc3_addr] = HAL_ADC_GetValue(&hadc3);
-//		}
-//		else if(g_adc1_swap == 1){
-//			g_circular_buffer[3][g_adc3_addr] = HAL_ADC_GetValue(&hadc3);
-//			g_adc3_addr++;
-//		}
-//		g_adc3_swap = !g_adc3_swap;
-		g_circular_buffer[2][g_adc3_addr] = g_adc3_buffer[0];
-		g_circular_buffer[3][g_adc3_addr] = g_adc3_buffer[1];
-		g_adc3_addr++;
-	}
-	if(g_adc1_addr >= 1024){
-		g_adc1_addr = 0;
-	}
-	if(g_adc3_addr >= 1024){
-		g_adc3_addr = 0;
-	}
-}
-
 
 /* USER CODE END PFP */
 
@@ -152,19 +128,32 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
+  MX_MDMA_Init();
   MX_ADC1_Init();
   MX_ADC3_Init();
   MX_I2C1_Init();
   MX_TIM2_Init();
   MX_USART3_UART_Init();
-  MX_USB_OTG_FS_PCD_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start(&htim2);
 
-  HAL_ADC_Start_DMA(&hadc1,(uint32_t*)g_adc1_buffer,2);
-  HAL_ADC_Start_DMA(&hadc3,(uint32_t*)g_adc3_buffer,2);
-  HAL_ADC_Start_IT(&hadc1);
-  HAL_ADC_Start_IT(&hadc3);
+  if(HAL_TIM_Base_Start(&htim2) != HAL_OK){
+	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+	  return 0;
+  }
+
+  if(HAL_ADC_Start_DMA(&hadc1,(uint32_t*)g_adc1_2_buffer,2) != HAL_OK){
+	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+	  return 0;
+  }
+
+  if(HAL_ADC_Start_DMA(&hadc3,(uint32_t*)g_adc3_4_buffer,2) != HAL_OK){
+	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+	  return 0;
+  }
+
+  g_i2c_val[0] = 0x13;
+  g_i2c_val[1] = 168;
 
   /* USER CODE END 2 */
 
@@ -235,13 +224,13 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV1;
-  RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV1;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
+  RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }

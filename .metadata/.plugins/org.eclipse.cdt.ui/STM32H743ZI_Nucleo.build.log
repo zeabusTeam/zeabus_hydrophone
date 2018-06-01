@@ -1,0 +1,6 @@
+13:33:47 **** Incremental Build of configuration Debug for project STM32H743ZI_Nucleo ****
+make all 
+make: Nothing to be done for 'all'.
+
+13:33:47 Build Finished (took 361ms)
+
