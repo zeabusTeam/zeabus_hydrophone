@@ -72,15 +72,10 @@
 __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[BUFFER_SIZE];
 __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_1_h[BUFFER_SIZE];
-uint32_t g_adc_2_h[BUFFER_SIZE];
-uint32_t g_adc_3_h[BUFFER_SIZE];
-uint32_t g_adc_4_h[BUFFER_SIZE];
-uint32_t g_circular_buffer[4][BUFFER_SIZE];
-uint16_t g_i2c_dev_addr = 0x2F<<1;
-uint8_t g_i2c_val[2];
-uint32_t i;
-
-
+__SECTION_AXIRAM uint32_t g_adc_2_h[BUFFER_SIZE];
+__SECTION_AXIRAM uint32_t g_adc_3_h[BUFFER_SIZE];
+__SECTION_AXIRAM uint32_t g_adc_4_h[BUFFER_SIZE];
+uint32_t g_raw_data_index;
 
 /* USER CODE END PV */
 
@@ -89,6 +84,49 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
+
+int ADC_Start(){
+	if(HAL_ADC_Start_DMA(&hadc1,(uint32_t*)g_adc1_2_buffer,RAW_DATA_BUFFER_SIZE) != HAL_OK){
+		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+		  // Reset LD3 (RED) if start fail
+		  return 0;
+	  }
+
+	  if(HAL_ADC_Start_DMA(&hadc3,(uint32_t*)g_adc3_4_buffer,RAW_DATA_BUFFER_SIZE) != HAL_OK){
+		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+		  // Reset LD3 (RED) if start fail
+		  return 0;
+	  }
+
+	  return 1;
+}
+
+int TIMER_Start(){
+	if(HAL_TIM_Base_Start(&htim2) != HAL_OK){
+		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+		  // Reset LD3 (RED) if start fail
+		  return 0;
+	 }
+
+	return 1;
+}
+
+int Set_LNA_Gain(){
+
+	uint16_t i2c_dev_addr = 0x2F<<1; // MAX 5387 Address
+	uint8_t i2c_val[2];
+	i2c_val[0] = 0x13; // Set both CH
+	i2c_val[1] = 168;  // VGain = 1.1 * ( g_i2c_val / 255 )
+
+	if(HAL_I2C_Master_Transmit(&hi2c1,i2c_dev_addr,i2c_val,2,100) != HAL_OK){
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+		// Reset LD3 (RED) if can not set gain value
+		return 0;
+	}
+
+	return 1;
+
+}
 
 /* USER CODE END PFP */
 
@@ -104,7 +142,6 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
 
   /* USER CODE END 1 */
 
@@ -135,42 +172,15 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+
   HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 
-  if(HAL_TIM_Base_Start(&htim2) != HAL_OK){
-	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
-	  return 0;
-  }
+  TIMER_Start(); 	// Start Timer
 
-  if(HAL_ADC_Start_DMA(&hadc1,(uint32_t*)g_adc1_2_buffer,BUFFER_SIZE) != HAL_OK){
-	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
-	  return 0;
-  }
+  ADC_Start();		// Start ADC with DMA
 
-  if(HAL_ADC_Start_DMA(&hadc3,(uint32_t*)g_adc3_4_buffer,BUFFER_SIZE) != HAL_OK){
-	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
-	  return 0;
-  }
-
-  if(HAL_MDMA_Start(&hmdma_mdma_channel0_dma1_stream0_tc_0,(uint32_t)&g_adc1_2_buffer,(uint32_t)&g_adc_1_h,4,BUFFER_SIZE) != HAL_OK){
-  	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
-  	  return 0;
-  }
-
-  if(HAL_MDMA_Start(&hmdma_mdma_channel1_dma1_stream0_tc_0,(uint32_t)&g_adc1_2_buffer[1],(uint32_t)&g_adc_2_h,4,BUFFER_SIZE) != HAL_OK){
-      HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
-      return 0;
-  }
-  HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel0_dma1_stream0_tc_0);
-  HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel1_dma1_stream0_tc_0);
-
-  g_i2c_val[0] = 0x13;
-  g_i2c_val[1] = 168;
-
-  HAL_I2C_Master_Transmit(&hi2c1,g_i2c_dev_addr,g_i2c_val,2,100);
-
-
+  Set_LNA_Gain();	// Set LNA GAIN
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -193,10 +203,10 @@ int main(void)
 		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 	  }
 
-	  i = i + 2;
+	  g_raw_data_index = g_raw_data_index + 2;
 
-	  if(i > BUFFER_SIZE){
-		  i = 0;
+	  if(g_raw_data_index > RAW_DATA_BUFFER_SIZE){
+		  g_raw_data_index = 0;
 	  }
   }
   /* USER CODE END 3 */

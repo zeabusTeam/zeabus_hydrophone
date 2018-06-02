@@ -9,7 +9,7 @@
 
 int abs_threshold (float thres){
 
-	if(g_adc1_2_buffer[i] > 34468){
+	if(g_adc1_2_buffer[g_raw_data_index] > 34468){
 		return 1;
 	}
 

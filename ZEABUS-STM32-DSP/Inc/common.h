@@ -16,19 +16,20 @@
 
 #define __SECTION_RAM_D3 __attribute__((section(".RAM_D3"))) /* AHB SRAM (D3 domain): */
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 					2048
+#define RAW_DATA_BUFFER_SIZE			BUFFER_SIZE * 100
+#define PULSE_FRAME_SIZE				BUFFER_SIZE
+#define PULSE_HEADER_SIZE				1200
+#define PULSE_BODY_SIZE					PULSE_FRAME_SIZE - PULSE_HEADER_SIZE
 
-#define ANALOG_OFFSET 32768
+#define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)
 
-extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[];
-extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];
+extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
+extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
 extern __SECTION_AXIRAM uint32_t g_adc_1_h[];
-extern uint32_t g_adc_2_h[];
-extern uint32_t g_adc_3_h[];
-extern uint32_t g_adc_4_h[];
-extern uint32_t g_circular_buffer[][BUFFER_SIZE];
-extern uint16_t g_i2c_dev_addr;
-extern uint8_t g_i2c_val[];
-extern uint32_t i;
+extern __SECTION_AXIRAM uint32_t g_adc_2_h[];
+extern __SECTION_AXIRAM uint32_t g_adc_3_h[];
+extern __SECTION_AXIRAM uint32_t g_adc_4_h[];
+extern uint32_t g_raw_data_index;
 
 #endif /* COMMON_H_ */
