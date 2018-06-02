@@ -59,13 +59,9 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+
 #include "common.h"
-
-#define __SECTION_AXIRAM __attribute__((section(".RAM_AXI"))) /* AXI SRAM (D1 domain): */
-
-#define __SECTION_RAM_D2 __attribute__((section(".RAM_D2"))) /* AHB SRAM (D2 domain): */
-
-#define __SECTION_RAM_D3 __attribute__((section(".RAM_D3"))) /* AHB SRAM (D3 domain): */
+#include "abs_threshold.h"
 
 /* USER CODE END Includes */
 
@@ -73,8 +69,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-__SECTION_RAM_D2 uint32_t g_adc1_2_buffer[2];
-__SECTION_RAM_D2 uint32_t g_adc3_4_buffer[2];
+__SECTION_RAM_D2 uint32_t g_adc1_2_buffer[BUFFER_SIZE];
+__SECTION_RAM_D2 uint32_t g_adc3_4_buffer[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_1_h[BUFFER_SIZE];
 uint32_t g_adc_2_h[BUFFER_SIZE];
 uint32_t g_adc_3_h[BUFFER_SIZE];
@@ -82,6 +78,9 @@ uint32_t g_adc_4_h[BUFFER_SIZE];
 uint32_t g_circular_buffer[4][BUFFER_SIZE];
 uint16_t g_i2c_dev_addr = 0x2F<<1;
 uint8_t g_i2c_val[2];
+uint32_t i;
+
+
 
 /* USER CODE END PV */
 
@@ -136,24 +135,41 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 
   if(HAL_TIM_Base_Start(&htim2) != HAL_OK){
 	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 	  return 0;
   }
 
-  if(HAL_ADC_Start_DMA(&hadc1,(uint32_t*)g_adc1_2_buffer,2) != HAL_OK){
+  if(HAL_ADC_Start_DMA(&hadc1,(uint32_t*)g_adc1_2_buffer,BUFFER_SIZE) != HAL_OK){
 	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 	  return 0;
   }
 
-  if(HAL_ADC_Start_DMA(&hadc3,(uint32_t*)g_adc3_4_buffer,2) != HAL_OK){
+  if(HAL_ADC_Start_DMA(&hadc3,(uint32_t*)g_adc3_4_buffer,BUFFER_SIZE) != HAL_OK){
 	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 	  return 0;
   }
+
+  if(HAL_MDMA_Start(&hmdma_mdma_channel0_dma1_stream0_tc_0,(uint32_t)&g_adc1_2_buffer,(uint32_t)&g_adc_1_h,4,BUFFER_SIZE) != HAL_OK){
+  	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+  	  return 0;
+  }
+
+  if(HAL_MDMA_Start(&hmdma_mdma_channel1_dma1_stream0_tc_0,(uint32_t)&g_adc1_2_buffer[1],(uint32_t)&g_adc_2_h,4,BUFFER_SIZE) != HAL_OK){
+      HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+      return 0;
+  }
+  HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel0_dma1_stream0_tc_0);
+  HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel1_dma1_stream0_tc_0);
 
   g_i2c_val[0] = 0x13;
   g_i2c_val[1] = 168;
+
+  HAL_I2C_Master_Transmit(&hi2c1,g_i2c_dev_addr,g_i2c_val,2,100);
+
 
   /* USER CODE END 2 */
 
@@ -165,7 +181,23 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  HAL_Delay(10);
+
+	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+
+	  if(abs_threshold(0.01) == 1){
+		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+		  HAL_Delay(1);
+	  }
+	  else{
+		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+	  }
+
+	  i = i + 2;
+
+	  if(i > BUFFER_SIZE){
+		  i = 0;
+	  }
   }
   /* USER CODE END 3 */
 

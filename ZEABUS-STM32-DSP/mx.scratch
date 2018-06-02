@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>D:\ws\ZEABUS-STM32-DSP\ZEABUS-STM32-DSP\\ZEABUS-STM32-DSP</ProjectName>
+<ProjectName>D:\ws\zeabus_stm32h7_dsp\ZEABUS-STM32-DSP\\ZEABUS-STM32-DSP</ProjectName>
 <ProjectNature>C</ProjectNature> 
 <CMSIS>..\Drivers\CMSIS</CMSIS>
 <HAL_Driver>C:\Users\Vasut\STM32Cube\Repository\STM32Cube_FW_H7_V1.2.0\Drivers\CMSIS</HAL_Driver>
