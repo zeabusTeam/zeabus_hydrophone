@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-int abs_threshold (float thres);
+int abs_threshold ();
 
 
 #endif /* ABS_THRESHOLD_H_ */

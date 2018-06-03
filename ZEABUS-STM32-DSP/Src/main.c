@@ -69,13 +69,18 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-__SECTION_RAM_D2 uint32_t g_adc1_2_buffer[BUFFER_SIZE];
-__SECTION_RAM_D2 uint32_t g_adc3_4_buffer[BUFFER_SIZE];
+__SECTION_RAM_D2 uint32_t g_adc1_2_buffer[RAW_DATA_BUFFER_SIZE];
+__SECTION_RAM_D2 uint32_t g_adc3_4_buffer[RAW_DATA_BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_1_h[BUFFER_SIZE];
+__SECTION_AXIRAM int g_adc_1_test[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_2_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_3_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_4_h[BUFFER_SIZE];
 uint32_t g_raw_data_index;
+uint32_t g_pulse_detect_index;
+float g_front_thres;
+int g_raw_front_thres;
+
 
 /* USER CODE END PV */
 
@@ -181,6 +186,10 @@ int main(void)
   ADC_Start();		// Start ADC with DMA
 
   Set_LNA_Gain();	// Set LNA GAIN
+
+  g_front_thres = 0.1;	// set front threshold
+  g_raw_front_thres = (g_front_thres * VOLT_RATIO) + 32768;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -195,12 +204,13 @@ int main(void)
 	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 
-	  if(abs_threshold(0.01) == 1){
+	  if(abs_threshold() == 1){
 		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+		  Get_Frame_Handler();
 		  HAL_Delay(1);
 	  }
 	  else{
-		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+//		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 	  }
 
 	  g_raw_data_index = g_raw_data_index + 2;
@@ -303,6 +313,63 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+ void Get_Frame_Handler(){
+
+//	 int pluse_header_index = 0;
+	 int start_transfer_index = 0;
+	 int end_transfer_index = 0;
+	 int size_remain = 0;					//size of data that remain to transfer
+	 int size_forward_transfer = 0;			//size of data can forward transfer before last address of raw data buffer
+
+	 // Case 1 ; some header is at the and of buffer
+	 if (g_pulse_detect_index < PULSE_HEADER_SIZE - 1) {
+		 size_forward_transfer = PULSE_HEADER_SIZE - g_pulse_detect_index - 1;
+		 start_transfer_index = RAW_DATA_BUFFER_SIZE - size_forward_transfer; 	// start transfer at bottom of raw data
+	 }
+	 // Case 2 ; some body is at the next start of buffer
+	 else if (RAW_DATA_BUFFER_SIZE - g_pulse_detect_index < (int) PULSE_BODY_SIZE) {
+		 size_forward_transfer = PULSE_HEADER_SIZE + ((int)RAW_DATA_BUFFER_SIZE - g_pulse_detect_index);
+		 start_transfer_index = g_pulse_detect_index - PULSE_HEADER_SIZE;
+	 }
+	 // Case 3 ; all frame is in this buffer lenght
+	 else {
+		 size_forward_transfer = (int) PULSE_FRAME_SIZE;
+		 start_transfer_index = g_pulse_detect_index - PULSE_HEADER_SIZE;
+	 }
+
+	 size_remain = PULSE_FRAME_SIZE - size_forward_transfer;
+
+	 if (size_remain == 0) {
+		 end_transfer_index = start_transfer_index + (int) PULSE_FRAME_SIZE;
+	 }
+	 else {
+		 end_transfer_index = size_remain;
+	 }
+
+	 // wait until frame is fill up
+
+	 HAL_MDMA_Start(&hmdma_mdma_channel0_sw_0,(uint32_t)&g_adc1_2_buffer[start_transfer_index],(uint32_t)&g_adc_1_h,4,size_forward_transfer);
+	 HAL_MDMA_Start(&hmdma_mdma_channel1_sw_0,(uint32_t)&g_adc1_2_buffer[start_transfer_index + 1],(uint32_t)&g_adc_2_h,4,size_forward_transfer);
+	 HAL_MDMA_Start(&hmdma_mdma_channel2_sw_0,(uint32_t)&g_adc3_4_buffer[start_transfer_index],(uint32_t)&g_adc_3_h,4,size_forward_transfer);
+	 HAL_MDMA_Start(&hmdma_mdma_channel3_sw_0,(uint32_t)&g_adc3_4_buffer[start_transfer_index + 1],(uint32_t)&g_adc_4_h,4,size_forward_transfer);
+
+	 if(size_remain > 0){
+
+		 HAL_MDMA_Start(&hmdma_mdma_channel0_sw_0,(uint32_t)&g_adc1_2_buffer,(uint32_t)&g_adc_1_h[size_forward_transfer],4,size_forward_transfer);
+		 HAL_MDMA_Start(&hmdma_mdma_channel1_sw_0,(uint32_t)&g_adc1_2_buffer[1],(uint32_t)&g_adc_2_h[size_forward_transfer],4,size_forward_transfer);
+		 HAL_MDMA_Start(&hmdma_mdma_channel2_sw_0,(uint32_t)&g_adc3_4_buffer,(uint32_t)&g_adc_3_h[size_forward_transfer],4,size_forward_transfer);
+		 HAL_MDMA_Start(&hmdma_mdma_channel3_sw_0,(uint32_t)&g_adc3_4_buffer[1],(uint32_t)&g_adc_4_h[size_forward_transfer],4,size_forward_transfer);
+	 }
+
+	 for(int i = 0; i < BUFFER_SIZE; i++){
+		 g_adc_1_test[i] = g_adc_1_h[i] - 32768;
+	 }
+	 HAL_Delay(1);
+	 HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+
+
+ }
 
 /* USER CODE END 4 */
 
