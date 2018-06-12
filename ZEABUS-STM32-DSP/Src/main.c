@@ -59,7 +59,8 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#define ARM_MATH_CM4
+#include "arm_math.h"
 #include "common.h"
 #include "abs_threshold.h"
 
@@ -80,6 +81,7 @@ uint32_t g_raw_data_index;
 uint32_t g_pulse_detect_index;
 float g_front_thres;
 int g_raw_front_thres;
+float32_t x;
 
 
 /* USER CODE END PV */
@@ -190,6 +192,10 @@ int main(void)
   g_front_thres = 0.1;	// set front threshold
   g_raw_front_thres = (g_front_thres * VOLT_RATIO) + 32768;
 
+  x = 0.1;
+
+  arm_sin_f32(x);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -206,7 +212,7 @@ int main(void)
 
 	  if(abs_threshold() == 1){
 		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
-		  Get_Frame_Handler();
+		  Get_Pulse_Frame();
 		  HAL_Delay(1);
 	  }
 	  else{
@@ -314,7 +320,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
- void Get_Frame_Handler(){
+ void Get_Pulse_Frame(){
 
 //	 int pluse_header_index = 0;
 	 int start_transfer_index = 0;
