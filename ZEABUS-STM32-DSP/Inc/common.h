@@ -21,6 +21,7 @@
 #define PULSE_FRAME_SIZE				BUFFER_SIZE
 #define PULSE_HEADER_SIZE				1200
 #define PULSE_BODY_SIZE					PULSE_FRAME_SIZE - PULSE_HEADER_SIZE
+#define FFT_SIZE						1024
 #define VOLT_RATIO						19859			//  65536 / 3.3  (sample_data / volt)
 
 #define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)

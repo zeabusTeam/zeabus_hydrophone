@@ -61,6 +61,7 @@
 /* USER CODE BEGIN Includes */
 #define ARM_MATH_CM4
 #include "arm_math.h"
+#include "arm_const_structs.h"
 #include "common.h"
 #include "abs_threshold.h"
 
@@ -73,15 +74,23 @@
 __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[RAW_DATA_BUFFER_SIZE];
 __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[RAW_DATA_BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_1_h[BUFFER_SIZE];
-__SECTION_AXIRAM int g_adc_1_test[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_2_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_3_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_4_h[BUFFER_SIZE];
+float32_t g_adc_1_f[BUFFER_SIZE];
+float32_t g_adc_2_f[BUFFER_SIZE];
+float32_t g_adc_3_f[BUFFER_SIZE];
+float32_t g_adc_4_f[BUFFER_SIZE];
+float32_t g_fft_f32[FFT_SIZE * 2];
+float32_t g_fft_f32_out[FFT_SIZE];
 uint32_t g_raw_data_index;
 uint32_t g_pulse_detect_index;
 float g_front_thres;
 int g_raw_front_thres;
+int g_ready_to_process;
 float32_t x;
+
+arm_cfft_radix4_instance_f32  FFT_F32_struct;
 
 
 /* USER CODE END PV */
@@ -135,6 +144,40 @@ int Set_LNA_Gain(){
 
 }
 
+float32_t Get_freq(){
+
+	 float32_t maxVal;
+	 float32_t freq;
+	 uint32_t freq_index;
+	 int k = 0;
+
+	 for(int i = 0 ; i < FFT_SIZE * 2 ; i += 2){
+
+		 if(k < PULSE_BODY_SIZE){
+			 g_fft_f32[i] = g_adc_1_f[k + PULSE_HEADER_SIZE - 1];
+			 g_fft_f32[i+1] = 0;
+		 } else {
+			 g_fft_f32[i] = 0;
+			 g_fft_f32[i+1] = 0;
+		 }
+		 k++;
+	 }
+
+	 HAL_Delay(1);
+
+	 arm_cfft_radix4_init_f32(&FFT_F32_struct,FFT_SIZE,0,1);
+	 arm_cfft_radix4_f32(&FFT_F32_struct,g_fft_f32);
+	 arm_cmplx_mag_f32(g_fft_f32, g_fft_f32_out, FFT_SIZE);
+	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
+
+	 g_fft_f32_out[0] = 0;
+
+	 freq = (((float32_t)freq_index) * ((float32_t)0.1875));
+
+	 return freq;
+ }
+
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -149,6 +192,7 @@ int Set_LNA_Gain(){
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	float32_t frame_freq = 0;
 
   /* USER CODE END 1 */
 
@@ -194,12 +238,16 @@ int main(void)
 
   x = 0.1;
 
-  arm_sin_f32(x);
+  float32_t test_sin = arm_sin_f32(x);
+  g_ready_to_process = 0;
+
+  HAL_Delay(10);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   while (1)
   {
 
@@ -214,6 +262,12 @@ int main(void)
 		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 		  Get_Pulse_Frame();
 		  HAL_Delay(1);
+
+		  if(g_ready_to_process){
+			  frame_freq = Get_freq();
+			  HAL_Delay(1);
+			  g_ready_to_process = 0;
+		  }
 	  }
 	  else{
 //		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
@@ -368,12 +422,17 @@ void SystemClock_Config(void)
 		 HAL_MDMA_Start(&hmdma_mdma_channel3_sw_0,(uint32_t)&g_adc3_4_buffer[1],(uint32_t)&g_adc_4_h[size_forward_transfer],4,size_forward_transfer);
 	 }
 
-	 for(int i = 0; i < BUFFER_SIZE; i++){
-		 g_adc_1_test[i] = g_adc_1_h[i] - 32768;
+	 for(int i = 0 ; i < BUFFER_SIZE ; i++) {
+		 g_adc_1_f[i] = (float32_t)((float32_t)((float32_t)g_adc_1_h[i]  - 32768)) / 65535 ;
+		 g_adc_2_f[i] = (float32_t)((float32_t)((float32_t)g_adc_2_h[i]  - 32768)) / 65535 ;
+		 g_adc_3_f[i] = (float32_t)((float32_t)((float32_t)g_adc_3_h[i]  - 32768)) / 65535 ;
+		 g_adc_4_f[i] = (float32_t)((float32_t)((float32_t)g_adc_4_h[i]  - 32768)) / 65535 ;
 	 }
+
+	 g_ready_to_process = 1;
+
 	 HAL_Delay(1);
 	 HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
-
 
  }
 

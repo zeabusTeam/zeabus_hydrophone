@@ -1,11 +1,11 @@
 /**************************************************************************//**
  * @file     core_cm23.h
  * @brief    CMSIS Cortex-M23 Core Peripheral Access Layer Header File
- * @version  V5.0.1
- * @date     25. November 2016
+ * @version  V5.0.4
+ * @date     10. January 2018
  ******************************************************************************/
 /*
- * Copyright (c) 2009-2016 ARM Limited. All rights reserved.
+ * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -23,8 +23,8 @@
  */
 
 #if   defined ( __ICCARM__ )
- #pragma system_include         /* treat file as system include file for MISRA check */
-#elif defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
+  #pragma system_include         /* treat file as system include file for MISRA check */
+#elif defined (__clang__)
   #pragma clang system_header   /* treat file as system include file */
 #endif
 
@@ -60,11 +60,13 @@
   @{
  */
 
-/*  CMSIS cmGrebe definitions */
-#define __CM23_CMSIS_VERSION_MAIN  ( 5U)                                       /*!< [31:16] CMSIS HAL main version */
-#define __CM23_CMSIS_VERSION_SUB   ( 0U)                                       /*!< [15:0]  CMSIS HAL sub version */
+#include "cmsis_version.h"
+
+/*  CMSIS definitions */
+#define __CM23_CMSIS_VERSION_MAIN  (__CM_CMSIS_VERSION_MAIN)                   /*!< \deprecated [31:16] CMSIS HAL main version */
+#define __CM23_CMSIS_VERSION_SUB   (__CM_CMSIS_VERSION_SUB)                    /*!< \deprecated [15:0]  CMSIS HAL sub version */
 #define __CM23_CMSIS_VERSION       ((__CM23_CMSIS_VERSION_MAIN << 16U) | \
-                                     __CM23_CMSIS_VERSION_SUB           )      /*!< CMSIS HAL version number */
+                                     __CM23_CMSIS_VERSION_SUB           )      /*!< \deprecated CMSIS HAL version number */
 
 #define __CORTEX_M                     (23U)                                   /*!< Cortex-M Core */
 
@@ -746,8 +748,11 @@ typedef struct
 } TPI_Type;
 
 /* TPI Asynchronous Clock Prescaler Register Definitions */
-#define TPI_ACPR_PRESCALER_Pos              0U                                         /*!< TPI ACPR: PRESCALER Position */
-#define TPI_ACPR_PRESCALER_Msk             (0x1FFFUL /*<< TPI_ACPR_PRESCALER_Pos*/)    /*!< TPI ACPR: PRESCALER Mask */
+#define TPI_ACPR_PRESCALER_Pos              0U                                         /*!< @Deprecated TPI ACPR: PRESCALER Position */
+#define TPI_ACPR_PRESCALER_Msk             (0x1FFFUL /*<< TPI_ACPR_PRESCALER_Pos*/)    /*!< @Deprecated TPI ACPR: PRESCALER Mask */
+
+#define TPI_ACPR_SWOSCALER_Pos              0U                                         /*!< TPI ACPR: SWOSCALER Position */
+#define TPI_ACPR_SWOSCALER_Msk             (0xFFFFUL /*<< TPI_ACPR_SWOSCALER_Pos*/)    /*!< TPI ACPR: SWOSCALER Mask */
 
 /* TPI Selected Pin Protocol Register Definitions */
 #define TPI_SPPR_TXMODE_Pos                 0U                                         /*!< TPI SPPR: TXMODE Position */
@@ -881,9 +886,16 @@ typedef struct
   __IOM uint32_t RBAR;                   /*!< Offset: 0x00C (R/W)  MPU Region Base Address Register */
   __IOM uint32_t RLAR;                   /*!< Offset: 0x010 (R/W)  MPU Region Limit Address Register */
         uint32_t RESERVED0[7U];
+  union {
+  __IOM uint32_t MAIR[2];
+  struct {
   __IOM uint32_t MAIR0;                  /*!< Offset: 0x030 (R/W)  MPU Memory Attribute Indirection Register 0 */
   __IOM uint32_t MAIR1;                  /*!< Offset: 0x034 (R/W)  MPU Memory Attribute Indirection Register 1 */
+  };
+  };
 } MPU_Type;
+
+#define MPU_TYPE_RALIASES                  1U
 
 /* MPU Type Register Definitions */
 #define MPU_TYPE_IREGION_Pos               16U                                            /*!< MPU TYPE: IREGION Position */
@@ -1224,7 +1236,12 @@ typedef struct
   @{
  */
 
-#ifndef CMSIS_NVIC_VIRTUAL
+#ifdef CMSIS_NVIC_VIRTUAL
+  #ifndef CMSIS_NVIC_VIRTUAL_HEADER_FILE
+    #define CMSIS_NVIC_VIRTUAL_HEADER_FILE "cmsis_nvic_virtual.h"
+  #endif
+  #include CMSIS_NVIC_VIRTUAL_HEADER_FILE
+#else
 /*#define NVIC_SetPriorityGrouping    __NVIC_SetPriorityGrouping   not available for Cortex-M23 */
 /*#define NVIC_GetPriorityGrouping    __NVIC_GetPriorityGrouping   not available for Cortex-M23 */
   #define NVIC_EnableIRQ              __NVIC_EnableIRQ
@@ -1236,9 +1253,15 @@ typedef struct
   #define NVIC_GetActive              __NVIC_GetActive
   #define NVIC_SetPriority            __NVIC_SetPriority
   #define NVIC_GetPriority            __NVIC_GetPriority
+  #define NVIC_SystemReset            __NVIC_SystemReset
 #endif /* CMSIS_NVIC_VIRTUAL */
 
-#ifndef CMSIS_VECTAB_VIRTUAL
+#ifdef CMSIS_VECTAB_VIRTUAL
+  #ifndef CMSIS_VECTAB_VIRTUAL_HEADER_FILE
+    #define CMSIS_VECTAB_VIRTUAL_HEADER_FILE "cmsis_vectab_virtual.h"
+  #endif
+  #include CMSIS_VECTAB_VIRTUAL_HEADER_FILE
+#else
   #define NVIC_SetVector              __NVIC_SetVector
   #define NVIC_GetVector              __NVIC_GetVector
 #endif  /* (CMSIS_VECTAB_VIRTUAL) */
@@ -1246,7 +1269,7 @@ typedef struct
 #define NVIC_USER_IRQ_OFFSET          16
 
 
-/* Interrupt Priorities are WORD accessible only under ARMv6M                   */
+/* Interrupt Priorities are WORD accessible only under Armv6-M                  */
 /* The following MACROS handle generation of the register offset and byte masks */
 #define _BIT_SHIFT(IRQn)         (  ((((uint32_t)(int32_t)(IRQn))         )      &  0x03UL) * 8UL)
 #define _SHP_IDX(IRQn)           ( (((((uint32_t)(int32_t)(IRQn)) & 0x0FUL)-8UL) >>    2UL)      )
@@ -1263,7 +1286,7 @@ __STATIC_INLINE void __NVIC_EnableIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC->ISER[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC->ISER[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
   }
 }
 
@@ -1280,7 +1303,7 @@ __STATIC_INLINE uint32_t __NVIC_GetEnableIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    return((uint32_t)(((NVIC->ISER[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    return((uint32_t)(((NVIC->ISER[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1299,7 +1322,7 @@ __STATIC_INLINE void __NVIC_DisableIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC->ICER[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC->ICER[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
     __DSB();
     __ISB();
   }
@@ -1318,7 +1341,7 @@ __STATIC_INLINE uint32_t __NVIC_GetPendingIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    return((uint32_t)(((NVIC->ISPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    return((uint32_t)(((NVIC->ISPR[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1337,7 +1360,7 @@ __STATIC_INLINE void __NVIC_SetPendingIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC->ISPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC->ISPR[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
   }
 }
 
@@ -1352,7 +1375,7 @@ __STATIC_INLINE void __NVIC_ClearPendingIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC->ICPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC->ICPR[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
   }
 }
 
@@ -1369,7 +1392,7 @@ __STATIC_INLINE uint32_t __NVIC_GetActive(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    return((uint32_t)(((NVIC->IABR[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    return((uint32_t)(((NVIC->IABR[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1391,7 +1414,7 @@ __STATIC_INLINE uint32_t NVIC_GetTargetState(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    return((uint32_t)(((NVIC->ITNS[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    return((uint32_t)(((NVIC->ITNS[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1412,8 +1435,8 @@ __STATIC_INLINE uint32_t NVIC_SetTargetState(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC->ITNS[(((uint32_t)(int32_t)IRQn) >> 5UL)] |=  ((uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL)));
-    return((uint32_t)(((NVIC->ITNS[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    NVIC->ITNS[(((uint32_t)IRQn) >> 5UL)] |=  ((uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL)));
+    return((uint32_t)(((NVIC->ITNS[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1434,8 +1457,8 @@ __STATIC_INLINE uint32_t NVIC_ClearTargetState(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC->ITNS[(((uint32_t)(int32_t)IRQn) >> 5UL)] &= ~((uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL)));
-    return((uint32_t)(((NVIC->ITNS[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    NVIC->ITNS[(((uint32_t)IRQn) >> 5UL)] &= ~((uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL)));
+    return((uint32_t)(((NVIC->ITNS[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1536,7 +1559,7 @@ __STATIC_INLINE uint32_t __NVIC_GetVector(IRQn_Type IRQn)
   \brief   System Reset
   \details Initiates a system reset request to reset the MCU.
  */
-__STATIC_INLINE void NVIC_SystemReset(void)
+__STATIC_INLINE void __NVIC_SystemReset(void)
 {
   __DSB();                                                          /* Ensure all outstanding memory accesses included
                                                                        buffered write are completed before reset */
@@ -1561,7 +1584,7 @@ __STATIC_INLINE void TZ_NVIC_EnableIRQ_NS(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC_NS->ISER[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC_NS->ISER[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
   }
 }
 
@@ -1578,7 +1601,7 @@ __STATIC_INLINE uint32_t TZ_NVIC_GetEnableIRQ_NS(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    return((uint32_t)(((NVIC_NS->ISER[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    return((uint32_t)(((NVIC_NS->ISER[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1597,7 +1620,7 @@ __STATIC_INLINE void TZ_NVIC_DisableIRQ_NS(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC_NS->ICER[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC_NS->ICER[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
   }
 }
 
@@ -1614,7 +1637,11 @@ __STATIC_INLINE uint32_t TZ_NVIC_GetPendingIRQ_NS(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    return((uint32_t)(((NVIC_NS->ISPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    return((uint32_t)(((NVIC_NS->ISPR[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+  }
+  else
+  {
+    return(0U);
   }
 }
 
@@ -1629,7 +1656,7 @@ __STATIC_INLINE void TZ_NVIC_SetPendingIRQ_NS(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC_NS->ISPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC_NS->ISPR[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
   }
 }
 
@@ -1644,7 +1671,7 @@ __STATIC_INLINE void TZ_NVIC_ClearPendingIRQ_NS(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    NVIC_NS->ICPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+    NVIC_NS->ICPR[(((uint32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)IRQn) & 0x1FUL));
   }
 }
 
@@ -1661,7 +1688,7 @@ __STATIC_INLINE uint32_t TZ_NVIC_GetActive_NS(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {
-    return((uint32_t)(((NVIC_NS->IABR[(((uint32_t)(int32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
+    return((uint32_t)(((NVIC_NS->IABR[(((uint32_t)IRQn) >> 5UL)] & (1UL << (((uint32_t)IRQn) & 0x1FUL))) != 0UL) ? 1UL : 0UL));
   }
   else
   {
@@ -1718,6 +1745,13 @@ __STATIC_INLINE uint32_t TZ_NVIC_GetPriority_NS(IRQn_Type IRQn)
 
 /*@} end of CMSIS_Core_NVICFunctions */
 
+/* ##########################  MPU functions  #################################### */
+
+#if defined (__MPU_PRESENT) && (__MPU_PRESENT == 1U)
+
+#include "mpu_armv8.h"
+
+#endif
 
 /* ##########################  FPU functions  #################################### */
 /**
