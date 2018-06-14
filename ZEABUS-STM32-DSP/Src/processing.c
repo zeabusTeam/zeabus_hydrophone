@@ -37,9 +37,26 @@ void sampling(float*in1, float*in2, float*in3, float*in4,
 
 void demod(float*in1, float*in2, float*in3, float*in4,
 		float*out1_re, float*out1_im, float*out2_re, float*out2_im,
-		float*out3_re, float*out3_im, float*out4_re, float*out4_im){
+		float*out3_re, float*out3_im, float*out4_re, float*out4_im,
+		float fo){
 
-//	const float w = (2 * PI * (fo / 1000) * tm) / DATA_SIZE;
+	int i = 0,n = 0;
+	float wt = 0 , sin_wt, cos_wt;
+	const float w = (2 * PI * (fo / 1000) * time) / DATA_SIZE;
+	for (i = 0; i < DATA_SIZE; i++) {
+		wt = ((float)i * w);
+		sin_wt = arm_sin_f32(x);
+		cos_wt = arm_cos_f32(x);
+		out1_re[i] = cos_wt * in1[i];
+		out1_im[i] = sin_wt * in1[i];
+		out2_re[i] = cos_wt * in1[i];
+		out2_im[i] = sin_wt * in1[i];
+		out3_re[i] = cos_wt * in1[i];
+		out3_im[i] = sin_wt * in1[i];
+		out4_re[i] = cos_wt * in1[i];
+		out4_im[i] = sin_wt * in1[i];
+	}
+
 }
 
 
