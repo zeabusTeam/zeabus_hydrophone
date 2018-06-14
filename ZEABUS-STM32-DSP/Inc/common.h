@@ -16,6 +16,9 @@
 
 #define __SECTION_RAM_D3 __attribute__((section(".RAM_D3"))) /* AHB SRAM (D3 domain): */
 
+#define PI								((float)3.141592765309)
+#define SAMPLE_RATE 					((float)200000.0)
+
 #define BUFFER_SIZE 					2048
 #define RAW_DATA_BUFFER_SIZE			BUFFER_SIZE * 8
 #define PULSE_FRAME_SIZE				BUFFER_SIZE

@@ -17,6 +17,8 @@ float g_d_3_im[DATA_SIZE];
 float g_d_4_re[DATA_SIZE];
 float g_d_4_im[DATA_SIZE];
 
+float time = BUFFER_SIZE / SAMPLE_RATE * 1000; // multiple 1000 for change to ms
+
 
 void sampling(float*in1, float*in2, float*in3, float*in4,
 		float*out1, float*out2, float*out3, float*out4){
@@ -33,8 +35,11 @@ void sampling(float*in1, float*in2, float*in3, float*in4,
 
 }
 
-void demod(){
+void demod(float*in1, float*in2, float*in3, float*in4,
+		float*out1_re, float*out1_im, float*out2_re, float*out2_im,
+		float*out3_re, float*out3_im, float*out4_re, float*out4_im){
 
+//	const float w = (2 * PI * (fo / 1000) * tm) / DATA_SIZE;
 }
 
 
