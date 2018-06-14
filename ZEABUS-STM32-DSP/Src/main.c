@@ -64,6 +64,7 @@
 #include "arm_const_structs.h"
 #include "common.h"
 #include "abs_threshold.h"
+#include "time.h"
 
 /* USER CODE END Includes */
 
@@ -89,6 +90,9 @@ float g_front_thres;
 int g_raw_front_thres;
 int g_ready_to_process;
 float32_t x;
+
+// USb Data
+InputParam input;
 
 arm_cfft_radix4_instance_f32  FFT_F32_struct;
 
@@ -144,7 +148,7 @@ int Set_LNA_Gain(){
 
 }
 
-float32_t Get_freq(){
+float32_t Get_freq(float32_t * in){
 
 	 float32_t maxVal;
 	 float32_t freq;
@@ -154,7 +158,7 @@ float32_t Get_freq(){
 	 for(int i = 0 ; i < FFT_SIZE * 2 ; i += 2){
 
 		 if(k < PULSE_BODY_SIZE){
-			 g_fft_f32[i] = g_adc_1_f[k + PULSE_HEADER_SIZE - 1];
+			 g_fft_f32[i] = in[k + PULSE_HEADER_SIZE - 1];
 			 g_fft_f32[i+1] = 0;
 		 } else {
 			 g_fft_f32[i] = 0;
@@ -163,7 +167,7 @@ float32_t Get_freq(){
 		 k++;
 	 }
 
-	 HAL_Delay(1);
+//	 HAL_Delay(1);
 
 	 arm_cfft_radix4_init_f32(&FFT_F32_struct,FFT_SIZE,0,1);
 	 arm_cfft_radix4_f32(&FFT_F32_struct,g_fft_f32);
@@ -174,7 +178,17 @@ float32_t Get_freq(){
 
 	 freq = (((float32_t)freq_index) * ((float32_t)0.1875));
 
-	 return freq;
+	 float dec;
+	 float dot = modff(freq, &dec);
+
+	 if(dot < 0.5){
+	 	freq = dec;
+	 }
+	 else if(dot >= 0.5){
+	 	freq = dec+1;
+	 }
+
+	 return (freq);
  }
 
 
@@ -241,6 +255,12 @@ int main(void)
   float32_t test_sin = arm_sin_f32(x);
   g_ready_to_process = 0;
 
+  input.Frequency = 30000;
+  input.SoundSpeed = 1500;
+  input.FrontThreshold = 0.3;
+  input.PowerThreshold = 0.02;
+  input.DelayObserve = 2000000;
+
   HAL_Delay(10);
 
   /* USER CODE END 2 */
@@ -264,7 +284,10 @@ int main(void)
 		  HAL_Delay(1);
 
 		  if(g_ready_to_process){
-			  frame_freq = Get_freq();
+			  frame_freq = Get_freq((float *)g_adc_1_f) * 1000; // Get_freq return in KHz unit
+			  if(input.Frequency == frame_freq){
+				  HAL_Delay(1);
+			  }
 			  HAL_Delay(1);
 			  g_ready_to_process = 0;
 		  }
