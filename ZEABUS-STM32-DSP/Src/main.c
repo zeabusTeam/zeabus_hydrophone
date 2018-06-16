@@ -59,9 +59,6 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#define ARM_MATH_CM4
-#include "arm_math.h"
-#include "arm_const_structs.h"
 #include "common.h"
 #include "abs_threshold.h"
 #include "time.h"
@@ -78,12 +75,12 @@ __SECTION_AXIRAM uint32_t g_adc_1_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_2_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_3_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_4_h[BUFFER_SIZE];
-float32_t g_adc_1_f[BUFFER_SIZE];
-float32_t g_adc_2_f[BUFFER_SIZE];
-float32_t g_adc_3_f[BUFFER_SIZE];
-float32_t g_adc_4_f[BUFFER_SIZE];
-float32_t g_fft_f32[FFT_SIZE * 2];
-float32_t g_fft_f32_out[FFT_SIZE];
+float g_adc_1_f[BUFFER_SIZE];
+float g_adc_2_f[BUFFER_SIZE];
+float g_adc_3_f[BUFFER_SIZE];
+float g_adc_4_f[BUFFER_SIZE];
+float g_fft_f32[FFT_SIZE * 2];
+float g_fft_f32_out[FFT_SIZE];
 uint32_t g_raw_data_index;
 uint32_t g_pulse_detect_index;
 float g_front_thres;
