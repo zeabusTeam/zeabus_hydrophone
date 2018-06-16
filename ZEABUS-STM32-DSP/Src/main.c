@@ -88,6 +88,7 @@ int g_raw_front_thres;
 int g_ready_to_process;
 float32_t x;
 uint8_t uart_test[4];
+uint8_t uart_recive_test[4];
 
 
 // USB Data
@@ -322,6 +323,7 @@ int main(void)
   uart_test[3] = (uint8_t)0x55;
 
   HAL_UART_Transmit_IT(&huart3,uart_test,4);
+  HAL_UART_Receive_IT(&huart3,uart_recive_test,4);
 
   input.Frequency = 30000;
   input.SoundSpeed = 1500;
@@ -335,6 +337,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 
 
   while (1)
@@ -343,9 +347,6 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
-	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
-	  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 
 	  if(abs_threshold() == 1){
 		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
@@ -467,10 +468,22 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
- void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
- {
-	 HAL_UART_Transmit_IT(&huart3,uart_test,4);
- }
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+	HAL_UART_Transmit_IT(&huart3,uart_test,4);
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART3){
+		if(uart_recive_test[0] == 61 && uart_recive_test[1] == 61 &&
+				uart_recive_test[2] == 61 && uart_recive_test[3] == 61){
+		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_14);
+		}
+		HAL_UART_Receive_IT(&huart3,uart_recive_test,4);
+	}
+
+}
 
 /* USER CODE END 4 */
 
