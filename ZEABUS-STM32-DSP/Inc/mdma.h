@@ -60,13 +60,9 @@
 
 /* MDMA transfer handles -----------------------------------------------------*/
 extern MDMA_HandleTypeDef hmdma_mdma_channel0_sw_0;
-extern MDMA_LinkNodeTypeDef node_mdma_channel0_sw_1;
 extern MDMA_HandleTypeDef hmdma_mdma_channel1_sw_0;
-extern MDMA_LinkNodeTypeDef node_mdma_channel1_sw_1;
 extern MDMA_HandleTypeDef hmdma_mdma_channel2_sw_0;
-extern MDMA_LinkNodeTypeDef node_mdma_channel2_sw_1;
 extern MDMA_HandleTypeDef hmdma_mdma_channel3_sw_0;
-extern MDMA_LinkNodeTypeDef node_mdma_channel3_sw_1;
 extern void _Error_Handler(char*, int);
 
 /* USER CODE BEGIN Includes */

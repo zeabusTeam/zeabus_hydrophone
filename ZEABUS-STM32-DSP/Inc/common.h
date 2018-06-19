@@ -25,7 +25,7 @@
 
 #define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)
 
-extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
+//extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
 extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
 //extern __SECTION_AXIRAM uint32_t g_adc_1_h[];
 //extern __SECTION_AXIRAM uint32_t g_adc_2_h[];
@@ -35,5 +35,7 @@ extern uint32_t g_raw_data_index;
 extern uint32_t g_pulse_detect_index;
 extern float g_front_thres;
 extern int g_raw_front_thres;
+
+void Get_Frame_Handler();
 
 #endif /* COMMON_H_ */

@@ -9,7 +9,7 @@
 
 int abs_threshold (){
 
-	if(g_adc1_2_buffer[g_raw_data_index] > g_raw_front_thres){
+	if(g_adc3_4_buffer[g_raw_data_index] > g_raw_front_thres){
 		g_pulse_detect_index = g_raw_data_index;
 		return 1;
 	}
