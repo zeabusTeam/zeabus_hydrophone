@@ -10,7 +10,8 @@
 
 #include <stdint.h>
 
-int abs_threshold();
+int abs_threshold(uint32_t index);
+int abs_threshold_CFAR(uint32_t index); // CFAR
 
 
 #endif /* ABS_THRESHOLD_H_ */
