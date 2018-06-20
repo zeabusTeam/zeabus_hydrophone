@@ -90,7 +90,6 @@ float32_t x;
 uint8_t uart_test[4];
 uint8_t uart_recive_test[4];
 
-
 // USB Data
 InputParam input;
 
@@ -191,6 +190,17 @@ float32_t Get_freq(float32_t * in){
 	 return (freq);
  }
 
+void Wait_DMA(DMA_HandleTypeDef *hdma, int eot,int next_round){
+
+	if(next_round == 0){
+		while((RAW_DATA_BUFFER_SIZE - (uint16_t)(((DMA_Stream_TypeDef   *)hdma->Instance)->NDTR)) <= eot);
+	} else if(next_round == 1) {
+		while((uint16_t)(((DMA_Stream_TypeDef   *)hdma->Instance)->NDTR) == 0);
+		while((RAW_DATA_BUFFER_SIZE - (uint16_t)(((DMA_Stream_TypeDef   *)hdma->Instance)->NDTR)) <= eot);
+	}
+
+}
+
 void Get_Pulse_Frame(){
 
 //	 int pluse_header_index = 0;
@@ -198,38 +208,49 @@ void Get_Pulse_Frame(){
 	 int end_transfer_index = 0;
 	 int size_remain = 0;					//size of data that remain to transfer
 	 int size_forward_transfer = 0;			//size of data can forward transfer before last address of raw data buffer
+	 int next_round = 0;
 
-	 // Case 1 ; some header is at the and of buffer
-	 if (g_pulse_detect_index < PULSE_HEADER_SIZE - 1) {
-		 size_forward_transfer = PULSE_HEADER_SIZE - g_pulse_detect_index - 1;
-		 start_transfer_index = RAW_DATA_BUFFER_SIZE - size_forward_transfer; 	// start transfer at bottom of raw data
+	 // Case 1 ; some header is at the end of buffer
+	 if ((g_pulse_detect_index * 2)  < PULSE_HEADER_SIZE - 1) {
+		 size_forward_transfer = PULSE_HEADER_SIZE - (g_pulse_detect_index / 2);
+		 start_transfer_index = RAW_DATA_BUFFER_SIZE - (size_forward_transfer * 2); 	// start transfer at bottom of raw data
 	 }
 	 // Case 2 ; some body is at the next start of buffer
-	 else if (RAW_DATA_BUFFER_SIZE - g_pulse_detect_index < (int) PULSE_BODY_SIZE) {
-		 size_forward_transfer = PULSE_HEADER_SIZE + ((int)RAW_DATA_BUFFER_SIZE - g_pulse_detect_index);
-		 start_transfer_index = g_pulse_detect_index - PULSE_HEADER_SIZE;
+	 else if (((RAW_DATA_BUFFER_SIZE) - (g_pulse_detect_index) - 1) < ((int)PULSE_BODY_SIZE * 2)) {
+		 size_forward_transfer = PULSE_HEADER_SIZE + (((int)(RAW_DATA_BUFFER_SIZE) - g_pulse_detect_index ) / 2 ) - 1;
+		 start_transfer_index = g_pulse_detect_index - (int)((PULSE_HEADER_SIZE) * 2);
 	 }
 	 // Case 3 ; all frame is in this buffer lenght
 	 else {
 		 size_forward_transfer = (int) PULSE_FRAME_SIZE;
-		 start_transfer_index = g_pulse_detect_index - PULSE_HEADER_SIZE;
+		 start_transfer_index = g_pulse_detect_index - (int)(PULSE_HEADER_SIZE * 2);
 	 }
 
 	 size_remain = PULSE_FRAME_SIZE - size_forward_transfer;
 
 	 if (size_remain == 0) {
-		 end_transfer_index = start_transfer_index + (int) PULSE_FRAME_SIZE;
+		 end_transfer_index = start_transfer_index + (int)(PULSE_FRAME_SIZE * 2);
 	 }
 	 else {
-		 end_transfer_index = size_remain;
+		 end_transfer_index = (size_remain * 2);
 	 }
 
-	 // wait until frame is fill up
+	 Wait_DMA(&hdma_adc1,end_transfer_index,next_round);  		 // wait until frame is fill up
 
 	 HAL_MDMA_Start(&hmdma_mdma_channel0_sw_0,(uint32_t)&g_adc1_2_buffer[start_transfer_index],(uint32_t)&g_adc_1_h,4,size_forward_transfer);
 	 HAL_MDMA_Start(&hmdma_mdma_channel1_sw_0,(uint32_t)&g_adc1_2_buffer[start_transfer_index + 1],(uint32_t)&g_adc_2_h,4,size_forward_transfer);
 	 HAL_MDMA_Start(&hmdma_mdma_channel2_sw_0,(uint32_t)&g_adc3_4_buffer[start_transfer_index],(uint32_t)&g_adc_3_h,4,size_forward_transfer);
 	 HAL_MDMA_Start(&hmdma_mdma_channel3_sw_0,(uint32_t)&g_adc3_4_buffer[start_transfer_index + 1],(uint32_t)&g_adc_4_h,4,size_forward_transfer);
+
+	 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel0_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+	 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel1_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+	 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel2_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+	 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel3_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+
+	 HAL_MDMA_Abort(&hmdma_mdma_channel0_sw_0);
+	 HAL_MDMA_Abort(&hmdma_mdma_channel1_sw_0);
+	 HAL_MDMA_Abort(&hmdma_mdma_channel2_sw_0);
+	 HAL_MDMA_Abort(&hmdma_mdma_channel3_sw_0);
 
 	 if(size_remain > 0){
 
@@ -237,6 +258,16 @@ void Get_Pulse_Frame(){
 		 HAL_MDMA_Start(&hmdma_mdma_channel1_sw_0,(uint32_t)&g_adc1_2_buffer[1],(uint32_t)&g_adc_2_h[size_forward_transfer],4,size_forward_transfer);
 		 HAL_MDMA_Start(&hmdma_mdma_channel2_sw_0,(uint32_t)&g_adc3_4_buffer,(uint32_t)&g_adc_3_h[size_forward_transfer],4,size_forward_transfer);
 		 HAL_MDMA_Start(&hmdma_mdma_channel3_sw_0,(uint32_t)&g_adc3_4_buffer[1],(uint32_t)&g_adc_4_h[size_forward_transfer],4,size_forward_transfer);
+
+		 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel0_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+		 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel1_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+		 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel2_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+		 HAL_MDMA_PollForTransfer(&hmdma_mdma_channel3_sw_0,HAL_MDMA_FULL_TRANSFER,1000);
+
+	 	 HAL_MDMA_Abort(&hmdma_mdma_channel0_sw_0);
+		 HAL_MDMA_Abort(&hmdma_mdma_channel1_sw_0);
+		 HAL_MDMA_Abort(&hmdma_mdma_channel2_sw_0);
+		 HAL_MDMA_Abort(&hmdma_mdma_channel3_sw_0);
 	 }
 
 	 for(int i = 0 ; i < BUFFER_SIZE ; i++) {
@@ -368,7 +399,7 @@ int main(void)
 
 	  g_raw_data_index = g_raw_data_index + 2;
 
-	  if(g_raw_data_index > RAW_DATA_BUFFER_SIZE){
+	  if(g_raw_data_index > RAW_DATA_BUFFER_SIZE - 2){
 		  g_raw_data_index = 0;
 	  }
 

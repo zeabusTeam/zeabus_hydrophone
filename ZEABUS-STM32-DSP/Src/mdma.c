@@ -62,38 +62,29 @@
 
 /* USER CODE END 1 */
 MDMA_HandleTypeDef hmdma_mdma_channel0_sw_0;
-MDMA_LinkNodeTypeDef node_mdma_channel0_sw_1;
 MDMA_HandleTypeDef hmdma_mdma_channel1_sw_0;
-MDMA_LinkNodeTypeDef node_mdma_channel1_sw_1;
 MDMA_HandleTypeDef hmdma_mdma_channel2_sw_0;
-MDMA_LinkNodeTypeDef node_mdma_channel2_sw_1;
 MDMA_HandleTypeDef hmdma_mdma_channel3_sw_0;
-MDMA_LinkNodeTypeDef node_mdma_channel3_sw_1;
 
 /** 
   * Enable MDMA controller clock
   * Configure MDMA for global transfers
   *   hmdma_mdma_channel0_sw_0
-  *   node_mdma_channel0_sw_1
   *   hmdma_mdma_channel1_sw_0
-  *   node_mdma_channel1_sw_1
   *   hmdma_mdma_channel2_sw_0
-  *   node_mdma_channel2_sw_1
   *   hmdma_mdma_channel3_sw_0
-  *   node_mdma_channel3_sw_1
   */
 void MX_MDMA_Init(void) 
 {
   /* MDMA controller clock enable */
   __HAL_RCC_MDMA_CLK_ENABLE();
   /* Local variables */
-  MDMA_LinkNodeConfTypeDef nodeConfig;
 
   /* Configure MDMA channel MDMA_Channel0 */
   /* Configure MDMA request hmdma_mdma_channel0_sw_0 on MDMA_Channel0 */
   hmdma_mdma_channel0_sw_0.Instance = MDMA_Channel0;
   hmdma_mdma_channel0_sw_0.Init.Request = MDMA_REQUEST_SW;
-  hmdma_mdma_channel0_sw_0.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
+  hmdma_mdma_channel0_sw_0.Init.TransferTriggerMode = MDMA_FULL_TRANSFER;
   hmdma_mdma_channel0_sw_0.Init.Priority = MDMA_PRIORITY_HIGH;
   hmdma_mdma_channel0_sw_0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
   hmdma_mdma_channel0_sw_0.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
@@ -101,7 +92,7 @@ void MX_MDMA_Init(void)
   hmdma_mdma_channel0_sw_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
   hmdma_mdma_channel0_sw_0.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
   hmdma_mdma_channel0_sw_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  hmdma_mdma_channel0_sw_0.Init.BufferTransferLength = 4;
+  hmdma_mdma_channel0_sw_0.Init.BufferTransferLength = 128;
   hmdma_mdma_channel0_sw_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
   hmdma_mdma_channel0_sw_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
   hmdma_mdma_channel0_sw_0.Init.SourceBlockAddressOffset = 0;
@@ -111,56 +102,11 @@ void MX_MDMA_Init(void)
     Error_Handler();
   }
 
-  /* Initialize MDMA link node according to specified parameters */
-  nodeConfig.Init.Request = MDMA_REQUEST_SW;
-  nodeConfig.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
-  nodeConfig.Init.Priority = MDMA_PRIORITY_HIGH;
-  nodeConfig.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
-  nodeConfig.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
-  nodeConfig.Init.DestinationInc = MDMA_DEST_INC_WORD;
-  nodeConfig.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
-  nodeConfig.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
-  nodeConfig.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  nodeConfig.Init.BufferTransferLength = 4;
-  nodeConfig.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
-  nodeConfig.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
-  nodeConfig.Init.SourceBlockAddressOffset = 0;
-  nodeConfig.Init.DestBlockAddressOffset = 0;
-  nodeConfig.PostRequestMaskAddress = 0;
-  nodeConfig.PostRequestMaskData = 0;
-  /* Template to be copied and modified in the user code section below */
-  /* Please give a value to the following parameters set by default to 0 */
-  /*
-  nodeConfig.SrcAddress = 0;
-  nodeConfig.DstAddress = 0;
-  nodeConfig.BlockDataLength = 0;
-  nodeConfig.BlockCount = 0;
-  if (HAL_MDMA_LinkedList_CreateNode(&node_mdma_channel0_sw_1, &nodeConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  */
-  /* USER CODE BEGIN mdma_channel0_sw_1 */
-
-  /* USER CODE END mdma_channel0_sw_1 */
-
-  /* Connect a node to the linked list */
-  if (HAL_MDMA_LinkedList_AddNode(&hmdma_mdma_channel0_sw_0, &node_mdma_channel0_sw_1, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /* Make the linked list circular by connecting the last node to the first */
-  if (HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel0_sw_0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
   /* Configure MDMA channel MDMA_Channel1 */
   /* Configure MDMA request hmdma_mdma_channel1_sw_0 on MDMA_Channel1 */
   hmdma_mdma_channel1_sw_0.Instance = MDMA_Channel1;
   hmdma_mdma_channel1_sw_0.Init.Request = MDMA_REQUEST_SW;
-  hmdma_mdma_channel1_sw_0.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
+  hmdma_mdma_channel1_sw_0.Init.TransferTriggerMode = MDMA_FULL_TRANSFER;
   hmdma_mdma_channel1_sw_0.Init.Priority = MDMA_PRIORITY_HIGH;
   hmdma_mdma_channel1_sw_0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
   hmdma_mdma_channel1_sw_0.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
@@ -168,7 +114,7 @@ void MX_MDMA_Init(void)
   hmdma_mdma_channel1_sw_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
   hmdma_mdma_channel1_sw_0.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
   hmdma_mdma_channel1_sw_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  hmdma_mdma_channel1_sw_0.Init.BufferTransferLength = 4;
+  hmdma_mdma_channel1_sw_0.Init.BufferTransferLength = 128;
   hmdma_mdma_channel1_sw_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
   hmdma_mdma_channel1_sw_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
   hmdma_mdma_channel1_sw_0.Init.SourceBlockAddressOffset = 0;
@@ -178,56 +124,11 @@ void MX_MDMA_Init(void)
     Error_Handler();
   }
 
-  /* Initialize MDMA link node according to specified parameters */
-  nodeConfig.Init.Request = MDMA_REQUEST_SW;
-  nodeConfig.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
-  nodeConfig.Init.Priority = MDMA_PRIORITY_HIGH;
-  nodeConfig.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
-  nodeConfig.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
-  nodeConfig.Init.DestinationInc = MDMA_DEST_INC_WORD;
-  nodeConfig.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
-  nodeConfig.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
-  nodeConfig.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  nodeConfig.Init.BufferTransferLength = 4;
-  nodeConfig.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
-  nodeConfig.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
-  nodeConfig.Init.SourceBlockAddressOffset = 0;
-  nodeConfig.Init.DestBlockAddressOffset = 0;
-  nodeConfig.PostRequestMaskAddress = 0;
-  nodeConfig.PostRequestMaskData = 0;
-  /* Template to be copied and modified in the user code section below */
-  /* Please give a value to the following parameters set by default to 0 */
-  /*
-  nodeConfig.SrcAddress = 0;
-  nodeConfig.DstAddress = 0;
-  nodeConfig.BlockDataLength = 0;
-  nodeConfig.BlockCount = 0;
-  if (HAL_MDMA_LinkedList_CreateNode(&node_mdma_channel1_sw_1, &nodeConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  */
-  /* USER CODE BEGIN mdma_channel1_sw_1 */
-
-  /* USER CODE END mdma_channel1_sw_1 */
-
-  /* Connect a node to the linked list */
-  if (HAL_MDMA_LinkedList_AddNode(&hmdma_mdma_channel1_sw_0, &node_mdma_channel1_sw_1, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /* Make the linked list circular by connecting the last node to the first */
-  if (HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel1_sw_0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
   /* Configure MDMA channel MDMA_Channel2 */
   /* Configure MDMA request hmdma_mdma_channel2_sw_0 on MDMA_Channel2 */
   hmdma_mdma_channel2_sw_0.Instance = MDMA_Channel2;
   hmdma_mdma_channel2_sw_0.Init.Request = MDMA_REQUEST_SW;
-  hmdma_mdma_channel2_sw_0.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
+  hmdma_mdma_channel2_sw_0.Init.TransferTriggerMode = MDMA_FULL_TRANSFER;
   hmdma_mdma_channel2_sw_0.Init.Priority = MDMA_PRIORITY_HIGH;
   hmdma_mdma_channel2_sw_0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
   hmdma_mdma_channel2_sw_0.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
@@ -235,7 +136,7 @@ void MX_MDMA_Init(void)
   hmdma_mdma_channel2_sw_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
   hmdma_mdma_channel2_sw_0.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
   hmdma_mdma_channel2_sw_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  hmdma_mdma_channel2_sw_0.Init.BufferTransferLength = 4;
+  hmdma_mdma_channel2_sw_0.Init.BufferTransferLength = 128;
   hmdma_mdma_channel2_sw_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
   hmdma_mdma_channel2_sw_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
   hmdma_mdma_channel2_sw_0.Init.SourceBlockAddressOffset = 0;
@@ -245,56 +146,11 @@ void MX_MDMA_Init(void)
     Error_Handler();
   }
 
-  /* Initialize MDMA link node according to specified parameters */
-  nodeConfig.Init.Request = MDMA_REQUEST_SW;
-  nodeConfig.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
-  nodeConfig.Init.Priority = MDMA_PRIORITY_HIGH;
-  nodeConfig.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
-  nodeConfig.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
-  nodeConfig.Init.DestinationInc = MDMA_DEST_INC_WORD;
-  nodeConfig.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
-  nodeConfig.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
-  nodeConfig.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  nodeConfig.Init.BufferTransferLength = 4;
-  nodeConfig.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
-  nodeConfig.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
-  nodeConfig.Init.SourceBlockAddressOffset = 0;
-  nodeConfig.Init.DestBlockAddressOffset = 0;
-  nodeConfig.PostRequestMaskAddress = 0;
-  nodeConfig.PostRequestMaskData = 0;
-  /* Template to be copied and modified in the user code section below */
-  /* Please give a value to the following parameters set by default to 0 */
-  /*
-  nodeConfig.SrcAddress = 0;
-  nodeConfig.DstAddress = 0;
-  nodeConfig.BlockDataLength = 0;
-  nodeConfig.BlockCount = 0;
-  if (HAL_MDMA_LinkedList_CreateNode(&node_mdma_channel2_sw_1, &nodeConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  */
-  /* USER CODE BEGIN mdma_channel2_sw_1 */
-
-  /* USER CODE END mdma_channel2_sw_1 */
-
-  /* Connect a node to the linked list */
-  if (HAL_MDMA_LinkedList_AddNode(&hmdma_mdma_channel2_sw_0, &node_mdma_channel2_sw_1, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /* Make the linked list circular by connecting the last node to the first */
-  if (HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel2_sw_0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
   /* Configure MDMA channel MDMA_Channel3 */
   /* Configure MDMA request hmdma_mdma_channel3_sw_0 on MDMA_Channel3 */
   hmdma_mdma_channel3_sw_0.Instance = MDMA_Channel3;
   hmdma_mdma_channel3_sw_0.Init.Request = MDMA_REQUEST_SW;
-  hmdma_mdma_channel3_sw_0.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
+  hmdma_mdma_channel3_sw_0.Init.TransferTriggerMode = MDMA_FULL_TRANSFER;
   hmdma_mdma_channel3_sw_0.Init.Priority = MDMA_PRIORITY_HIGH;
   hmdma_mdma_channel3_sw_0.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
   hmdma_mdma_channel3_sw_0.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
@@ -302,57 +158,12 @@ void MX_MDMA_Init(void)
   hmdma_mdma_channel3_sw_0.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
   hmdma_mdma_channel3_sw_0.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
   hmdma_mdma_channel3_sw_0.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  hmdma_mdma_channel3_sw_0.Init.BufferTransferLength = 4;
+  hmdma_mdma_channel3_sw_0.Init.BufferTransferLength = 128;
   hmdma_mdma_channel3_sw_0.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
   hmdma_mdma_channel3_sw_0.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
   hmdma_mdma_channel3_sw_0.Init.SourceBlockAddressOffset = 0;
   hmdma_mdma_channel3_sw_0.Init.DestBlockAddressOffset = 0;
   if (HAL_MDMA_Init(&hmdma_mdma_channel3_sw_0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /* Initialize MDMA link node according to specified parameters */
-  nodeConfig.Init.Request = MDMA_REQUEST_SW;
-  nodeConfig.Init.TransferTriggerMode = MDMA_REPEAT_BLOCK_TRANSFER;
-  nodeConfig.Init.Priority = MDMA_PRIORITY_HIGH;
-  nodeConfig.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
-  nodeConfig.Init.SourceInc = MDMA_SRC_INC_DOUBLEWORD;
-  nodeConfig.Init.DestinationInc = MDMA_DEST_INC_WORD;
-  nodeConfig.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
-  nodeConfig.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
-  nodeConfig.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-  nodeConfig.Init.BufferTransferLength = 4;
-  nodeConfig.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
-  nodeConfig.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
-  nodeConfig.Init.SourceBlockAddressOffset = 0;
-  nodeConfig.Init.DestBlockAddressOffset = 0;
-  nodeConfig.PostRequestMaskAddress = 0;
-  nodeConfig.PostRequestMaskData = 0;
-  /* Template to be copied and modified in the user code section below */
-  /* Please give a value to the following parameters set by default to 0 */
-  /*
-  nodeConfig.SrcAddress = 0;
-  nodeConfig.DstAddress = 0;
-  nodeConfig.BlockDataLength = 0;
-  nodeConfig.BlockCount = 0;
-  if (HAL_MDMA_LinkedList_CreateNode(&node_mdma_channel3_sw_1, &nodeConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  */
-  /* USER CODE BEGIN mdma_channel3_sw_1 */
-
-  /* USER CODE END mdma_channel3_sw_1 */
-
-  /* Connect a node to the linked list */
-  if (HAL_MDMA_LinkedList_AddNode(&hmdma_mdma_channel3_sw_0, &node_mdma_channel3_sw_1, 0) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /* Make the linked list circular by connecting the last node to the first */
-  if (HAL_MDMA_LinkedList_EnableCircularMode(&hmdma_mdma_channel3_sw_0) != HAL_OK)
   {
     Error_Handler();
   }
