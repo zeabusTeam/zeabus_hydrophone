@@ -30,6 +30,9 @@
 #define VOLT_RATIO						19859			//  65536 / 3.3  (sample_data / volt)
 #define SCALE_DOWN						1
 #define DATA_SIZE  						(BUFFER_SIZE / SCALE_DOWN)
+#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2)
+//#define UART_RX_BUFFER_SIZE				(2 + 24)
+#define UART_RX_BUFFER_SIZE				(8)
 
 #define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)
 
@@ -41,6 +44,22 @@ typedef struct ProcessParameter {
 	uint32_t DelayObserve;
 	uint32_t SoundSpeed;
 } InputParam;
+
+typedef struct Outputdata {
+	uint16_t seq_num;
+	uint32_t Detect_Frequency;
+} OutputParam;
+
+typedef union CovfloatTobyte {
+	float f;
+	char b[sizeof(float)];
+} float2bytes;
+
+typedef union Covuint32Tobyte{
+	uint32_t u32t;
+	char b[sizeof(float)];
+} uint322bytes;
+
 
 extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
 extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data

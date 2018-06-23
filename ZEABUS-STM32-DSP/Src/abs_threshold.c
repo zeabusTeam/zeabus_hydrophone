@@ -9,8 +9,8 @@
 
 int abs_threshold(uint32_t index){
 
-	if(g_adc1_2_buffer[g_raw_data_index] > g_raw_front_thres){
-		g_pulse_detect_index = g_raw_data_index;
+	if(g_adc1_2_buffer[index] > g_raw_front_thres){
+		g_pulse_detect_index = index;
 		return 1;
 	}
 
@@ -36,8 +36,7 @@ int abs_threshold_CFAR(uint32_t index) {
 	power[2] = signal_temp[2] * signal_temp[2];
 	power[3] = signal_temp[3] * signal_temp[3];
 
-	if ((power[0]>min_power ) && (power[1]>min_power )
-			&& (power[2]>min_power ) && (power[3]>min_power ))
+	if ((power[0]>min_power ) && (power[1]>min_power ) && (power[2]>min_power ) && (power[3]>min_power )) {
 
 			temp[0] = 0;
 			temp[1] = 0;
@@ -82,6 +81,7 @@ int abs_threshold_CFAR(uint32_t index) {
 			if(ch_status & 0xf){
 				return 1;
 			}
+	}
 
 	return 0;
 
