@@ -22,7 +22,7 @@
 #define SAMPLE_RATE 					((float)200000.0)
 
 #define BUFFER_SIZE 					2048
-#define RAW_DATA_BUFFER_SIZE			(BUFFER_SIZE * 8)
+#define RAW_DATA_BUFFER_SIZE			(BUFFER_SIZE * 18)
 #define PULSE_FRAME_SIZE				BUFFER_SIZE
 #define PULSE_HEADER_SIZE				1200
 #define PULSE_BODY_SIZE					(PULSE_FRAME_SIZE - PULSE_HEADER_SIZE)
@@ -63,10 +63,6 @@ typedef union Covuint32Tobyte{
 
 extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
 extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
-extern __SECTION_AXIRAM uint32_t g_adc_1_h[];
-extern __SECTION_AXIRAM uint32_t g_adc_2_h[];
-extern __SECTION_AXIRAM uint32_t g_adc_3_h[];
-extern __SECTION_AXIRAM uint32_t g_adc_4_h[];
 extern float g_adc_1_f[];
 extern float g_adc_2_f[];
 extern float g_adc_3_f[];

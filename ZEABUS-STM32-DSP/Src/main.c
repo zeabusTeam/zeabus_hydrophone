@@ -87,7 +87,6 @@ uint32_t g_pulse_detect_index;
 float g_front_thres;
 int g_raw_front_thres;
 int g_ready_to_process;
-float32_t x;
 uint8_t uart_rx_buffer[UART_RX_BUFFER_SIZE];
 int g_uart_ready;
 
@@ -173,9 +172,8 @@ float32_t Get_freq(float32_t * in){
 	 arm_cfft_radix4_init_f32(&FFT_F32_struct,FFT_SIZE,0,1);
 	 arm_cfft_radix4_f32(&FFT_F32_struct,g_fft_f32);
 	 arm_cmplx_mag_f32(g_fft_f32, g_fft_f32_out, FFT_SIZE);
-	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
-
 	 g_fft_f32_out[0] = 0;
+	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
 
 	 freq = (((float32_t)freq_index) * ((float32_t)0.1875));
 
@@ -282,7 +280,6 @@ void Get_Pulse_Frame(){
 	 g_ready_to_process = 1;
 
 	 HAL_Delay(1);
-	 HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 
  }
 
@@ -383,9 +380,6 @@ int main(void)
   g_front_thres = 0.1;	// set front threshold
   g_raw_front_thres = (g_front_thres * VOLT_RATIO) + 32768;
 
-  x = 0.1;
-
-  float32_t test_sin = arm_sin_f32(x);
   g_ready_to_process = 0;
 
   HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);
@@ -416,7 +410,7 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	  if(abs_threshold(g_pulse_detect_index) == 1){
+	  if(abs_threshold() == 1){
 		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 		  Get_Pulse_Frame();
 		  HAL_Delay(1);
@@ -425,10 +419,11 @@ int main(void)
 			  frame_freq = (uint32_t)Get_freq((float *)g_adc_1_f) * 1000; // Get_freq return in KHz unit
 			  output.Detect_Frequency = frame_freq;
 			  if(input.Frequency == frame_freq){
-				  HAL_Delay(1);
+				  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 				  UART_Sent();
 				  g_uart_ready = 1;
 			  }
+			  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 			  g_ready_to_process = 0;
 		  }
 	  }

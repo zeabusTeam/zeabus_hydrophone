@@ -2,5 +2,7 @@ LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
 configDescList=org.eclipse.launchbar.core.descriptorType.default\:ZEABUS-STM32-DSP-DEF-CLOCK Debug,org.eclipse.launchbar.core.descriptorType.default\:STM32H743ZI_Nucleo Debug,org.eclipse.launchbar.core.descriptorType.default\:ZEABUS-STM32-DSP Run
 eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:STM32H743ZI_Nucleo\ Debug/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:STM32H743ZI_Nucleo\ Debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
 org.eclipse.launchbar.core.descriptorType.default\:ZEABUS-STM32-DSP\ Run/activeLaunchMode=debug
 org.eclipse.launchbar.core.descriptorType.default\:ZEABUS-STM32-DSP\ Run/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
