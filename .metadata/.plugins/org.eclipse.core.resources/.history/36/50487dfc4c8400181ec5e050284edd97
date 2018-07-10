@@ -326,7 +326,7 @@ int UART_Sent(){
 	uart_tx_buffer[k] = 0xFF;
 	k++;
 	uart_tx_buffer[k] = 0xFF;
-	k++;
+	k++
 	if(k != UART_TX_BUFFER_SIZE){
 		return 0;
 	}

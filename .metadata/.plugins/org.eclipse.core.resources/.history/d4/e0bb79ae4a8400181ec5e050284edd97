@@ -30,7 +30,7 @@
 #define VOLT_RATIO						19859			//  65536 / 3.3  (sample_data / volt)
 #define SCALE_DOWN						1
 #define DATA_SIZE  						(BUFFER_SIZE / SCALE_DOWN)
-#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + (4 * (2 * (4 * 100))))
+#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2)
 //#define UART_RX_BUFFER_SIZE				(2 + 24)
 #define UART_RX_BUFFER_SIZE				(8)
 #define PROCESS_PULSE_SIZE				100
@@ -50,8 +50,8 @@ typedef struct Outputdata {
 	uint16_t seq_num;
 	uint32_t Detect_Frequency;
 	float32_t power;
-	float32_t output_re[4 * PROCESS_PULSE_SIZE];
-	float32_t output_im[4 * PROCESS_PULSE_SIZE];
+	float32_t output_re[PROCESS_PULSE_SIZE];
+	float32_t output_im[PROCESS_PULSE_SIZE];
 } OutputParam;
 
 typedef union CovfloatTobyte {

@@ -9,9 +9,6 @@
 #include "common.h"
 #include "processing.h"
 
-extern InputParam input;
-extern OutputParam output;
-
 float dw1[DATA_SIZE];
 float dw2[DATA_SIZE];
 float dw3[DATA_SIZE];
@@ -128,8 +125,8 @@ void processing(){
 		  (float*)g_d_3_re, g_d_3_im, (float*)g_d_4_re, (float*)g_d_4_im,
 		  input.Frequency, (float*)filter_lp, 163, dt);
 	pulse_detect((float*)g_d_1_re, (float*)g_d_1_im, (float*)g_d_2_re, (float*)g_d_2_im,
-		  (float*)g_d_3_re, g_d_3_im, (float*)g_d_4_re, (float*)g_d_4_im,(float*)output.output_re,
-		  (float*)output.output_im,DATA_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
+		  (float*)g_d_3_re, g_d_3_im, (float*)g_d_4_re, (float*)g_d_4_im,(float*)g_out_re,
+		  (float*)output->output_im,DATA_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
 }
 
 

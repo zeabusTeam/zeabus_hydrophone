@@ -326,7 +326,7 @@ int UART_Sent(){
 	uart_tx_buffer[k] = 0xFF;
 	k++;
 	uart_tx_buffer[k] = 0xFF;
-	k++;
+	k++
 	if(k != UART_TX_BUFFER_SIZE){
 		return 0;
 	}
@@ -338,6 +338,12 @@ int UART_Sent(){
 	if(HAL_UART_Transmit(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE,100) != HAL_OK){
 		return 0;
 	}
+
+	return 1;
+//	if(HAL_UART_Transmit_IT(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE) != HAL_OK){
+//		return 0;
+//	}
+
 
 	output.seq_num++;
 

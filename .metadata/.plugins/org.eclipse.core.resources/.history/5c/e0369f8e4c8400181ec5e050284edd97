@@ -30,7 +30,7 @@
 #define VOLT_RATIO						19859			//  65536 / 3.3  (sample_data / volt)
 #define SCALE_DOWN						1
 #define DATA_SIZE  						(BUFFER_SIZE / SCALE_DOWN)
-#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + (4 * (2 * (4 * 100))))
+#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2)
 //#define UART_RX_BUFFER_SIZE				(2 + 24)
 #define UART_RX_BUFFER_SIZE				(8)
 #define PROCESS_PULSE_SIZE				100
