@@ -33,6 +33,7 @@
 #define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2)
 //#define UART_RX_BUFFER_SIZE				(2 + 24)
 #define UART_RX_BUFFER_SIZE				(8)
+#define PROCESS_PULSE_SIZE				100
 
 #define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)
 
@@ -48,6 +49,7 @@ typedef struct ProcessParameter {
 typedef struct Outputdata {
 	uint16_t seq_num;
 	uint32_t Detect_Frequency;
+	float32_t power;
 } OutputParam;
 
 typedef union CovfloatTobyte {
@@ -67,6 +69,8 @@ extern float g_adc_1_f[];
 extern float g_adc_2_f[];
 extern float g_adc_3_f[];
 extern float g_adc_4_f[];
+extern float g_out_re[];
+extern float g_out_im[];
 extern uint32_t g_raw_data_index;
 extern uint32_t g_pulse_detect_index;
 extern float g_front_thres;

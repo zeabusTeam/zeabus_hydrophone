@@ -9,14 +9,9 @@
 #include "common.h"
 #include "processing.h"
 
-float g_d_1_re[DATA_SIZE];
-float g_d_1_im[DATA_SIZE];
-float g_d_2_re[DATA_SIZE];
-float g_d_2_im[DATA_SIZE];
-float g_d_3_re[DATA_SIZE];
-float g_d_3_im[DATA_SIZE];
-float g_d_4_re[DATA_SIZE];
-float g_d_4_im[DATA_SIZE];
+float g_out_re[PROCESS_PULSE_SIZE];
+float g_out_im[PROCESS_PULSE_SIZE];
+
 
 float dw1[DATA_SIZE];
 float dw2[DATA_SIZE];
@@ -96,6 +91,17 @@ float filter_lp[163] = { 0.0005819638815361733, 0.00019879010498615907,
 
 void processing(){
 
+	float g_d_1_re[DATA_SIZE];
+	float g_d_1_im[DATA_SIZE];
+	float g_d_2_re[DATA_SIZE];
+	float g_d_2_im[DATA_SIZE];
+	float g_d_3_re[DATA_SIZE];
+	float g_d_3_im[DATA_SIZE];
+	float g_d_4_re[DATA_SIZE];
+	float g_d_4_im[DATA_SIZE];
+
+	int PID_output_gain;
+
 	struct Temp dt;
 		dt.w1 = (float*) (dw1);
 		dt.w2 = (float*) (dw2);
@@ -118,6 +124,9 @@ void processing(){
 		  (float*)g_d_1_re, (float*)g_d_1_im, (float*)g_d_2_re, (float*)g_d_2_im,
 		  (float*)g_d_3_re, g_d_3_im, (float*)g_d_4_re, (float*)g_d_4_im,
 		  input.Frequency, (float*)filter_lp, 163, dt);
+	pulse_detect((float*)g_d_1_re, (float*)g_d_1_im, (float*)g_d_2_re, (float*)g_d_2_im,
+		  (float*)g_d_3_re, g_d_3_im, (float*)g_d_4_re, (float*)g_d_4_im,(float*)g_out_re,
+		  (float*)g_out_im,DATA_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
 }
 
 
@@ -178,6 +187,57 @@ void demod(float*in1, float*in2, float*in3, float*in4,
 		out4_im[i] = t.z4[i];
 	}
 
+}
+
+int pulse_detect(float*in1_re, float*in1_im, float*in2_re, float*in2_im,
+		float*in3_re, float*in3_im, float*in4_re, float*in4_im,
+		float*out_re, float*out_im, int N, int Ns, float* pavr) {
+	int output = 0;
+	int i;
+	float power[N];
+	float pmin = pow(10, 10);
+	float pref = 0.0;
+	float h = 0.00002;
+	float sum = 0.0;
+	*pavr = 0.0;
+	for (i = 0; i < N; i++) {
+		power[i] = pow(in1_re[i], 2) + pow(in2_re[i], 2) + pow(in3_re[i], 2) + pow(in4_re[i], 2);
+		sum += power[i];
+		//DEBUG_PRINT("%f\n",power[i]);
+	}
+	pref = sum / N;
+	h = h / 0.000039 * pref;
+	sum = 0.0;
+	for (i = 30; i < N; i++) {
+		//sum += power[i];
+		//DEBUG_PRINT("%d,   %f,   pref:%f\n",i,sum/(i+1),pref);
+		*pavr = *pavr * ((float) (i)) / ((float) (i + 1))
+				+ power[i] * 1.0 / ((float) (i + 1));
+		//DEBUG_PRINT("%d,   %f,   pref:%f\n",i,power[i],pavr);
+		//if(sum/(i+1)>pref)
+		if (power[i] > *pavr + h) {
+			output = i;
+			break;
+		}
+	}
+
+	//free(power);
+
+	if (output != 0) {
+		output += 5;
+		for (i = output; i < output + Ns; i++) {
+			out_re[i - output] = in1_re[i];
+			out_re[Ns + i - output] = in2_re[i];
+			out_re[2 * Ns + i - output] = in3_re[i];
+			out_re[3 * Ns + i - output] = in4_re[i];
+			out_im[i - output] = in1_im[i];
+			out_im[Ns + i - output] = in2_im[i];
+			out_im[2 * Ns + i - output] = in3_im[i];
+			out_im[3 * Ns + i - output] = in4_im[i];
+		}
+		return (1);
+	} else
+		return (0);
 }
 
 
