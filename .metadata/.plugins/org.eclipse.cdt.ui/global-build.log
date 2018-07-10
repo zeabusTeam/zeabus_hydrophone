@@ -2672,3 +2672,58 @@ arm-none-eabi-size "ZEABUS-STM32-DSP.elf"
    text	   data	    bss	    dec	    hex	filename
   75124	 328148	  54060	 457332	  6fa74	ZEABUS-STM32-DSP.elf
  
+20:55:55 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+make all 
+Building file: ../Src/processing.c
+Invoking: MCU GCC Compiler
+D:\ws\zeabus_stm32h7_dsp\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -D__FPU_PRESENT -I"D:/ws/zeabus_stm32h7_dsp/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/processing.d" -MT"Src/processing.o" -o "Src/processing.o" "../Src/processing.c"
+../Src/processing.c: In function 'processing':
+../Src/processing.c:133:51: warning: passing argument 13 of 'pulse_detect' from incompatible pointer type [-Wincompatible-pointer-types]
+     (float*)g_out_im,DATA_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
+                                                   ^
+../Src/processing.c:92:5: note: expected 'float *' but argument is of type 'int *'
+ int pulse_detect(float*in1_re, float*in1_im, float*in2_re, float*in2_im,
+     ^~~~~~~~~~~~
+../Src/processing.c: In function 'pulse_detect':
+../Src/processing.c:202:8: warning: unused variable 'pmin' [-Wunused-variable]
+  float pmin = pow(10, 10);
+        ^~~~
+Finished building: ../Src/processing.c
+ 
+Building target: ZEABUS-STM32-DSP.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 -L"D:\ws\zeabus_stm32h7_dsp\CMSIS\Lib\GCC"  -specs=nosys.specs -specs=nano.specs -T"../STM32H743ZITx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "ZEABUS-STM32-DSP.elf" @"objects.list"  -l:libarm_cortexM7lfsp_math.a -lm
+Finished building target: ZEABUS-STM32-DSP.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "ZEABUS-STM32-DSP.elf" "ZEABUS-STM32-DSP.bin"
+arm-none-eabi-size "ZEABUS-STM32-DSP.elf"
+   text	   data	    bss	    dec	    hex	filename
+  75124	 328148	  54060	 457332	  6fa74	ZEABUS-STM32-DSP.elf
+ 
+21:00:35 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+make all 
+Building file: ../Src/processing.c
+Invoking: MCU GCC Compiler
+D:\ws\zeabus_stm32h7_dsp\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -D__FPU_PRESENT -I"D:/ws/zeabus_stm32h7_dsp/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/processing.d" -MT"Src/processing.o" -o "Src/processing.o" "../Src/processing.c"
+../Src/processing.c: In function 'pulse_detect':
+../Src/processing.c:202:8: warning: unused variable 'pmin' [-Wunused-variable]
+  float pmin = pow(10, 10);
+        ^~~~
+Finished building: ../Src/processing.c
+ 
+Building target: ZEABUS-STM32-DSP.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 -L"D:\ws\zeabus_stm32h7_dsp\CMSIS\Lib\GCC"  -specs=nosys.specs -specs=nano.specs -T"../STM32H743ZITx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "ZEABUS-STM32-DSP.elf" @"objects.list"  -l:libarm_cortexM7lfsp_math.a -lm
+Finished building target: ZEABUS-STM32-DSP.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "ZEABUS-STM32-DSP.elf" "ZEABUS-STM32-DSP.bin"
+arm-none-eabi-size "ZEABUS-STM32-DSP.elf"
+   text	   data	    bss	    dec	    hex	filename
+  75124	 328148	  54060	 457332	  6fa74	ZEABUS-STM32-DSP.elf
+ 

@@ -91,7 +91,7 @@ float filter_lp[163] = { 0.0005819638815361733, 0.00019879010498615907,
 
 int pulse_detect(float*in1_re, float*in1_im, float*in2_re, float*in2_im,
 		float*in3_re, float*in3_im, float*in4_re, float*in4_im,
-		float*out_re, float*out_im, int N, int Ns, float* pavr);
+		float*out_re, float*out_im, int N, int Ns, float* pavr)
 
 void processing(){
 
@@ -104,7 +104,7 @@ void processing(){
 	float g_d_4_re[DATA_SIZE];
 	float g_d_4_im[DATA_SIZE];
 
-	float PID_output_gain;
+	int PID_output_gain;
 
 	struct Temp dt;
 		dt.w1 = (float*) (dw1);

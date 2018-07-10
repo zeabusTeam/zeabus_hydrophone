@@ -104,7 +104,7 @@ void processing(){
 	float g_d_4_re[DATA_SIZE];
 	float g_d_4_im[DATA_SIZE];
 
-	float PID_output_gain;
+	int PID_output_gain;
 
 	struct Temp dt;
 		dt.w1 = (float*) (dw1);
