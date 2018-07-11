@@ -63,6 +63,7 @@
 #include "common.h"
 #include "abs_threshold.h"
 #include "time.h"
+#include "processing.h"
 
 /* USER CODE END Includes */
 
@@ -303,30 +304,37 @@ int UART_Sent(){
 	uart_tx_buffer[6] = u32t2b.b[2];
 	uart_tx_buffer[7] = u32t2b.b[3];
 
-	k = 8;
+	uart_tx_buffer[8] = 0x11;
+	uart_tx_buffer[9] = 0x11;
+
+	k = 10;
 
 	for(int i = 0;i < 4 * PROCESS_PULSE_SIZE;i++){
 		f2b.f = output.output_re[i];
-		uart_tx_buffer[k + i] = f2b.b[0];
-		uart_tx_buffer[k + i + 1] = f2b.b[1];
-		uart_tx_buffer[k + i + 2] = f2b.b[2];
-		uart_tx_buffer[k + i + 3] = f2b.b[3];
+		for(int d = 0;d < 4;d++){
+			uart_tx_buffer[k + d] = f2b.b[d];
+		}
 		k += 4;
 	}
+
+	uart_tx_buffer[k] = 0x22;
+	k++;
+	uart_tx_buffer[k] = 0x22;
+	k++;
 
 	for(int i = 0;i < 4 * PROCESS_PULSE_SIZE;i++){
 		f2b.f = output.output_im[i];
-		uart_tx_buffer[k + i] = f2b.b[0];
-		uart_tx_buffer[k + i + 1] = f2b.b[1];
-		uart_tx_buffer[k + i + 2] = f2b.b[2];
-		uart_tx_buffer[k + i + 3] = f2b.b[3];
+		for(int d = 0;d < 4;d++){
+			uart_tx_buffer[k + d] = f2b.b[d];
+		}
 		k += 4;
 	}
 
-	uart_tx_buffer[k] = 0xFF;
+	uart_tx_buffer[k] = 0x33;
 	k++;
-	uart_tx_buffer[k] = 0xFF;
+	uart_tx_buffer[k] = 0x33;
 	k++;
+
 	if(k != UART_TX_BUFFER_SIZE){
 		return 0;
 	}
@@ -335,7 +343,8 @@ int UART_Sent(){
 
 	g_uart_ready = 0;
 
-	if(HAL_UART_Transmit(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE,100) != HAL_OK){
+	HAL_Delay(10);
+	if(HAL_UART_Transmit_IT(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE) != HAL_OK){
 		return 0;
 	}
 
@@ -441,10 +450,11 @@ int main(void)
 			  output.Detect_Frequency = frame_freq;
 			  if(input.Frequency == frame_freq){
 				  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+				  processing();
 				  UART_Sent();
-				  g_uart_ready = 1;
+				  HAL_Delay(10);
 			  }
-			  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+
 			  g_ready_to_process = 0;
 		  }
 	  }
@@ -556,9 +566,10 @@ void SystemClock_Config(void)
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(huart->Instance == USART3)
-
-	HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_14);
+	if(huart->Instance == USART3){
+		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+		  g_uart_ready = 1;
+	}
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)

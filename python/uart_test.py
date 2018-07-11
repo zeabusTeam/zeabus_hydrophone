@@ -1,5 +1,6 @@
 import serial
 import struct
+import numpy as np
 
 value = 30000
 
@@ -22,6 +23,25 @@ res.append(tmp[3])
 print(res)
 s.write(res)
 s.flush()
+N = 100
+sig_re_1 = []
+sig_re_2 = []
+sig_re_3 = []
+sig_re_4 = []
+sig_im_1 = []
+sig_im_2 = []
+sig_im_3 = []
+sig_im_4 = []
+
+for i in range(N):
+    sig_re_1.append(0.0)
+    sig_re_2.append(0.0)
+    sig_re_3.append(0.0)
+    sig_re_4.append(0.0)
+    sig_im_1.append(0.0)
+    sig_im_2.append(0.0)
+    sig_im_3.append(0.0)
+    sig_im_4.append(0.0)
 
 count = 0
 while True:
@@ -33,8 +53,8 @@ while True:
             print(x)
             count +=1
             if x == b'\xff':
-                x = s.read(8)
-                print(x)
+                x = s.read(6)
+                # print(x)
                 count = 0
                 break
 
@@ -45,4 +65,66 @@ while True:
     print ("seq : %d" %seq)
     print ("freq : %d" %freq)
 
+    # x = s.read(1)
+    # print(x)
+    # x = s.read(1)
+    # print(x)
+
+    x = s.read(1600)
+
+    start_id = 0
+
+    a = start_id
+    for i in range(0, 100):
+        sig_re_1[i] = struct.unpack('<f', x[(a + (i * 4)) :(a + (i * 4) + 4)])
+        start_id = start_id + 4
+    
+    a = start_id
+    for i in range(0, 100):
+        sig_re_2[i] = struct.unpack('<f', x[a + (i * 4) :a + (i * 4) + 4])
+        start_id = start_id + 4
+
+    a = start_id
+    for i in range(0, 100):
+        sig_re_3[i] = struct.unpack('<f', x[a + (i * 4) :a + (i * 4) + 4])
+        start_id = start_id + 4
+
+    a = start_id
+    for i in range(0, 100):
+        sig_re_4[i] = struct.unpack('<f', x[a + (i * 4) :a + (i * 4) + 4])
+        start_id = start_id + 4
+
+    # x = s.read(1)
+    # print(x)
+    # x = s.read(1)
+    # print(x)
+
+    x = s.read(1600)
+    start_id = 0
+    a = start_id
+    for i in range(0, 100):
+        sig_im_1[i] = struct.unpack('<f', x[a + (i * 4) :a + (i * 4) + 4])
+        start_id = start_id + 4
+    
+    a = start_id
+    for i in range(0, 100):
+        sig_im_2[i] = struct.unpack('<f', x[a + (i * 4) :a + (i * 4) + 4])
+        start_id = start_id + 4
+    
+    a = start_id
+    for i in range(0, 100):
+        sig_im_3[i] = struct.unpack('<f', x[a + (i * 4) :a + (i * 4) + 4])
+        start_id = start_id + 4
+
+    a = start_id
+    for i in range(0, 100):
+        sig_im_4[i] = struct.unpack('<f', x[a + (i * 4) :a + (i * 4) + 4])
+        start_id = start_id + 4
+
+    # x = s.read(1)
+    # print(x)
+    # x = s.read(1)
+    # print(x)
+
+    print(sig_re_1)
 

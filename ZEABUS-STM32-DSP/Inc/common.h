@@ -28,10 +28,10 @@
 #define PULSE_BODY_SIZE					(PULSE_FRAME_SIZE - PULSE_HEADER_SIZE)
 #define FFT_SIZE						1024
 #define VOLT_RATIO						19859			//  65536 / 3.3  (sample_data / volt)
-#define SCALE_DOWN						1
-#define DATA_SIZE  						(BUFFER_SIZE / SCALE_DOWN)
-#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + (4 * (2 * (4 * 100))))
-//#define UART_RX_BUFFER_SIZE				(2 + 24)
+#define SCALE_DOWN						5
+#define DOWN_SAMPLING_SIZE				(BUFFER_SIZE / SCALE_DOWN)
+#define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
+#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 +(4 * (2 * (4 * 100))))
 #define UART_RX_BUFFER_SIZE				(8)
 #define PROCESS_PULSE_SIZE				100
 

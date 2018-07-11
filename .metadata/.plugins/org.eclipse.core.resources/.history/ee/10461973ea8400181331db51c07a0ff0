@@ -63,6 +63,7 @@
 #include "common.h"
 #include "abs_threshold.h"
 #include "time.h"
+#include "processing.h"
 
 /* USER CODE END Includes */
 
@@ -172,9 +173,8 @@ float32_t Get_freq(float32_t * in){
 	 arm_cfft_radix4_init_f32(&FFT_F32_struct,FFT_SIZE,0,1);
 	 arm_cfft_radix4_f32(&FFT_F32_struct,g_fft_f32);
 	 arm_cmplx_mag_f32(g_fft_f32, g_fft_f32_out, FFT_SIZE);
-	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
-
 	 g_fft_f32_out[0] = 0;
+	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
 
 	 freq = (((float32_t)freq_index) * ((float32_t)0.1875));
 
@@ -280,9 +280,6 @@ void Get_Pulse_Frame(){
 
 	 g_ready_to_process = 1;
 
-	 HAL_Delay(1);
-	 HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
-
  }
 
 float2bytes f2b;
@@ -291,6 +288,8 @@ int UART_Sent(){
 
 	uint8_t uart_tx_buffer[UART_TX_BUFFER_SIZE];
 	uint322bytes u32t2b;
+	float2bytes f2b;
+	int k;
 
 	uart_tx_buffer[0] = 0xFF;
 	uart_tx_buffer[1] = 0xFF;
@@ -305,18 +304,40 @@ int UART_Sent(){
 	uart_tx_buffer[6] = u32t2b.b[2];
 	uart_tx_buffer[7] = u32t2b.b[3];
 
-	uart_tx_buffer[8] = 0xFF;
-	uart_tx_buffer[9] = 0xFF;
+	uart_tx_buffer[k] = 0x55;
+		k++;
+		uart_tx_buffer[k] = 0x55;
+		k++;
+
+	k = 8;
+
+	for(int i = 0;i < 4 * PROCESS_PULSE_SIZE;i++){
+		f2b.f = output.output_re[i];
+		for(int d = 0;d < 4;d++){
+			uart_tx_buffer[k + d] = f2b.b[d];
+		}
+		k += 4;
+	}
+
+	for(int i = 0;i < 4 * PROCESS_PULSE_SIZE;i++){
+		f2b.f = output.output_im[i];
+		for(int d = 0;d < 4;d++){
+			uart_tx_buffer[k + d] = f2b.b[d];
+		}
+		k += 4;
+	}
+
+	if(k != UART_TX_BUFFER_SIZE){
+		return 0;
+	}
 
 	while(!g_uart_ready);
 
 	g_uart_ready = 0;
 
-	HAL_UART_Transmit(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE,100);
-//	if(HAL_UART_Transmit_IT(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE) != HAL_OK){
-//		return 0;
-//	}
-
+	if(HAL_UART_Transmit_IT(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE) != HAL_OK){
+		return 0;
+	}
 
 	output.seq_num++;
 
@@ -412,19 +433,19 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	  if(abs_threshold(g_raw_data_index) == 1){
-		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+	  if(abs_threshold() == 1){
 		  Get_Pulse_Frame();
-		  HAL_Delay(1);
 
 		  if(g_ready_to_process){
 			  frame_freq = (uint32_t)Get_freq((float *)g_adc_1_f) * 1000; // Get_freq return in KHz unit
 			  output.Detect_Frequency = frame_freq;
 			  if(input.Frequency == frame_freq){
-				  HAL_Delay(1);
+				  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+				  processing();
 				  UART_Sent();
 				  g_uart_ready = 1;
 			  }
+
 			  g_ready_to_process = 0;
 		  }
 	  }
@@ -536,9 +557,9 @@ void SystemClock_Config(void)
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(huart->Instance == USART3)
-
-	HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_14);
+	if(huart->Instance == USART3){
+		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+	}
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)

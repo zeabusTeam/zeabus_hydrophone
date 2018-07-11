@@ -12,23 +12,6 @@
 extern InputParam input;
 extern OutputParam output;
 
-float dw1[DATA_SIZE];
-float dw2[DATA_SIZE];
-float dw3[DATA_SIZE];
-float dw4[DATA_SIZE];
-float dx1[DATA_SIZE];
-float dx2[DATA_SIZE];
-float dx3[DATA_SIZE];
-float dx4[DATA_SIZE];
-float dy1[DATA_SIZE];
-float dy2[DATA_SIZE];
-float dy3[DATA_SIZE];
-float dy4[DATA_SIZE];
-float dz1[DATA_SIZE];
-float dz2[DATA_SIZE];
-float dz3[DATA_SIZE];
-float dz4[DATA_SIZE];
-
 float time = BUFFER_SIZE / SAMPLE_RATE * 1000; // multiple 1000 for change to ms
 
 float filter_lp[163] = { 0.0005819638815361733, 0.00019879010498615907,
@@ -94,16 +77,72 @@ int pulse_detect(float*in1_re, float*in1_im, float*in2_re, float*in2_im,
 
 void processing(){
 
-	float g_d_1_re[DATA_SIZE];
-	float g_d_1_im[DATA_SIZE];
-	float g_d_2_re[DATA_SIZE];
-	float g_d_2_im[DATA_SIZE];
-	float g_d_3_re[DATA_SIZE];
-	float g_d_3_im[DATA_SIZE];
-	float g_d_4_re[DATA_SIZE];
-	float g_d_4_im[DATA_SIZE];
-
 	float PID_output_gain;
+
+	float s_1[DOWN_SAMPLING_SIZE];
+	float s_2[DOWN_SAMPLING_SIZE];
+	float s_3[DOWN_SAMPLING_SIZE];
+	float s_4[DOWN_SAMPLING_SIZE];
+
+	sampling((float*)g_adc_1_f, (float*)g_adc_2_f, (float*)g_adc_3_f, (float*)g_adc_4_f,
+			 (float*)s_1, (float*)s_2, (float*)s_3, (float*)s_4);
+
+	float d_1_re[DEMOD_SCALE_SIZE];
+	float d_1_im[DEMOD_SCALE_SIZE];
+	float d_2_re[DEMOD_SCALE_SIZE];
+	float d_2_im[DEMOD_SCALE_SIZE];
+	float d_3_re[DEMOD_SCALE_SIZE];
+	float d_3_im[DEMOD_SCALE_SIZE];
+	float d_4_re[DEMOD_SCALE_SIZE];
+	float d_4_im[DEMOD_SCALE_SIZE];
+
+	demod((float*)s_1, (float*)s_2, (float*)s_3, (float*)s_4,
+		  (float*)d_1_re, (float*)d_1_im, (float*)d_2_re, (float*)d_2_im,
+		  (float*)d_3_re, (float*)d_3_im, (float*)d_4_re, (float*)d_4_im,
+		  input.Frequency, (float*)filter_lp, 163);
+
+	pulse_detect((float*)d_1_re, (float*)d_1_im, (float*)d_2_re, (float*)d_2_im,
+				(float*)d_3_re, (float*)d_3_im, (float*)d_4_re, (float*)d_4_im,(float*)output.output_re,
+				(float*)output.output_im,DEMOD_SCALE_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
+}
+
+
+void sampling(float*in1, float*in2, float*in3, float*in4,
+		float*out1, float*out2, float*out3, float*out4){
+
+	int i;
+	int idx;
+	for(i = 0; i < DOWN_SAMPLING_SIZE; i++){
+		idx = i * SCALE_DOWN; // skip some sample in input for small sampling
+		out1[i] = in1[idx];
+		out2[i] = in2[idx];
+		out3[i] = in3[idx];
+		out4[i] = in4[idx];
+	}
+
+}
+
+void demod(float*in1, float*in2, float*in3, float*in4,
+		float*out1_re, float*out1_im, float*out2_re, float*out2_im,
+		float*out3_re, float*out3_im, float*out4_re, float*out4_im,
+		uint32_t fo, float*filter,int n_filter){
+
+	float dw1[DOWN_SAMPLING_SIZE];
+	float dw2[DOWN_SAMPLING_SIZE];
+	float dw3[DOWN_SAMPLING_SIZE];
+	float dw4[DOWN_SAMPLING_SIZE];
+	float dx1[DOWN_SAMPLING_SIZE];
+	float dx2[DOWN_SAMPLING_SIZE];
+	float dx3[DOWN_SAMPLING_SIZE];
+	float dx4[DOWN_SAMPLING_SIZE];
+	float dy1[DOWN_SAMPLING_SIZE];
+	float dy2[DOWN_SAMPLING_SIZE];
+	float dy3[DOWN_SAMPLING_SIZE];
+	float dy4[DOWN_SAMPLING_SIZE];
+	float dz1[DOWN_SAMPLING_SIZE];
+	float dz2[DOWN_SAMPLING_SIZE];
+	float dz3[DOWN_SAMPLING_SIZE];
+	float dz4[DOWN_SAMPLING_SIZE];
 
 	struct Temp dt;
 		dt.w1 = (float*) (dw1);
@@ -123,71 +162,41 @@ void processing(){
 		dt.z3 = (float*) (dz3);
 		dt.z4 = (float*) (dz4);
 
-	demod((float*)g_adc_1_f, (float*)g_adc_2_f, (float*)g_adc_3_f, (float*)g_adc_4_f,
-		  (float*)g_d_1_re, (float*)g_d_1_im, (float*)g_d_2_re, (float*)g_d_2_im,
-		  (float*)g_d_3_re, g_d_3_im, (float*)g_d_4_re, (float*)g_d_4_im,
-		  input.Frequency, (float*)filter_lp, 163, dt);
-	pulse_detect((float*)g_d_1_re, (float*)g_d_1_im, (float*)g_d_2_re, (float*)g_d_2_im,
-		  (float*)g_d_3_re, g_d_3_im, (float*)g_d_4_re, (float*)g_d_4_im,(float*)output.output_re,
-		  (float*)output.output_im,DATA_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
-}
-
-
-void sampling(float*in1, float*in2, float*in3, float*in4,
-		float*out1, float*out2, float*out3, float*out4){
-
-	int i;
-	int idx;
-	for(i = 0; i < DATA_SIZE; i++){
-		idx = i * SCALE_DOWN; // skip some sample in input for small sampling
-		out1[i] = in1[idx];
-		out2[i] = in2[idx];
-		out3[i] = in3[idx];
-		out4[i] = in4[idx];
-	}
-
-}
-
-void demod(float*in1, float*in2, float*in3, float*in4,
-		float*out1_re, float*out1_im, float*out2_re, float*out2_im,
-		float*out3_re, float*out3_im, float*out4_re, float*out4_im,
-		uint32_t fo, float*filter,int n_filter, struct Temp t){
-
 	int i = 0;
 	float wt = 0 , sin_wt, cos_wt;
-	const float w = (2 * PI * (fo / 1000) * time) / DATA_SIZE;
-	for (i = 0; i < DATA_SIZE; i++) {
+	const float w = (2 * PI * (fo / 1000) * time) / DOWN_SAMPLING_SIZE;
+	for (i = 0; i < DOWN_SAMPLING_SIZE; i++) {
 		wt = ((float)i * w);
 		cos_wt = arm_cos_f32(wt);
 		sin_wt = arm_sin_f32(wt);
-		t.w1[i] = cos_wt * in1[i];
-		t.w2[i] = sin_wt * in1[i];
-		t.x1[i] = cos_wt * in2[i];
-		t.x2[i] = sin_wt * in2[i];
-		t.y1[i] = cos_wt * in3[i];
-		t.y2[i] = sin_wt * in3[i];
-		t.z1[i] = cos_wt * in4[i];
-		t.z2[i] = sin_wt * in4[i];
+		dt.w1[i] = cos_wt * in1[i];
+		dt.w2[i] = sin_wt * in1[i];
+		dt.x1[i] = cos_wt * in2[i];
+		dt.x2[i] = sin_wt * in2[i];
+		dt.y1[i] = cos_wt * in3[i];
+		dt.y2[i] = sin_wt * in3[i];
+		dt.z1[i] = cos_wt * in4[i];
+		dt.z2[i] = sin_wt * in4[i];
 	}
 
-	arm_conv_f32(t.w1,DATA_SIZE,filter,n_filter,t.w3);
-	arm_conv_f32(t.w2,DATA_SIZE,filter,n_filter,t.w4);
-	arm_conv_f32(t.x1,DATA_SIZE,filter,n_filter,t.x3);
-	arm_conv_f32(t.x2,DATA_SIZE,filter,n_filter,t.x4);
-	arm_conv_f32(t.y1,DATA_SIZE,filter,n_filter,t.y3);
-	arm_conv_f32(t.y2,DATA_SIZE,filter,n_filter,t.y4);
-	arm_conv_f32(t.z1,DATA_SIZE,filter,n_filter,t.z3);
-	arm_conv_f32(t.z2,DATA_SIZE,filter,n_filter,t.z4);
+	arm_conv_f32(dt.w1,DOWN_SAMPLING_SIZE,filter,n_filter,dt.w3);
+	arm_conv_f32(dt.w2,DOWN_SAMPLING_SIZE,filter,n_filter,dt.w4);
+	arm_conv_f32(dt.x1,DOWN_SAMPLING_SIZE,filter,n_filter,dt.x3);
+	arm_conv_f32(dt.x2,DOWN_SAMPLING_SIZE,filter,n_filter,dt.x4);
+	arm_conv_f32(dt.y1,DOWN_SAMPLING_SIZE,filter,n_filter,dt.y3);
+	arm_conv_f32(dt.y2,DOWN_SAMPLING_SIZE,filter,n_filter,dt.y4);
+	arm_conv_f32(dt.z1,DOWN_SAMPLING_SIZE,filter,n_filter,dt.z3);
+	arm_conv_f32(dt.z2,DOWN_SAMPLING_SIZE,filter,n_filter,dt.z4);
 
-	for(i = 0;i < DATA_SIZE; i++){
-		out1_re[i] = t.w3[i];
-		out1_im[i] = t.w4[i];
-		out2_re[i] = t.x3[i];
-		out2_im[i] = t.x4[i];
-		out3_re[i] = t.y3[i];
-		out3_im[i] = t.y4[i];
-		out4_re[i] = t.z3[i];
-		out4_im[i] = t.z4[i];
+	for(i = 0;i < DEMOD_SCALE_SIZE; i++){
+		out1_re[i] = dt.w3[i];
+		out1_im[i] = dt.w4[i];
+		out2_re[i] = dt.x3[i];
+		out2_im[i] = dt.x4[i];
+		out3_re[i] = dt.y3[i];
+		out3_im[i] = dt.y4[i];
+		out4_re[i] = dt.z3[i];
+		out4_im[i] = dt.z4[i];
 	}
 
 }

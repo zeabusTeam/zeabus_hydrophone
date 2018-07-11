@@ -1,4 +1,4 @@
-21:24:43 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+16:38:14 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
 make all 
 Building file: ../Src/main.c
 Invoking: MCU GCC Compiler
@@ -21,7 +21,7 @@ D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/core_cm7.h:71:0: note: this is the locati
  #define __CORTEX_M                (7U)                                       /*!< Cortex-M Core */
  
 ../Src/main.c: In function 'HAL_UART_RxCpltCallback':
-../Src/main.c:571:16: warning: unused variable 'f2b' [-Wunused-variable]
+../Src/main.c:582:16: warning: unused variable 'f2b' [-Wunused-variable]
     float2bytes f2b;
                 ^~~
 Finished building: ../Src/main.c
@@ -36,8 +36,8 @@ Generating binary and Printing size information:
 arm-none-eabi-objcopy -O binary "ZEABUS-STM32-DSP.elf" "ZEABUS-STM32-DSP.bin"
 arm-none-eabi-size "ZEABUS-STM32-DSP.elf"
    text	   data	    bss	    dec	    hex	filename
-  75260	 328148	  57260	 460668	  7077c	ZEABUS-STM32-DSP.elf
+  83660	 328804	  57260	 469724	  72adc	ZEABUS-STM32-DSP.elf
  
 
-21:24:50 Build Finished (took 7s.374ms)
+16:38:21 Build Finished (took 7s.44ms)
 
