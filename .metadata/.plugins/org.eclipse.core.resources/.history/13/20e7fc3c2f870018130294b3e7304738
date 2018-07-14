@@ -442,7 +442,7 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	  if(abs_threshold_CFAR() == 1){
+	  if(abs_threshold() == 1){
 		  Get_Pulse_Frame();
 
 		  if(g_ready_to_process){

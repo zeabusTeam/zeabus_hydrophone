@@ -18,7 +18,7 @@ int abs_threshold(){
 	return 0;
 }
 
-int abs_threshold_CFAR() {
+int abs_threshold_CFAR(uint32_t index) {
 	float temp[4], power[4];
 	float signal_temp[4];
 	int i,k;
@@ -26,10 +26,10 @@ int abs_threshold_CFAR() {
 	float min_power = 0.001;
 	uint8_t ch_status = 0x00;
 
-	signal_temp[0] = (float32_t)(g_adc1_2_buffer[g_raw_data_index]  - 32768) / 65535;
-	signal_temp[1] = (float32_t)(g_adc1_2_buffer[g_raw_data_index + 1]  - 32768) / 65535;
-	signal_temp[2] = (float32_t)(g_adc3_4_buffer[g_raw_data_index]  - 32768) / 65535;
-	signal_temp[3] = (float32_t)(g_adc3_4_buffer[g_raw_data_index + 1]  - 32768) / 65535;
+	signal_temp[0] = (float32_t)(g_adc1_2_buffer[index]  - 32768) / 65535;
+	signal_temp[1] = (float32_t)(g_adc1_2_buffer[index + 1]  - 32768) / 65535;
+	signal_temp[2] = (float32_t)(g_adc3_4_buffer[index]  - 32768) / 65535;
+	signal_temp[3] = (float32_t)(g_adc3_4_buffer[index + 1]  - 32768) / 65535;
 
 
 	power[0] = signal_temp[0] * signal_temp[0];
@@ -45,7 +45,7 @@ int abs_threshold_CFAR() {
 			temp[3] = 0;
 
 			for (i = 1; i<=num_samples ; i++){
-				k = g_raw_data_index - i;
+				k = index - i;
 				if (k < 0 ) {
 					k = RAW_DATA_BUFFER_SIZE + k;
 				}
