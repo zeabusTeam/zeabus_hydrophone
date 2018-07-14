@@ -4,7 +4,7 @@ import numpy as np
 
 value = 30000
 
-s = serial.Serial('com3',115200,bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE)
+s = serial.Serial('com4',115200,bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE)
 
 res = []
 res.append(61)

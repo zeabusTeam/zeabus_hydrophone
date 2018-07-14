@@ -137,7 +137,7 @@ int Set_LNA_Gain(){
 	uint16_t i2c_dev_addr = 0x2F<<1; // MAX 5387 Address
 	uint8_t i2c_val[2];
 	i2c_val[0] = 0x13; // Set both CH
-	i2c_val[1] = 168;  // VGain = 1.1 * ( g_i2c_val / 255 )
+	i2c_val[1] = (0.5 * 255);  // VGain = 1.1 * ( g_i2c_val / 255 )
 
 	if(HAL_I2C_Master_Transmit(&hi2c1,i2c_dev_addr,i2c_val,2,100) != HAL_OK){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
@@ -176,7 +176,7 @@ float32_t Get_freq(float32_t * in){
 	 g_fft_f32_out[0] = 0;
 	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
 
-	 freq = (((float32_t)freq_index) * ((float32_t)0.1875));
+	 freq = (((float32_t)freq_index) * ((float32_t)0.18372));
 
 	 float dec;
 	 float dot = modff(freq, &dec);
@@ -403,6 +403,12 @@ int main(void)
   HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
   HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 
+  input.Frequency = 30000;
+  input.SoundSpeed = 1500;
+  input.FrontThreshold = 0.3;
+  input.PowerThreshold = 0.02;
+  input.DelayObserve = 2000000;
+
   TIMER_Start(); 	// Start Timer
 
   ADC_Start();		// Start ADC with DMA
@@ -410,17 +416,12 @@ int main(void)
   Set_LNA_Gain();	// Set LNA GAIN
 
   g_front_thres = 0.1;	// set front threshold
-  g_raw_front_thres = (g_front_thres * VOLT_RATIO) + 32768;
+  g_raw_front_thres = (input.FrontThreshold * VOLT_RATIO) + 32768;
 
   g_ready_to_process = 0;
 
   HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);
 
-  input.Frequency = 30000;
-  input.SoundSpeed = 1500;
-  input.FrontThreshold = 0.3;
-  input.PowerThreshold = 0.02;
-  input.DelayObserve = 2000000;
 
   HAL_Delay(10);
 
