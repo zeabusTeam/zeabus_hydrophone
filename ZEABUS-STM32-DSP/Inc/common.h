@@ -31,7 +31,7 @@
 #define SCALE_DOWN						5
 #define DOWN_SAMPLING_SIZE				(BUFFER_SIZE / SCALE_DOWN)
 #define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
-#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 +(4 * (2 * (4 * 100))))
+#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * (2 * (4 * 100))))
 #define UART_RX_BUFFER_SIZE				(8)
 #define PROCESS_PULSE_SIZE				100
 
@@ -52,6 +52,8 @@ typedef struct Outputdata {
 	float32_t power;
 	float32_t output_re[4 * PROCESS_PULSE_SIZE];
 	float32_t output_im[4 * PROCESS_PULSE_SIZE];
+	uint32_t time_between_pulse;
+	uint32_t process_time;
 } OutputParam;
 
 typedef union CovfloatTobyte {
