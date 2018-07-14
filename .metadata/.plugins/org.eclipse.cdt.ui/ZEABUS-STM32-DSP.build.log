@@ -1,6 +1,6 @@
-21:54:38 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+23:03:10 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
 make all 
 make: Nothing to be done for 'all'.
 
-21:54:39 Build Finished (took 509ms)
+23:03:11 Build Finished (took 828ms)
 

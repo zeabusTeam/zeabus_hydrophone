@@ -48,9 +48,9 @@ while True:
     while True:
         x = s.read(1)
         if x == b'\xff':
-            print(x)
+            # print(x)
             x = s.read(1)
-            print(x)
+            # print(x)
             count +=1
             if x == b'\xff':
                 x = s.read(14)
@@ -72,29 +72,28 @@ while True:
     x = s.read(1)
     x = s.read(1)
  
-
     x = s.read(1600)
 
     start_id = 0
 
     a = start_id
     for i in range(0, 100):
-        sig_re_1[i] = struct.unpack('@f', x[(a + (i * 4)) :(a + (i * 4) + 4)])
+        (sig_re_1[i],) = struct.unpack('@f', x[(a + (i * 4)) :(a + (i * 4) + 4)])
         start_id = start_id + 4
     
     a = start_id
     for i in range(0, 100):
-        sig_re_2[i] = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
+        (sig_re_2[i],) = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
         start_id = start_id + 4
 
     a = start_id
     for i in range(0, 100):
-        sig_re_3[i] = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
+        (sig_re_3[i],) = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
         start_id = start_id + 4
 
     a = start_id
     for i in range(0, 100):
-        sig_re_4[i] = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
+        (sig_re_4[i],) = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
         start_id = start_id + 4
 
     x = s.read(1)
@@ -104,26 +103,34 @@ while True:
     start_id = 0
     a = start_id
     for i in range(0, 100):
-        sig_im_1[i] = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
+        (sig_im_1[i],) = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
         start_id = start_id + 4
     
     a = start_id
     for i in range(0, 100):
-        sig_im_2[i] = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
+        (sig_im_2[i],) = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
         start_id = start_id + 4
     
     a = start_id
     for i in range(0, 100):
-        sig_im_3[i] = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
+        (sig_im_3[i],) = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
         start_id = start_id + 4
 
     a = start_id
     for i in range(0, 100):
-        sig_im_4[i] = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
+        (sig_im_4[i],) = struct.unpack('@f', x[a + (i * 4) :a + (i * 4) + 4])
         start_id = start_id + 4
 
     x = s.read(1)
     x = s.read(1)
 
-    print(sig_re_1)
+    array = np.arange(400).reshape(4, 100)
+    sig = np.zeros_like(array, np.complex)
 
+    for i in range(0, 100):
+        sig[0,i] = complex(sig_re_1[i],sig_im_1[i])
+        sig[1,i] = complex(sig_re_2[i],sig_im_2[i])
+        sig[2,i] = complex(sig_re_3[i],sig_im_3[i])
+        sig[3,i] = complex(sig_re_4[i],sig_im_4[i])
+
+    print(sig)
