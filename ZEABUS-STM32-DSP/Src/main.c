@@ -175,7 +175,7 @@ float32_t Get_freq(float32_t * in){
 	 g_fft_f32_out[0] = 0;
 	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
 
-	 freq = (((float32_t)freq_index) * ((float32_t)0.18744)); // at 188.13 kHz
+	 freq = (((float32_t)freq_index) * ((float32_t)0.18743)); // at 191.93 kHz
 
 	 float dec;
 	 float dot = modff(freq, &dec);
