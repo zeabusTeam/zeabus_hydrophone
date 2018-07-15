@@ -5,12 +5,20 @@
  *      Author: Vasut
  */
 
-#include "param.h"
 #include "common.h"
 #include "processing.h"
 
 extern InputParam input;
 extern OutputParam output;
+
+arm_status status;
+
+float x_loc[4] = { 0.18666667, -0.18666667, -0.18666667, 0.18666667 };
+float y_loc[4] = { 0.18666667, 0.18666667, -0.18666667, -0.18666667 };
+
+float lstsqr[3 * 4] = { 0.213153941641, 	-0.213153941641, 	-0.213153941641, 	0.213153941641,
+						0.213153941641, 	0.213153941641, 	-0.213153941641, 	-0.213153941641,
+						0.25, 				0.25, 				0.25, 				0.25 };
 
 float time = BUFFER_SIZE / SAMPLE_RATE * 1000; // multiple 1000 for change to ms
 
@@ -78,6 +86,13 @@ int pulse_detect(float*in1_re, float*in1_im, float*in2_re, float*in2_im,
 void processing(){
 
 	float PID_output_gain;
+	float ant_dim[4 * 2] = { 0, 0, (float) ANT_LEN, 0, (float) ANT_LEN,
+				(float) ANT_LEN, 0, (float) ANT_LEN };
+	float phaseerrors[4][4] = { {0.0, 		2.34572, 		3.31735, 		2.34572},
+								{2.34572, 	0.0,			2.34572, 		3.31735},
+								{3.31735, 	2.34572, 		0.0, 			2.34572},
+								{2.34572, 	3.31735,		2.34572, 		0.0 }};
+	Hydro_info hy_info;
 
 	float s_1[DOWN_SAMPLING_SIZE];
 	float s_2[DOWN_SAMPLING_SIZE];
@@ -96,6 +111,23 @@ void processing(){
 	float d_4_re[DEMOD_SCALE_SIZE];
 	float d_4_im[DEMOD_SCALE_SIZE];
 
+	hydrophone_arrangement((float *) (x_loc), (float *) (y_loc), (float*) (ant_dim), output.Detect_Frequency);
+	hy_info.x = (float*) (x_loc);
+	hy_info.y = (float*) (y_loc);
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+
+			phaseerrors[i][j] = sqrt(pow((x_loc[i] - x_loc[j]), 2) + pow((y_loc[i] - y_loc[j]), 2)) * 2 * PI;
+
+			}
+	}
+
+	hy_info.phase_err = (float*) (phaseerrors);
+	//compute array for least square
+	lstsqrx((float *) (x_loc), (float *) (y_loc), (float*) (lstsqr));
+	hy_info.lstsqr = (float*) (lstsqr);
+
 	demod((float*)s_1, (float*)s_2, (float*)s_3, (float*)s_4,
 		  (float*)d_1_re, (float*)d_1_im, (float*)d_2_re, (float*)d_2_im,
 		  (float*)d_3_re, (float*)d_3_im, (float*)d_4_re, (float*)d_4_im,
@@ -104,6 +136,61 @@ void processing(){
 	pulse_detect((float*)d_1_re, (float*)d_1_im, (float*)d_2_re, (float*)d_2_im,
 				(float*)d_3_re, (float*)d_3_im, (float*)d_4_re, (float*)d_4_im,(float*)output.output_re,
 				(float*)output.output_im,DEMOD_SCALE_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
+}
+
+int lstsqrx(const float *x, const float *y, float *out) {
+	float A_f32[12] = {
+			2 * PI * x[0], 2 * PI * y[0], 1.0 ,
+			2 * PI * x[1], 2 * PI * y[1], 1.0 ,
+			2 * PI * x[2], 2 * PI * y[2], 1.0 ,
+			2 * PI * x[3], 2 * PI * y[3], 1.0 };
+
+	float AT_f32[12];
+	float AA_f32[9];
+	float AAI_f32[9];
+
+	arm_matrix_instance_f32 A;
+	arm_matrix_instance_f32 AT;
+	arm_matrix_instance_f32 AA;
+	arm_matrix_instance_f32 AAI;
+	arm_matrix_instance_f32 OUT;
+	uint32_t srcRows, srcColumns;  /* Temporary variables */
+
+
+	/* Initialise A Matrix Instance with numRows, numCols and data array(A_f32) */
+	srcRows = 4;
+	srcColumns = 3;
+	arm_mat_init_f32(&A, srcRows, srcColumns, (float32_t *)A_f32);
+	/* Initialise AT Matrix Instance with numRows, numCols and data array(AT_f32) */
+	srcRows = 3;
+	srcColumns = 4;
+	arm_mat_init_f32(&AT, srcRows, srcColumns, (float32_t *)AT_f32);
+	/* calculation of A transpose */
+	status = arm_mat_trans_f32(&A, &AT);
+	/* Initialise AA Matrix Instance with numRows, numCols and data array(AA_f32) */
+	srcRows = 3;
+    srcColumns = 3;
+	arm_mat_init_f32(&AA, srcRows, srcColumns, AA_f32);
+	/* calculation of AT Multiply with A */
+	status = arm_mat_mult_f32(&AT, &A, &AA);
+	/* Initialise AAI Matrix Instance with numRows, numCols and data array(AAI_f32) */
+	srcRows = 3;
+	srcColumns = 3;
+	arm_mat_init_f32(&AAI, srcRows, srcColumns, AAI_f32);
+	/* calculation of Inverse((Transpose(A) * A) */
+	status = arm_mat_inverse_f32(&AA, &AAI);
+	/* Initialise OUT Matrix Instance with numRows, numCols and data array(out) */
+	srcRows = 3;
+	srcColumns = 4;
+	arm_mat_init_f32(&OUT, srcRows, srcColumns, out);
+	/* calculation of AAI Multiply with AT */
+	status = arm_mat_mult_f32(&AAI, &AT, &OUT);
+
+	if ( status != ARM_MATH_SUCCESS){
+		while (1);
+	}
+	return 1;
+
 }
 
 
@@ -163,7 +250,9 @@ void demod(float*in1, float*in2, float*in3, float*in4,
 		dt.z4 = (float*) (dz4);
 
 	int i = 0;
-	float wt = 0 , sin_wt, cos_wt;
+	float wt = 0 , sin_wt, cos_wt, phase_lag_cos, phase_lag_sin;
+	phase_lag_cos = arm_cos_f32((2 * PI * input.Frequency) / SAMPLE_RATE);
+	phase_lag_sin = -1 * arm_sin_f32((2 * PI * input.Frequency) / SAMPLE_RATE);
 	const float w = (2 * PI * (fo / 1000) * time) / DOWN_SAMPLING_SIZE;
 	for (i = 0; i < DOWN_SAMPLING_SIZE; i++) {
 		wt = ((float)i * w);
@@ -191,14 +280,32 @@ void demod(float*in1, float*in2, float*in3, float*in4,
 	for(i = 0;i < DEMOD_SCALE_SIZE; i++){
 		out1_re[i] = dt.w3[i];
 		out1_im[i] = dt.w4[i];
-		out2_re[i] = dt.x3[i];
-		out2_im[i] = dt.x4[i];
+		out2_re[i] = dt.x3[i] * phase_lag_cos;
+		out2_im[i] = dt.x4[i] * phase_lag_sin;
 		out3_re[i] = dt.y3[i];
 		out3_im[i] = dt.y4[i];
-		out4_re[i] = dt.z3[i];
-		out4_im[i] = dt.z4[i];
+		out4_re[i] = dt.z3[i] * phase_lag_cos;
+		out4_im[i] = dt.z4[i] * phase_lag_sin;
 	}
 
+}
+
+void hydrophone_arrangement(float *x, float *y, float* ant_loc, uint32_t signal_freq) {
+	int i;
+	float temp_x = 0, temp_y = 0;
+	float lamb = (float) input.SoundSpeed / ((float) signal_freq / 1000);
+	for (i = 0; i < 4; i++) {
+		x[i] = ant_loc[i * 2] / lamb;
+		y[i] = ant_loc[i * 2 + 1] / lamb;
+		temp_x += x[i];
+		temp_y += y[i];
+	}
+	temp_x /= 4;
+	temp_y /= 4;
+	for (i = 0; i < 4; i++) {
+		x[i] = (temp_x) - x[i];
+		y[i] = (temp_y) - y[i];
+	}
 }
 
 int pulse_detect(float*in1_re, float*in1_im, float*in2_re, float*in2_im,
