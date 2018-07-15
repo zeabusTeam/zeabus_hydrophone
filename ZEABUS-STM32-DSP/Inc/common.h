@@ -68,7 +68,7 @@ typedef union Covuint32Tobyte{
 
 
 extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
-extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
+//extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
 extern float g_adc_1_f[];
 extern float g_adc_2_f[];
 extern float g_adc_3_f[];
