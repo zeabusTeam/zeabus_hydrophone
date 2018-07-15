@@ -1,6 +1,7 @@
 import serial
 import struct
 import numpy as np
+import pickle
 
 ########################## setting parameter #################################
 
@@ -159,4 +160,11 @@ while True:
 
     print(sig)
 
+    f = open('store.pckl', 'wb')
+    pickle.dump(sig, f)
+    f.close()
+
+    # f = open('store.pckl', 'rb')
+    # obj = pickle.load(f)
+    # f.close()
 
