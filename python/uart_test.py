@@ -2,7 +2,15 @@ import serial
 import struct
 import numpy as np
 
-value = 30000
+########################## setting parameter #################################
+
+Frequency = 30000
+SoundSpeed = 1500
+FrontThreshold = 0.3
+PowerThreshold = 0.02
+DelayObserve = 2000
+
+##############################################################################
 
 s = serial.Serial('com4',115200,bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE)
 
@@ -11,16 +19,32 @@ res.append(61)
 res.append(61)
 res.append(61)
 res.append(61)
-tmp = struct.pack('I', value)
+tmp = struct.pack('I', Frequency)
 res.append(tmp[0])
 res.append(tmp[1])
 res.append(tmp[2])
 res.append(tmp[3])
-# res.append(tmp[0:2].decode("hex"))
-# res.append(tmp[2:4].decode("hex"))
-# res.append(tmp[4:6].decode("hex"))
-# res.append(tmp[6:8].decode("hex"))
-print(res)
+tmp = struct.pack('I', SoundSpeed)
+res.append(tmp[0])
+res.append(tmp[1])
+res.append(tmp[2])
+res.append(tmp[3])
+tmp = struct.pack('f', FrontThreshold)
+res.append(tmp[0])
+res.append(tmp[1])
+res.append(tmp[2])
+res.append(tmp[3])
+tmp = struct.pack('f', PowerThreshold)
+res.append(tmp[0])
+res.append(tmp[1])
+res.append(tmp[2])
+res.append(tmp[3])
+tmp = struct.pack('I', DelayObserve)
+res.append(tmp[0])
+res.append(tmp[1])
+res.append(tmp[2])
+res.append(tmp[3])
+
 s.write(res)
 s.flush()
 N = 100

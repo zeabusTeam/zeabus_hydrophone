@@ -626,10 +626,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			f2b.b[3] = uart_rx_buffer[19];
 			input.PowerThreshold = f2b.f;
 
-			u322b.b[0] = uart_rx_buffer[20];
-			u322b.b[1] = uart_rx_buffer[21];
-			u322b.b[2] = uart_rx_buffer[22];
-			u322b.b[3] = uart_rx_buffer[23];
+			u322b.b[0] = uart_rx_buffer[8];
+			u322b.b[1] = uart_rx_buffer[9];
+			u322b.b[2] = uart_rx_buffer[10];
+			u322b.b[3] = uart_rx_buffer[11];
 			input.DelayObserve = u322b.u32t;
 		}
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);

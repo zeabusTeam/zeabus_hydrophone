@@ -614,23 +614,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			u322b.b[3] = uart_rx_buffer[11];
 			input.SoundSpeed = u322b.u32t;
 
-			f2b.b[0] = uart_rx_buffer[12];
-			f2b.b[1] = uart_rx_buffer[13];
-			f2b.b[2] = uart_rx_buffer[14];
-			f2b.b[3] = uart_rx_buffer[15];
-			input.FrontThreshold = f2b.f;
+			f2b.b[0] = uart_rx_buffer[4];
+			f2b.b[1] = uart_rx_buffer[5];
+			f2b.b[2] = uart_rx_buffer[6];
+			f2b.b[3] = uart_rx_buffer[7];
+			input.Frequency = f2b.f;
 
-			f2b.b[0] = uart_rx_buffer[16];
-			f2b.b[1] = uart_rx_buffer[17];
-			f2b.b[2] = uart_rx_buffer[18];
-			f2b.b[3] = uart_rx_buffer[19];
-			input.PowerThreshold = f2b.f;
-
-			u322b.b[0] = uart_rx_buffer[20];
-			u322b.b[1] = uart_rx_buffer[21];
-			u322b.b[2] = uart_rx_buffer[22];
-			u322b.b[3] = uart_rx_buffer[23];
-			input.DelayObserve = u322b.u32t;
+			f2b.b[0] = uart_rx_buffer[8];
+			f2b.b[1] = uart_rx_buffer[9];
+			f2b.b[2] = uart_rx_buffer[10];
+			f2b.b[3] = uart_rx_buffer[11];
+			input.SoundSpeed = f2b.f;
 		}
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);

@@ -32,7 +32,7 @@
 #define DOWN_SAMPLING_SIZE				(BUFFER_SIZE / SCALE_DOWN)
 #define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
 #define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * (2 * (4 * 100))))
-#define UART_RX_BUFFER_SIZE				(24)
+#define UART_RX_BUFFER_SIZE				(8)
 #define PROCESS_PULSE_SIZE				100
 
 #define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)
@@ -68,7 +68,7 @@ typedef union Covuint32Tobyte{
 
 
 extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
-extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
+//extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
 extern float g_adc_1_f[];
 extern float g_adc_2_f[];
 extern float g_adc_3_f[];
