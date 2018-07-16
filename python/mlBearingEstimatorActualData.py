@@ -882,8 +882,8 @@ class demodulate_module:
         if t is None:
             t = np.arange(self.n_samples).astype("float64") * (self.t_max / float(self.n_samples))
 
-        print "f0 = ", self.fo
-        print "fs = ", 1. / (t[2] - t[1])
+        print("f0 = ", self.fo)
+        print("fs = ", 1. / (t[2] - t[1]))
 
         carrier = np.exp(1j * 2 * pi * self.fo * t)  # create the sinusoidal signal from the local oscilator.
 
@@ -952,7 +952,7 @@ def CFARPulseDetection(basedBandSignal, l, Pf, pulse_width, sampling_freq):
         avpower[n, :] = np.convolve(power[n, :], h, 'valid')
     noise_sigma2 = avpower.mean(0)
     pout = power[:, l:].sum(0) / noise_sigma2
-    print "p out max", pout.max()
+    print("p out max", pout.max())
     possible_pulse_locations = np.nonzero(pout > threshold)[0]
     if len(possible_pulse_locations) > 1:
         diff = possible_pulse_locations[1:] - possible_pulse_locations[:-1]
@@ -1094,9 +1094,9 @@ class bearingEstimator:
 
         k_best = 0
         k_min = pulse_length
-        print AA2.shape, h2.shape
+        print(AA2.shape, h2.shape)
         erbest = np.linalg.norm(h2)
-        print "initial norm: ", erbest
+        print("initial norm: ", erbest)
         A_used = None
         k_a = []
         for m in range(15):
@@ -1148,8 +1148,8 @@ class bearingEstimator:
             if ((eout[t - 1] > eout[t - 2]) & (eout[t - 1] > eout[t]) & (t > 3)):  # search for local maxima
                 tau.append(t - 1)  # add the local optima in the list
         tau = [k_min]
-        print 'We found %f paths' % len(tau)
-        print "at time  =", tau
+        print('We found %f paths' % len(tau))
+        print("at time  =", tau)
         self.tau = tau  # result
 
     def delay_time_estimator2(self, down_sampling_rate):
@@ -1188,8 +1188,8 @@ class bearingEstimator:
                     V[:, :-1] = Vold
             V_old = V.copy()
             finding_tau = False
-            print 'We found %f paths' % len(tau)
-            print "at time = ", tau
+            print('We found %f paths' % len(tau))
+            print("at time = ", tau)
             self.tau = tau  # result
 
     def make_A(self):
@@ -1233,7 +1233,7 @@ class bearingEstimator:
         # print C0
         creal = np.real(C0)  # real part
         cimg = np.imag(C0)  # imaginary part
-        print "c_power:%f dBm" % (10.0 * np.log10((creal ** 2 + cimg ** 2).sum()) + 30)
+        print("c_power:%f dBm" % (10.0 * np.log10((creal ** 2 + cimg ** 2).sum()) + 30))
         phase_c = np.arctan2(cimg, creal)  # compute phase of each elevement in C0
         # possible orders are:
         #   H1   H4
@@ -1249,8 +1249,8 @@ class bearingEstimator:
         # Check phase errors
 
         phase_c = phase_c.flatten()
-        print "computed phase of the first path result = ", phase_c * 180 / pi
-        print "Check for validity of input phases"
+        print("computed phase of the first path result = ", phase_c * 180 / pi)
+        print("Check for validity of input phases")
         #############################################################################################
         # This is a modified portion of the code.
         #
@@ -1306,7 +1306,7 @@ class bearingEstimator:
 
             # print " new phase  ",phase_diff*180./np.pi,", error = %f"%error
             if error < error_min:
-                print "Found a more suitable arrangement with new phase = ", phase_diff * 180. / np.pi
+                print("Found a more suitable arrangement with new phase = ", phase_diff * 180. / np.pi)
                 error_min = error
                 phase_use = phase_diff
         # print error_min
@@ -1322,7 +1322,7 @@ class bearingEstimator:
         # A = np.array([2.0*pi*self.x_loc, 2.0*pi*self.y_loc, np.ones((self.num_ants))]).T # Create a matrix X
         self.make_A()
         self.make_AHA_inv()
-        print "A = ", (self.A)
+        print("A = ", (self.A))
         out = self.solveLeastSq(phase_c)
 
         # out = np.linalg.lstsq(A, phase_c)
@@ -1335,7 +1335,7 @@ class bearingEstimator:
         az_t_r = np.arctan2(out[1], out[0])
         az_t = az_t_r * 180 / pi
         elv_t = elv_t_r * 180 / pi
-        print "initial = %f, %f" % (az_t, elv_t)
+        print("initial = %f, %f" % (az_t, elv_t))
 
         bearing = [az_t_r, elv_t_r]
 
@@ -1425,7 +1425,7 @@ class bearingEstimator:
 
 if __name__ == "__main__":
 
-    print "loading a file"
+    print("loading a file")
     Case = 6
     # Case can be:
     #  AA: Actual arriving angle azimuth = 90, elevation around 90
@@ -1455,7 +1455,7 @@ if __name__ == "__main__":
     v4 = []  # Hydrophone 4 voltage
     line = 1
     for c2, c3, c4, c5 in rder:  # read one line at a time
-        print line
+        print(line)
         line += 1
         # load data from a file
         # t.append(float(c1))
@@ -1472,7 +1472,7 @@ if __name__ == "__main__":
     # it seems that the sampling frequnency is 5 times more than the given information
     # Without the division by 5, the pinger frequecy is 7kHz instead of 35 KHz
     fs = (1. / (t[2] - t[1]))
-    print "Sampling frequency : %f KHz" % (1. / (t[2] - t[1]))
+    print("Sampling frequency : %f KHz" % (1. / (t[2] - t[1])))
     # Change the loaded data into numpy arrays.
     v1 = np.array(v1)
     v2 = np.array(v2)
@@ -1483,7 +1483,7 @@ if __name__ == "__main__":
     v2 = v2 - v2.mean()
     v3 = v3 - v3.mean()
     v4 = v4 - v4.mean()
-    print v1.shape
+    print(v1.shape)
     # Check the Fourier's Spectrum
     # We should have a large peak t 35 KHz/
     # Compute FFT
@@ -1511,7 +1511,7 @@ if __name__ == "__main__":
     rec_sig[3, :] = v4
     pulses = CFARPulseDetection(rec_sig, 50, 1e-4, 4.0, fs)
     for n, pulse in pulses:
-        print "Detect a pulse at %d" % n
+        print("Detect a pulse at %d" % n)
         for k in range(4):
             plt.subplot(4, 1, k + 1)
             plt.plot(pulse[k, :])
@@ -1611,7 +1611,7 @@ if __name__ == "__main__":
     for str1, pulse in pulses:
         str = max(str1 - 200, 0)
         stp = str + pulse.shape[1] + 200
-        print "pluse detect at %f s" % (str / fs + tx[0])
+        print("pluse detect at %f s" % (str / fs + tx[0]))
         plt.figure(6)
         t3 = np.arange(-200, pulse.shape[1] + 200)
         for n in range(4):
@@ -1641,7 +1641,7 @@ if __name__ == "__main__":
         # estimate the arrival time of the main path with down sampling rate of 5
         az, ev, az_init, ev_init = br.bearingEstimatorForT0(1, fine_tune=True)
         t2 = time.time()
-        print "The estimated arrival angle:"
-        print "Azimuth: %f, Elevation: %f" % (az, ev)
-        print "with processing time: %f" % (t2 - t1)
+        print("The estimated arrival angle:")
+        print("Azimuth: %f, Elevation: %f" % (az, ev))
+        print("with processing time: %f" % (t2 - t1))
         # mode=raw_input('Press enter to exit:')
