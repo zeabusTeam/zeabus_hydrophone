@@ -32,6 +32,7 @@
 #define DOWN_SAMPLING_SIZE				(BUFFER_SIZE / SCALE_DOWN)
 #define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
 #define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * (2 * (4 * 100))))
+//#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * ((100))))
 #define UART_RX_BUFFER_SIZE				(24)
 #define PROCESS_PULSE_SIZE				100
 
@@ -63,7 +64,7 @@ typedef union CovfloatTobyte {
 
 typedef union Covuint32Tobyte{
 	uint32_t u32t;
-	char b[sizeof(float)];
+	char b[sizeof(uint32_t)];
 } uint322bytes;
 
 

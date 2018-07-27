@@ -1,6 +1,39 @@
-19:45:55 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+06:39:47 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
 make all 
-make: Nothing to be done for 'all'.
+Building file: ../Src/main.c
+Invoking: MCU GCC Compiler
+D:\ws\zeabus_stm32h7_dsp\ZEABUS-STM32-DSP\Debug
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -D__FPU_PRESENT -I"D:/ws/zeabus_stm32h7_dsp/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/main.d" -MT"Src/main.o" -o "Src/main.o" "../Src/main.c"
+In file included from D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/arm_math.h:322:0,
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc/common.h:13,
+                 from ../Src/main.c:63:
+D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/core_cm4.h:71:0: warning: "__CORTEX_M" redefined
+ #define __CORTEX_M                (4U)                                   /*!< Cortex-M Core */
+ 
+In file included from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h:241:0,
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:117,
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h:48,
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h:47,
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc/stm32h7xx_hal_conf.h:201,
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:48,
+                 from ../Src/main.c:51:
+D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/core_cm7.h:71:0: note: this is the location of the previous definition
+ #define __CORTEX_M                (7U)                                       /*!< Cortex-M Core */
+ 
+Finished building: ../Src/main.c
+ 
+Building target: ZEABUS-STM32-DSP.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 -L"D:\ws\zeabus_stm32h7_dsp\CMSIS\Lib\GCC"  -specs=nosys.specs -specs=nano.specs -T"../STM32H743ZITx_FLASH.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "ZEABUS-STM32-DSP.elf" @"objects.list"  -l:libarm_cortexM7lfsp_math.a -lm
+Finished building target: ZEABUS-STM32-DSP.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "ZEABUS-STM32-DSP.elf" "ZEABUS-STM32-DSP.bin"
+arm-none-eabi-size "ZEABUS-STM32-DSP.elf"
+   text	   data	    bss	    dec	    hex	filename
+  86100	 328884	  57284	 472268	  734cc	ZEABUS-STM32-DSP.elf
+ 
 
-19:45:55 Build Finished (took 634ms)
+06:39:55 Build Finished (took 8s.276ms)
 

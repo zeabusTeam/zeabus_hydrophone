@@ -352,20 +352,21 @@ int UART_Sent(){
 		return 0;
 	}
 
-	while(!g_uart_ready);
+//	while(!g_uart_ready);
 
 	g_uart_ready = 0;
 
 	HAL_Delay(10);
-	if(HAL_UART_Transmit_IT(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE) != HAL_OK){
+	if(HAL_UART_Transmit(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE,1000) != HAL_OK){
 		return 0;
 	}
+
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 
 	output.seq_num++;
 
 	return 1;
 }
-
 
 /* USER CODE END PFP */
 
@@ -588,7 +589,7 @@ void SystemClock_Config(void)
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(huart->Instance == USART3){
-		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+
 		  g_uart_ready = 1;
 	}
 }

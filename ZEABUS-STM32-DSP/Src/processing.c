@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "processing.h"
+#include "stm32h7xx_hal.h"
 
 extern InputParam input;
 extern OutputParam output;
@@ -133,9 +134,11 @@ void processing(){
 		  (float*)d_3_re, (float*)d_3_im, (float*)d_4_re, (float*)d_4_im,
 		  input.Frequency, (float*)filter_lp, 163);
 
-	pulse_detect((float*)d_1_re, (float*)d_1_im, (float*)d_2_re, (float*)d_2_im,
+	if(pulse_detect((float*)d_1_re, (float*)d_1_im, (float*)d_2_re, (float*)d_2_im,
 				(float*)d_3_re, (float*)d_3_im, (float*)d_4_re, (float*)d_4_im,(float*)output.output_re,
-				(float*)output.output_im,DEMOD_SCALE_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain);
+				(float*)output.output_im,DEMOD_SCALE_SIZE,PROCESS_PULSE_SIZE,&PID_output_gain) == 0){
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+	}
 }
 
 int lstsqrx(const float *x, const float *y, float *out) {
@@ -200,7 +203,7 @@ void sampling(float*in1, float*in2, float*in3, float*in4,
 	int i;
 	int idx;
 	for(i = 0; i < DOWN_SAMPLING_SIZE; i++){
-		idx = i * SCALE_DOWN; // skip some sample in input for small sampling
+		idx = i * SCALE_DOWN; // skip some sample in input
 		out1[i] = in1[idx];
 		out2[i] = in2[idx];
 		out3[i] = in3[idx];
