@@ -12,6 +12,7 @@
 #define ARM_MATH_CM4
 #include "arm_math.h"
 #include "arm_const_structs.h"
+#include "stm32h7xx_hal.h"
 
 #define __SECTION_AXIRAM __attribute__((section(".RAM_AXI"))) /* AXI SRAM (D1 domain): */
 
@@ -31,7 +32,7 @@
 #define SCALE_DOWN						5
 #define DOWN_SAMPLING_SIZE				(BUFFER_SIZE / SCALE_DOWN)
 #define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
-#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * (2 * (4 * 100))))
+#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * BUFFER_SIZE * 4))
 //#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * ((100))))
 #define UART_RX_BUFFER_SIZE				(24)
 #define PROCESS_PULSE_SIZE				100
@@ -68,8 +69,8 @@ typedef union Covuint32Tobyte{
 } uint322bytes;
 
 
-extern __SECTION_RAM_D2 uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
-extern __SECTION_RAM_D2 uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
+extern __SECTION_AXIRAM uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
+extern __SECTION_AXIRAM uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
 extern float g_adc_1_f[];
 extern float g_adc_2_f[];
 extern float g_adc_3_f[];

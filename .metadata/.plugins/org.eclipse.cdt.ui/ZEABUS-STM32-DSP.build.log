@@ -1,26 +1,27 @@
-06:39:47 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
+12:08:35 **** Incremental Build of configuration Debug for project ZEABUS-STM32-DSP ****
 make all 
-Building file: ../Src/main.c
+Building file: ../Src/abs_threshold.c
 Invoking: MCU GCC Compiler
 D:\ws\zeabus_stm32h7_dsp\ZEABUS-STM32-DSP\Debug
-arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -D__FPU_PRESENT -I"D:/ws/zeabus_stm32h7_dsp/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/main.d" -MT"Src/main.o" -o "Src/main.o" "../Src/main.c"
-In file included from D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/arm_math.h:322:0,
-                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc/common.h:13,
-                 from ../Src/main.c:63:
-D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/core_cm4.h:71:0: warning: "__CORTEX_M" redefined
- #define __CORTEX_M                (4U)                                   /*!< Cortex-M Core */
- 
+arm-none-eabi-gcc -mcpu=cortex-m7 -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 '-D__weak=__attribute__((weak))' '-D__packed=__attribute__((__packed__))' -DUSE_HAL_DRIVER -DSTM32H743xx -D__FPU_PRESENT -I"D:/ws/zeabus_stm32h7_dsp/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Include" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"Src/abs_threshold.d" -MT"Src/abs_threshold.o" -o "Src/abs_threshold.o" "../Src/abs_threshold.c"
 In file included from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h:241:0,
                  from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:117,
                  from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h:48,
                  from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h:47,
                  from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc/stm32h7xx_hal_conf.h:201,
                  from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:48,
-                 from ../Src/main.c:51:
-D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/core_cm7.h:71:0: note: this is the location of the previous definition
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc/common.h:15,
+                 from ../Src/abs_threshold.c:7:
+D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/core_cm7.h:71:0: warning: "__CORTEX_M" redefined
  #define __CORTEX_M                (7U)                                       /*!< Cortex-M Core */
  
-Finished building: ../Src/main.c
+In file included from D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/arm_math.h:322:0,
+                 from D:/ws/zeabus_stm32h7_dsp/ZEABUS-STM32-DSP/Inc/common.h:13,
+                 from ../Src/abs_threshold.c:7:
+D:/ws/zeabus_stm32h7_dsp/CMSIS/Include/core_cm4.h:71:0: note: this is the location of the previous definition
+ #define __CORTEX_M                (4U)                                   /*!< Cortex-M Core */
+ 
+Finished building: ../Src/abs_threshold.c
  
 Building target: ZEABUS-STM32-DSP.elf
 Invoking: MCU GCC Linker
@@ -32,8 +33,8 @@ Generating binary and Printing size information:
 arm-none-eabi-objcopy -O binary "ZEABUS-STM32-DSP.elf" "ZEABUS-STM32-DSP.bin"
 arm-none-eabi-size "ZEABUS-STM32-DSP.elf"
    text	   data	    bss	    dec	    hex	filename
-  86100	 328884	  57284	 472268	  734cc	ZEABUS-STM32-DSP.elf
+  76188	 328148	  57324	 461660	  70b5c	ZEABUS-STM32-DSP.elf
  
 
-06:39:55 Build Finished (took 8s.276ms)
+12:08:49 Build Finished (took 13s.730ms)
 

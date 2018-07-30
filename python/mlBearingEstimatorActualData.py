@@ -1425,28 +1425,39 @@ class bearingEstimator:
 
 if __name__ == "__main__":
 
-    print("loading a file")
-    Case = 6
-    # Case can be:
-    #  AA: Actual arriving angle azimuth = 90, elevation around 90
-    #  BB: Actual arriving angle azimuth = 135, elevation around 90
-    #  DD: Actual arriving angle azimuth = 135, elevation around 90
-    #  FF: Actual arriving angle azimuth = 180, elevation around 90
+    # print("loading a file")
+    # Case = 6
+    # # Case can be:
+    # #  AA: Actual arriving angle azimuth = 90, elevation around 90
+    # #  BB: Actual arriving angle azimuth = 135, elevation around 90
+    # #  DD: Actual arriving angle azimuth = 135, elevation around 90
+    # #  FF: Actual arriving angle azimuth = 180, elevation around 90
 
-    windows = True  # My computer is linux.
-    if windows:
-        # data_file = r"C:\Users\User\Dropbox\UAV\NewData\NewFile0%sv2.csv"%Case
-        data_file = r"C:\Users\Teerasit\Dropbox\UAV\test211058\test82_500ksample_newBatt.csv"
-    else:
-        data_file = "/home/professor/Dropbox/UAV/NewData/NewFile0%sv2.csv" % Case
+    # windows = True  # My computer is linux.
+    # if windows:
+    #     # data_file = r"C:\Users\User\Dropbox\UAV\NewData\NewFile0%sv2.csv"%Case
+    #     data_file = r"C:\Users\Teerasit\Dropbox\UAV\test211058\test82_500ksample_newBatt.csv"
+    # else:
+    #     data_file = "/home/professor/Dropbox/UAV/NewData/NewFile0%sv2.csv" % Case
 
-    csvfile = open(data_file, 'rb')  # load data from a file
-    rder = csv.reader(csvfile, delimiter=",")
+    # csvfile = open(data_file, 'rb')  # load data from a file
+    # rder = csv.reader(csvfile, delimiter=",")
     # print rder
 
     fc = 28.0  # in this problem, the pulse frequency is 27.5 kHz.
     fs = 500
-
+    src = source(2,4,2000,30, 1)
+    fs = 192*30
+    sig =src.generate_signal(10,fs)
+    chn = multi_array_channel(100,-10,30, 4, -20)
+    loc = np.array([[0.18666667, -0.18666667, -0.18666667, 0.18666667],
+     [0.18666667, 0.18666667, -0.18666667, -0.18666667 ]]).T
+    chn.hydrophone_arrangement(loc)
+    rec = chn.generate_received_signal(sig, fs,0,45)
+    print(rec.shape)
+    exit()
+    plt.plot(rec[0,:])
+    plt.show()
 
     # t = [] # time
     v1 = []  # Hydrophone 1 voltage
