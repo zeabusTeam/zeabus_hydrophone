@@ -34,7 +34,7 @@
 #define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
 #define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * BUFFER_SIZE * 4))
 //#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * ((100))))
-#define UART_RX_BUFFER_SIZE				(24)
+#define UART_RX_BUFFER_SIZE				(24 + 4)
 #define PROCESS_PULSE_SIZE				100
 
 #define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)
@@ -46,6 +46,7 @@ typedef struct ProcessParameter {
 	uint32_t Frequency;
 	uint32_t DelayObserve;
 	uint32_t SoundSpeed;
+	float LNA_Gain;
 } InputParam;
 
 typedef struct Outputdata {

@@ -142,7 +142,7 @@ int Set_LNA_Gain(){
 	uint16_t i2c_dev_addr = 0x2F<<1; // MAX 5387 Address
 	uint8_t i2c_val[2];
 	i2c_val[0] = 0x13; // Set both CH
-	i2c_val[1] = (0.8 * 255);  // VGain = 1.1 * ( g_i2c_val / 255 )
+	i2c_val[1] = (input.LNA_Gain * 255);  // VGain = 1.1 * ( g_i2c_val / 255 )
 
 	if(HAL_I2C_Master_Transmit(&hi2c1,i2c_dev_addr,i2c_val,2,100) != HAL_OK){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
@@ -447,6 +447,7 @@ int main(void)
   input.FrontThreshold = 0.3;
   input.PowerThreshold = 0.02;
   input.DelayObserve = 2000;
+  input.LNA_Gain = 0.5;
 
   TIMER_Start(); 	// Start Timer
 
@@ -483,26 +484,27 @@ int main(void)
 
 	  if(abs_threshold_CFAR() == 1){
 		  temp_time_stamp = HAL_GetTick();
-		  output.time_between_pulse = temp_time_stamp - pulse_time_stamp;
-		  pulse_time_stamp = temp_time_stamp;
-		  process_time_stamp = temp_time_stamp;
-		  Get_Pulse_Frame();
-		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
+		  if(temp_time_stamp - pulse_time_stamp > input.DelayObserve){
+			  output.time_between_pulse = temp_time_stamp - pulse_time_stamp;
+			  pulse_time_stamp = temp_time_stamp;
+			  process_time_stamp = temp_time_stamp;
+			  Get_Pulse_Frame();
+			  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
 
-		  if(g_ready_to_process){
-			  frame_freq = (uint32_t)Get_freq((float *)g_adc_1_f) * 1000; // Get_freq return in KHz unit
-			  output.Detect_Frequency = frame_freq;
-			  if(input.Frequency == frame_freq){
-				  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+			  if(g_ready_to_process){
+				  frame_freq = (uint32_t)Get_freq((float *)g_adc_1_f) * 1000; // Get_freq return in KHz unit
+				  output.Detect_Frequency = frame_freq;
+				  if(input.Frequency == frame_freq){
+					  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 
-//				  processing();
-				  output.process_time = HAL_GetTick() - process_time_stamp;
-				  UART_Sent();
-				  HAL_Delay(input.DelayObserve);
+	//				  processing();
+					  output.process_time = HAL_GetTick() - process_time_stamp;
+					  UART_Sent();
+				  }
+				  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+
+				  g_ready_to_process = 0;
 			  }
-			  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
-
-			  g_ready_to_process = 0;
 		  }
 	  }
 	  else{
@@ -657,6 +659,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			u322b.b[2] = uart_rx_buffer[22];
 			u322b.b[3] = uart_rx_buffer[23];
 			input.DelayObserve = u322b.u32t;
+
+			f2b.b[0] = uart_rx_buffer[24];
+			f2b.b[1] = uart_rx_buffer[25];
+			f2b.b[2] = uart_rx_buffer[26];
+			f2b.b[3] = uart_rx_buffer[27];
+			input.LNA_Gain = f2b.f;
+
+			Set_LNA_Gain();
 		}
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);

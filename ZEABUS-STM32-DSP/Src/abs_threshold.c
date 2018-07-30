@@ -87,7 +87,7 @@ int abs_threshold_CFAR() {
 				ch_status |= 1 << 3;
 			}
 
-			if(ch_status & 0x1){
+			if(ch_status & 0xf){
 				g_pulse_detect_index = g_raw_data_index;
 				return 1;
 			}
