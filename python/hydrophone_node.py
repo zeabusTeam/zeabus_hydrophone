@@ -4,7 +4,6 @@ import hydrophone_serial
 import numpy as np
 from bearingEstimator import bearingEstimator
 import demodulation
-
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
@@ -41,9 +40,9 @@ if __name__ == '__main__':
                 plot_out[tt].set_data(t, sig[tt,:])
 
         axis.legend(["CH1", "CH2", "CH3", "CH4"])
-        fig.canvas.draw()
-        plt.show(False)
-        plt.pause(0.01)
+        # fig.canvas.draw()
+        # plt.show(False)
+        # plt.pause(0.01)
 
         complex_baseband = demodulation.demodulation(sig, Sampling_rate, Frequency)
 
