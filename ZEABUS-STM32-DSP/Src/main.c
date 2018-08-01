@@ -289,99 +289,139 @@ void Get_Pulse_Frame(){
 
 float2bytes f2b;
 
-int UART_Sent(){
+int UART_Sent(uint8_t uart_mode){
 
-	uint8_t uart_tx_buffer[UART_TX_BUFFER_SIZE];
+	uint8_t uart_tx_buffer[UART_TX_BUFFER_SIZE_DATA];
 	uint322bytes u32t2b;
 	float2bytes f2b;
 	int k;
 
-	uart_tx_buffer[0] = 0xFF;
-	uart_tx_buffer[1] = 0xFF;
+	if(uart_mode == UART_SENT_DATA){
 
-	uart_tx_buffer[2] = (char) output.seq_num;
-	uart_tx_buffer[3] = (char) output.seq_num >> 8;
+		uart_tx_buffer[0] = 0xFF;
+		uart_tx_buffer[1] = 0xFF;
 
-	u32t2b.u32t = output.Detect_Frequency;
+		uart_tx_buffer[2] = 0x0;
+		uart_tx_buffer[3] = uart_mode;
 
-	uart_tx_buffer[4] = u32t2b.b[0];
-	uart_tx_buffer[5] = u32t2b.b[1];
-	uart_tx_buffer[6] = u32t2b.b[2];
-	uart_tx_buffer[7] = u32t2b.b[3];
+		uart_tx_buffer[4] = (char) output.seq_num;
+		uart_tx_buffer[5] = (char) output.seq_num >> 8;
 
-	u32t2b.u32t = output.time_between_pulse;
+		u32t2b.u32t = output.Detect_Frequency;
 
-	uart_tx_buffer[8] = u32t2b.b[0];
-	uart_tx_buffer[9] = u32t2b.b[1];
-	uart_tx_buffer[10] = u32t2b.b[2];
-	uart_tx_buffer[11] = u32t2b.b[3];
+		uart_tx_buffer[6] = u32t2b.b[0];
+		uart_tx_buffer[7] = u32t2b.b[1];
+		uart_tx_buffer[8] = u32t2b.b[2];
+		uart_tx_buffer[9] = u32t2b.b[3];
 
-	u32t2b.u32t = output.process_time;
+		u32t2b.u32t = output.time_between_pulse;
 
-	uart_tx_buffer[12] = u32t2b.b[0];
-	uart_tx_buffer[13] = u32t2b.b[1];
-	uart_tx_buffer[14] = u32t2b.b[2];
-	uart_tx_buffer[15] = u32t2b.b[3];
+		uart_tx_buffer[10] = u32t2b.b[0];
+		uart_tx_buffer[11] = u32t2b.b[1];
+		uart_tx_buffer[12] = u32t2b.b[2];
+		uart_tx_buffer[13] = u32t2b.b[3];
 
-	uart_tx_buffer[16] = 0x11;
-	uart_tx_buffer[17] = 0x11;
+		u32t2b.u32t = output.process_time;
 
-	k = 18;
+		uart_tx_buffer[14] = u32t2b.b[0];
+		uart_tx_buffer[15] = u32t2b.b[1];
+		uart_tx_buffer[16] = u32t2b.b[2];
+		uart_tx_buffer[17] = u32t2b.b[3];
 
-	for(int i = 0;i < BUFFER_SIZE ;i++){
-		f2b.f = g_adc_1_f[i];
-		for(int d = 0;d < 4;d++){
-			uart_tx_buffer[k + d] = f2b.b[d];
-		}
-		k += 4;
-	}
+		uart_tx_buffer[18] = 0x11;
+		uart_tx_buffer[19] = 0x11;
 
-	for(int i = 0;i < BUFFER_SIZE ;i++){
-			f2b.f = g_adc_2_f[i];
+		k = 20;
+
+		for(int i = 0;i < BUFFER_SIZE ;i++){
+			f2b.f = g_adc_1_f[i];
 			for(int d = 0;d < 4;d++){
 				uart_tx_buffer[k + d] = f2b.b[d];
 			}
 			k += 4;
 		}
 
-	uart_tx_buffer[k] = 0x22;
-	k++;
-	uart_tx_buffer[k] = 0x22;
-	k++;
-
-	for(int i = 0;i < BUFFER_SIZE ;i++){
-			f2b.f = g_adc_3_f[i];
-			for(int d = 0;d < 4;d++){
-				uart_tx_buffer[k + d] = f2b.b[d];
+		for(int i = 0;i < BUFFER_SIZE ;i++){
+				f2b.f = g_adc_2_f[i];
+				for(int d = 0;d < 4;d++){
+					uart_tx_buffer[k + d] = f2b.b[d];
+				}
+				k += 4;
 			}
-			k += 4;
+
+		uart_tx_buffer[k] = 0x22;
+		k++;
+		uart_tx_buffer[k] = 0x22;
+		k++;
+
+		for(int i = 0;i < BUFFER_SIZE ;i++){
+				f2b.f = g_adc_3_f[i];
+				for(int d = 0;d < 4;d++){
+					uart_tx_buffer[k + d] = f2b.b[d];
+				}
+				k += 4;
+			}
+
+		for(int i = 0;i < BUFFER_SIZE ;i++){
+				f2b.f = g_adc_4_f[i];
+				for(int d = 0;d < 4;d++){
+					uart_tx_buffer[k + d] = f2b.b[d];
+				}
+				k += 4;
+			}
+
+		uart_tx_buffer[k] = 0x33;
+		k++;
+		uart_tx_buffer[k] = 0x33;
+		k++;
+
+		if(k != UART_TX_BUFFER_SIZE_DATA){
+			return 0;
 		}
 
-	for(int i = 0;i < BUFFER_SIZE ;i++){
-			f2b.f = g_adc_4_f[i];
-			for(int d = 0;d < 4;d++){
-				uart_tx_buffer[k + d] = f2b.b[d];
-			}
-			k += 4;
+		g_uart_ready = 0;
+
+		HAL_Delay(10);
+		if(HAL_UART_Transmit(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE_DATA,10000) != HAL_OK){
+			return 0;
+		}
+	} else if(uart_mode == UART_SENT_FREQ){
+
+		uart_tx_buffer[0] = 0xFF;
+		uart_tx_buffer[1] = 0xFF;
+
+		uart_tx_buffer[2] = 0xFF;
+		uart_tx_buffer[3] = uart_mode;
+
+		uart_tx_buffer[2] = (char) output.seq_num;
+		uart_tx_buffer[3] = (char) output.seq_num >> 8;
+
+		u32t2b.u32t = output.Detect_Frequency;
+
+		uart_tx_buffer[4] = u32t2b.b[0];
+		uart_tx_buffer[5] = u32t2b.b[1];
+		uart_tx_buffer[6] = u32t2b.b[2];
+		uart_tx_buffer[7] = u32t2b.b[3];
+
+		k = 8;
+
+		uart_tx_buffer[k] = 0x33;
+		k++;
+		uart_tx_buffer[k] = 0x33;
+		k++;
+
+		if(k != UART_TX_BUFFER_SIZE_FREQ){
+			return 0;
 		}
 
-	uart_tx_buffer[k] = 0x33;
-	k++;
-	uart_tx_buffer[k] = 0x33;
-	k++;
+		g_uart_ready = 0;
 
-	if(k != UART_TX_BUFFER_SIZE){
-		return 0;
-	}
+		HAL_Delay(10);
+		if(HAL_UART_Transmit(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE_FREQ,10000) != HAL_OK){
+			return 0;
+		}
+	} else if(uart_mode == UART_SENT_ACK){
 
-//	while(!g_uart_ready);
-
-	g_uart_ready = 0;
-
-	HAL_Delay(10);
-	if(HAL_UART_Transmit(&huart3,uart_tx_buffer,UART_TX_BUFFER_SIZE,10000) != HAL_OK){
-		return 0;
-	}
 
 	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 
@@ -485,9 +525,6 @@ int main(void)
 	  if(abs_threshold_CFAR() == 1){
 		  temp_time_stamp = HAL_GetTick();
 		  if(temp_time_stamp - pulse_time_stamp > input.DelayObserve){
-			  output.time_between_pulse = temp_time_stamp - pulse_time_stamp;
-			  pulse_time_stamp = temp_time_stamp;
-			  process_time_stamp = temp_time_stamp;
 			  Get_Pulse_Frame();
 			  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
 
@@ -495,12 +532,16 @@ int main(void)
 				  frame_freq = (uint32_t)Get_freq((float *)g_adc_1_f) * 1000; // Get_freq return in KHz unit
 				  output.Detect_Frequency = frame_freq;
 				  if(input.Frequency == frame_freq){
+					  output.time_between_pulse = temp_time_stamp - pulse_time_stamp;
+					  pulse_time_stamp = temp_time_stamp;
+					  process_time_stamp = temp_time_stamp;
 					  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 
 	//				  processing();
 					  output.process_time = HAL_GetTick() - process_time_stamp;
-					  UART_Sent();
+					  UART_Sent(UART_SENT_DATA);
 				  }
+				  UART_Sent(UART_SENT_FREQ);
 				  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 
 				  g_ready_to_process = 0;

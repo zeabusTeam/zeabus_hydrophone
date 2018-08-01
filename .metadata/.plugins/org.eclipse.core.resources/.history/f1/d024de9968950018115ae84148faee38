@@ -32,7 +32,7 @@
 #define SCALE_DOWN						5
 #define DOWN_SAMPLING_SIZE				(BUFFER_SIZE / SCALE_DOWN)
 #define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
-#define UART_TX_BUFFER_SIZE_DATA		(2 + 2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * BUFFER_SIZE * 4))
+#define UART_TX_BUFFER_SIZE_DATA		(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * BUFFER_SIZE * 4))
 //#define UART_TX_BUFFER_SIZE				(2 + 2 + 4 + 2 + 2 + 2 + 8 + (4 * ((100))))
 #define UART_TX_BUFFER_SIZE_FREQ		(10)
 #define UART_TX_BUFFER_SIZE_ACK			(10)
