@@ -9,7 +9,7 @@ def open_serial_port():
 
 def get_pulse_data(s):
     n = 2048
-    uart_sum = 0;
+    uart_sum = 0
     count = 0
 
     while True:

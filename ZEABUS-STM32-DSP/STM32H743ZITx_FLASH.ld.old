@@ -127,7 +127,7 @@ SECTIONS
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
-  } >RAM_D1 AT> FLASH
+  } >DTCMRAM AT> FLASH
 
   
   /* Uninitialized data section */
@@ -144,9 +144,10 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
-  } >RAM_D1
-
+  } >DTCMRAM
+  
     /* AXI SRAM (D1 domain): AXI SRAM */
+
   .RAM_D1 :
 
   {
@@ -155,7 +156,10 @@ SECTIONS
 
   } >RAM_D1
 
+ 
+
   /* AHB SRAM (D2 domain): AHB SRAM1-3*/
+
   .RAM_D2 :
 
   {
@@ -164,7 +168,10 @@ SECTIONS
 
   } >RAM_D2
 
+ 
+
  /* AHB SRAM (D3 domain): AHB SRAM4 */
+
  .RAM_D3 :
 
   {
@@ -172,7 +179,7 @@ SECTIONS
         KEEP(*(.RAM_D3)) /* ORIGIN = 0x38000000, LENGTH = 64K */
 
   } >RAM_D3
-  
+
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
   {
@@ -194,3 +201,5 @@ SECTIONS
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
 }
+
+
