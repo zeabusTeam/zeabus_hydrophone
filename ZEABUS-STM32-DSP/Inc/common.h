@@ -20,6 +20,11 @@
 
 #define __SECTION_RAM_D3 __attribute__((section(".RAM_D3"))) /* AHB SRAM (D3 domain): */
 
+#define LED_BLUE_ON()					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET)
+#define LED_BLUE_OFF()					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET)
+#define LED_RED_ON()					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET)
+#define LED_RED_OFF()					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET)
+
 #define SAMPLE_RATE 					((float)191930.0)
 
 #define BUFFER_SIZE 					2048

@@ -27,7 +27,7 @@ int abs_threshold_CFAR() {
 	float temp[4];
 	int i,k;
 	int num_samples = 50;
-	float min_power = 0.001;
+	float min_power = 0.01;
 	uint8_t ch_status = 0x00;
 
 	signal_temp_int[0] = g_adc1_2_buffer[g_raw_data_index];
@@ -46,8 +46,7 @@ int abs_threshold_CFAR() {
 	power[2] = signal_temp[2] * signal_temp[2];
 	power[3] = signal_temp[3] * signal_temp[3];
 
-	if ((power[0]>min_power ) && (power[1]>min_power ) && (power[2]>min_power ) && (power[3]>min_power )) {
-
+    if ((power[0]>input.PowerThreshold ) && (power[1]>input.PowerThreshold ) && (power[2]>input.PowerThreshold ) && (power[3]>input.PowerThreshold )) {
 			temp[0] = 0;
 			temp[1] = 0;
 			temp[2] = 0;
