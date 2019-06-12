@@ -133,12 +133,20 @@ int TIMER_Start(){
 
 int Set_LNA_Gain(){
 
-	uint16_t i2c_dev_addr = 0x2F<<1; // MAX 5387 Address
+	uint16_t i2c_dev_addr = 0x5D; // MAX 5387 Address
 	uint8_t i2c_val[2];
 	i2c_val[0] = 0x13; // Set both CH
 	i2c_val[1] = (input.LNA_Gain * 255);  // VGain = 1.1 * ( g_i2c_val / 255 )
 
-	if(HAL_I2C_Master_Transmit(&hi2c1,i2c_dev_addr,i2c_val,2,100) != HAL_OK){
+	// Set gain for channel 1 and 2
+	if(HAL_I2C_Master_Transmit(&hi2c1, i2c_dev_addr, i2c_val,2,100) != HAL_OK){
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+		// Reset LD3 (RED) if can not set gain value
+		return 0;
+	}
+
+	// Set gain for channel 3 and 4
+	if(HAL_I2C_Master_Transmit(&hi2c1, (i2c_dev_addr + 2), i2c_val,2,100) != HAL_OK){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		// Reset LD3 (RED) if can not set gain value
 		return 0;
