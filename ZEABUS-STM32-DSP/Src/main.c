@@ -63,7 +63,6 @@
 #include "common.h"
 #include "abs_threshold.h"
 #include "time.h"
-#include "processing.h"
 
 /* USER CODE END Includes */
 
@@ -90,11 +89,18 @@ int g_ready_to_process;
 uint8_t uart_rx_buffer[UART_RX_BUFFER_SIZE];
 int g_uart_ready;
 
+// Frequency range of each FFT output datum (i.e. FFT bin size)
+const float g_fft_bin_size = SAMPLE_RATE / FFT_SIZE;
+
+// FFT bin index that contains the frequency we are looking for
+uint32_t g_desired_fft_bin;
+
 // USB Data
 InputParam input;
 OutputParam output;
 
-arm_cfft_radix4_instance_f32  FFT_F32_struct;
+// Marked out as it is deprecated
+//arm_cfft_radix4_instance_f32  FFT_F32_struct;
 
 
 /* USER CODE END PV */
@@ -156,49 +162,77 @@ int Set_LNA_Gain(){
 
 }
 
-float32_t Get_freq(float32_t * in){
+uint32_t Get_Max_FFT_Bin( float32_t* sig )
+{
+	float maxVal;
+	uint32_t freq_index;
+	int k = 0;
 
-	 float32_t maxVal;
-	 float freq;
-	 uint32_t freq_index;
-	 int k = 0;
+	// Translate a part of raw signal data into complex numbers with 0 imaginary magnetude
+	for(int i = 0 ; i < FFT_SIZE * 2 ; i += 2)
+	{
 
-	 for(int i = 0 ; i < FFT_SIZE * 2 ; i += 2){
+		if(k < PULSE_BODY_SIZE)
+		{
+			g_fft_f32[ i ] = sig[ k + PULSE_HEADER_SIZE - 1 ];
+			g_fft_f32[ i + 1 ] = 0;
+		}
+		else 
+		{
+			g_fft_f32[ i ] = 0;
+			g_fft_f32[ i + 1 ] = 0;
+		}
+		k++;
+	}
 
-		 if(k < PULSE_BODY_SIZE){
-			 g_fft_f32[i] = in[k + PULSE_HEADER_SIZE - 1];
-			 g_fft_f32[i+1] = 0;
-		 } else {
-			 g_fft_f32[i] = 0;
-			 g_fft_f32[i+1] = 0;
-		 }
-		 k++;
-	 }
+	/**** These lines are replaced with "arm_cfft_f32" as they are deprecated
 
-//	 HAL_Delay(1);
+	// Perform complex FFT over "g_fft_f32". The result is stored back into "g_fft_f32"
+	arm_cfft_radix4_init_f32( &FFT_F32_struct, FFT_SIZE, 0, 1 );
+	arm_cfft_radix4_f32( &FFT_F32_struct, g_fft_f32 );
 
-	 arm_cfft_radix4_init_f32(&FFT_F32_struct,FFT_SIZE,0,1);
-	 arm_cfft_radix4_f32(&FFT_F32_struct,g_fft_f32);
-	 arm_cmplx_mag_f32(g_fft_f32, g_fft_f32_out, FFT_SIZE);
-	 g_fft_f32_out[0] = 0;
-	 arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
+	****/
 
-	 freq = (((float32_t)freq_index) * ((float32_t)0.18743)); // at 191.93 kHz
+	// New function to relace 2 functions above
+	/* Process the data through the CFFT/CIFFT module with 1024 points */
+	arm_cfft_f32( &arm_cfft_sR_f32_len1024, g_fft_f32, 0, 1 );
 
-	 float dec;
-	 float dot = modff(freq, &dec);
+	/* Process the data through the Complex Magnitude Module for
+  		calculating the magnitude at each bin */
+	arm_cmplx_mag_f32(g_fft_f32, g_fft_f32_out, FFT_SIZE);
+	g_fft_f32_out[0] = 0;	// Marked out near DC value (i.e. around 0 Hz)
 
-//	 freq = (float)((int)(freq * 2 + 0.4)) / 2.0;
-	 if(dot < 0.25) {
-	 	freq = dec;
-	 } else if(dot <= 0.75) {
-	 	 freq = dec+0.5;
-	 } else {
-	 	freq = dec+1;
-	 }
+	arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
 
-	 return (freq);
- }
+	return( freq_index );
+}
+
+uint32_t Bin2Freq( uint32_t bin )
+{
+	float freq;
+
+	freq = (float)(bin) * g_fft_bin_size / 1000.0f; // Frequency in KHz
+
+	float dec;
+	float dot = modff(freq, &dec);
+
+
+	// Rounding the frequency to the nearest 500Hz step (raw frequency is in KHz)
+	if( dot >= 0.75f )
+	{
+		dec = dec + 1.0f;
+	}
+	else
+	{
+		if( dot >= 0.25f )
+			dec = dec + 0.5f;
+	}
+
+	// Convert frequency back to Hz
+	freq = dec * 1000.0f;
+
+	return ( (uint32_t)freq );	// Convert the final result to integer
+}
 
 void Wait_DMA(DMA_HandleTypeDef *hdma, int eot,int next_round){
 
@@ -280,6 +314,8 @@ void Get_Pulse_Frame(){
 		 HAL_MDMA_Abort(&hmdma_mdma_channel3_sw_0);
 	 }
 
+	 // Raw ADC data is 16-bit unsigned integer value (0 - 65535 representing 0V - 3.3V)
+	 // The following conversion loop convert each datum to floating point format ranging from 0 - 1.0
 	 for(int i = 0 ; i < BUFFER_SIZE ; i++) {
 		 g_adc_1_f[i] = (float32_t)((float32_t)((float32_t)g_adc_1_h[i]  - 32768.0)) / 65535.0 ;
 		 g_adc_2_f[i] = (float32_t)((float32_t)((float32_t)g_adc_2_h[i]  - 32768.0)) / 65535.0 ;
@@ -300,9 +336,11 @@ int UART_Sent(){
 	float2bytes f2b;
 	int k;
 
+	// Sync
 	uart_tx_buffer[0] = 0xFF;
 	uart_tx_buffer[1] = 0xFF;
 
+	// Header
 	uart_tx_buffer[2] = (char) output.seq_num;
 	uart_tx_buffer[3] = (char) output.seq_num >> 8;
 
@@ -327,6 +365,7 @@ int UART_Sent(){
 	uart_tx_buffer[14] = u32t2b.b[2];
 	uart_tx_buffer[15] = u32t2b.b[3];
 
+	// ==== Data ====
 	uart_tx_buffer[16] = 0x11;
 	uart_tx_buffer[17] = 0x11;
 
@@ -408,7 +447,7 @@ int UART_Sent(){
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint32_t frame_freq = 0;
+	uint32_t frame_bin;
 	uint32_t temp_time_stamp;
 	uint32_t pulse_time_stamp;
 	uint32_t process_time_stamp;
@@ -463,6 +502,8 @@ int main(void)
 
   g_ready_to_process = 0;
 
+  g_desired_fft_bin = (uint32_t)( input.Frequency / g_fft_bin_size ); // Divide and discarding the fraction
+
   HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);
 
   HAL_Delay(10);
@@ -486,40 +527,41 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 
-	  if(abs_threshold_CFAR() == 1){
-		  temp_time_stamp = HAL_GetTick();
-		  if(temp_time_stamp - pulse_time_stamp > input.DelayObserve){
-			  output.time_between_pulse = temp_time_stamp - pulse_time_stamp;
-			  pulse_time_stamp = temp_time_stamp;
-			  process_time_stamp = temp_time_stamp;
-			  Get_Pulse_Frame();
-			  LED_RED_ON();
+	if(abs_threshold_CFAR() == 1)
+	{
+		temp_time_stamp = HAL_GetTick();
+		if(temp_time_stamp - pulse_time_stamp > input.DelayObserve)
+		{
+			output.time_between_pulse = temp_time_stamp - pulse_time_stamp;
+			pulse_time_stamp = temp_time_stamp;
+			process_time_stamp = temp_time_stamp;
+			Get_Pulse_Frame();
+			LED_RED_ON();
 
-			  if(g_ready_to_process){
-				  frame_freq = (uint32_t)(Get_freq((float *)g_adc_1_f) * 1000); // Get_freq return in KHz unit
-				  output.Detect_Frequency = frame_freq;
-				  if(input.Frequency == frame_freq){
-					  LED_BLUE_ON();
+			if(g_ready_to_process)
+			{
+			  	frame_bin = Get_Max_FFT_Bin( g_adc_1_f );
+				if( g_desired_fft_bin == frame_bin )
+				{
+					LED_BLUE_ON();
 
-	//				  processing();
-					  output.process_time = HAL_GetTick() - process_time_stamp;
-					  UART_Sent();
-				  }
-				  LED_RED_OFF();
+					output.Detect_Frequency = Bin2Freq( frame_bin );
+					output.process_time = HAL_GetTick() - process_time_stamp;
+					UART_Sent();
+				}
+				LED_RED_OFF();
 
-				  g_ready_to_process = 0;
-			  }
-		  }
-	  }
-	  else{
-//		  HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
-	  }
+				g_ready_to_process = 0;
+			}
+		}
+	}
 
-	  g_raw_data_index = g_raw_data_index + 2;
+	g_raw_data_index = g_raw_data_index + 2;
 
-	  if(g_raw_data_index > RAW_DATA_BUFFER_SIZE - 2){
-		  g_raw_data_index = 0;
-	  }
+	if(g_raw_data_index > RAW_DATA_BUFFER_SIZE - 2)
+	{
+		g_raw_data_index = 0;
+	}
 
   }
   /* USER CODE END 3 */
@@ -671,6 +713,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			input.LNA_Gain = f2b.f;
 
 			Set_LNA_Gain();
+			g_desired_fft_bin = (uint32_t)( input.Frequency / g_fft_bin_size ); // Divide and discarding the fraction
 		}
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);

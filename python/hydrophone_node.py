@@ -6,17 +6,27 @@ from bearingEstimator import bearingEstimator
 import demodulation
 import matplotlib.pyplot as plt
 
+from scipy.signal import butter, lfilter
+
+def butterworth_bandpass_filter( sig, lowcut, highcut, f_sampling, order=9 ):
+    nyq = 0.5 * f_sampling
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = butter( order, [low, high], btype='band' )
+    sig_out = lfilter( b, a, sig )
+    return sig_out
+
 if __name__ == '__main__':
 
     ########################## setting parameter #################################
 
     Sampling_rate = 191930
-    Frequency = 30000
+    Frequency = 37500
     SoundSpeed = 1500
     FrontThreshold = 0.3
     PowerThreshold = 0.02
     DelayObserve = 2000
-    LNA_Gain = 0.5
+    LNA_Gain = 0.2
 
     ##############################################################################
 
@@ -28,11 +38,12 @@ if __name__ == '__main__':
 
     while True:
 
+        # Receive an array of signal consisting of 4 signal streams. Each stream is 2048 elements of ADC value in 4-byte float
         sig = hydrophone_serial.get_pulse_data(s)
 
-
+        # Crop only the signal from index 800 to 1499 (the total signal index is 0 - 2047)
         sig = sig[:, 800:1500]
-        t = np.arange(sig.shape[1])
+        t = np.arange(sig.shape[1]) # Create an array of size 800:1500 storing a series of integer starting from 0
         if plot_out is None:
             plot_out = axis.plot(t, sig[0,:] , t, sig[1,:], t, sig[2,:], t, sig[3,:])
         else:

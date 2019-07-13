@@ -27,7 +27,6 @@ int abs_threshold_CFAR() {
 	float temp[4];
 	int i,k;
 	int num_samples = 50;
-	float min_power = 0.01;
 	uint8_t ch_status = 0x00;
 
 	signal_temp_int[0] = g_adc1_2_buffer[g_raw_data_index];
