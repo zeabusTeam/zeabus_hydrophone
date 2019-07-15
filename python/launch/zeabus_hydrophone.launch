@@ -1,0 +1,10 @@
+<launch>
+    <node pkg="zeabus_hydrophone" type="zeabus_hydrophone" name="zeabus_hydrophone" output="screen" respawn="true">
+        <param name="PortName" value="/dev/ttyACM0"/>
+        <param name="PingerFrequency" value="37500"/>        
+        <param name="FrontThreshold" value="0.3"/>
+        <param name="PowerThreshold" value="0.02"/>
+        <param name="DelayObserve" value="2000"/>
+        <param name="AmplifierNormalizedGain" value="0.2"/>
+    </node>
+</launch>

@@ -486,7 +486,6 @@ int main(void)
   LED_RED_ON();
 
   input.Frequency = 37500;
-  input.SoundSpeed = 1500;
   input.FrontThreshold = 0.3;
   input.PowerThreshold = 0.02;
   input.DelayObserve = 2000;
@@ -681,12 +680,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			u322b.b[2] = uart_rx_buffer[6];
 			u322b.b[3] = uart_rx_buffer[7];
 			input.Frequency = u322b.u32t;
-
-			u322b.b[0] = uart_rx_buffer[8];
-			u322b.b[1] = uart_rx_buffer[9];
-			u322b.b[2] = uart_rx_buffer[10];
-			u322b.b[3] = uart_rx_buffer[11];
-			input.SoundSpeed = u322b.u32t;
 
 			f2b.b[0] = uart_rx_buffer[12];
 			f2b.b[1] = uart_rx_buffer[13];

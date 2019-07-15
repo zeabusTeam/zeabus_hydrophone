@@ -1,6 +1,6 @@
 from lowpass import h_lp
 import scipy.optimize as opt
-import hydrophone_serial
+from hydrophone_serial import hydrophone_serial
 import numpy as np
 from bearingEstimator import bearingEstimator
 import demodulation
@@ -16,6 +16,7 @@ def butterworth_bandpass_filter( sig, lowcut, highcut, f_sampling, order=9 ):
     sig_out = lfilter( b, a, sig )
     return sig_out
 
+# Main part
 if __name__ == '__main__':
 
     ########################## setting parameter #################################
@@ -30,8 +31,8 @@ if __name__ == '__main__':
 
     ##############################################################################
 
-    s = hydrophone_serial.open_serial_port()
-    hydrophone_serial.sent_dsp_param(s, Frequency, SoundSpeed, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain)
+    s = hydrophone_serial( '/dev/cu.usbmodem14103' )
+    s.sent_dsp_param(Frequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain)
 
     fig, axis = plt.subplots(1, 1)
     plot_out = None
@@ -39,7 +40,7 @@ if __name__ == '__main__':
     while True:
 
         # Receive an array of signal consisting of 4 signal streams. Each stream is 2048 elements of ADC value in 4-byte float
-        sig = hydrophone_serial.get_pulse_data(s)
+        sig = s.get_pulse_data()
 
         # Crop only the signal from index 800 to 1499 (the total signal index is 0 - 2047)
         sig = sig[:, 800:1500]
@@ -55,6 +56,7 @@ if __name__ == '__main__':
         # plt.show(False)
         # plt.pause(0.01)
 
+        
         complex_baseband = demodulation.demodulation(sig, Sampling_rate, Frequency)
 
         br = bearingEstimator(complex_baseband, np.array([[0, 0], [20, 0], [20, 20], [0, 20]]),

@@ -1,0 +1,7 @@
+uint32 PingerFrequency
+float32 FrontThreshold
+float32 PowerThreshold
+uint32 DelayObserve
+float32 AmplifierNormalizedGain
+---
+bool result

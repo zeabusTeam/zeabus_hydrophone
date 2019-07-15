@@ -50,7 +50,6 @@ typedef struct ProcessParameter {
 	float h;
 	uint32_t Frequency;
 	uint32_t DelayObserve;
-	uint32_t SoundSpeed;
 	float LNA_Gain;
 } InputParam;
 
