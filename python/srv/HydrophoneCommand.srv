@@ -1,4 +1,6 @@
 uint32 PingerFrequency
+uint32 LowestFrequency
+uint32 HighestFrequency
 float32 FrontThreshold
 float32 PowerThreshold
 uint32 DelayObserve

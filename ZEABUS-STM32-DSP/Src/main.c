@@ -90,17 +90,19 @@ uint8_t uart_rx_buffer[UART_RX_BUFFER_SIZE];
 int g_uart_ready;
 
 // Frequency range of each FFT output datum (i.e. FFT bin size)
-const float g_fft_bin_size = SAMPLE_RATE / FFT_SIZE;
+const float g_fft_bin_size = SAMPLE_RATE / (float)FFT_SIZE;
 
 // FFT bin index that contains the frequency we are looking for
 uint32_t g_desired_fft_bin;
+uint32_t g_lowest_considered_fft_bin;
+uint32_t g_highest_considered_fft_bin;
 
 // USB Data
 InputParam input;
 OutputParam output;
 
 // Marked out as it is deprecated
-//arm_cfft_radix4_instance_f32  FFT_F32_struct;
+arm_cfft_radix4_instance_f32  FFT_F32_struct;
 
 
 /* USER CODE END PV */
@@ -167,9 +169,10 @@ uint32_t Get_Max_FFT_Bin( float32_t* sig )
 	float maxVal;
 	uint32_t freq_index;
 	int k = 0;
+	uint32_t i;
 
 	// Translate a part of raw signal data into complex numbers with 0 imaginary magnetude
-	for(int i = 0 ; i < FFT_SIZE * 2 ; i += 2)
+	for( i = 0 ; i < FFT_SIZE * 2 ; i += 2 )
 	{
 
 		if(k < PULSE_BODY_SIZE)
@@ -186,22 +189,28 @@ uint32_t Get_Max_FFT_Bin( float32_t* sig )
 	}
 
 	/**** These lines are replaced with "arm_cfft_f32" as they are deprecated
-
-	// Perform complex FFT over "g_fft_f32". The result is stored back into "g_fft_f32"
-	arm_cfft_radix4_init_f32( &FFT_F32_struct, FFT_SIZE, 0, 1 );
-	arm_cfft_radix4_f32( &FFT_F32_struct, g_fft_f32 );
-
 	****/
+	// Perform complex FFT over "g_fft_f32". The result is stored back into "g_fft_f32"
+	//arm_cfft_radix4_init_f32( &FFT_F32_struct, FFT_SIZE, 0, 1 );
+	//arm_cfft_radix4_f32( &FFT_F32_struct, g_fft_f32 );
 
-	// New function to relace 2 functions above
+
+	// New function to replace 2 functions above
 	/* Process the data through the CFFT/CIFFT module with 1024 points */
 	arm_cfft_f32( &arm_cfft_sR_f32_len1024, g_fft_f32, 0, 1 );
 
 	/* Process the data through the Complex Magnitude Module for
   		calculating the magnitude at each bin */
 	arm_cmplx_mag_f32(g_fft_f32, g_fft_f32_out, FFT_SIZE);
-	g_fft_f32_out[0] = 0;	// Marked out near DC value (i.e. around 0 Hz)
 
+	/* Mask the FFT to only the considered frequency */
+	//g_fft_f32_out[0] = 0;
+	for( i = 0; i < g_lowest_considered_fft_bin; i++ )
+		g_fft_f32_out[i] = 0;
+	for( i = g_highest_considered_fft_bin; i < FFT_SIZE; i++ )
+		g_fft_f32_out[i] = 0;
+
+	/* Looking for the bin that has highest magnitude */
 	arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
 
 	return( freq_index );
@@ -247,7 +256,6 @@ void Wait_DMA(DMA_HandleTypeDef *hdma, int eot,int next_round){
 
 void Get_Pulse_Frame(){
 
-//	 int pluse_header_index = 0;
 	 int start_transfer_index = 0;
 	 int end_transfer_index = 0;
 	 int size_remain = 0;					//size of data that remain to transfer
@@ -485,11 +493,13 @@ int main(void)
   LED_BLUE_ON();
   LED_RED_ON();
 
+  input.MinFrequency = 20000;
+  input.MaxFrequency = 45000;
   input.Frequency = 37500;
   input.FrontThreshold = 0.3;
   input.PowerThreshold = 0.02;
   input.DelayObserve = 2000;
-  input.LNA_Gain = 0.65;
+  input.LNA_Gain = 0.1;
 
   TIMER_Start(); 	// Start Timer
 
@@ -502,6 +512,12 @@ int main(void)
   g_ready_to_process = 0;
 
   g_desired_fft_bin = (uint32_t)( input.Frequency / g_fft_bin_size ); // Divide and discarding the fraction
+  g_lowest_considered_fft_bin = (uint32_t)( input.MinFrequency / g_fft_bin_size ); // Divide and discarding the fraction
+  g_highest_considered_fft_bin = (uint32_t)( input.MaxFrequency / g_fft_bin_size ); // Divide and discarding the fraction
+  if( g_lowest_considered_fft_bin > g_desired_fft_bin )
+	  g_lowest_considered_fft_bin = g_desired_fft_bin;
+  if( (g_highest_considered_fft_bin <= g_desired_fft_bin) && (g_desired_fft_bin < FFT_SIZE - 1) )
+	  g_lowest_considered_fft_bin = g_desired_fft_bin + 1;
 
   HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);
 
@@ -681,32 +697,50 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			u322b.b[3] = uart_rx_buffer[7];
 			input.Frequency = u322b.u32t;
 
-			f2b.b[0] = uart_rx_buffer[12];
-			f2b.b[1] = uart_rx_buffer[13];
-			f2b.b[2] = uart_rx_buffer[14];
-			f2b.b[3] = uart_rx_buffer[15];
-			input.FrontThreshold = f2b.f;
+			u322b.b[0] = uart_rx_buffer[8];
+			u322b.b[1] = uart_rx_buffer[9];
+			u322b.b[2] = uart_rx_buffer[10];
+			u322b.b[3] = uart_rx_buffer[11];
+			input.MinFrequency = u322b.u32t;
+
+			u322b.b[0] = uart_rx_buffer[12];
+			u322b.b[1] = uart_rx_buffer[13];
+			u322b.b[2] = uart_rx_buffer[14];
+			u322b.b[3] = uart_rx_buffer[15];
+			input.MaxFrequency = u322b.u32t;
 
 			f2b.b[0] = uart_rx_buffer[16];
 			f2b.b[1] = uart_rx_buffer[17];
 			f2b.b[2] = uart_rx_buffer[18];
 			f2b.b[3] = uart_rx_buffer[19];
+			input.FrontThreshold = f2b.f;
+
+			f2b.b[0] = uart_rx_buffer[20];
+			f2b.b[1] = uart_rx_buffer[21];
+			f2b.b[2] = uart_rx_buffer[22];
+			f2b.b[3] = uart_rx_buffer[23];
 			input.PowerThreshold = f2b.f;
 
-			u322b.b[0] = uart_rx_buffer[20];
-			u322b.b[1] = uart_rx_buffer[21];
-			u322b.b[2] = uart_rx_buffer[22];
-			u322b.b[3] = uart_rx_buffer[23];
+			u322b.b[0] = uart_rx_buffer[24];
+			u322b.b[1] = uart_rx_buffer[25];
+			u322b.b[2] = uart_rx_buffer[26];
+			u322b.b[3] = uart_rx_buffer[27];
 			input.DelayObserve = u322b.u32t;
 
-			f2b.b[0] = uart_rx_buffer[24];
-			f2b.b[1] = uart_rx_buffer[25];
-			f2b.b[2] = uart_rx_buffer[26];
-			f2b.b[3] = uart_rx_buffer[27];
+			f2b.b[0] = uart_rx_buffer[28];
+			f2b.b[1] = uart_rx_buffer[29];
+			f2b.b[2] = uart_rx_buffer[30];
+			f2b.b[3] = uart_rx_buffer[31];
 			input.LNA_Gain = f2b.f;
 
 			Set_LNA_Gain();
 			g_desired_fft_bin = (uint32_t)( input.Frequency / g_fft_bin_size ); // Divide and discarding the fraction
+			g_lowest_considered_fft_bin = (uint32_t)( input.MinFrequency / g_fft_bin_size ); // Divide and discarding the fraction
+			g_highest_considered_fft_bin = (uint32_t)( input.MaxFrequency / g_fft_bin_size ); // Divide and discarding the fraction
+			if( g_lowest_considered_fft_bin > g_desired_fft_bin )
+				g_lowest_considered_fft_bin = g_desired_fft_bin;
+			if( (g_highest_considered_fft_bin <= g_desired_fft_bin) && (g_desired_fft_bin < FFT_SIZE - 1) )
+				g_lowest_considered_fft_bin = g_desired_fft_bin + 1;
 		}
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);

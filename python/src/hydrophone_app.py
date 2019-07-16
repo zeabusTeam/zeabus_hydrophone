@@ -23,16 +23,18 @@ if __name__ == '__main__':
 
     Sampling_rate = 191930
     Frequency = 37500
+    LowestFrequency = 20000
+    HighestFrequency = 45000
     SoundSpeed = 1500
     FrontThreshold = 0.3
     PowerThreshold = 0.02
     DelayObserve = 2000
-    LNA_Gain = 0.2
+    LNA_Gain = 0.005
 
     ##############################################################################
 
     s = hydrophone_serial( '/dev/cu.usbmodem14103' )
-    s.sent_dsp_param(Frequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain)
+    s.sent_dsp_param(Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain)
 
     fig, axis = plt.subplots(1, 1)
     plot_out = None

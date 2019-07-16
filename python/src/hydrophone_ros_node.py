@@ -18,6 +18,8 @@ from scipy.signal import butter, lfilter
 #### setting parameter ####
 SerialPortName = "/dev/cu.usbmodem14103"
 Sampling_rate = 191930
+LowestFrequency = 30000
+HighestFrequency = 41000
 Frequency = 37500
 SoundSpeed = 1500
 FrontThreshold = 0.3
@@ -95,15 +97,17 @@ def hydrophone_ros_command_service( req ):
     if HydrophonePort != None:
         # Retrieve pinger parameters
         Frequency = int( req.PingerFrequency )
+        LowestFrequency = int( req.LowestFrequency )
+        HighestFrequency = int( req.HighestFrequency )
         FrontThreshold = float( req.FrontThreshold )
         PowerThreshold = float( req.PowerThreshold )
         DelayObserve = int( req.DelayObserve )
         AmpGain = float( req.AmplifierNormalizedGain )
 
         # Log the setting
-        rospy.loginfo( "Hydrophone at (%i Sec), (%i nSec): Set Pinger frequency=%i, front threshold=%f, power threshold=%f, delay observe=%i, gain=%f", 
-            Frequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain )
-        HydrophonePort.sent_dsp_param(Frequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain)
+        rospy.loginfo( "Hydrophone at (%i Sec), (%i nSec): Set Pinger frequency=%i, Low-cut frequency=%i, High-cut frequency=%i, front threshold=%f, power threshold=%f, delay observe=%i, gain=%f", 
+            Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain )
+        HydrophonePort.sent_dsp_param(Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain)
         return True
     else:
         # Serial port error
@@ -136,6 +140,8 @@ if __name__ == '__main__':
     SerialPortName = rospy.get_param( "/zeabus_hydrophone/PortName", "/dev/cu.usbmodem14103" )
     Sampling_rate = int( rospy.get_param( "/zeabus_hydrophone/SamplingRate", 191930 ) )
     Frequency = int( rospy.get_param( "/zeabus_hydrophone/PingerFrequency", 37500 ) )
+    LowestFrequency = int( rospy.get_param( "/zeabus_hydrophone/LowestFrequency", 20000 ) )
+    HighestFrequency = int( rospy.get_param( "/zeabus_hydrophone/HighestFrequency", 42000 ) )
     SoundSpeed = int( rospy.get_param( "/zeabus_hydrophone/SoundSpeed", 1500 ) )
     FrontThreshold = float( rospy.get_param( "/zeabus_hydrophone/FrontThreshold", 0.3 ) )
     PowerThreshold = float( rospy.get_param( "/zeabus_hydrophone/PowerThreshold", 0.02 ) )

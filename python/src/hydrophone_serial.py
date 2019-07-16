@@ -2,12 +2,12 @@ import serial
 import struct
 import numpy as np
 
-class hydophone_serial:
+class hydrophone_serial:
     """
     The service class for serial communication to hydrophone module
     """
 
-    def __intt__( self, serial_port ):
+    def __init__( self, serial_port ):
         self.s = serial.Serial( serial_port, 460800, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE,
                            stopbits=serial.STOPBITS_ONE)
 
@@ -20,14 +20,13 @@ class hydophone_serial:
             x = self.s.read(1)
             if x == b'\xFF':
                 x = self.s.read(1)
-                count += 1
                 if x == b'\xFF':
                     x = self.s.read(14)
                     break
 
         # Prepare data structures
 
-        sig = np.zeros( shape=( 4, n ), type=np.float32 )
+        sig = np.zeros( shape=( 4, n ), dtype=np.float32 )
 
         # Process header (little endian)
         # Sequence number is the first 2 bytes
@@ -82,13 +81,23 @@ class hydophone_serial:
 
         return sig
 
-    def sent_dsp_param( self, Frequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain ):
+    def sent_dsp_param( self, Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain ):
         res = []
         res.append(61)
         res.append(61)
         res.append(61)
         res.append(61)
         tmp = struct.pack('I', Frequency)
+        res.append(tmp[0])
+        res.append(tmp[1])
+        res.append(tmp[2])
+        res.append(tmp[3])
+        tmp = struct.pack('I', LowestFrequency)
+        res.append(tmp[0])
+        res.append(tmp[1])
+        res.append(tmp[2])
+        res.append(tmp[3])
+        tmp = struct.pack('I', HighestFrequency)
         res.append(tmp[0])
         res.append(tmp[1])
         res.append(tmp[2])
