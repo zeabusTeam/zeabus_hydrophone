@@ -21,6 +21,8 @@ from serial import SerialException
 
 from zeabus_hydrophone.srv import *
 
+import sys
+
 # Hydrophone parameters
 #### setting parameter ####
 SerialPortName = "/dev/ttyACM0"
@@ -96,7 +98,6 @@ def hydrophone_data_thread():
             # Log the data to ROS
             rospy.loginfo( "Hydrophone in: Time (%i Sec), (%i nSec): Azumuth=%f Elevetion=%f", current_time.secs, current_time.nsecs, az, ev )
 
-
 # ROS service node for sending hydrophone parameter
 def hydrophone_ros_command_service( req ):
     current_time = rospy.Time.now()
@@ -162,11 +163,12 @@ if __name__ == '__main__':
     except SerialException:
         rospy.logerr( "Failed to open hydrophone serial port !!!!" )
         HydrophonePort = None
+        sys.exit()
     if HydrophonePort != None:
         HydrophonePort.sent_dsp_param(Frequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain)
 
     # Start threads and service nodes
-    HydrophoneThread = threading.Thread( target="hydrophone_data_thread" )
+    HydrophoneThread = threading.Thread( target = hydrophone_data_thread )
     HydrophoneThread.start()
     HydrophoneCommandService = rospy.Service( "/hardware/hydrophone_command", HydrophoneCommand, hydrophone_ros_command_service )
     HydrophoneDataService = rospy.Service( "/hardware/hydrophone_data", HydrophoneData, hydrophone_ros_command_service )
