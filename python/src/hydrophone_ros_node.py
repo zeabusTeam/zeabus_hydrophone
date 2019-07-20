@@ -168,8 +168,8 @@ if __name__ == '__main__':
     # Start threads and service nodes
     HydrophoneThread = threading.Thread( target="hydrophone_data_thread" )
     HydrophoneThread.start()
-    HydrophoneCommandService = rospy.Service( "hydrophone_command", HydrophoneCommand, hydrophone_ros_command_service )
-    HydrophoneDataService = rospy.Service( "hydrophone_command", HydrophoneData, hydrophone_ros_command_service )
+    HydrophoneCommandService = rospy.Service( "/hardware/hydrophone_command", HydrophoneCommand, hydrophone_ros_command_service )
+    HydrophoneDataService = rospy.Service( "/hardware/hydrophone_data", HydrophoneData, hydrophone_ros_command_service )
 
     # Initailization done
     rospy.loginfo( "Hydrophone services are initialized.")
