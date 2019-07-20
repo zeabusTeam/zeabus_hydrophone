@@ -16,7 +16,10 @@ import matplotlib.pyplot as plt
 
 from scipy.signal import butter, lfilter
 
+
 from serial import SerialException
+
+from zeabus_hydrophone.srv import *
 
 # Hydrophone parameters
 #### setting parameter ####

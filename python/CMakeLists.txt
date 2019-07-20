@@ -4,8 +4,21 @@ project(zeabus_hydrophone)
 # Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
     rospy
+    message_generation
+    std_msgs
 )
 
+# Generate services in the 'srv' directory
+add_service_files(
+    FILES
+    HydrophoneCommand.srv
+    HydrophoneData.srv
+)
+
+generate_messages(
+    DEPENDENCIES
+    std_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -21,5 +34,6 @@ catkin_package(
 #  LIBRARIES python
     CATKIN_DEPENDS
     rospy
+    message_runtime
 #  DEPENDS system_lib
 )
