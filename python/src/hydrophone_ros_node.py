@@ -16,6 +16,8 @@ import matplotlib.pyplot as plt
 
 from scipy.signal import butter, lfilter
 
+from serial import SerialException
+
 # Hydrophone parameters
 #### setting parameter ####
 SerialPortName = "/dev/ttyACM0"
@@ -136,7 +138,7 @@ def hydrophone_ros_data_service( req ):
 # Main part
 if __name__ == '__main__':
     # Execute only if run as script (not by "import")
-    rospy.init_node( '/zeabus/hydrophone' )
+    rospy.init_node( 'hydrophone' )
 
     # Read parameters
     SerialPortName = rospy.get_param( "/zeabus_hydrophone/PortName", "/dev/ttyACM0" )
@@ -154,8 +156,8 @@ if __name__ == '__main__':
     TimeStamp = rospy.Time.now()
     try:
         HydrophonePort = hydrophone_serial( SerialPortName )
-    except serial.SerialException:
-        rospy.logerror( "Failed to open hydrophone serial port !!!!" )
+    except SerialException:
+        rospy.logerr( "Failed to open hydrophone serial port !!!!" )
         HydrophonePort = None
     if HydrophonePort != None:
         HydrophonePort.sent_dsp_param(Frequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain)
