@@ -1,5 +1,5 @@
 <launch>
-    <node pkg="zeabus_hydrophone" type="hydrophone_ros_node.py" name="hydrophone" respawn="true">
+    <node pkg="zeabus_hydrophone" type="hydrophone_ros_node.py" name="zeabus_hydrophone" output="screen" respawn="true">
         <param name="PortName" value="/dev/ttyACM0"/>
         <param name="PingerFrequency" value="37500"/>        
         <param name="LowestFrequency" value="20000"/>        
