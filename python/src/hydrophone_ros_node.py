@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # ROS system
 import rospy
 import std_msgs.msg
@@ -16,7 +18,7 @@ from scipy.signal import butter, lfilter
 
 # Hydrophone parameters
 #### setting parameter ####
-SerialPortName = "/dev/cu.usbmodem14103"
+SerialPortName = "/dev/ttyACM0"
 Sampling_rate = 191930
 LowestFrequency = 30000
 HighestFrequency = 41000
@@ -137,7 +139,7 @@ if __name__ == '__main__':
     rospy.init_node( '/zeabus/hydrophone' )
 
     # Read parameters
-    SerialPortName = rospy.get_param( "/zeabus_hydrophone/PortName", "/dev/cu.usbmodem14103" )
+    SerialPortName = rospy.get_param( "/zeabus_hydrophone/PortName", "/dev/ttyACM0" )
     Sampling_rate = int( rospy.get_param( "/zeabus_hydrophone/SamplingRate", 191930 ) )
     Frequency = int( rospy.get_param( "/zeabus_hydrophone/PingerFrequency", 37500 ) )
     LowestFrequency = int( rospy.get_param( "/zeabus_hydrophone/LowestFrequency", 20000 ) )
