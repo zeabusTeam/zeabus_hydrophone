@@ -30,16 +30,16 @@ class hydrophone_serial:
 
         # Process header (little endian)
         # Sequence number is the first 2 bytes
-        seq = struct.unpack('<H', x[0:2])
+        sequence = struct.unpack('<H', x[0:2])
         # 4-byte unsigned int for Frequency 
-        freq = struct.unpack('<I', x[2:6])
+        frequency = struct.unpack('<I', x[2:6])
         # 4-byte unsigned int for time between pulse
         time_between_pulse = struct.unpack('<I', x[6:10])
         # 4-byte unsigned int for processing time
         processing_time = struct.unpack('<I', x[10:14])
 
-        print("seq : %d" % seq)
-        print("freq : %d" % freq)
+        print("seq : %d" % sequence)
+        print("freq : %d" % frequency)
         print("time_between_pulse : %d" % time_between_pulse)
         print("processing_time : %d" % processing_time)
 
@@ -79,7 +79,7 @@ class hydrophone_serial:
         x = self.s.read(1)
         x = self.s.read(1)
 
-        return sig
+        return sig, freq
 
     def sent_dsp_param( self, Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain ):
         res = []

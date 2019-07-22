@@ -541,12 +541,13 @@ int main(void)
 			frame_bin = Get_Max_FFT_Bin( g_adc_1_f );
 			if( g_desired_fft_bin == frame_bin )
 			{
-				LED_BLUE_ON();
-
-				output.Detect_Frequency = Bin2Freq( frame_bin );
-				output.process_time = HAL_GetTick() - process_time_stamp;
-				UART_Sent();
+				LED_BLUE_ON();	// Turn on blue LED only when frequency matched
 			}
+
+			output.Detect_Frequency = Bin2Freq( frame_bin );
+			output.process_time = HAL_GetTick() - process_time_stamp;
+			UART_Sent();
+
 			LED_RED_OFF();
 		}
 	}
