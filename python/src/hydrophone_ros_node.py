@@ -119,7 +119,7 @@ def hydrophone_ros_command_service( req ):
         return True
     else:
         # Serial port error
-        rospy.logerror( "Hydrophone at (%i Sec), (%i nSec): Unable to send command (Hydrophone not found)")
+        rospy.logerr( "Hydrophone at (%i Sec), (%i nSec): Unable to send command (Hydrophone not found)")
         return False
 
 # ROS service node for reading hydrophone data
@@ -164,8 +164,9 @@ if __name__ == '__main__':
         rospy.logerr( "Failed to open hydrophone serial port !!!!" )
         HydrophonePort = None
         sys.exit()
+
     if HydrophonePort != None:
-        HydrophonePort.sent_dsp_param(Frequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain)
+    	HydrophonePort.sent_dsp_param(Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, AmpGain)
 
     # Start threads and service nodes
     HydrophoneThread = threading.Thread( target = hydrophone_data_thread )
