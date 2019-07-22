@@ -30,10 +30,10 @@
 #define BUFFER_SIZE 					2048
 #define RAW_DATA_BUFFER_SIZE			(BUFFER_SIZE * 18)
 #define PULSE_FRAME_SIZE				BUFFER_SIZE
-#define PULSE_HEADER_SIZE				1200
+//#define PULSE_HEADER_SIZE				1200
+#define PULSE_HEADER_SIZE				1000
 #define PULSE_BODY_SIZE					(PULSE_FRAME_SIZE - PULSE_HEADER_SIZE)
 #define FFT_SIZE						1024
-#define VOLT_RATIO						19859			//  65536 / 3.3  (sample_data / volt)
 #define SCALE_DOWN						5
 #define DOWN_SAMPLING_SIZE				(BUFFER_SIZE / SCALE_DOWN)
 #define DEMOD_SCALE_SIZE				DOWN_SAMPLING_SIZE + 25
@@ -42,17 +42,22 @@
 #define UART_RX_BUFFER_SIZE				(28 + 4)
 #define PROCESS_PULSE_SIZE				100
 
-#define ANALOG_OFFSET 32768		// offset for ADC 16 bit value (GND Level)
+// Mask to reduce ADC resolution in case of high noise
+// Currently we mask out the data as it is has the resolution of 12 bits
+#define ADC_MASK						0xFFF0u
+// offset for ADC 16 bit value (GND Level)
+#define ANALOG_OFFSET 					32768.0f
+#define ADC_NORMALIZE(d)				(((float32_t)(d & ADC_MASK) - ANALOG_OFFSET) / ANALOG_OFFSET)
 
 typedef struct ProcessParameter {
-	float FrontThreshold;
-	float PowerThreshold;
-	float h;
+	float32_t FrontThreshold;
+	float32_t PowerThreshold;
+	float32_t h;
 	uint32_t Frequency;
 	uint32_t MinFrequency;
 	uint32_t MaxFrequency;
 	uint32_t DelayObserve;
-	float LNA_Gain;
+	float32_t LNA_Gain;
 } InputParam;
 
 typedef struct Outputdata {
@@ -66,8 +71,8 @@ typedef struct Outputdata {
 } OutputParam;
 
 typedef union CovfloatTobyte {
-	float f;
-	char b[sizeof(float)];
+	float32_t f;
+	char b[sizeof(float32_t)];
 } float2bytes;
 
 typedef union Covuint32Tobyte{
@@ -78,19 +83,15 @@ typedef union Covuint32Tobyte{
 
 extern __SECTION_AXIRAM uint32_t g_adc1_2_buffer[]; 	// Raw data form ADC 1 use dma1 to get data
 extern __SECTION_AXIRAM uint32_t g_adc3_4_buffer[];		// Raw data form ADC 3 use dma2 to get data
-extern float g_adc_1_f[];
-extern float g_adc_2_f[];
-extern float g_adc_3_f[];
-extern float g_adc_4_f[];
-extern float g_out_re[];
-extern float g_out_im[];
+extern float32_t g_adc_1_f[];
+extern float32_t g_adc_2_f[];
+extern float32_t g_adc_3_f[];
+extern float32_t g_adc_4_f[];
+extern float32_t g_out_re[];
+extern float32_t g_out_im[];
 extern uint32_t g_raw_data_index;
 extern uint32_t g_pulse_detect_index;
-extern float g_front_thres;
-extern int g_raw_front_thres;
 extern InputParam input;
 extern OutputParam output;
-
-
 
 #endif /* COMMON_H_ */

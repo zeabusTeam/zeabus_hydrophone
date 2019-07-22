@@ -10,7 +10,6 @@
 
 #include <stdint.h>
 
-int abs_threshold();
 int abs_threshold_CFAR(); // CFAR
 
 

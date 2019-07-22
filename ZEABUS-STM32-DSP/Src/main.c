@@ -76,21 +76,19 @@ __SECTION_AXIRAM uint32_t g_adc_1_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_2_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_3_h[BUFFER_SIZE];
 __SECTION_AXIRAM uint32_t g_adc_4_h[BUFFER_SIZE];
-float g_adc_1_f[BUFFER_SIZE];
-float g_adc_2_f[BUFFER_SIZE];
-float g_adc_3_f[BUFFER_SIZE];
-float g_adc_4_f[BUFFER_SIZE];
-float g_fft_f32[FFT_SIZE * 2];
-float g_fft_f32_out[FFT_SIZE];
+float32_t g_adc_1_f[BUFFER_SIZE];
+float32_t g_adc_2_f[BUFFER_SIZE];
+float32_t g_adc_3_f[BUFFER_SIZE];
+float32_t g_adc_4_f[BUFFER_SIZE];
+float32_t g_fft_f32[FFT_SIZE * 2];
+float32_t g_fft_f32_out[FFT_SIZE];
 uint32_t g_raw_data_index;
 uint32_t g_pulse_detect_index;
-int g_raw_front_thres;
-int g_ready_to_process;
 uint8_t uart_rx_buffer[UART_RX_BUFFER_SIZE];
 int g_uart_ready;
 
 // Frequency range of each FFT output datum (i.e. FFT bin size)
-const float g_fft_bin_size = SAMPLE_RATE / (float)FFT_SIZE;
+const float32_t g_fft_bin_size = SAMPLE_RATE / (float32_t)FFT_SIZE;
 
 // FFT bin index that contains the frequency we are looking for
 uint32_t g_desired_fft_bin;
@@ -166,26 +164,20 @@ int Set_LNA_Gain(){
 
 uint32_t Get_Max_FFT_Bin( float32_t* sig )
 {
-	float maxVal;
+	float32_t maxVal;
 	uint32_t freq_index;
-	int k = 0;
-	uint32_t i;
+	uint32_t i, k;
 
-	// Translate a part of raw signal data into complex numbers with 0 imaginary magnetude
-	for( i = 0 ; i < FFT_SIZE * 2 ; i += 2 )
+	// Translate a part of raw signal data into complex numbers with 0 imaginary magnitude
+	for( ( i = 0 ), ( k = PULSE_HEADER_SIZE ) ; i < FFT_SIZE * 2 ; ( i += 2 ), (k++) )
 	{
+		g_fft_f32[ i ] = 0;		// Initialize real part with 0
+		g_fft_f32[ i + 1 ] = 0;	// Imaginary part is always 0
 
-		if(k < PULSE_BODY_SIZE)
+		if(k < PULSE_FRAME_SIZE)
 		{
-			g_fft_f32[ i ] = sig[ k + PULSE_HEADER_SIZE - 1 ];
-			g_fft_f32[ i + 1 ] = 0;
+			g_fft_f32[ i ] = sig[ k ];
 		}
-		else 
-		{
-			g_fft_f32[ i ] = 0;
-			g_fft_f32[ i + 1 ] = 0;
-		}
-		k++;
 	}
 
 	/**** These lines are replaced with "arm_cfft_f32" as they are deprecated
@@ -194,36 +186,34 @@ uint32_t Get_Max_FFT_Bin( float32_t* sig )
 	//arm_cfft_radix4_init_f32( &FFT_F32_struct, FFT_SIZE, 0, 1 );
 	//arm_cfft_radix4_f32( &FFT_F32_struct, g_fft_f32 );
 
-
 	// New function to replace 2 functions above
 	/* Process the data through the CFFT/CIFFT module with 1024 points */
 	arm_cfft_f32( &arm_cfft_sR_f32_len1024, g_fft_f32, 0, 1 );
 
 	/* Process the data through the Complex Magnitude Module for
   		calculating the magnitude at each bin */
-	arm_cmplx_mag_f32(g_fft_f32, g_fft_f32_out, FFT_SIZE);
+	arm_cmplx_mag_f32( g_fft_f32, g_fft_f32_out, FFT_SIZE );
 
 	/* Mask the FFT to only the considered frequency */
-	//g_fft_f32_out[0] = 0;
 	for( i = 0; i < g_lowest_considered_fft_bin; i++ )
 		g_fft_f32_out[i] = 0;
 	for( i = g_highest_considered_fft_bin; i < FFT_SIZE; i++ )
 		g_fft_f32_out[i] = 0;
 
 	/* Looking for the bin that has highest magnitude */
-	arm_max_f32(g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index);
+	arm_max_f32( g_fft_f32_out, FFT_SIZE, &maxVal, &freq_index );
 
 	return( freq_index );
 }
 
 uint32_t Bin2Freq( uint32_t bin )
 {
-	float freq;
+	float32_t freq;
 
-	freq = (float)(bin) * g_fft_bin_size / 1000.0f; // Frequency in KHz
+	freq = (float32_t)(bin) * g_fft_bin_size / 1000.0f; // Frequency in KHz
 
-	float dec;
-	float dot = modff(freq, &dec);
+	float32_t dec;
+	float32_t dot = modff(freq, &dec);
 
 
 	// Rounding the frequency to the nearest 500Hz step (raw frequency is in KHz)
@@ -325,14 +315,11 @@ void Get_Pulse_Frame(){
 	 // Raw ADC data is 16-bit unsigned integer value (0 - 65535 representing 0V - 3.3V)
 	 // The following conversion loop convert each datum to floating point format ranging from 0 - 1.0
 	 for(int i = 0 ; i < BUFFER_SIZE ; i++) {
-		 g_adc_1_f[i] = (float32_t)((float32_t)((float32_t)g_adc_1_h[i]  - 32768.0)) / 65535.0 ;
-		 g_adc_2_f[i] = (float32_t)((float32_t)((float32_t)g_adc_2_h[i]  - 32768.0)) / 65535.0 ;
-		 g_adc_3_f[i] = (float32_t)((float32_t)((float32_t)g_adc_3_h[i]  - 32768.0)) / 65535.0 ;
-		 g_adc_4_f[i] = (float32_t)((float32_t)((float32_t)g_adc_4_h[i]  - 32768.0)) / 65535.0 ;
+		 g_adc_1_f[i] = ADC_NORMALIZE( g_adc_1_h[i] );
+		 g_adc_2_f[i] = ADC_NORMALIZE( g_adc_2_h[i] );
+		 g_adc_3_f[i] = ADC_NORMALIZE( g_adc_3_h[i] );
+		 g_adc_4_f[i] = ADC_NORMALIZE( g_adc_4_h[i] );
 	 }
-
-	 g_ready_to_process = 1;
-
  }
 
 float2bytes f2b;
@@ -507,9 +494,7 @@ int main(void)
 
   Set_LNA_Gain();	// Set LNA GAIN
 
-  g_raw_front_thres = (input.FrontThreshold * VOLT_RATIO) + 32768;
-
-  g_ready_to_process = 0;
+  g_raw_data_index = 0;
 
   g_desired_fft_bin = (uint32_t)( input.Frequency / g_fft_bin_size ); // Divide and discarding the fraction
   g_lowest_considered_fft_bin = (uint32_t)( input.MinFrequency / g_fft_bin_size ); // Divide and discarding the fraction
@@ -553,21 +538,16 @@ int main(void)
 			Get_Pulse_Frame();
 			LED_RED_ON();
 
-			if(g_ready_to_process)
+			frame_bin = Get_Max_FFT_Bin( g_adc_1_f );
+			if( g_desired_fft_bin == frame_bin )
 			{
-			  	frame_bin = Get_Max_FFT_Bin( g_adc_1_f );
-				if( g_desired_fft_bin == frame_bin )
-				{
-					LED_BLUE_ON();
+				LED_BLUE_ON();
 
-					output.Detect_Frequency = Bin2Freq( frame_bin );
-					output.process_time = HAL_GetTick() - process_time_stamp;
-					UART_Sent();
-				}
-				LED_RED_OFF();
-
-				g_ready_to_process = 0;
+				output.Detect_Frequency = Bin2Freq( frame_bin );
+				output.process_time = HAL_GetTick() - process_time_stamp;
+				UART_Sent();
 			}
+			LED_RED_OFF();
 		}
 	}
 
