@@ -36,9 +36,6 @@ if __name__ == '__main__':
     s = hydrophone_serial( '/dev/cu.usbmodem14103' )
     s.sent_dsp_param(Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain)
 
-    fig, axis = plt.subplots(1, 1)
-    plot_out = None
-
     while True:
 
         # Receive an array of signal consisting of 4 signal streams. Each stream is 2048 elements of ADC value in 4-byte float
