@@ -169,7 +169,8 @@ uint32_t Get_Max_FFT_Bin( float32_t* sig )
 	uint32_t i, k;
 
 	// Translate a part of raw signal data into complex numbers with 0 imaginary magnitude
-	for( ( i = 0 ), ( k = PULSE_HEADER_SIZE ) ; i < FFT_SIZE * 2 ; ( i += 2 ), (k++) )
+	k = PULSE_HEADER_SIZE - 1;
+	for( i = 0  ; i < FFT_SIZE * 2 ; i += 2 )
 	{
 		g_fft_f32[ i ] = 0;		// Initialize real part with 0
 		g_fft_f32[ i + 1 ] = 0;	// Imaginary part is always 0
@@ -178,6 +179,7 @@ uint32_t Get_Max_FFT_Bin( float32_t* sig )
 		{
 			g_fft_f32[ i ] = sig[ k ];
 		}
+		k++;
 	}
 
 	/**** These lines are replaced with "arm_cfft_f32" as they are deprecated

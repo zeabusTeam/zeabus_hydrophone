@@ -79,7 +79,7 @@ class hydrophone_serial:
         x = self.s.read(1)
         x = self.s.read(1)
 
-        return sig, freq
+        return sig, frequency
 
     def sent_dsp_param( self, Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain ):
         res = []

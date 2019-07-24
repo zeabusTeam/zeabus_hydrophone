@@ -30,8 +30,8 @@
 #define BUFFER_SIZE 					2048
 #define RAW_DATA_BUFFER_SIZE			(BUFFER_SIZE * 18)
 #define PULSE_FRAME_SIZE				BUFFER_SIZE
-//#define PULSE_HEADER_SIZE				1200
-#define PULSE_HEADER_SIZE				1000
+#define PULSE_HEADER_SIZE				1200
+//#define PULSE_HEADER_SIZE				1000
 #define PULSE_BODY_SIZE					(PULSE_FRAME_SIZE - PULSE_HEADER_SIZE)
 #define FFT_SIZE						1024
 #define SCALE_DOWN						5
@@ -45,9 +45,9 @@
 // Mask to reduce ADC resolution in case of high noise
 // Currently we mask out the data as it is has the resolution of 12 bits
 #define ADC_MASK						0xFFF0u
-// offset for ADC 16 bit value (GND Level)
-#define ANALOG_OFFSET 					32768.0f
-#define ADC_NORMALIZE(d)				(((float32_t)(d & ADC_MASK) - ANALOG_OFFSET) / ANALOG_OFFSET)
+// DC offset of ADC (got from measuring. (1.5V for current board)
+#define ADC_OFFSET						29790.0f
+#define ADC_NORMALIZE(d)				(((float32_t)(d & ADC_MASK) - ADC_OFFSET) / 65535.0f)
 
 typedef struct ProcessParameter {
 	float32_t FrontThreshold;

@@ -29,17 +29,20 @@ if __name__ == '__main__':
     FrontThreshold = 0.3
     PowerThreshold = 0.02
     DelayObserve = 2000
-    LNA_Gain = 0.005
+    LNA_Gain = 0.2
 
     ##############################################################################
 
     s = hydrophone_serial( '/dev/cu.usbmodem14103' )
     s.sent_dsp_param(Frequency, LowestFrequency, HighestFrequency, FrontThreshold, PowerThreshold, DelayObserve, LNA_Gain)
+    f = open('/Users/Pongkemon/hydrophone.log', 'ab' )
 
     while True:
 
         # Receive an array of signal consisting of 4 signal streams. Each stream is 2048 elements of ADC value in 4-byte float
         sig, freq = s.get_pulse_data()
+        np.save( f, sig )
+        f.flush()
         if( freq == Frequency ):
             # Crop only the signal from index 800 to 1499 (the total signal index is 0 - 2047)
             sig = sig[:, 800:1500]
@@ -56,5 +59,5 @@ if __name__ == '__main__':
             print("Azimuth: %f, Elevation: %f" % (az, ev))
             print("#########################################################################################")
         else:
-            print( "Hydrophone in: Got a signal at %i Hz", freq )
+            print( "Hydrophone in: Got a signal at ", freq,  " Hz.")
             print("#########################################################################################")
