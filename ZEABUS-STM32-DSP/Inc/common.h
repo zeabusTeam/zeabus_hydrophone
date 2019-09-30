@@ -44,15 +44,21 @@
 
 // Mask to reduce ADC resolution in case of high noise
 // Currently we mask out the data as it is has the resolution of 12 bits
-#define ADC_MASK						0xFFF0u
+#define ADC_MASK						0xFFFFu
 // DC offset of ADC (got from measuring. (1.5V for current board)
-#define ADC_OFFSET						29790.0f
-#define ADC_NORMALIZE(d)				(((float32_t)(d & ADC_MASK) - ADC_OFFSET) / 65535.0f)
+#define INITIAL_ADC_OFFSET				29790
+#define ADC_OFFSET(d,o)					((int32_t)((uint32_t)(d & ADC_MASK)) - o)
+#define ADC_NORMALIZE(d,o)				((float32_t)ADC_OFFSET(d,o) / 65535.0f)
 
 typedef struct ProcessParameter {
-	float32_t FrontThreshold;
+/*
+ * Convert to integer processing for faster rate. Also change the meaning
+ * from signal power to signal level
 	float32_t PowerThreshold;
-	float32_t h;
+*/
+	uint32_t PowerThreshold;
+
+	float32_t FrontThreshold;
 	uint32_t Frequency;
 	uint32_t MinFrequency;
 	uint32_t MaxFrequency;
@@ -89,6 +95,7 @@ extern float32_t g_adc_3_f[];
 extern float32_t g_adc_4_f[];
 extern float32_t g_out_re[];
 extern float32_t g_out_im[];
+extern int32_t g_adc_offset[];
 extern uint32_t g_raw_data_index;
 extern uint32_t g_pulse_detect_index;
 extern InputParam input;

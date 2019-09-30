@@ -80,8 +80,13 @@ float32_t g_adc_1_f[BUFFER_SIZE];
 float32_t g_adc_2_f[BUFFER_SIZE];
 float32_t g_adc_3_f[BUFFER_SIZE];
 float32_t g_adc_4_f[BUFFER_SIZE];
+float32_t g_filtered_1_f[BUFFER_SIZE];
+float32_t g_filtered_2_f[BUFFER_SIZE];
+float32_t g_filtered_3_f[BUFFER_SIZE];
+float32_t g_filtered_4_f[BUFFER_SIZE];
 float32_t g_fft_f32[FFT_SIZE * 2];
 float32_t g_fft_f32_out[FFT_SIZE];
+int32_t g_adc_offset[4];
 uint32_t g_raw_data_index;
 uint32_t g_pulse_detect_index;
 uint8_t uart_rx_buffer[UART_RX_BUFFER_SIZE];
@@ -89,6 +94,8 @@ int g_uart_ready;
 
 // Frequency range of each FFT output datum (i.e. FFT bin size)
 const float32_t g_fft_bin_size = SAMPLE_RATE / (float32_t)FFT_SIZE;
+const float32_t g_nyquist_rate = SAMPLE_RATE / 2;
+const uint16_t g_fir_size = 15; // FIR filter order - 1
 
 // FFT bin index that contains the frequency we are looking for
 uint32_t g_desired_fft_bin;
@@ -139,7 +146,7 @@ int TIMER_Start(){
 
 int Set_LNA_Gain(){
 
-	uint16_t i2c_dev_addr = 0x5D; // MAX 5387 Address
+	uint16_t i2c_dev_addr = 0x5C; // MAX 5387 Address
 	uint8_t i2c_val[2];
 	i2c_val[0] = 0x13; // Set both CH
 	i2c_val[1] = (input.LNA_Gain * 255);  // VGain = 1.1 * ( g_i2c_val / 255 )
@@ -253,6 +260,7 @@ void Get_Pulse_Frame(){
 	 int size_remain = 0;					//size of data that remain to transfer
 	 int size_forward_transfer = 0;			//size of data can forward transfer before last address of raw data buffer
 	 int next_round = 0;
+	 int32_t temp_offset[4] = { 0, 0, 0, 0 };
 
 	 // Case 1 ; some header is at the end of buffer
 	 if ((g_pulse_detect_index * 2)  < PULSE_HEADER_SIZE - 1) {
@@ -317,11 +325,26 @@ void Get_Pulse_Frame(){
 	 // Raw ADC data is 16-bit unsigned integer value (0 - 65535 representing 0V - 3.3V)
 	 // The following conversion loop convert each datum to floating point format ranging from 0 - 1.0
 	 for(int i = 0 ; i < BUFFER_SIZE ; i++) {
-		 g_adc_1_f[i] = ADC_NORMALIZE( g_adc_1_h[i] );
-		 g_adc_2_f[i] = ADC_NORMALIZE( g_adc_2_h[i] );
-		 g_adc_3_f[i] = ADC_NORMALIZE( g_adc_3_h[i] );
-		 g_adc_4_f[i] = ADC_NORMALIZE( g_adc_4_h[i] );
+		 temp_offset[0] += g_adc_1_h[i];
+		 temp_offset[1] += g_adc_2_h[i];
+		 temp_offset[2] += g_adc_3_h[i];
+		 temp_offset[3] += g_adc_4_h[i];
+		/* g_adc_1_f[i] = ADC_NORMALIZE( g_adc_1_h[i], g_adc_offset[0] );
+		 g_adc_2_f[i] = ADC_NORMALIZE( g_adc_2_h[i], g_adc_offset[1] );
+		 g_adc_3_f[i] = ADC_NORMALIZE( g_adc_3_h[i], g_adc_offset[2] );
+		 g_adc_4_f[i] = ADC_NORMALIZE( g_adc_4_h[i], g_adc_offset[3] );
+		 */
+		 g_adc_1_f[i] = (float32_t)( g_adc_1_h[i] ) / 65535.0f;
+		 g_adc_2_f[i] = (float32_t)( g_adc_2_h[i] ) / 65535.0f;
+		 g_adc_3_f[i] = (float32_t)( g_adc_3_h[i] ) / 65535.0f;
+		 g_adc_4_f[i] = (float32_t)( g_adc_4_h[i] ) / 65535.0f;
 	 }
+
+	 // Weighted exponential average of the DC offsets
+	 g_adc_offset[0] = (g_adc_offset[0] / 2) + (temp_offset[0] / (BUFFER_SIZE * 2) );
+	 g_adc_offset[1] = (g_adc_offset[1] / 2) + (temp_offset[1] / (BUFFER_SIZE * 2) );
+	 g_adc_offset[2] = (g_adc_offset[2] / 2) + (temp_offset[2] / (BUFFER_SIZE * 2) );
+	 g_adc_offset[3] = (g_adc_offset[3] / 2) + (temp_offset[3] / (BUFFER_SIZE * 2) );
  }
 
 float2bytes f2b;
@@ -430,6 +453,68 @@ int UART_Sent(){
 	return 1;
 }
 
+#define FILTER_ORDER	9	// Must be odd number
+#define FILTER_BANDWIDTH	2000	// Cut-off offset frequency for the filter
+static float32_t g_fir_coefficients[FILTER_ORDER];
+
+/*
+algorithm FIR_bandpass filter
+
+Input:
+f1, the lowest frequency to be included, in Hz
+f2, the highest frequency to be included, in Hz
+f_samp, sampling frequency of the audio signal to be filtered, in Hz
+N, the order of the filter; assume N is odd
+
+Output:
+h, a bandpass FIR filter in the form of an N-element array */
+void gen_fir_bandpass( )
+{
+	float32_t f1_c, f2_c, w1_c, w2_c;
+	uint32_t middle;
+
+	//Normalize f_c and ω _c so that pi is equal to the Nyquist angular frequency
+	f1_c = ( input.Frequency - FILTER_BANDWIDTH ) / SAMPLE_RATE;
+	f2_c = ( input.Frequency + FILTER_BANDWIDTH ) / SAMPLE_RATE;
+
+	// Calculate omega (w) = 2*pi*f
+	w1_c = 2 * M_PI * f1_c;
+	w2_c = 2 * M_PI * f2_c;
+
+	middle = FILTER_ORDER / 2;    /*Integer division, dropping remainder*/
+
+	for( int i = -middle; i < middle; i++ )
+	{
+		if ( i == 0 ) // This condition prevents divided-by-zero error
+		{
+			g_fir_coefficients[ middle ] = 2 * ( f2_c - f1_c );
+		}
+		else
+		{
+			g_fir_coefficients[ i + middle ] = ( sin( w2_c * i ) / (M_PI * i ) ) - ( sin( w1_c * i ) / ( M_PI * i ) );
+		}
+	}
+ }
+
+// Apply FIR filter to all stream
+void Bandpass_filter()
+{
+	float32_t fir_state[BUFFER_SIZE + FILTER_ORDER + 1];
+	arm_fir_instance_f32 S;
+
+	arm_fir_init_f32( &S, FILTER_ORDER, g_fir_coefficients, fir_state, BUFFER_SIZE );
+	arm_fir_f32( &S, g_adc_1_f, g_filtered_1_f, BUFFER_SIZE );
+	arm_fir_init_f32( &S, FILTER_ORDER, g_fir_coefficients, fir_state, BUFFER_SIZE );
+	arm_fir_f32( &S, g_adc_2_f, g_filtered_2_f, BUFFER_SIZE );
+	arm_fir_init_f32( &S, FILTER_ORDER, g_fir_coefficients, fir_state, BUFFER_SIZE );
+	arm_fir_f32( &S, g_adc_3_f, g_filtered_3_f, BUFFER_SIZE );
+	arm_fir_init_f32( &S, FILTER_ORDER, g_fir_coefficients, fir_state, BUFFER_SIZE );
+	arm_fir_f32( &S, g_adc_4_f, g_filtered_4_f, BUFFER_SIZE );
+	arm_copy_f32( g_filtered_1_f, g_adc_1_f, BUFFER_SIZE );
+	arm_copy_f32( g_filtered_2_f, g_adc_2_f, BUFFER_SIZE );
+	arm_copy_f32( g_filtered_3_f, g_adc_3_f, BUFFER_SIZE );
+	arm_copy_f32( g_filtered_4_f, g_adc_4_f, BUFFER_SIZE );
+}
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -485,10 +570,19 @@ int main(void)
   input.MinFrequency = 20000;
   input.MaxFrequency = 45000;
   input.Frequency = 37500;
+  //input.FrontThreshold = 0.3;
+  //input.PowerThreshold = 0.02;
   input.FrontThreshold = 0.3;
-  input.PowerThreshold = 0.02;
+  input.PowerThreshold = 5000;
   input.DelayObserve = 2000;
   input.LNA_Gain = 0.1;
+
+  g_adc_offset[0] = INITIAL_ADC_OFFSET;
+  g_adc_offset[1] = INITIAL_ADC_OFFSET;
+  g_adc_offset[2] = INITIAL_ADC_OFFSET;
+  g_adc_offset[3] = INITIAL_ADC_OFFSET;
+
+  gen_fir_bandpass();
 
   TIMER_Start(); 	// Start Timer
 
@@ -538,6 +632,7 @@ int main(void)
 			pulse_time_stamp = temp_time_stamp;
 			process_time_stamp = temp_time_stamp;
 			Get_Pulse_Frame();
+			Bandpass_filter();
 			LED_RED_ON();
 
 			frame_bin = Get_Max_FFT_Bin( g_adc_1_f );
@@ -670,9 +765,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	if(huart->Instance == USART3){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
 		if(uart_rx_buffer[0] == 61 && uart_rx_buffer[1] == 61 &&
-				uart_rx_buffer[2] == 61 && uart_rx_buffer[3] == 61){
+				uart_rx_buffer[2] == 61 && ( uart_rx_buffer[3] == 61  ||  uart_rx_buffer[3] == 63 ))
+		{
 			uint322bytes u322b;
 			float2bytes f2b;
+
+			// Reset code
+			if( uart_rx_buffer[3] == 63 )
+				NVIC_SystemReset();
 
 			u322b.b[0] = uart_rx_buffer[4];
 			u322b.b[1] = uart_rx_buffer[5];
@@ -702,7 +802,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			f2b.b[1] = uart_rx_buffer[21];
 			f2b.b[2] = uart_rx_buffer[22];
 			f2b.b[3] = uart_rx_buffer[23];
-			input.PowerThreshold = f2b.f;
+			input.PowerThreshold = (uint32_t)(f2b.f * 32767);
 
 			u322b.b[0] = uart_rx_buffer[24];
 			u322b.b[1] = uart_rx_buffer[25];
@@ -724,6 +824,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				g_lowest_considered_fft_bin = g_desired_fft_bin;
 			if( (g_highest_considered_fft_bin <= g_desired_fft_bin) && (g_desired_fft_bin < FFT_SIZE - 1) )
 				g_lowest_considered_fft_bin = g_desired_fft_bin + 1;
+			gen_fir_bandpass();
 		}
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		HAL_UART_Receive_IT(&huart3,uart_rx_buffer,UART_RX_BUFFER_SIZE);

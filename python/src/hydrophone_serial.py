@@ -71,8 +71,8 @@ class hydrophone_serial:
 
         # Extract 2 sound streams. Each consists of a series of 4-byte floating-point data
         for i in range(0, n):
-            (sig[0, i],) = struct.unpack('@f', x[ (i * 4) : ((i * 4) + 4) ] )
-            (sig[1, i],) = struct.unpack('@f', x[ (start_sig2 + (i * 4)) : (start_sig2 + (i * 4) + 4 )] )
+            (sig[2, i],) = struct.unpack('@f', x[ (i * 4) : ((i * 4) + 4) ] )
+            (sig[3, i],) = struct.unpack('@f', x[ (start_sig2 + (i * 4)) : (start_sig2 + (i * 4) + 4 )] )
 
         # The third sequence (the empty sequence indicating end of data)
         # The first 2 bytes of data are sync ('\x33\x33')
