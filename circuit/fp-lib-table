@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name zeabus)(type KiCad)(uri ${ZEABUS_LIB_DIR}/zeabus.pretty)(options "")(descr ""))
+  (lib (name kicad-footprints)(type KiCad)(uri ${ADDITION_FOOTPRINT_DIR}/Resistor_SMD.pretty)(options "")(descr ""))
+)

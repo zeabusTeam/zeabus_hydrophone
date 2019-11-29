@@ -3,3 +3,4 @@
 
 circuit/zeabus_hydrophone-cache.lib
 *.sch-bak
+circuit/fp-info-cache
