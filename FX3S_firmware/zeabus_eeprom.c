@@ -95,17 +95,21 @@ uint8_t zeabus_eeprom_read(uint8_t addr, uint8_t* buf, uint8_t size)
         return 0;
 }
 
-bool zeabus_eeprom_init() 
+bool zeabus_eeprom_initialize() 
 {
     CyU3PI2cConfig_t i2cConfig;
 
     if( CyU3PI2cInit() != CY_U3P_SUCCESS )
         return false;
 
+    return true;
     CyU3PMemSet ((uint8_t *)&i2cConfig, 0, sizeof(i2cConfig));
     i2cConfig.bitRate    = 100000;          /* 100Kbps */
     i2cConfig.busTimeout = 0xFFFFFFFF;
     i2cConfig.dmaTimeout = 0xFFFF;
     i2cConfig.isDma      = CyFalse;         /* No DMA */
-    return( CyU3PI2cSetConfig (&i2cConfig, NULL) );
+    if( CyU3PI2cSetConfig (&i2cConfig, NULL) != CY_U3P_SUCCESS )
+        return false;
+
+    return true;
 }

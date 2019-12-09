@@ -36,8 +36,7 @@
 #ifndef __ZEABUS_EEPROM_H
 #define __ZEABUS_EEPROM_H
 
-#include <cyu3typs.h>
-
+#include "zeabus.h"
 /*
  * The ZTEX FPGA board used for Zeabus hydrophone has an I2C EEPROM with
  * the capacity of 2Kbit (256 bytes). The device is organized as 2 blocks
@@ -46,7 +45,7 @@
  * support writing in multiple bytes within 1 I2C command.
  */
 
-bool zeabus_eeprom_init() ;
+bool zeabus_eeprom_initialize();
 uint8_t zeabus_eeprom_read(uint8_t addr, uint8_t *buf, uint8_t size);
 uint8_t zeabus_eeprom_write(uint8_t addr, uint8_t *buf, uint8_t size); 
 

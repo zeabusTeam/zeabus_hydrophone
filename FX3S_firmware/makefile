@@ -15,9 +15,8 @@
 ##
 
 MODULE = zeabus_hp_fx3s
-#MODULE = cyfx_rtos_eg
-OBJS = $(MODULE).o zeabus_flash.o zeabus_gpio.o
-USER_CLFAG = -g
+OBJS = $(MODULE).o zeabus_flash.o zeabus_eeprom.o zeabus_gpio.o zeabus_usb.o zeabus_error.o zeabus_app_init.o
+USER_CFLAGS = -Os
 ARMGCC_VERSION=9.2.1
 
 # Tools
@@ -25,14 +24,13 @@ CC  = arm-none-eabi-gcc
 AS  = arm-none-eabi-gcc
 LD  = arm-none-eabi-ld
 AR  = arm-none-eabi-ar
-ELF2IMG = ./tools/elf2img
+ELF2IMG = elf2img
 
 # Add any user defined ASMFLAGS
 ASMFLAGS = $(USER_ASMFLAGS)
 
 # The common include path
 Include =-I. -I./include
-
 
 # The common compiler options
 CCFLAGS = -DTX_ENABLE_EVENT_TRACE -DDEBUG -DCYU3P_FX3=1 -D__CYU3P_TX__=1 $(Include)
@@ -63,7 +61,7 @@ ASMFLAGS += -Wall -c -mcpu=arm926ej-s -mthumb-interwork
 CCFLAGS  += -Wall -mcpu=arm926ej-s -mthumb-interwork -ffunction-sections -fdata-sections
 
 # Select the linker script based on the chosen FX3 device.
-LDFLAGS += -T ./lib/fx3_512k.ld -d --gc-sections --no-wchar-size-warning -Map $(MODULE).map
+LDFLAGS += -T ./lib/zeabus.ld -d --gc-sections --no-wchar-size-warning -Map $(MODULE).map
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c -o $@ $< 
@@ -81,7 +79,6 @@ clean:
 	rm -f *~ *.bak *.old
 	rm -f *.rel *.rst *.lnk *.lst *.map *.asm *.sym *.mem *.tmp.c *.lk
 	rm -f *.o *.elf *.map *.tmp.c *.img
-
 
 all: $(MODULE).img
 

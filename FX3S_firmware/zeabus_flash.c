@@ -38,6 +38,7 @@
 #include <cyu3dma.h>
 #include <cyu3error.h>
 
+#include "zeabus.h"
 #include "zeabus_flash.h"
 
 /*
@@ -79,7 +80,6 @@ static bool zeabus_spidma_initialize( void )
     /* Channel to read from SPI flash. */
     dmaConfig.prodSckId = CY_U3P_LPP_SOCKET_SPI_PROD;
     dmaConfig.consSckId = CY_U3P_CPU_SOCKET_CONS;
-    ZTEX_REC(status =   );
     if ( CyU3PDmaChannelCreate (&xSpiRxHandle, CY_U3P_DMA_TYPE_MANUAL_IN, &dmaConfig) != CY_U3P_SUCCESS )
         return false;
 
@@ -280,7 +280,7 @@ static bool zeabus_spi_flash_wait_busy()
     if( !zeabus_spi_cs_on() )
         return false;
 
-    if ( CyU3PSpiTransmitWords( au8FlashCmdCell.buf, 1 ) != CY_U3P_SUCCESS)
+    if ( CyU3PSpiTransmitWords( au8FlashCmdCell, 1 ) != CY_U3P_SUCCESS)
     {
         (void)zeabus_spi_cs_off();
         return false;
@@ -300,7 +300,7 @@ static bool zeabus_spi_flash_wait_busy()
         CyU3PThreadSleep(1);    /* Sleep for 1 ms */
     }
 
-    return( ztex_flash_deselect() ); 
+    return( zeabus_spi_cs_off() ); 
 }
 
 /* Enable writing to flash. The flash always disables writing after each 
@@ -354,7 +354,7 @@ uint32_t zeabus_spi_flash_read( uint32_t addr, uint8_t* buf, uint32_t size )
     }
 
     /* Read data */
-    s_size = zeabus_spidma_read( buf, size )
+    s_size = zeabus_spidma_read( buf, size );
     
     /* De-assert CS */
     (void)zeabus_spi_cs_off();
@@ -369,7 +369,7 @@ uint32_t zeabus_spi_flash_read( uint32_t addr, uint8_t* buf, uint32_t size )
  * Return the total written pages. */
 uint16_t zeabus_spi_flash_page_write( uint16_t page, uint8_t* buf, uint16_t total )
 {
-    uint32_t t
+    uint32_t t;
     uint16_t s;    /* Successfully written size */
 
     s = 0;

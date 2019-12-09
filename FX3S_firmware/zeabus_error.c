@@ -1,5 +1,5 @@
 /****************************************************************************
- * zeabus_gpio.h
+ * zeabus_error.c
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
@@ -32,18 +32,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************/
-
-#ifndef __ZEABUS_GPIO_H
-#define __ZEABUS_GOIO_H
+#include <cyu3system.h>
+#include <cyu3os.h>
+#include <cyu3dma.h>
+#include <cyu3usb.h>
+#include <cyu3utils.h>
+#include <cyu3externcend.h>
 
 #include "zeabus.h"
+#include "zeabus_error.h"
+#include "zeabus_gpio.h"
 
-bool zeabus_gpio_initialize( void );
-bool zeabus_configgpio_input( uint8_t io_num );
-bool zeabus_configgpio_output( uint8_t io_num, bool init_value );
-bool zeabus_configgpio_opendrain( uint8_t io_num, bool init_value );
-bool zeabus_configgpio_opensource( uint8_t io_num, bool init_value );
-bool zeabus_gpiowrite( uint8_t io_num, bool value );
-bool zeabus_gpioread( uint8_t io_num );
+void zeabus_app_err_handler( uint32_t error )
+{
+    /* Application failed with the error code apiRetStatus */
 
-#endif /* __ZEABUS_GPIO_H */
+    /* Add custom debug or recovery actions here */
+    /* Loop Indefinitely */
+    for (;;)
+    {
+        (void)zeabus_gpiowrite(ZEABUS_GPIO_LED, true);
+        /* Thread sleep : 100 ms */
+        CyU3PThreadSleep (250);
+        (void)zeabus_gpiowrite(ZEABUS_GPIO_LED, false);
+        /* Thread sleep : 100 ms */
+        CyU3PThreadSleep (200);
+    }
+}

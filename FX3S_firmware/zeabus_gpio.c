@@ -34,13 +34,15 @@
  ****************************************************************************/
 #include <cyu3gpio.h>
 
+#include "zeabus.h"
+
 bool zeabus_gpioread( uint8_t io_num )
 {
   CyBool_t val;
   CyU3PReturnStatus_t status;
 
-  status = CyU3PGpioSimpleGetValue(num, &val);
-  if ( (status != CY_U3P_SUCCESS) || (val == CyFalse))
+  status = CyU3PGpioSimpleGetValue( io_num, &val );
+  if ( ( status != CY_U3P_SUCCESS ) || ( val == CyFalse ) )
     return false;
   else
     return true;
@@ -134,7 +136,7 @@ bool zeabus_configgpio_input( uint8_t io_num )
     return true;
 }
 
-bool zeabus_gpio_initailize( void ) 
+bool zeabus_gpio_initialize( void ) 
 {
   CyU3PGpioClock_t cfg;
 
@@ -155,7 +157,7 @@ bool zeabus_gpio_initailize( void )
   cfg.clkSrc     = CY_U3P_SYS_CLK;              /* Use SYS_CLK as input */
   cfg.halfDiv    = 0;                           /* Disable 0.5 fraction */
 
-  if( CyU3PGpioInit (&cfg, GPIO_INT_HANDLER) != CY_U3P_SUCCESS)
+  if( CyU3PGpioInit(&cfg, NULL) != CY_U3P_SUCCESS )
     return false;
   else
     return true;

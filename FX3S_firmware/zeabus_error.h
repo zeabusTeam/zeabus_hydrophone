@@ -1,5 +1,5 @@
 /****************************************************************************
- * zeabus_gpio.h
+ * zeabus_error.h
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
@@ -14,7 +14,7 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
- * 3. Neither the name NuttX nor the names of its contributors may be
+ * 3. Neither the name RobinLab nor the names of its contributors may be
  *    used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
@@ -33,17 +33,13 @@
  *
  ****************************************************************************/
 
-#ifndef __ZEABUS_GPIO_H
-#define __ZEABUS_GOIO_H
+#ifndef __ZEABUS_ERROR_H
+#define __ZEABUS_ERROR_H
 
 #include "zeabus.h"
 
-bool zeabus_gpio_initialize( void );
-bool zeabus_configgpio_input( uint8_t io_num );
-bool zeabus_configgpio_output( uint8_t io_num, bool init_value );
-bool zeabus_configgpio_opendrain( uint8_t io_num, bool init_value );
-bool zeabus_configgpio_opensource( uint8_t io_num, bool init_value );
-bool zeabus_gpiowrite( uint8_t io_num, bool value );
-bool zeabus_gpioread( uint8_t io_num );
+/* The function to handle all errors. */
+void zeabus_app_err_handler( uint32_t error );
 
-#endif /* __ZEABUS_GPIO_H */
+
+#endif // __ZEABUS_ERROR_H

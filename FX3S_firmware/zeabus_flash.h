@@ -36,8 +36,7 @@
 #ifndef __ZEABUS_FLASH_H
 #define __ZEABUS_FLASH_H
 
-#include <cyu3typs.h>
-
+#include "zeabus.h"
 
 /*
  * SPI Flash memory on ZTEX board is S25FL127S having 128 Mb or 16 MB capacity.

@@ -4,3 +4,5 @@
 circuit/zeabus_hydrophone-cache.lib
 *.sch-bak
 circuit/fp-info-cache
+*.elf
+FX3S_firmware/zeabus_hp_fx3s.map
