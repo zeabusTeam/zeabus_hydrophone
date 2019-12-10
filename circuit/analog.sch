@@ -6,8 +6,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 2
 Title "Hydrophone Frontend"
-Date "2019-Nov-27"
-Rev "1.0.0"
+Date "2019-Dec-10"
+Rev "3.0.1"
 Comp "Zeabus AUV Team"
 Comment1 "Faculty of Engineering, Kasetsart University"
 Comment2 "by Akrapong Patchararungruang"
@@ -1967,8 +1967,6 @@ Wire Wire Line
 Wire Wire Line
 	6800 5550 6800 5350
 Wire Wire Line
-	6500 4950 6800 4950
-Wire Wire Line
 	6800 4950 6800 5150
 $Comp
 L power:GNDA #PWR060
@@ -2042,7 +2040,6 @@ F 3 "" H 7450 4950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Connection ~ 7450 4950
-Connection ~ 6500 4950
 $Comp
 L power:GNDREF #PWR053
 U 1 1 5E08B81D
@@ -2258,4 +2255,131 @@ F 3 "" H 8600 6150 50  0001 C CNN
 $EndComp
 Text HLabel 10650 4700 2    50   Input ~ 0
 VIN4+
+$Comp
+L Connector:TestPoint TP3
+U 1 1 5DF3E066
+P 3500 3700
+F 0 "TP3" H 3558 3818 50  0000 L CNN
+F 1 "TestPoint" H 3558 3727 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical" H 3700 3700 50  0001 C CNN
+F 3 "~" H 3700 3700 50  0001 C CNN
+	1    3500 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP1
+U 1 1 5DF3F2DE
+P 3500 1000
+F 0 "TP1" H 3558 1118 50  0000 L CNN
+F 1 "TestPoint" H 3558 1027 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical" H 3700 1000 50  0001 C CNN
+F 3 "~" H 3700 1000 50  0001 C CNN
+	1    3500 1000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP2
+U 1 1 5DF3FC51
+P 9000 1050
+F 0 "TP2" H 9058 1168 50  0000 L CNN
+F 1 "TestPoint" H 9058 1077 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical" H 9200 1050 50  0001 C CNN
+F 3 "~" H 9200 1050 50  0001 C CNN
+	1    9000 1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP4
+U 1 1 5DF406A8
+P 8900 3700
+F 0 "TP4" H 8958 3818 50  0000 L CNN
+F 1 "TestPoint" H 8958 3727 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical" H 9100 3700 50  0001 C CNN
+F 3 "~" H 9100 3700 50  0001 C CNN
+	1    8900 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP5
+U 1 1 5DF43817
+P 9900 6150
+F 0 "TP5" H 9958 6268 50  0000 L CNN
+F 1 "TestPoint" H 9958 6177 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical" H 10100 6150 50  0001 C CNN
+F 3 "~" H 10100 6150 50  0001 C CNN
+	1    9900 6150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP6
+U 1 1 5DF43CDD
+P 10650 6150
+F 0 "TP6" H 10708 6268 50  0000 L CNN
+F 1 "TestPoint" H 10708 6177 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x01_P2.54mm_Vertical" H 10850 6150 50  0001 C CNN
+F 3 "~" H 10850 6150 50  0001 C CNN
+	1    10650 6150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDA #PWR0101
+U 1 1 5DF45253
+P 10650 6150
+F 0 "#PWR0101" H 10650 5900 50  0001 C CNN
+F 1 "GNDA" H 10655 5977 50  0000 C CNN
+F 2 "" H 10650 6150 50  0001 C CNN
+F 3 "" H 10650 6150 50  0001 C CNN
+	1    10650 6150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDREF #PWR0102
+U 1 1 5DF46A08
+P 9900 6150
+F 0 "#PWR0102" H 9900 5900 50  0001 C CNN
+F 1 "GNDREF" H 9905 5977 50  0000 C CNN
+F 2 "" H 9900 6150 50  0001 C CNN
+F 3 "" H 9900 6150 50  0001 C CNN
+	1    9900 6150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 4250 3300 4100
+Wire Wire Line
+	3300 4100 3450 4100
+Wire Wire Line
+	3450 4100 3450 3700
+Wire Wire Line
+	3450 3700 3500 3700
+Connection ~ 3300 4250
+Wire Wire Line
+	3300 1550 3300 1400
+Wire Wire Line
+	3300 1400 3450 1400
+Wire Wire Line
+	3450 1400 3450 1000
+Wire Wire Line
+	3450 1000 3500 1000
+Connection ~ 3300 1550
+Wire Wire Line
+	8800 1550 8800 1400
+Wire Wire Line
+	8800 1400 8950 1400
+Wire Wire Line
+	8950 1400 8950 1050
+Wire Wire Line
+	8950 1050 9000 1050
+Connection ~ 8800 1550
+Wire Wire Line
+	8700 4300 8700 4150
+Wire Wire Line
+	8700 4150 8850 4150
+Wire Wire Line
+	8850 4150 8850 3700
+Wire Wire Line
+	8850 3700 8900 3700
+Connection ~ 8700 4300
+Wire Wire Line
+	6800 4950 6500 4950
+Connection ~ 6500 4950
 $EndSCHEMATC

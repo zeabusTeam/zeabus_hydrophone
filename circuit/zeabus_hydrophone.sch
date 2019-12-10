@@ -6,8 +6,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 2
 Title "Hydrophone Frontend"
-Date "2019-Nov-27"
-Rev "1.0.0"
+Date "2019-Dec-10"
+Rev "3.0.1"
 Comp "Zeabus AUV Team"
 Comment1 "Faculty of Engineering, Kasetsart University"
 Comment2 "by Akrapong Patchararungruang"
@@ -127,12 +127,12 @@ $EndComp
 $Comp
 L zeabus:ZTEX-V2-FPGA CON1
 U 2 1 5DCDC827
-P 9650 950
-F 0 "CON1" H 10150 1115 50  0000 C CNN
-F 1 "ZTEX-V2-FPGA" H 10150 1024 50  0000 C CNN
-F 2 "zeabus:ZTEX-V2-FPGA" H 11200 -1050 50  0001 C CNN
-F 3 "" H 11200 -1050 50  0001 C CNN
-	2    9650 950 
+P 9650 3800
+F 0 "CON1" H 10150 3965 50  0000 C CNN
+F 1 "ZTEX-V2-FPGA" H 10150 3874 50  0000 C CNN
+F 2 "zeabus:ZTEX-V2-FPGA" H 11200 1800 50  0001 C CNN
+F 3 "" H 11200 1800 50  0001 C CNN
+	2    9650 3800
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -400,9 +400,6 @@ Connection ~ 5200 750
 Wire Wire Line
 	5650 750  6050 750 
 Connection ~ 5650 750 
-Wire Wire Line
-	6050 750  6500 750 
-Connection ~ 6050 750 
 Wire Wire Line
 	6500 950  6050 950 
 Wire Wire Line
@@ -754,7 +751,6 @@ F 3 "" H 6500 750 50  0001 C CNN
 	1    6500 750 
 	1    0    0    -1  
 $EndComp
-Connection ~ 6500 750 
 Wire Wire Line
 	3850 1200 3850 1150
 Wire Wire Line
@@ -1658,13 +1654,13 @@ $EndComp
 $Comp
 L zeabus:ZTEX-V2-FPGA CON1
 U 1 1 5DDEDD9C
-P 10650 3800
-F 0 "CON1" H 11150 3965 50  0000 C CNN
-F 1 "ZTEX-V2-FPGA" H 11150 3874 50  0000 C CNN
-F 2 "zeabus:ZTEX-V2-FPGA" H 12200 1800 50  0001 C CNN
-F 3 "" H 12200 1800 50  0001 C CNN
-	1    10650 3800
-	-1   0    0    -1  
+P 9650 950
+F 0 "CON1" H 10150 1115 50  0000 C CNN
+F 1 "ZTEX-V2-FPGA" H 10150 1024 50  0000 C CNN
+F 2 "zeabus:ZTEX-V2-FPGA" H 11200 -1050 50  0001 C CNN
+F 3 "" H 11200 -1050 50  0001 C CNN
+	1    9650 950 
+	1    0    0    -1  
 $EndComp
 $Comp
 L zeabus:ZTEX-V2-FPGA CON1
@@ -1807,8 +1803,8 @@ F 3 "" H 7000 6100 50  0001 C CNN
 	1    7000 6100
 	1    0    0    -1  
 $EndComp
-NoConn ~ 6450 4100
-NoConn ~ 6450 4250
+NoConn ~ 6450 5800
+NoConn ~ 6450 4200
 NoConn ~ 6450 4350
 NoConn ~ 6450 4450
 NoConn ~ 6450 4550
@@ -1822,7 +1818,7 @@ NoConn ~ 6450 5250
 NoConn ~ 6450 5350
 NoConn ~ 6450 5450
 NoConn ~ 6450 5550
-NoConn ~ 6450 5700
+NoConn ~ 6450 5650
 Wire Wire Line
 	7600 5800 7550 5800
 Wire Wire Line
@@ -2421,11 +2417,6 @@ Wire Wire Line
 Wire Wire Line
 	800  6900 1050 6900
 Connection ~ 800  6900
-Wire Wire Line
-	1250 6900 1500 6900
-Wire Wire Line
-	1500 6900 1500 6950
-Connection ~ 1500 6900
 Text Notes 2100 7700 0    50   ~ 0
 NOTE\n* The pin order comes from Xilinx JTAG standard with only even-side pins.\n* In Xilinx JTAG standard, the odd-side pins are all connected to GND.\n* This design moves GND to pin 6, which is unused in Xilinx JTAG.\n* Xilinx JTAG use 14-pin dual-row connector with 2.0mm space (not 2.54).\n* JTAG_VIO is connected directly to +3.3V
 Text Label 6600 6100 0    50   ~ 0
@@ -2496,4 +2487,13 @@ Text Label 3800 6900 0    50   ~ 0
 RESn
 Wire Wire Line
 	3450 6900 3800 6900
+Wire Wire Line
+	6050 750  6500 750 
+Connection ~ 6050 750 
+Connection ~ 6500 750 
+Wire Wire Line
+	1500 6950 1500 6900
+Wire Wire Line
+	1250 6900 1500 6900
+Connection ~ 1500 6900
 $EndSCHEMATC
