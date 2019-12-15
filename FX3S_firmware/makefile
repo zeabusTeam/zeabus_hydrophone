@@ -15,7 +15,7 @@
 ##
 
 MODULE = zeabus_hp_fx3s
-OBJS = $(MODULE).o zeabus_flash.o zeabus_eeprom.o zeabus_gpio.o zeabus_usb.o zeabus_error.o zeabus_app_init.o
+OBJS = $(MODULE).o zeabus_config.o zeabus_fpgaconf.o zeabus_flash.o zeabus_eeprom.o zeabus_gpio.o zeabus_usb.o zeabus_error.o zeabus_app_init.o
 USER_CFLAGS = -Os
 ARMGCC_VERSION=9.2.1
 
@@ -73,7 +73,7 @@ LDFLAGS += -T ./lib/zeabus.ld -d --gc-sections --no-wchar-size-warning -Map $(MO
 	$(LD) $+ $(LDFLAGS) -o $@
 
 $(MODULE).img: $(MODULE).elf
-	$(ELF2IMG) -o $@ -i $<
+	$(ELF2IMG) -i2cconf 20 -o $@ -i $<
 
 clean:
 	rm -f *~ *.bak *.old

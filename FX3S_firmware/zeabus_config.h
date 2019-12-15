@@ -1,5 +1,5 @@
 /****************************************************************************
- * zeabus_eeprom.h
+ * zeabus_config.h
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
@@ -33,20 +33,16 @@
  *
  ****************************************************************************/
 
-#ifndef __ZEABUS_EEPROM_H
-#define __ZEABUS_EEPROM_H
+#ifndef __ZEABUS_CONFIG_H
+#define __ZEABUS_CONFIG_H
 
 #include "zeabus.h"
-/*
- * The ZTEX FPGA board used for Zeabus hydrophone has an I2C EEPROM with
- * the capacity of 2Kbit (256 bytes). The device is organized as 2 blocks
- * of 128 x 8-bit. The address of the device is set to 0xA6 in 7-bit format 
- * (the LSB is to indicate R/~W action). There is a 16-byte page buffer to
- * support writing in multiple bytes within 1 I2C command.
- */
 
-bool zeabus_eeprom_initialize(void);
-uint8_t zeabus_eeprom_read(uint8_t addr, uint8_t *buf, uint8_t size);
-uint8_t zeabus_eeprom_write(uint8_t addr, uint8_t *buf, uint8_t size); 
+/************************************************************************************
+ * Public API Functions
+ ************************************************************************************/
+bool zeabus_conf_initialize( void );  // Initialize configuration from EEPROM
+bool zeabus_conf_get_bitstream_info( uint32_t* addr, uint32_t* len );   // Get the current settting of FPGA bitstream address and its length
+bool zeabus_conf_set_bitstream_info( uint32_t addr, uint32_t len );  // Set the Flash-memory address and length of FPGA bitstream
 
-#endif /* __ZEABUS_EEPROM_H */
+#endif // __ZEABUS_CONFIG_H

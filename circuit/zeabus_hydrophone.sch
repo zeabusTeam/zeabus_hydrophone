@@ -2078,8 +2078,8 @@ NoConn ~ 10800 4600
 NoConn ~ 10800 4700
 NoConn ~ 10800 4800
 NoConn ~ 10800 4900
-NoConn ~ 10800 5000
-NoConn ~ 10800 5100
+NoConn ~ 9500 3350
+NoConn ~ 9500 3450
 NoConn ~ 10800 5200
 NoConn ~ 10800 5300
 NoConn ~ 10800 5400
@@ -2239,22 +2239,10 @@ Text Label 7900 6150 2    50   ~ 0
 CLK_B2
 Text Label 7900 6350 2    50   ~ 0
 CLK_A2
-Text Label 9150 3600 2    50   ~ 0
+Text Label 10950 5000 0    50   ~ 0
 SDA
-Text Label 9150 3700 2    50   ~ 0
+Text Label 10950 5100 0    50   ~ 0
 SCL
-Wire Wire Line
-	9150 3600 9200 3600
-Wire Wire Line
-	9200 3600 9200 3350
-Wire Wire Line
-	9200 3350 9500 3350
-Wire Wire Line
-	9150 3700 9250 3700
-Wire Wire Line
-	9250 3700 9250 3450
-Wire Wire Line
-	9250 3450 9500 3450
 Wire Wire Line
 	8500 3900 9500 3900
 Wire Wire Line
@@ -2496,4 +2484,8 @@ Wire Wire Line
 Wire Wire Line
 	1250 6900 1500 6900
 Connection ~ 1500 6900
+Wire Wire Line
+	10800 5000 10950 5000
+Wire Wire Line
+	10800 5100 10950 5100
 $EndSCHEMATC

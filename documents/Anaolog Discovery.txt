@@ -1,0 +1,19 @@
+[Port 0.3] <- [USB Bus] <- SIV64X - System Information Viewer V5.32 DESKTOP-MDIICNE::akrap
+
+Information for [Port 0.3]   State Connected at Address 4 with 2 Pipes (44)   Device USB Serial Converter
+
+Device USB V2.00  LangID 0409 1 Class 0.0.0        Class 0 (00) SubClass 0 (00) Protocol 0 (00)  Maximum Packet Size 64 (EP0)  Configurations 1  Descriptors 4
+ Vendor ID  VID                              0403  Future Technology Devices
+ Product ID PID                              6014  USB Serial Converter
+ Revision # REV                              0900  Revision: 0403:6014:0900
+ Manufacturer                                 (1)  "Digilent"
+ Product Name                                 (2)  "Digilent USB Device"
+ Serial Number                                (3)  "210321A2AB36"
+Configuration Interfaces 1      Bus Powered        Maximum Power 0 mA  Attributes 0x80  Configuration 0x01  (0)
+ Interface 0.0  MI 00 Endpoints 2 Class 255.255.255 Class 255 (FF) SubClass 255 (FF) Protocol 255 (FF)  Alt 0  Name (2) "Digilent USB Device"  Future Technology Devices USB Serial Converter
+  Endpoint 1 Address 0x81 (In)   Bulk              Maximum Packet Size 0x0200 (512)  Attributes 0x02  Interval 0
+  Endpoint 2 Address 0x02 (Out)  Bulk              Maximum Packet Size 0x0200 (512)  Attributes 0x02  Interval 0
+
+|G|HKLM\System\CurrentControlSet\Control\UsbFlags\040360140900  [_]IgnoreHWSerNum
+
+[  OK ]  [ Copy]   [ First]  [ Prev]   [ This]  [ Next]   [ Last]   [USB Flags]

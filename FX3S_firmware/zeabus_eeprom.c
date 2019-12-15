@@ -37,6 +37,7 @@
 #include <cyu3i2c.h>
 
 #include "zeabus_eeprom.h"
+#include "zeabus_usb.h"
 
 #define _ZEABUS_EEPROM_ADDR (0xA6)
 #define _ZEABUS_EEPROM_PAGESIZE (16)
@@ -89,26 +90,25 @@ uint8_t zeabus_eeprom_read(uint8_t addr, uint8_t* buf, uint8_t size)
     preamble.buffer[2] = _ZEABUS_EEPROM_ADDR | 1;
     preamble.ctrlMask  = 0x0002;    /* Send START after byte 2 was sent. */
     
-    if( CyU3PI2cReceiveBytes(&preamble, buf, (uint32_t)size, 1) == CY_U3P_SUCCESS )
+    if( CyU3PI2cReceiveBytes(&preamble, buf, (uint32_t)size, 2) == CY_U3P_SUCCESS )
         return size;
     else
         return 0;
 }
 
-bool zeabus_eeprom_initialize() 
+bool zeabus_eeprom_initialize(void) 
 {
     CyU3PI2cConfig_t i2cConfig;
 
     if( CyU3PI2cInit() != CY_U3P_SUCCESS )
         return false;
 
-    return true;
     CyU3PMemSet ((uint8_t *)&i2cConfig, 0, sizeof(i2cConfig));
     i2cConfig.bitRate    = 100000;          /* 100Kbps */
     i2cConfig.busTimeout = 0xFFFFFFFF;
     i2cConfig.dmaTimeout = 0xFFFF;
     i2cConfig.isDma      = CyFalse;         /* No DMA */
-    if( CyU3PI2cSetConfig (&i2cConfig, NULL) != CY_U3P_SUCCESS )
+    if( CyU3PI2cSetConfig(&i2cConfig, NULL) != CY_U3P_SUCCESS )
         return false;
 
     return true;

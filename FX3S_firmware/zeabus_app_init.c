@@ -117,7 +117,7 @@ int main (void)
     io_cfg.useI2C    = CyTrue;      // I2C EEPROM
     io_cfg.useI2S    = CyFalse;     // No I2S
     io_cfg.useSpi    = CyTrue;      // SPI Flash
-    io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_SPI_ONLY;   // LPP only has SPI active
+    io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_DEFAULT;   // LPP only has SPI active
 
     /* Enable the GPIO which would have been setup by 2-stage booter. */
     io_cfg.gpioSimpleEn[0]  = 0;    // GPIO 0 - 31 are used by GPIF II

@@ -1,0 +1,33 @@
+[Port 0.3] <- [USB Bus] <- SIV64X - System Information Viewer V5.32 DESKTOP-MDIICNE::akrap
+
+Information for [Port 0.3]   State Connected at Address 4 with 8 Pipes (140)   Device USB Composite Device
+
+Device USB V2.00  LangID 0409 1 I/F Association    Class 239 (EF) SubClass 2 (02) Protocol 1 (01)  Maximum Packet Size 64 (EP0)  Configurations 1  Descriptors 18
+ Vendor ID  VID                              0483  SGS Thomson
+ Product ID PID                              374B  ST-LINK/V2.1 (Nucleo-F103RB)
+ Revision # REV                              0100  Revision: 0483:374B:0100
+ Manufacturer                                 (1)  "STMicroelectronics"
+ Product Name                                 (2)  "STM32 STLink"
+ Serial Number                                (3)  "0673FF564857786767152914"
+Configuration Interfaces 4      Bus Powered        Maximum Power 300 mA  Attributes 0x80  Configuration 0x01  (0)
+ Interface 0.0  MI 00 Endpoints 3 Class 255.255.255 Class 255 (FF) SubClass 255 (FF) Protocol 255 (FF)  Alt 0  Name (4) "ST-Link Debug"  SGS Thomson ST-LINK/V2.1 (Nucleo-F103RB)
+  Endpoint 1 Address 0x81 (In)   Bulk              Maximum Packet Size 0x0040 (64)  Attributes 0x02  Interval 0
+  Endpoint 1 Address 0x01 (Out)  Bulk              Maximum Packet Size 0x0040 (64)  Attributes 0x02  Interval 0
+  Endpoint 2 Address 0x82 (In)   Bulk              Maximum Packet Size 0x0020 (32)  Attributes 0x02  Interval 0
+ Interface 1.0  MI 01 Endpoints 2 Bulk SCSI Disk   Class 8 (08) SubClass 6 (06) Protocol 80 (50)  Alt 0  Name (5) "ST-Link mass storage"  SGS Thomson ST-LINK/V2.1 (Nucleo-F103RB)
+  Endpoint 3 Address 0x83 (In)   Bulk              Maximum Packet Size 0x0040 (64)  Attributes 0x02  Interval 0
+  Endpoint 3 Address 0x03 (Out)  Bulk              Maximum Packet Size 0x0040 (64)  Attributes 0x02  Interval 0
+ Interface Association  First 2 Count  2 Comms Ctrl 2.1 Function 6
+ Interface 2.0  MI 02 Endpoints 1 Comms Ctrl 2.1   Class 2 (02) SubClass 2 (02) Protocol 1 (01)  Alt 0  Name (6) "ST-Link VCP Ctrl"  SGS Thomson ST-LINK/V2.1 (Nucleo-F103RB)
+  Comms Header                  V1.10
+  Comms Call Management         Capabilities 0x00  Data Interface 3  Call Management:
+  Comms Abstract Call Management Capabilities 0x06 Device Supports:  get/set coding/state, send break, connect notify
+  Comms Union                   Master 2           Slave 3
+   Endpoint 4 Address 0x84 (In)  Interrupt         Maximum Packet Size 0x0008 (8)  Attributes 0x03  Interval 255
+ Interface 3.0  MI 03 Endpoints 2 Comms Data 0.0   Class 10 (0A) SubClass 0 (00) Protocol 0 (00)  Alt 0  Name (7) "ST-Link VCP Data"  SGS Thomson ST-LINK/V2.1 (Nucleo-F103RB)
+  Endpoint 5 Address 0x05 (Out)  Bulk              Maximum Packet Size 0x0010 (16)  Attributes 0x02  Interval 0
+  Endpoint 5 Address 0x85 (In)   Bulk              Maximum Packet Size 0x0010 (16)  Attributes 0x02  Interval 0
+
+|G|HKLM\System\CurrentControlSet\Control\UsbFlags\0483374B0100  [_]IgnoreHWSerNum
+
+[  OK ]  [ Copy]   [ First]  [ Prev]   [ This]  [ Next]   [ Last]   [USB Flags]

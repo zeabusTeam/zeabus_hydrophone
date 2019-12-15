@@ -1,5 +1,5 @@
 /****************************************************************************
- * zeabus_eeprom.h
+ * zeabus_fpgaconf.h
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
@@ -14,7 +14,7 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
- * 3. Neither the name NuttX nor the names of its contributors may be
+ * 3. Neither the name RobinLab nor the names of its contributors may be
  *    used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
@@ -32,21 +32,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  ****************************************************************************/
-
-#ifndef __ZEABUS_EEPROM_H
-#define __ZEABUS_EEPROM_H
+#ifndef __ZEABUS_FPGACONF_H
+#define __ZEABUS_FPGACONF_H
 
 #include "zeabus.h"
-/*
- * The ZTEX FPGA board used for Zeabus hydrophone has an I2C EEPROM with
- * the capacity of 2Kbit (256 bytes). The device is organized as 2 blocks
- * of 128 x 8-bit. The address of the device is set to 0xA6 in 7-bit format 
- * (the LSB is to indicate R/~W action). There is a 16-byte page buffer to
- * support writing in multiple bytes within 1 I2C command.
- */
 
-bool zeabus_eeprom_initialize(void);
-uint8_t zeabus_eeprom_read(uint8_t addr, uint8_t *buf, uint8_t size);
-uint8_t zeabus_eeprom_write(uint8_t addr, uint8_t *buf, uint8_t size); 
+bool zeabus_fpgaconf_start( void );
+void zeabus_fpgaconf_done( void );
+bool zeabus_fpgaconf_send( uint8_t* buf, uint32_t size );
 
-#endif /* __ZEABUS_EEPROM_H */
+#endif // __ZEABUS_FPGACONF_H

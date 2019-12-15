@@ -35,6 +35,7 @@
 #include <cyu3system.h>
 #include <cyu3os.h>
 #include <cyu3gpio.h>
+#include <cyu3pib.h>
 
 #include "zeabus.h"
 #include "zeabus_error.h"
@@ -43,9 +44,15 @@
 //#include "zeabus_gpif.h"
 #include "zeabus_flash.h"
 #include "zeabus_eeprom.h"
+#include "zeabus_config.h"
+#include "zeabus_fpgaconf.h"
 
 // Global variables
 CyU3PEvent   xZeabusEvent;              /* Global system event group */
+
+/************************************************************************************
+ * Private Data
+ ************************************************************************************/
 
 /* CPLD states
  * -- M0 M1  SPI: master --> salve  PROG_B      disable_flash  enable_flash
@@ -54,90 +61,34 @@ CyU3PEvent   xZeabusEvent;              /* Global system event group */
  * --  1  0          FPGA -> FLASH  FPGA_RESET_N     1             0
  */
 
-/* *********************************************************************
-   ***** ztex_fpga_configured ******************************************
-   ********************************************************************* */
-bool is_fpga_configured() 
+/* Clock config for general processing except Synchronous Slave mode. */
+static CyU3PPibClock_t zeabus_general_pib_clock = {
+    .clkDiv = 6,                // 416 / 6.5 = 64 MHz
+    .clkSrc = CY_U3P_SYS_CLK,   // 416 MHz
+    .isHalfDiv = CyTrue,
+    .isDllEnable = CyFalse
+};
+
+static uint8_t conv[] = "0123456789ABCDEF";
+
+/************************************************************************************
+ * Private Functions
+ ************************************************************************************/
+
+void b2str(uint8_t d, uint8_t* buf)
 {
-    return( zeabus_gpioread( ZEABUS_GPIO_FPGA_DONE ) );
+    buf[0] = conv[d>>4];
+    buf[1] = conv[d&0xF];
 }
 
-/* *********************************************************************
-   ***** ztex_fpga_reset ***********************************************
-   ********************************************************************* */
-void zeabus_fpga_reset()
-{
-    zeabus_gpiowrite( ZEABUS_GPIO_FPGA_RESET, false );
-    zeabus_gpiowrite( ZEABUS_GPIO_MODE1, false ); 
-
-    zeabus_gpiowrite( ZEABUS_GPIO_FPGA_RDWR_B, false );
-    zeabus_gpiowrite( ZEABUS_GPIO_FPGA_CSI_B, false );
-
-    CyU3PThreadSleep( 20 );
-    
-    zeabus_gpiowrite( ZEABUS_GPIO_FPGA_RESET, true );
-    zeabus_gpiowrite( ZEABUS_GPIO_MODE1, true ); 
-}
-
-/* *********************************************************************
-   ***** ztex_fpga_config_start ****************************************
-   ********************************************************************* */
-// socket should be 0 for configuration from CPU
-/*void ztex_fpga_config_start(CyU3PDmaSocketId_t socket) 
-{
-    uint8_t mode = socket > 0 ? 1 : 2;
-    if ( ztex_fpga_config_started == mode ) return;  // already started in correct mode
-
-    ztex_fpga_reset();
-
-    ztex_fpga_config_started=mode;
-    
-    ztex_fpgaconf1_start(socket);   // start gpif
-    
-    if ( socket > 0) {          // start auto transfers 
-    CyU3PDmaChannel* dma_p = CyU3PDmaChannelGetHandle(socket);
-    if ( dma_p != NULL ) CyU3PDmaChannelSetXfer (dma_p, 0);   // errors may occur if restarted
-    }
-
-    uint8_t i = 0;
-    while ( (!ztex_gpio_get(ZTEX_GPIO_FPGA_INIT_B)) && i<255 ) {
-    CyU3PThreadSleep (1);
-    i++;
-    }
-
-    ztex_fpga_init_b = ztex_gpio_get(ZTEX_GPIO_FPGA_INIT_B) ? 200 : 100;
-    ztex_fpga_cs = 0;
-    ztex_fpga_bytes = 0;
-}*/
-
-/* *********************************************************************
-   ***** ztex_fpga_config_done *****************************************
-   ********************************************************************* */
-/*void ztex_fpga_config_done(CyBool_t fromFlash) { 
-    ztex_fpga_init_b += ztex_gpio_get(ZTEX_GPIO_FPGA_INIT_B) ? 22 : 11;
-    
-    if ( ztex_fpga_config_started == 2)  ztex_fpgaconf1_send(ztex_ep0buf,16); // some extra clock's
-
-    ztex_fpgaconf1_stop();  // stop gpif
-
-    ztex_fpga_config_started = 0;
-
-    if ( fromFlash ) ZTEX_REC( CyU3PPibDeInit() );
-
-    if ( ZTEX_FPGA_CONFIGURED ) {
-    ztex_gpio_set_input(ZTEX_GPIO_FPGA_RDWR_B);
-    ztex_gpio_set_input(ZTEX_GPIO_FPGA_CSI_B);
-    
-    ZTEX_LOG("Info: Preparing USB for application");
-    if ( ! fromFlash ) ztex_usb_stop_main();    // restart USB and reset PIB clock
-    ztex_pib_clock2 = &ztex_pib_clock;
-    if ( ! fromFlash ) ztex_usb_start_main();
-    }
-}
-*/
-
+/************************************************************************************
+ * Public Functions
+ ************************************************************************************/
 void zeabus_main( uint32_t input )
 {
+    int i;
+    uint8_t addr;
+    uint8_t data[16], buf[4];
 
     /* Initialize event to notify USB incoming */
     if( CyU3PEventCreate( &xZeabusEvent ) != CY_U3P_SUCCESS )
@@ -145,6 +96,7 @@ void zeabus_main( uint32_t input )
 
     if( !zeabus_gpio_initialize() )
         zeabus_app_err_handler( CY_U3P_ERROR_FAILURE );
+
 
     /* Configure GPIO pins */
     zeabus_configgpio_output( ZEABUS_GPIO_OTG_EN, false );
@@ -159,6 +111,10 @@ void zeabus_main( uint32_t input )
     zeabus_configgpio_input( ZEABUS_GPIO_FPGA_INIT_B );     
     CyU3PGpioSetIoMode( ZEABUS_GPIO_FPGA_INIT_B, CY_U3P_GPIO_IO_MODE_WPU ); // Enable pull-up
 
+    /* After GPIO setup, setting CPLD state machine to enable flash memory */
+    zeabus_gpiowrite( ZEABUS_GPIO_MODE1, false );
+    zeabus_gpiowrite( ZEABUS_GPIO_MODE1, true );
+
     if( !zeabus_spi_flash_initialize() )
         zeabus_app_err_handler( CY_U3P_ERROR_FAILURE );
     if( !zeabus_eeprom_initialize() )
@@ -166,11 +122,39 @@ void zeabus_main( uint32_t input )
 
     /* Initialize FPGA */
 
+    /* Initialize PIB clock */
+    if( CyU3PPibInit( CyTrue, &zeabus_general_pib_clock ) != CY_U3P_SUCCESS )
+        zeabus_app_err_handler( CY_U3P_ERROR_FAILURE );
+
     if( !zeabus_usb_initialize() )
         zeabus_app_err_handler( CY_U3P_ERROR_FAILURE );
 
+    buf[2] = ' ';
+    buf[3] = 0;
+    addr = 0;
+    CyU3PThreadSleep( 1000 );
+    zeabus_usb_send( (uint8_t*)("\r\n"), 2 );
+    zeabus_usb_send( (uint8_t*)("Start\r\n"), 7 );
+
     while(1)    // Main loop of the system
     {
+        if( zeabus_spi_flash_read( (uint32_t)addr, data, 16 ) == 16 )
+        {
+            b2str(addr, buf);
+            zeabus_usb_send( buf, 3 );
+            zeabus_usb_send( (uint8_t*)": ", 2 );
+            for(i = 0; i < 16; i++ )
+            {
+                b2str(data[i], buf);
+                zeabus_usb_send( buf, 3 );
+            }
+            addr += 16;
+        }
+        else
+        {
+            zeabus_usb_send( (uint8_t*)("Failed"), 6 );
+        }
+        zeabus_usb_send( (uint8_t*)("\r\n"), 2 );
         /* Get event from the system then process it */
         (void)zeabus_gpiowrite(ZEABUS_GPIO_LED, true);
         CyU3PThreadSleep( 1000 );

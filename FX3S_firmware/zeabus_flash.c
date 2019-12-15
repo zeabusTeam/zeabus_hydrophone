@@ -41,6 +41,8 @@
 #include "zeabus.h"
 #include "zeabus_flash.h"
 
+static uint8_t au8FlashCmdCell[5];          /* Data buffer for non-DMA commands */
+
 /*
  * The firmware uses DMA to transfer data from and to the SPI flash
  * There are 2 simple-DMA channels, each for reading and writing data.
@@ -137,8 +139,8 @@ static uint32_t zeabus_spidma_read( uint8_t* buf, uint32_t size )
         }
         CyU3PSpiDisableBlockXfer (CyFalse, CyTrue);
         
-        t_buf.buffer += (uint32_t)(t_buf.size);
-        read_size += (uint32_t)(t_buf.size);
+        t_buf.buffer += (uint32_t)(t_buf.count);
+        read_size += (uint32_t)(t_buf.count);
     }
 
     /* Finish */
@@ -232,8 +234,7 @@ static bool zeabus_spi_initialize( void )
 
     /* Start the SPI master block  */
     CyU3PMemSet ( (uint8_t *)&spiConfig, 0, sizeof(spiConfig) );
-//    spiConfig.clock      = 33000000;
-    spiConfig.clock      = 50000000UL;  /* Clock freq. in Hz */
+    spiConfig.clock      = 33000000UL;  /* Clock freq. in Hz (33 MHz max) */
     spiConfig.isLsbFirst = CyFalse;     /* Data are sent MSB first */
     spiConfig.ssnPol     = CyFalse;     /* CS polariy (active low) */
     spiConfig.cpol       = CyTrue;      /* Clock polarity (idle = High) */
@@ -243,6 +244,26 @@ static bool zeabus_spi_initialize( void )
     spiConfig.ssnCtrl    = CY_U3P_SPI_SSN_CTRL_FW; /* CS line is controlled by the firmware through spi lib */
     spiConfig.wordLen    = 8;
     if( CyU3PSpiSetConfig (&spiConfig, NULL) != CY_U3P_SUCCESS )
+        return false;
+
+    /* Verify flash device */
+    au8FlashCmdCell[0]=0x90;
+    au8FlashCmdCell[1]=0;
+    au8FlashCmdCell[2]=0;
+    au8FlashCmdCell[3]=0;
+    zeabus_spi_cs_on();
+    if( CyU3PSpiTransmitWords( au8FlashCmdCell, 4 ) != CY_U3P_SUCCESS )
+    {
+        zeabus_spi_cs_off();
+        return false;
+    }
+    if( CyU3PSpiReceiveWords( au8FlashCmdCell, 2 ) != CY_U3P_SUCCESS )
+    {
+        zeabus_spi_cs_off();
+        return false;
+    }
+    zeabus_spi_cs_off();
+    if( au8FlashCmdCell[0] != 0x01 || au8FlashCmdCell[1] != 0x17 )
         return false;
     else
         return true;
@@ -270,8 +291,6 @@ static bool zeabus_spi_initialize( void )
 #define _FLASH_SR1_AREA_PROTEC_MODE (0x1C)  /* 3 bits */
 #define _FLASH_SR1_REG_WRITE_ENABLE (0x02)
 #define _FLASH_SR1_FLASH_BUSY       (0x01)
-
-static uint8_t au8FlashCmdCell[4];          /* Data buffer for non-DMA commands */
 
 /* Wait for current operation to finish */
 static bool zeabus_spi_flash_wait_busy()
@@ -347,10 +366,10 @@ uint32_t zeabus_spi_flash_read( uint32_t addr, uint8_t* buf, uint32_t size )
     au8FlashCmdCell[3] = (uint8_t)( addr & 0xFF );
     if( !zeabus_spi_cs_on() )
         return 0UL;
-    if( CyU3PSpiTransmitWords( au8FlashCmdCell, 4 ) != CY_U3P_SUCCESS )
+    if( CyU3PSpiTransmitWords( au8FlashCmdCell, 5 ) != CY_U3P_SUCCESS ) // Flash on ZTEX board requires an extra dummy byte
     {
         (void)zeabus_spi_cs_off();
-        return 0;
+        return 0UL;
     }
 
     /* Read data */

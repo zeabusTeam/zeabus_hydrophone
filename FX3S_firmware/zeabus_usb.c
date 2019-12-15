@@ -55,18 +55,10 @@
  *  - External reference clock - 26 MHz XTal
  *
  * Zebus describes itself as a CDC/ACM device to be seen as a virtual COM port.
- * The maxmimum power current is presumed as 200 mA. It canbe increased to
+ * The maxmimum power current is presumed as 200 mA. It can be increased to
  * 900 mA in USB-3 mode or 500 mA in USB-2 mode. Currently, this module 
  * does not support sleep/suspend states.
  *
- * A document from Cypress (Optimizing USB 3.0 Throughput with EX-USB FX3)
- * states that the optimum performance of BULK transferring can be achieved
- * when setting the burst length as 16 KBytes and the burst DMA buffer as 
- * 32 KByte (2 bursts) for each communication direction (IN and OUT).
- * As the packet length in USB3 is 1024 bytes (1 KBytes), 16 KByte bursts
- * means 16 packets canbe sent prior to wait for receiving the first ACK.
- *
- * The USB sub-system operates in multi-threaded.
  */
 
 // We borrow Cypress CDC vendor ID and product ID. The more appropriate is 0x0525:0xA4A7 belonging to a defuct company (NetChip Tech.).
@@ -256,7 +248,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Super speed endpoint companion descriptor for producer ep */
     0x06,                           /* Descriptor size */
     CY_U3P_SS_EP_COMPN_DESCR,       /* SS endpoint companion descriptor type */
-    0x0F,                           /* Max no. of packets in a burst minus 1 : 16 ( - 1 ) */
+    0x00,                           /* Max no. of packets in a burst minus 1 : 1 ( - 1 ) */
     0x00,                           /* Max streams for bulk EP = 0 (No streams) */
     0x00,0x00,                      /* Bytes per interval : 0 for BULK */
 
@@ -271,7 +263,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Super speed endpoint companion descriptor for consumer ep */
     0x06,                           /* Descriptor size */
     CY_U3P_SS_EP_COMPN_DESCR,       /* SS endpoint companion descriptor type */
-    0x0F,                           /* Max no. of packets in a burst (minus 1) : 16 ( - 1 ) */
+    0x00,                           /* Max no. of packets in a burst (minus 1) : 1 ( - 1 ) */
     0x00,                           /* Max streams for bulk EP = 0 (No streams) */
     0x00,0x00                       /* Bytes per interval : 0 for BULK */
 };
@@ -508,14 +500,12 @@ static bool            bIsUSBActive = false;      /* Whether the USB sub-system 
 static uint8_t         au8LineCoding[] = { 0x60, 0xE3, 0x16, 0, 0, 0, 8}; /* Line coding value. Init with 8N1 1.5MB*/
 
 /* Circular buffer for received data */
-#define ZEABUS_BUF_POINTER_MASK (0x7FFF)        // Mask for curcular buffer pointer
-static uint8_t          au8RecvBuf[32768];      // Buffer size should be multiple of 16 (as same as USB)
+#define ZEABUS_BUF_POINTER_MASK (0x0FFF)        // Mask for curcular buffer pointer
+static uint8_t          au8RecvBuf[4096];       // Buffer size should be multiple of 16 (as same as USB)
 static volatile uint32_t         u32RecvBufHead = 0;     // Head pointer
 static uint32_t         u32RecvBufTail = 0;     // Tail pointer
 static uint32_t         u32USBBulkDest;         // Identify the target that USB BULK endpoints bound to.
 
-// Global variable
-CyU3PEvent              xUSBEvent;              // Event ID of USB event
 /************************************************************************************
  * Private Functions
  ************************************************************************************/
@@ -663,14 +653,10 @@ static void ZeabusUSBAppStart( void )
      * 1024 * burst length so that a full burst can be completed.
      * This will mean that a buffer will be available only after it
      * has been filled or when a short packet is received. */
-    dmaCfg.size  = (size * 16);
-
-    /* Multiply the buffer size with the multiplier
-     * for performance improvement. This multiplier reduces DMA callback frequency */
-    dmaCfg.size *= 2;
+    dmaCfg.size = size;
 
     /* Number of DMA buffers to be used. More buffers can give better throughput. */
-    dmaCfg.count = 3;
+    dmaCfg.count = 4;
 
     dmaCfg.prodSckId = ZEABUS_DMA_EP_USB_PRODUCER_SOCKET;
     dmaCfg.consSckId = CY_U3P_CPU_SOCKET_CONS;
@@ -693,8 +679,7 @@ static void ZeabusUSBAppStart( void )
     dmaCfg.notification = CY_U3P_DMA_CB_CONS_EVENT;
     dmaCfg.prodSckId = CY_U3P_CPU_SOCKET_PROD;
     dmaCfg.consSckId = ZEABUS_DMA_EP_USB_CONSUMER_SOCKET;
-    apiRetStatus = CyU3PDmaChannelCreate (&xDMAChHandleBulkEgress,
-            CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaCfg);
+    apiRetStatus = CyU3PDmaChannelCreate( &xDMAChHandleBulkEgress, CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaCfg );
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler(apiRetStatus);
@@ -805,7 +790,7 @@ static void ZeabusUSBAppUSBEventCB (
 #define GET_LINE_CODING        0x21
 #define SET_CONTROL_LINE_STATE 0x22
 
-static CyBool_t ZeabusUSBAppUSBSetupCB(
+static CyBool_t ZeabusUSBAppUSBControlCB(
         uint32_t setupdat0, /* SETUP Data 0 */
         uint32_t setupdat1  /* SETUP Data 1 */
         )
@@ -947,11 +932,11 @@ static CyBool_t ZeabusUSBAppUSBSetupCB(
                 // Unbind CDC bulk from other peripherals
             case ZEABUS_USB_REQ_BIND_BULK_FPGA:
                 // Bind CDC bulk endpoints to FPGA interface
-                isHandle = CyTrue;
+                isHandled = CyTrue;
                 break;
 
             default:
-                isHandle = CyFalse;     // Unknown command
+                isHandled = CyFalse;     // Unknown command
                 break;
         }
     }
@@ -1050,7 +1035,7 @@ bool zeabus_usb_initialize( void )
     /* The fast enumeration is the easiest way to setup a USB connection,
      * where all enumeration phase is handled by the library. Only the
      * class / vendor requests need to be handled by the application. */
-    CyU3PUsbRegisterSetupCallback( ZeabusUSBAppUSBSetupCB, CyTrue );
+    CyU3PUsbRegisterSetupCallback( ZeabusUSBAppUSBControlCB, CyTrue );
 
     /* Setup the callback to handle the USB events. */
     CyU3PUsbRegisterEventCallback( ZeabusUSBAppUSBEventCB );

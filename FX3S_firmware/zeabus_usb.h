@@ -1,5 +1,5 @@
 /****************************************************************************
- * zeabus_usb.c
+ * zeabus_usb.h
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
