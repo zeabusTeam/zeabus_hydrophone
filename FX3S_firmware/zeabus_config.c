@@ -3,7 +3,7 @@
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -35,13 +35,14 @@
 #include <cyu3system.h>
 #include <cyu3os.h>
 
+#include "zeabus_error.h"
 #include "zeabus_config.h"
 #include "zeabus_eeprom.h"
 
 
 #define ZEABUS_CONF_SIG1    'Z'
 #define ZEABUS_CONF_SIG2    'B'
-#define ZEABUS_CONF_ADDR    (0x80)      // EEPROM address that store configuration
+#define ZEABUS_CONF_ADDR    (0x70)      // EEPROM address that store configuration
 #define ZEABUS_CONF_SIZE    (8)
 
 /************************************************************************************
@@ -69,6 +70,7 @@ bool zeabus_conf_initialize( void )  // Initialize configuration from EEPROM
     if( zeabus_eeprom_read( ZEABUS_CONF_ADDR, ebuf, ZEABUS_CONF_SIZE ) != ZEABUS_CONF_SIZE )
         return false;
 
+    //_log("Conf : %02X %02X %02X %02X %02X %02X %02X %02X\r\n", ebuf[0], ebuf[1], ebuf[2], ebuf[3], ebuf[4], ebuf[5], ebuf[6], ebuf[7] );
     /* Verify the signatures */
     if( ebuf[0] != ZEABUS_CONF_SIG1 || ebuf[1] != ZEABUS_CONF_SIG2 )
         return false;
@@ -87,6 +89,14 @@ bool zeabus_conf_initialize( void )  // Initialize configuration from EEPROM
     return true;
 }
 
+bool zeabus_conf_invalidate( void ) // Void out the configuration
+{
+    if( zeabus_eeprom_write( ZEABUS_CONF_ADDR, (uint8_t*)("  "), 2 ) != 2 )
+        return false;
+    else
+        return true;
+}
+
 bool zeabus_conf_get_bitstream_info( uint32_t* addr, uint32_t* len )   // Get the current settting of FPGA bitstream address and its length
 {
     if( !(xZeabusConfig.bValid) )
@@ -101,23 +111,25 @@ bool zeabus_conf_set_bitstream_info( uint32_t addr, uint32_t len )  // Set the F
 {
     /* Invalidate all configuration */
     xZeabusConfig.bValid = false;
-    if( zeabus_eeprom_write( ZEABUS_CONF_ADDR, (uint8_t*)(" "), 1 ) != 1 )
+    if( zeabus_eeprom_write( ZEABUS_CONF_ADDR, (uint8_t*)("  "), 2 ) != 2 )
         return false;
 
+    _log("Save config as address %X length %d \r\n", addr, len);
     /* Write data to eeprom */
-    ebuf[0] = (uint8_t)( (addr >> 16 ) & 0xF );
-    ebuf[1] = (uint8_t)( (addr >> 8 ) & 0xF );
+    ebuf[0] = (uint8_t)( (addr >> 16 ) & 0xFF );
+    ebuf[1] = (uint8_t)( (addr >> 8 ) & 0xFF );
     ebuf[2] = (uint8_t)( addr & 0xF );
 
-    ebuf[3] = (uint8_t)( (len >> 16 ) & 0xF );
-    ebuf[4] = (uint8_t)( (len >> 8 ) & 0xF );
+    ebuf[3] = (uint8_t)( (len >> 16 ) & 0xFF );
+    ebuf[4] = (uint8_t)( (len >> 8 ) & 0xFF );
     ebuf[5] = (uint8_t)( len & 0xF );
     if( zeabus_eeprom_write( ZEABUS_CONF_ADDR + 2, ebuf, 6 ) != 6 )
         return false;
 
     /* Update the signature byte */
-    ebuf[0] = ZEABUS_CONF_SIG1;    
-    if( zeabus_eeprom_write( ZEABUS_CONF_ADDR, ebuf, 1 ) != 1 )
+    ebuf[0] = ZEABUS_CONF_SIG1;
+    ebuf[1] = ZEABUS_CONF_SIG2;
+    if( zeabus_eeprom_write( ZEABUS_CONF_ADDR, ebuf, 2 ) != 2 )
         return false;
 
     /* Finally, update internal value */

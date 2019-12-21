@@ -3,7 +3,7 @@
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -40,7 +40,12 @@
 #define ZEABUS_USB_MAX_DATA_SIZE    16384   /* Maximum USB payload size */
 
 bool zeabus_usb_initialize( void );
-uint32_t zeabus_usb_send( uint8_t* buf, uint32_t size );
-uint32_t zeabus_usb_receive( uint8_t* buf, uint32_t max_size ); // Get only available data without waiting
+uint16_t zeabus_usb_ep0_wdata( void );
+uint32_t zeabus_usb_ep0_dwdata( void );
+uint8_t* zeabus_usb_ep0_buffer( void );
+uint32_t zeabus_usb_debug_send( uint8_t* buf, uint32_t size );
+uint32_t zeabus_usb_debug_receive( uint8_t* buf, uint32_t max_size ); // Get only available data without waiting
+uint32_t zeabus_usb_data_send( uint8_t* buf, uint32_t size );
+uint32_t zeabus_usb_data_receive( uint8_t* buf, uint32_t max_size ); // Get only available data without waiting
 
 #endif // __ZEABUS_USB_H

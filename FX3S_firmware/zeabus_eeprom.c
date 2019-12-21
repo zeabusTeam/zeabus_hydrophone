@@ -47,7 +47,12 @@ uint8_t zeabus_eeprom_write(uint8_t addr, uint8_t* buf, uint8_t size)
     CyU3PI2cPreamble_t preamble;
     uint8_t size2, sum;
 
-    sum = 0;    
+    sum = 0;
+
+    // Cap the reading size to the boundary
+    if( ( (uint16_t)addr + (uint16_t)size ) > 256 )
+        size = (uint8_t)(256U - (uint16_t)addr);
+
     while ( size > 0 )
     {
         if( size > _ZEABUS_EEPROM_PAGESIZE )
@@ -89,6 +94,10 @@ uint8_t zeabus_eeprom_read(uint8_t addr, uint8_t* buf, uint8_t size)
     preamble.buffer[1] = addr;
     preamble.buffer[2] = _ZEABUS_EEPROM_ADDR | 1;
     preamble.ctrlMask  = 0x0002;    /* Send START after byte 2 was sent. */
+
+    // Cap the reading size to the boundary
+    if( ( (uint16_t)addr + (uint16_t)size ) > 256 )
+        size = (uint8_t)(256U - (uint16_t)addr);
     
     if( CyU3PI2cReceiveBytes(&preamble, buf, (uint32_t)size, 2) == CY_U3P_SUCCESS )
         return size;

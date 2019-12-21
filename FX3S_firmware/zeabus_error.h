@@ -3,7 +3,7 @@
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -36,10 +36,15 @@
 #ifndef __ZEABUS_ERROR_H
 #define __ZEABUS_ERROR_H
 
+#include <stdarg.h>
 #include "zeabus.h"
+#include "printf.h"
+
+#define _log(format, ...) zeabus_app_err_log(__FUNCTION__, format, ##__VA_ARGS__)
 
 /* The function to handle all errors. */
+void zeabus_app_err_log( const char *pre, char *fmt, ... );
+void zeabus_app_err_vlog( const char *pre, char *fmt, va_list ap );
 void zeabus_app_err_handler( uint32_t error );
-
 
 #endif // __ZEABUS_ERROR_H

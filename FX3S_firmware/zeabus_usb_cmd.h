@@ -1,5 +1,5 @@
 /****************************************************************************
- * zeabus_config.h
+ * zeabus_usb_cmd.h
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
@@ -14,7 +14,7 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
- * 3. Neither the name NuttX nor the names of its contributors may be
+ * 3. Neither the name RobinLab nor the names of its contributors may be
  *    used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
@@ -33,17 +33,23 @@
  *
  ****************************************************************************/
 
-#ifndef __ZEABUS_CONFIG_H
-#define __ZEABUS_CONFIG_H
+#ifndef __ZEABUS_USB_CMD_H
+#define __ZEABUS_USB_CMD_H
 
-#include "zeabus.h"
+// We borrow Cypress CDC vendor ID and product ID. The more appropriate is 0x0525:0xA4A7 belonging to a defuct company (NetChip Tech.).
+#define ZEABUS_VENDOR_ID                (0x04B4)
+#define ZEABUS_PRODUCT_ID               (0x0008)
 
-/************************************************************************************
- * Public API Functions
- ************************************************************************************/
-bool zeabus_conf_initialize( void );  // Initialize configuration from EEPROM
-bool zeabus_conf_invalidate( void );  // Invalidate out the configuration
-bool zeabus_conf_get_bitstream_info( uint32_t* addr, uint32_t* len );   // Get the current settting of FPGA bitstream address and its length
-bool zeabus_conf_set_bitstream_info( uint32_t addr, uint32_t len );  // Set the Flash-memory address and length of FPGA bitstream
+/* USB Vendor request */
+#define ZEABUS_USB_REQ_PROG_FPGA        (0xA0)          // Request for FPGA programming directly from USB
+#define ZEABUS_USB_REQ_PROG_BITSTREAM   (0xA1)          // Request to save an FPGA bitstream to SPI flash
+#define ZEABUS_USB_REQ_PROG_FIRMWARE    (0xA2)          // Request to save new firmware to SPI flash
+#define ZEABUS_USB_REQ_SYSTEM_RESET     (0xA3)          // Request to restart the whole system
+#define ZEABUS_USB_REQ_READ_FLASH       (0xA4)          // Request for raw data from SPI flash
+#define ZEABUS_USB_REQ_WRITE_FLASH      (0xA5)          // Write raw data to SPI flash
+#define ZEABUS_USB_REQ_READ_EEPROM      (0xA6)          // Request for raw data from EEPROM
+#define ZEABUS_USB_REQ_WRITE_EEPROM     (0xA7)          // Write raw data to EEPROM
+#define ZEABUS_USB_REQ_UNBIND_BULK      (0xB0)          // Unbind bulk EP from other peripherals
+#define ZEABUS_USB_REQ_BIND_BULK_FPGA   (0xB1)          // Bind bulk endpoints to FPGA interface
 
-#endif // __ZEABUS_CONFIG_H
+#endif // __ZEABUS_USB_CMD_H

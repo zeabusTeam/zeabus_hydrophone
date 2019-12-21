@@ -38,6 +38,7 @@
 
 #include "zeabus_fpgaconf.h"
 #include "zeabus_gpio.h"
+#include "zeabus_usb.h"
 
 #define ZEABUS_FPGACONF_SOCKET_ID   CY_U3P_PIB_SOCKET_1
 
@@ -178,8 +179,11 @@ static bool zeabus_fpgaconf_gpifstart( void )
     {
         // Setup PIB clock for master mode
         CyU3PGpifDisable( CyTrue );
+        (void)CyU3PPibDeInit();
         if( CyU3PPibInit( CyTrue, &zeabus_fpgaconf_pib_clock ) != CY_U3P_SUCCESS )
+        {
             return false;
+        }
 
         // create dma channel    
         CyU3PMemSet ((uint8_t *)&dmaConfig, 0, sizeof(dmaConfig));
@@ -196,7 +200,9 @@ static bool zeabus_fpgaconf_gpifstart( void )
         dmaConfig.cb             = NULL;
 
         if( CyU3PDmaChannelCreate( &xFpgaDmaHandle, CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaConfig ) != CY_U3P_SUCCESS )
+        {
             return false;
+        }
 
         /* Reload the GPIF state machine */
         if( CyU3PGpifLoad( &zeabus_fpgaconf_gpif_data ) != CY_U3P_SUCCESS )
@@ -229,6 +235,7 @@ static bool zeabus_fpgaconf_gpifstart( void )
 static void zeabus_fpgaconf_gpifstop( void ) 
 {
     CyU3PGpifDisable( CyTrue );
+    (void)CyU3PPibDeInit();
     if ( bIsInitialized )
     {
         CyU3PDmaChannelDestroy( &xFpgaDmaHandle );
@@ -306,6 +313,7 @@ void zeabus_fpgaconf_done( void )
     zeabus_fpgaconf_gpifstop();
     zeabus_gpiowrite( ZEABUS_GPIO_FPGA_RDWR_B, true );
     zeabus_gpiowrite( ZEABUS_GPIO_FPGA_CSI_B, true );
+
     bIsInitialized = false;
     bIsSending = false;
 }

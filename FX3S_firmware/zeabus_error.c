@@ -42,6 +42,61 @@
 #include "zeabus.h"
 #include "zeabus_error.h"
 #include "zeabus_gpio.h"
+#include "zeabus_usb.h"
+
+// For output formatting
+#define PAD_RIGHT 1
+#define PAD_ZERO 2
+
+#define BUF_SIZE    16
+/************************************************************************************
+ * Private Data
+ ************************************************************************************/
+static char tbuf[BUF_SIZE];
+static uint32_t tbuf_p = 0;
+/************************************************************************************
+ * Private Functions
+ ************************************************************************************/
+// Flush the log output buffer to USB
+static void zeabus_app_flushc( void )
+{
+    if( tbuf_p > 0 )
+    {
+        zeabus_usb_debug_send( (uint8_t*)tbuf, tbuf_p );
+        tbuf_p = 0;
+    }
+}
+
+/* Add an output character to the output buffer and send it to USB if full
+ * This function is required by printf library.
+ */
+void _putchar( char c )
+{
+    tbuf[tbuf_p] = c;
+    tbuf_p++;
+    if( tbuf_p >= BUF_SIZE )
+        zeabus_app_flushc();
+}
+
+/************************************************************************************
+ * Public API Functions
+ ************************************************************************************/
+void zeabus_app_err_vlog( const char *pre, char *fmt, va_list ap )
+{
+    printf( "%s : ", pre );
+    vprintf( fmt, ap );
+    zeabus_app_flushc();
+}
+
+void zeabus_app_err_log( const char *pre, char *fmt, ... )
+{
+  va_list ap;
+
+  /* Then let zeabus_app_err_vlog do the real work */
+  va_start( ap, fmt );
+  zeabus_app_err_vlog( pre, fmt, ap );
+  va_end( ap );
+}
 
 void zeabus_app_err_handler( uint32_t error )
 {

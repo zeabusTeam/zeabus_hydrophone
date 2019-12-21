@@ -3,7 +3,7 @@
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -56,22 +56,28 @@
  *
  * Zebus describes itself as a CDC/ACM device to be seen as a virtual COM port.
  * The maxmimum power current is presumed as 200 mA. It can be increased to
- * 900 mA in USB-3 mode or 500 mA in USB-2 mode. Currently, this module 
+ * 900 mA in USB-3 mode or 500 mA in USB-2 mode. Currently, this module
  * does not support sleep/suspend states.
  *
  */
 
-// We borrow Cypress CDC vendor ID and product ID. The more appropriate is 0x0525:0xA4A7 belonging to a defuct company (NetChip Tech.).
-#define ZEABUS_VENDOR_ID    (0x04B4)
-#define ZEABUS_PRODUCT_ID   (0x0008)
 #define ZEABUS_RELEASE      (0x0100)    /* BCD format in XX.XX */
 
 /* Endpoint address of each USB stream. The MSB indicates the data direction (1 = device outgoing) */
-#define ZEABUS_USB_EP_BULKOUT   (0x02)   /* EP 2 OUT (producer) (device incoming) */
-#define ZEABUS_USB_EP_BULKIN    (0x82)   /* EP 2 IN (consumer) (device outgoing) */
-#define ZEABUS_USB_EP_INTERRUPT (0x81)   /* EP 1 INTR (device incoming) */
+#define ZEABUS_USB_EP_DATA_BULKOUT  (0x03)   /* EP 3 OUT (producer) (device incoming) */
+#define ZEABUS_USB_EP_DATA_BULKIN   (0x83)   /* EP 3 IN (comsumer) (device outgoing) */
+#define ZEABUS_USB_EP_DBG_BULKOUT   (0x02)   /* EP 2 OUT (producer) (device incoming) */
+#define ZEABUS_USB_EP_DBG_BULKIN    (0x82)   /* EP 2 IN (consumer) (device outgoing) */
+#define ZEABUS_USB_EP_DBG_INTERRUPT (0x81)   /* EP 1 INTR (device incoming) */
 
 #define W2B(a)              (a) & 255, (a) >> 8
+
+/* Reset the system in the same way as hard reset and soft reset
+ * Refer to ARM9 document and EZ-USB FX3S technical document for reference
+ */
+#define REG_GCTL_CONTROL    (0xE0017E04UL)  // Global control register in ARM9
+#define SystemReset()   (*((uint16_t*)(REG_GCTL_CONTROL))&=(0xF7FF))
+#define Reboot()        (*((uint16_t*)(REG_GCTL_CONTROL))&=(0xFBFF))
 
 
 /****************************************************************************
@@ -162,8 +168,8 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x55,0x00,                      /* Length of this descriptor and all sub descriptors */
-    0x02,                           /* Number of interfaces */
+    0x78,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x03,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
@@ -213,7 +219,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Endpoint Descriptor(Interrupt) */
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_INTERRUPT,        /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_INTERRUPT,    /* Endpoint address and description */
     CY_U3P_USB_EP_INTR,             /* Interrupt endpoint type */
     0x00,0x04,                      /* Max packet size = 1024 bytes */
     0x01,                           /* Servicing interval for data transfers */
@@ -240,7 +246,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Endpoint Descriptor(BULK-PRODUCER) */
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_BULKOUT,              /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_BULKOUT,      /* Endpoint address and description */
     CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x00,0x04,                      /* Max packet size = 1024 bytes */
     0x00,                           /* Servicing interval for data transfers */
@@ -255,7 +261,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Endpoint Descriptor(BULK- CONSUMER) */
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_BULKIN,           /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_BULKIN,       /* Endpoint address and description */
     CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x00,0x04,                      /* Max packet size = 1024 bytes */
     0x00,                           /* Servicing interval for data transfers */
@@ -265,6 +271,48 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_SS_EP_COMPN_DESCR,       /* SS endpoint companion descriptor type */
     0x00,                           /* Max no. of packets in a burst (minus 1) : 1 ( - 1 ) */
     0x00,                           /* Max streams for bulk EP = 0 (No streams) */
+    0x00,0x00,                      /* Bytes per interval : 0 for BULK */
+
+    /* Interface 3: Vendor specific */
+    /* Interface descriptor: Interface 0, Alt Setting 1 - Two endpoints */
+    0x09,                           /* Descriptor size */
+    CY_U3P_USB_INTRFC_DESCR,        /* Interface Descriptor type */
+    0x02,                           /* Interface number */
+    0x00,                           /* Alternate setting number */
+    0x02,                           /* Number of end points */
+    0xFF,                           /* Interface class : Vendor specific*/
+    0x00,                           /* Interface sub class */
+    0x00,                           /* Interface protocol code */
+    0x00,                           /* Interface descriptor string index */
+
+    /* Endpoint descriptor for producer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_DATA_BULKOUT,     /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
+    0x00,0x04,                      /* Max packet size = 1024 bytes */
+    0x00,                           /* Servicing interval for data transfers */
+
+    /* Super speed endpoint companion descriptor for producer EP */
+    0x06,                           /* Descriptor size */
+    CY_U3P_SS_EP_COMPN_DESCR,       /* SS endpoint companion descriptor type */
+    0x00,                           /* Max no. of packets in a burst : 0: burst 1 packet at a time */
+    0x00,                           /* Mult.: Max number of packets : 1 */
+    0x00,0x00,                      /* Bytes per interval : 0 for BULK */
+
+    /* Endpoint descriptor for consumer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_DATA_BULKIN,      /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
+    0x00,0x04,                      /* Max packet size = 1024 bytes */
+    0x00,                           /* Servicing interval for data transfers */
+
+    /* Super speed endpoint companion descriptor for consumer EP */
+    0x06,                           /* Descriptor size */
+    CY_U3P_SS_EP_COMPN_DESCR,       /* SS endpoint companion descriptor type */
+    0x00,                           /* Max no. of packets in a burst : 0: burst 1 packet at a time */
+    0x00,                           /* Mult.: Max number of packets : 1 */
     0x00,0x00                       /* Bytes per interval : 0 for BULK */
 };
 
@@ -274,8 +322,8 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x43,0x00,                      /* Length of this descriptor and all sub descriptors */
-    0x02,                           /* Number of interfaces */
+    0x5A,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x03,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
@@ -325,7 +373,7 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Endpoint Descriptor(Interrupt) */
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_INTERRUPT,        /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_INTERRUPT,    /* Endpoint address and description */
     CY_U3P_USB_EP_INTR,             /* Interrupt endpoint type */
     0x00,0x02,                      /* Max packet size = 512 bytes */
     0x01,                           /* Servicing interval for data transfers */
@@ -345,7 +393,7 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Endpoint Descriptor(BULK-PRODUCER) */
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_BULKOUT,          /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_BULKOUT,      /* Endpoint address and description */
     CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x00,0x02,                      /* Max packet size = 512 bytes */
     0x00,                           /* Servicing interval for data transfers */
@@ -353,8 +401,36 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Endpoint Descriptor(BULK- CONSUMER) */
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_BULKIN,           /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_BULKIN,       /* Endpoint address and description */
     CY_U3P_USB_EP_BULK,             /* Bulk endpoint type */
+    0x00,0x02,                      /* Max packet size = 512 bytes */
+    0x00,                           /* Servicing interval for data transfers */
+
+    /* Interface 3: Vendor specific */
+    /* Interface descriptor: Interface 0, Alt Setting 1 - Two endpoints */
+    0x09,                           /* Descriptor size */
+    CY_U3P_USB_INTRFC_DESCR,        /* Interface Descriptor type */
+    0x02,                           /* Interface number */
+    0x00,                           /* Alternate setting number */
+    0x02,                           /* Number of end points */
+    0xFF,                           /* Interface class : Vendor specific*/
+    0x00,                           /* Interface sub class */
+    0x00,                           /* Interface protocol code */
+    0x00,                           /* Interface descriptor string index */
+
+    /* Endpoint descriptor for producer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_DATA_BULKOUT,     /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
+    0x00,0x02,                      /* Max packet size = 512 bytes */
+    0x00,                           /* Servicing interval for data transfers */
+
+    /* Endpoint descriptor for consumer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_DATA_BULKIN,      /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x00,0x02,                      /* Max packet size = 512 bytes */
     0x00,                           /* Servicing interval for data transfers */
 };
@@ -365,8 +441,8 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x43,0x00,                      /* Length of this descriptor and all sub descriptors */
-    0x02,                           /* Number of interfaces */
+    0x5A,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x03,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
@@ -416,7 +492,7 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Endpoint Descriptor(Interrupt) */
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_INTERRUPT,        /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_INTERRUPT,    /* Endpoint address and description */
     CY_U3P_USB_EP_INTR,             /* Interrupt endpoint type */
     0x40,0x00,                      /* Max packet size = 64 bytes */
     0x01,                           /* Servicing interval for data transfers */
@@ -437,7 +513,7 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
 
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_BULKOUT,          /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_BULKOUT,      /* Endpoint address and description */
     CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x40,0x00,                      /* Max packet size = 64 bytes */
     0x00,                           /* Servicing interval for data transfers */
@@ -446,8 +522,36 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
 
     0x07,                           /* Descriptor size */
     CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
-    ZEABUS_USB_EP_BULKIN,               /* Endpoint address and description */
+    ZEABUS_USB_EP_DBG_BULKIN,       /* Endpoint address and description */
     CY_U3P_USB_EP_BULK,             /* Bulk endpoint type */
+    0x40,0x00,                      /* Max packet size = 64 bytes */
+    0x00,                           /* Servicing interval for data transfers */
+
+    /* Interface 3: Vendor specific */
+    /* Interface descriptor: Interface 0, Alt Setting 1 - Two endpoints */
+    0x09,                           /* Descriptor size */
+    CY_U3P_USB_INTRFC_DESCR,        /* Interface Descriptor type */
+    0x02,                           /* Interface number */
+    0x00,                           /* Alternate setting number */
+    0x02,                           /* Number of end points */
+    0xFF,                           /* Interface class : Vendor specific*/
+    0x00,                           /* Interface sub class */
+    0x00,                           /* Interface protocol code */
+    0x00,                           /* Interface descriptor string index */
+
+    /* Endpoint descriptor for producer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_DATA_BULKOUT,     /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
+    0x40,0x00,                      /* Max packet size = 64 bytes */
+    0x00,                           /* Servicing interval for data transfers */
+
+    /* Endpoint descriptor for consumer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_DATA_BULKIN,      /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x40,0x00,                      /* Max packet size = 64 bytes */
     0x00,                           /* Servicing interval for data transfers */
 };
@@ -476,7 +580,7 @@ const uint8_t CyFxUSBProductDscr[] __attribute__ ((aligned (32))) =
     0x03,                           /* Device descriptor type */
     'A', 0x00, 'c', 0x00, 'o', 0x00, 'u', 0x00, 's', 0x00, 't', 0x00,
     'i', 0x00, 'c', 0x00, ' ', 0x00, 'P', 0x00, 'r', 0x00, 'o', 0x00,
-    'c', 0x00, 'e', 0x00, 's', 0x00, 's', 0x00, 'i', 0x00, 'n', 0x00, 
+    'c', 0x00, 'e', 0x00, 's', 0x00, 's', 0x00, 'i', 0x00, 'n', 0x00,
     'g', 0x00, ' ', 0x00, 'm', 0x00, 'o', 0x00, 'd', 0x00, 'u', 0x00,
     'l', 0x00, 'e', 0x00
 };
@@ -494,68 +598,22 @@ const uint8_t CyFxUSBSerialDscr[] __attribute__ ((aligned (32))) =
 /************************************************************************************
  * Private Data
  ************************************************************************************/
-static CyU3PDmaChannel xDMAChHandleBulkIngress;   /* DMA MANUAL_IN channel handle for OUT EP. */
-static CyU3PDmaChannel xDMAChHandleBulkEgress;    /* DMA MANUAL_OUT channel handle for IN EP. */
-static bool            bIsUSBActive = false;      /* Whether the USB sub-system is active or not. */
-static uint8_t         au8LineCoding[] = { 0x60, 0xE3, 0x16, 0, 0, 0, 8}; /* Line coding value. Init with 8N1 1.5MB*/
+static CyU3PDmaChannel  xDMAChHandleDataBulkIngress;  /* DMA MANUAL_IN channel handle for data OUT EP. */
+static CyU3PDmaChannel  xDMAChHandleDataBulkEgress;   /* DMA MANUAL_OUT channel handle for data IN EP. */
+static CyU3PDmaChannel  xDMAChHandleDbgBulkIngress;   /* DMA MANUAL_IN channel handle for debug OUT EP. */
+static CyU3PDmaChannel  xDMAChHandleDbgBulkEgress;    /* DMA MANUAL_OUT channel handle for debug IN EP. */
+static bool             bIsUSBActive = false;      /* Whether the USB sub-system is active or not. */
+static uint8_t          au8LineCoding[] __attribute__ ((aligned (32))) = { 0x60, 0xE3, 0x16, 0, 0, 0, 8}; /* Line coding value. Init with 8N1 1.5MB*/
 
-/* Circular buffer for received data */
-#define ZEABUS_BUF_POINTER_MASK (0x0FFF)        // Mask for curcular buffer pointer
-static uint8_t          au8RecvBuf[4096];       // Buffer size should be multiple of 16 (as same as USB)
-static volatile uint32_t         u32RecvBufHead = 0;     // Head pointer
-static uint32_t         u32RecvBufTail = 0;     // Tail pointer
+static uint8_t          au8Ep0Buffer[1024] __attribute__ ((aligned (32)));
+static uint32_t         u32Ep0DWData = 0;
+static uint16_t         u16Ep0WData = 0;
+
 static uint32_t         u32USBBulkDest;         // Identify the target that USB BULK endpoints bound to.
 
 /************************************************************************************
  * Private Functions
  ************************************************************************************/
-
-/*--------------- DMA Management ------------------*/
-
-/* Callback funtion for the DMA event notification. */
-static void ZeabusBulkDmaCallback(
-        CyU3PDmaChannel   *chHandle, /* Handle to the DMA channel. */
-        CyU3PDmaCbType_t  type,      /* Callback type.             */
-        CyU3PDmaCBInput_t *input)    /* Callback status.           */
-{
-    CyU3PDmaBuffer_t buf_p;
-    uint32_t    l, count;
-
-    if(type == CY_U3P_DMA_CB_PROD_EVENT)
-    {
-        /* This is a produce event notification to the CPU. This notification is 
-         * received upon reception of every buffer. 
-         */
-        if( CyU3PDmaChannelGetBuffer( chHandle, &buf_p, CYU3P_NO_WAIT ) == CY_U3P_SUCCESS )
-        {
-            /* Copy the packet content to the reveiving buffer. All overflows are discarded */
-            l = ( u32RecvBufHead + 1 ) & ZEABUS_BUF_POINTER_MASK;
-            for(count = 0; count < buf_p.count; count++ )
-            {
-                if( l == u32RecvBufTail )   // Buffer full!!!
-                    break;
-
-                au8RecvBuf[l] = buf_p.buffer[count];
-
-                l = (l + 1) & ZEABUS_BUF_POINTER_MASK;
-            }
-            u32RecvBufHead = ( l - 1 ) & ZEABUS_BUF_POINTER_MASK;
-        }
-        /* Finish the receiving, then discard the DMA buffer for next incoming */
-        CyU3PDmaChannelDiscardBuffer( chHandle );
-
-        /* Notify the system that some data are available */
-        CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_USB_INCOMING, CYU3P_EVENT_OR );
-    }
-//    if(type == CY_U3P_DMA_CB_CONS_EVENT)
-//    {
-        /* This is a consume event notification to the CPU. This notification is 
-         * received when a buffer is sent out from the device. 
-         * Currently, we have nothing to do as the buffer is filled by 
-         * API of sending data described below.
-         */
-//    }
-}
 
 /*--------------- USB Management ------------------*/
 
@@ -568,13 +626,13 @@ static void ZeabusBulkAppEpEvtCB (
     /* Hit an endpoint retry case. Need to stall and flush the endpoint for recovery. */
     if( evtype == CYU3P_USBEP_SS_RETRY_EVT )
     {
-        CyU3PUsbStall( ZEABUS_USB_EP_BULKIN, CyTrue, CyFalse );
+        CyU3PUsbStall( ZEABUS_USB_EP_DBG_BULKIN, CyTrue, CyFalse );
     }
 }
 
 
-/* This is called when a SET_CONF event is received from 
- * the USB host. The endpoints are configured and the DMA pipe 
+/* This is called when a SET_CONF event is received from
+ * the USB host. The endpoints are configured and the DMA pipe
  * is setup in this function. */
 static void ZeabusUSBAppStart( void )
 {
@@ -611,41 +669,64 @@ static void ZeabusUSBAppStart( void )
     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
     epCfg.enable = CyTrue;
     epCfg.epType = CY_U3P_USB_EP_BULK;
-    epCfg.burstLen = (usbSpeed == CY_U3P_SUPER_SPEED) ? 16 : 1; /* Only Super Speed supports burst */
+    epCfg.burstLen = (usbSpeed == CY_U3P_SUPER_SPEED) ? 4 : 1; /* Only Super Speed supports burst */
     epCfg.streams = 0;
     epCfg.pcktSize = size;
 
-    /* Producer endpoint configuration */
-    apiRetStatus = CyU3PSetEpConfig(ZEABUS_USB_EP_BULKOUT, &epCfg);
+    /* Debug producer endpoint configuration */
+    apiRetStatus = CyU3PSetEpConfig( ZEABUS_USB_EP_DBG_BULKOUT, &epCfg );
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler (apiRetStatus);
     }
 
-    /* Consumer endpoint configuration */
-    apiRetStatus = CyU3PSetEpConfig(ZEABUS_USB_EP_BULKIN, &epCfg);
+    /* Debug consumer endpoint configuration */
+    apiRetStatus = CyU3PSetEpConfig( ZEABUS_USB_EP_DBG_BULKIN, &epCfg );
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler (apiRetStatus);
     }
+
+    /* Data producer endpoint configuration */
+    apiRetStatus = CyU3PSetEpConfig( ZEABUS_USB_EP_DATA_BULKOUT, &epCfg );
+    if(apiRetStatus != CY_U3P_SUCCESS)
+    {
+        zeabus_app_err_handler (apiRetStatus);
+    }
+
+    /* Data consumer endpoint configuration */
+    apiRetStatus = CyU3PSetEpConfig( ZEABUS_USB_EP_DATA_BULKIN, &epCfg );
+    if(apiRetStatus != CY_U3P_SUCCESS)
+    {
+        zeabus_app_err_handler (apiRetStatus);
+    }
+
+    /*
+       Configure the IN endpoint to allow combining data from multiple buffers into one burst.
+       This can help achieve better performance in most cases.
+     */
+    CyU3PUsbEPSetBurstMode( ZEABUS_USB_EP_DBG_BULKIN, CyTrue );
+    CyU3PUsbEPSetBurstMode( ZEABUS_USB_EP_DATA_BULKIN, CyTrue );
 
     /* Interrupt endpoint configuration. This is the legacy interface. No data is expected on it. */
     epCfg.epType = CY_U3P_USB_EP_INTR;
     epCfg.pcktSize = size;
     epCfg.isoPkts = 1;
 
-    apiRetStatus = CyU3PSetEpConfig(ZEABUS_USB_EP_INTERRUPT, &epCfg);
+    apiRetStatus = CyU3PSetEpConfig(ZEABUS_USB_EP_DBG_INTERRUPT, &epCfg);
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler(apiRetStatus);
     }
 
     /* Flush the endpoint memory */
-    CyU3PUsbFlushEp(ZEABUS_USB_EP_BULKOUT);
-    CyU3PUsbFlushEp(ZEABUS_USB_EP_BULKIN);
-    CyU3PUsbFlushEp(ZEABUS_USB_EP_INTERRUPT);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKOUT);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKIN);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_BULKOUT);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_BULKIN);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_INTERRUPT);
 
-    /* Create a DMA MANUAL_IN channel for the producer socket. */
+    /* Create a DMA MANUAL channels Debug port. */
     CyU3PMemSet ((uint8_t *)&dmaCfg, 0, sizeof (dmaCfg));
     /* The buffer size will be same as packet size for the
      * full speed, high speed and super speed non-burst modes.
@@ -656,43 +737,105 @@ static void ZeabusUSBAppStart( void )
     dmaCfg.size = size;
 
     /* Number of DMA buffers to be used. More buffers can give better throughput. */
-    dmaCfg.count = 4;
+    dmaCfg.count = 1;
 
-    dmaCfg.prodSckId = ZEABUS_DMA_EP_USB_PRODUCER_SOCKET;
+    dmaCfg.prodSckId = ZEABUS_DMA_EP_USB_DEBUG_PRODUCER_SOCKET;
     dmaCfg.consSckId = CY_U3P_CPU_SOCKET_CONS;
     dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
-    dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
-    dmaCfg.cb = ZeabusBulkDmaCallback;
+    //dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
+    //dmaCfg.cb = ZeabusDbgBulkDmaCallback;
+    /* Call-back is nor working as the system wait until the buffer has beed fully filled.
+     * This makes the last chunk of data, which has the size less than a full block, stays waiting
+     * and cannot arrived at the destination
+     */
+    dmaCfg.notification = 0;
+    dmaCfg.cb = NULL;
     dmaCfg.prodHeader = 0;
     dmaCfg.prodFooter = 0;
     dmaCfg.consHeader = 0;
     dmaCfg.prodAvailCount = 0;
 
-    apiRetStatus = CyU3PDmaChannelCreate (&xDMAChHandleBulkIngress,
-            CY_U3P_DMA_TYPE_MANUAL_IN, &dmaCfg);
+    apiRetStatus = CyU3PDmaChannelCreate( &xDMAChHandleDbgBulkIngress, CY_U3P_DMA_TYPE_MANUAL_IN, &dmaCfg );
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler(apiRetStatus);
     }
 
     /* Create a DMA MANUAL_OUT channel for the consumer socket. */
-    dmaCfg.notification = CY_U3P_DMA_CB_CONS_EVENT;
     dmaCfg.prodSckId = CY_U3P_CPU_SOCKET_PROD;
-    dmaCfg.consSckId = ZEABUS_DMA_EP_USB_CONSUMER_SOCKET;
-    apiRetStatus = CyU3PDmaChannelCreate( &xDMAChHandleBulkEgress, CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaCfg );
+    dmaCfg.consSckId = ZEABUS_DMA_EP_USB_DEBUG_CONSUMER_SOCKET;
+    apiRetStatus = CyU3PDmaChannelCreate( &xDMAChHandleDbgBulkEgress, CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaCfg );
+    if(apiRetStatus != CY_U3P_SUCCESS)
+    {
+        zeabus_app_err_handler(apiRetStatus);
+    }
+
+    /* Create a DMA MANUAL channels Data port. */
+    CyU3PMemSet ((uint8_t *)&dmaCfg, 0, sizeof (dmaCfg));
+    /* The buffer size will be same as packet size for the
+     * full speed, high speed and super speed non-burst modes.
+     * For super speed burst mode of operation, the buffers will be
+     * 1024 * burst length so that a full burst can be completed.
+     * This will mean that a buffer will be available only after it
+     * has been filled or when a short packet is received. */
+    dmaCfg.size = size;
+    if( usbSpeed == CY_U3P_SUPER_SPEED )
+        dmaCfg.size *= 4;
+
+    /* Number of DMA buffers to be used. More buffers can give better throughput. */
+    dmaCfg.count = 4;
+
+    dmaCfg.prodSckId = ZEABUS_DMA_EP_USB_DATA_PRODUCER_SOCKET;
+    dmaCfg.consSckId = CY_U3P_CPU_SOCKET_CONS;
+    dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
+    //dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
+    //dmaCfg.cb = ZeabusDataBulkDmaCallback;
+    /* Call-back is nor working as the system wait until the buffer has beed fully filled.
+     * This makes the last chunk of data, which has the size less than a full block, stays waiting
+     * and cannot arrived at the destination
+     */
+    dmaCfg.notification = 0;
+    dmaCfg.cb = NULL;
+    dmaCfg.prodHeader = 0;
+    dmaCfg.prodFooter = 0;
+    dmaCfg.consHeader = 0;
+    dmaCfg.prodAvailCount = 0;
+
+    apiRetStatus = CyU3PDmaChannelCreate( &xDMAChHandleDataBulkIngress, CY_U3P_DMA_TYPE_MANUAL_IN, &dmaCfg );
+    if(apiRetStatus != CY_U3P_SUCCESS)
+    {
+        zeabus_app_err_handler(apiRetStatus);
+    }
+
+    /* Create a DMA MANUAL_OUT channel for the consumer socket. */
+    dmaCfg.prodSckId = CY_U3P_CPU_SOCKET_PROD;
+    dmaCfg.consSckId = ZEABUS_DMA_EP_USB_DATA_CONSUMER_SOCKET;
+    apiRetStatus = CyU3PDmaChannelCreate( &xDMAChHandleDataBulkEgress, CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaCfg );
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler(apiRetStatus);
     }
 
     /* Set DMA Channel transfer size */
-    apiRetStatus = CyU3PDmaChannelSetXfer(&xDMAChHandleBulkIngress, 0); /* DMA transfer size is set to infinite */
+    apiRetStatus = CyU3PDmaChannelSetXfer(&xDMAChHandleDbgBulkIngress, 0); /* DMA transfer size is set to infinite */
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler(apiRetStatus);
     }
 
-    apiRetStatus = CyU3PDmaChannelSetXfer(&xDMAChHandleBulkEgress, 0); /* DMA transfer size is set to infinite */
+    apiRetStatus = CyU3PDmaChannelSetXfer(&xDMAChHandleDbgBulkEgress, 0); /* DMA transfer size is set to infinite */
+    if(apiRetStatus != CY_U3P_SUCCESS)
+    {
+        zeabus_app_err_handler(apiRetStatus);
+    }
+
+    apiRetStatus = CyU3PDmaChannelSetXfer(&xDMAChHandleDataBulkIngress, 0); /* DMA transfer size is set to infinite */
+    if(apiRetStatus != CY_U3P_SUCCESS)
+    {
+        zeabus_app_err_handler(apiRetStatus);
+    }
+
+    apiRetStatus = CyU3PDmaChannelSetXfer(&xDMAChHandleDataBulkEgress, 0); /* DMA transfer size is set to infinite */
     if(apiRetStatus != CY_U3P_SUCCESS)
     {
         zeabus_app_err_handler(apiRetStatus);
@@ -710,34 +853,41 @@ static void ZeabusUSBAppStart( void )
 static void ZeabusUSBAppStop( void )
 {
     CyU3PEpConfig_t epCfg;
-    CyU3PReturnStatus_t apiRetStatus[3];
+    CyU3PReturnStatus_t apiRetStatus[5];
 
     /* Update the flag so that the application thread is notified of this. */
     bIsUSBActive = false;
     u32USBBulkDest = ZEABUS_USB_REQ_UNBIND_BULK;
 
     /* Destroy the channels */
-    CyU3PDmaChannelDestroy (&xDMAChHandleBulkIngress);
-    CyU3PDmaChannelDestroy (&xDMAChHandleBulkEgress);
+    CyU3PDmaChannelDestroy (&xDMAChHandleDbgBulkIngress);
+    CyU3PDmaChannelDestroy (&xDMAChHandleDbgBulkEgress);
 
     /* Flush the endpoint memory */
-    CyU3PUsbFlushEp(ZEABUS_USB_EP_BULKOUT);
-    CyU3PUsbFlushEp(ZEABUS_USB_EP_BULKIN);
-    CyU3PUsbFlushEp(ZEABUS_USB_EP_INTERRUPT);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKOUT);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKIN);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_BULKOUT);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_BULKIN);
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_INTERRUPT);
 
     /* Disable endpoints. */
     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
     epCfg.enable = CyFalse;
 
     /* Producer endpoint configuration. */
-    apiRetStatus[0] = CyU3PSetEpConfig(ZEABUS_USB_EP_BULKOUT, &epCfg);
+    apiRetStatus[0] = CyU3PSetEpConfig(ZEABUS_USB_EP_DBG_BULKOUT, &epCfg);
     /* Consumer endpoint configuration. */
-    apiRetStatus[1] = CyU3PSetEpConfig(ZEABUS_USB_EP_BULKIN, &epCfg);
+    apiRetStatus[1] = CyU3PSetEpConfig(ZEABUS_USB_EP_DBG_BULKIN, &epCfg);
     /* Interrupt endpoint configuration. */
-    apiRetStatus[2] = CyU3PSetEpConfig(ZEABUS_USB_EP_INTERRUPT, &epCfg);
+    apiRetStatus[2] = CyU3PSetEpConfig(ZEABUS_USB_EP_DBG_INTERRUPT, &epCfg);
+    /* Producer endpoint configuration. */
+    apiRetStatus[3] = CyU3PSetEpConfig(ZEABUS_USB_EP_DATA_BULKOUT, &epCfg);
+    /* Consumer endpoint configuration. */
+    apiRetStatus[4] = CyU3PSetEpConfig(ZEABUS_USB_EP_DATA_BULKIN, &epCfg);
 
     /* Whether some errors occured */
-    if( (apiRetStatus[0] != CY_U3P_SUCCESS) || (apiRetStatus[1] != CY_U3P_SUCCESS) || (apiRetStatus[2] != CY_U3P_SUCCESS))
+    if( (apiRetStatus[0] != CY_U3P_SUCCESS) || (apiRetStatus[1] != CY_U3P_SUCCESS) || (apiRetStatus[2] != CY_U3P_SUCCESS)
+        || (apiRetStatus[3] != CY_U3P_SUCCESS) || (apiRetStatus[4] != CY_U3P_SUCCESS) )
     {
         /* Report only one error */
         if(apiRetStatus[0] != CY_U3P_SUCCESS)
@@ -746,6 +896,10 @@ static void ZeabusUSBAppStop( void )
             zeabus_app_err_handler(apiRetStatus[1]);
         if(apiRetStatus[2] != CY_U3P_SUCCESS)
             zeabus_app_err_handler(apiRetStatus[2]);
+        if(apiRetStatus[3] != CY_U3P_SUCCESS)
+            zeabus_app_err_handler(apiRetStatus[3]);
+        if(apiRetStatus[4] != CY_U3P_SUCCESS)
+            zeabus_app_err_handler(apiRetStatus[4]);
     }
 }
 
@@ -798,10 +952,9 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
     /* Fast enumeration is used. Only requests addressed to the interface, class,
      * vendor and unknown control requests are received by this function.
      */
-    uint8_t  config_data[7];
     uint8_t  bRequest, bReqType;
     uint8_t  bType, bTarget;
-    uint16_t wValue, wIndex, readCount;
+    uint16_t wValue, wIndex, wLength, readCount;
     CyBool_t isHandled = CyFalse;
 
     /* Decode the fields from the setup request. */
@@ -811,6 +964,7 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
     bRequest = ((setupdat0 & CY_U3P_USB_REQUEST_MASK) >> CY_U3P_USB_REQUEST_POS);
     wValue   = ((setupdat0 & CY_U3P_USB_VALUE_MASK)   >> CY_U3P_USB_VALUE_POS);
     wIndex   = ((setupdat1 & CY_U3P_USB_INDEX_MASK)   >> CY_U3P_USB_INDEX_POS);
+    wLength   = ((setupdat1 & CY_U3P_USB_LENGTH_MASK) >> CY_U3P_USB_LENGTH_POS);
 
     if(bType == CY_U3P_USB_STANDARD_RQT)
     {
@@ -843,33 +997,33 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
         {
             if(bIsUSBActive)
             {
-                if(wIndex == ZEABUS_USB_EP_BULKOUT)
+                if(wIndex == ZEABUS_USB_EP_DBG_BULKOUT)
                 {
-                    CyU3PUsbSetEpNak (ZEABUS_USB_EP_BULKOUT, CyTrue);
+                    CyU3PUsbSetEpNak( ZEABUS_USB_EP_DBG_BULKOUT, CyTrue );
                     CyU3PBusyWait (125);
 
-                    CyU3PDmaChannelReset (&xDMAChHandleBulkIngress);
-                    CyU3PUsbFlushEp(ZEABUS_USB_EP_BULKOUT);
-                    CyU3PUsbResetEp (ZEABUS_USB_EP_BULKOUT);
-                    CyU3PUsbSetEpNak (ZEABUS_USB_EP_BULKOUT, CyFalse);
+                    CyU3PDmaChannelReset( &xDMAChHandleDbgBulkIngress );
+                    CyU3PUsbFlushEp( ZEABUS_USB_EP_DBG_BULKOUT );
+                    CyU3PUsbResetEp( ZEABUS_USB_EP_DBG_BULKOUT );
+                    CyU3PUsbSetEpNak( ZEABUS_USB_EP_DBG_BULKOUT, CyFalse );
 
-                    CyU3PDmaChannelSetXfer (&xDMAChHandleBulkIngress, 0); /* DMA transfer size is set to infinite */
+                    CyU3PDmaChannelSetXfer (&xDMAChHandleDbgBulkIngress, 0); /* DMA transfer size is set to infinite */
                     CyU3PUsbStall (wIndex, CyFalse, CyTrue);
                     isHandled = CyTrue;
                     CyU3PUsbAckSetup ();
                 }
 
-                if(wIndex == ZEABUS_USB_EP_BULKIN)
+                if(wIndex == ZEABUS_USB_EP_DBG_BULKIN)
                 {
-                    CyU3PUsbSetEpNak (ZEABUS_USB_EP_BULKIN, CyTrue);
+                    CyU3PUsbSetEpNak (ZEABUS_USB_EP_DBG_BULKIN, CyTrue);
                     CyU3PBusyWait (125);
 
-                    CyU3PDmaChannelReset (&xDMAChHandleBulkEgress);
-                    CyU3PUsbFlushEp(ZEABUS_USB_EP_BULKIN);
-                    CyU3PUsbResetEp(ZEABUS_USB_EP_BULKIN);
-                    CyU3PUsbSetEpNak(ZEABUS_USB_EP_BULKIN, CyFalse);
+                    CyU3PDmaChannelReset (&xDMAChHandleDbgBulkEgress);
+                    CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_BULKIN);
+                    CyU3PUsbResetEp(ZEABUS_USB_EP_DBG_BULKIN);
+                    CyU3PUsbSetEpNak(ZEABUS_USB_EP_DBG_BULKIN, CyFalse);
 
-                    CyU3PDmaChannelSetXfer(&xDMAChHandleBulkEgress, 0); /* DMA transfer size is set to infinite */
+                    CyU3PDmaChannelSetXfer(&xDMAChHandleDbgBulkEgress, 0); /* DMA transfer size is set to infinite */
                     CyU3PUsbStall(wIndex, CyFalse, CyTrue);
                     isHandled = CyTrue;
                     CyU3PUsbAckSetup();
@@ -888,28 +1042,28 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
          * All data should be in 8N1 format.
          */
         /* set_line_coding */
-        if(bRequest == SET_LINE_CODING)                                                      
+        if(bRequest == SET_LINE_CODING)
         {
-            if( CyU3PUsbGetEP0Data(0x07, config_data, &readCount) == CY_U3P_SUCCESS )
+            if( CyU3PUsbGetEP0Data( 7, au8Ep0Buffer, &readCount ) == CY_U3P_SUCCESS )
             {
                 if(readCount == 0x07)
                 {
                     /* Copy only the baud rate for further reply. The format is alwasy 8N1 */
-                    au8LineCoding[0] = config_data[0];
-                    au8LineCoding[1] = config_data[1];
-                    au8LineCoding[2] = config_data[2];
-                    au8LineCoding[3] = config_data[3];
+                    au8LineCoding[0] = au8Ep0Buffer[0];
+                    au8LineCoding[1] = au8Ep0Buffer[1];
+                    au8LineCoding[2] = au8Ep0Buffer[2];
+                    au8LineCoding[3] = au8Ep0Buffer[3];
                 }
             }
         }
         /* get_line_coding */
-        else if(bRequest == GET_LINE_CODING )                                                   
+        else if(bRequest == GET_LINE_CODING )
         {
             /* Reply back with the previous or default setting */
             (void)CyU3PUsbSendEP0Data( 0x07, au8LineCoding);
         }
          /* SET_CONTROL_LINE_STATE */
-        else if(bRequest == SET_CONTROL_LINE_STATE)                                                   
+        else if(bRequest == SET_CONTROL_LINE_STATE)
         {
             if(bIsUSBActive)
                 CyU3PUsbAckSetup ();
@@ -926,13 +1080,46 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
     //TODO: Vendor requests
     else if( bType == CY_U3P_USB_VENDOR_RQT )
     {
+        // Extract data from request
+        u16Ep0WData = wValue;
+        u32Ep0DWData = ( (uint32_t)wValue << 16 );
+        u32Ep0DWData += ( (uint32_t)wIndex & 0xFFFF );
+        isHandled = CyTrue;
+        if( wLength > 0 )
+            CyU3PUsbGetEP0Data( wLength, au8Ep0Buffer, &readCount );
+
+        /* Response to each request */
         switch( bRequest )
         {
+            case ZEABUS_USB_REQ_PROG_FPGA:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_USB_PROG_FPGA, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_PROG_BITSTREAM:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_SAVE_FPGA, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_PROG_FIRMWARE:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_SAVE_FIRMWARE, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_SYSTEM_RESET:
+                if( u32Ep0DWData == 0x5555AAAA ) // Verify the signature code to prevent error
+                    SystemReset();
+                break;
+            case ZEABUS_USB_REQ_READ_FLASH:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_READ_FLASH, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_WRITE_FLASH:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_WRITE_FLASH, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_READ_EEPROM:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_READ_EEPROM, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_WRITE_EEPROM:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_WRITE_EEPROM, CYU3P_EVENT_OR );
+                break;
             case ZEABUS_USB_REQ_UNBIND_BULK:
                 // Unbind CDC bulk from other peripherals
             case ZEABUS_USB_REQ_BIND_BULK_FPGA:
                 // Bind CDC bulk endpoints to FPGA interface
-                isHandled = CyTrue;
                 break;
 
             default:
@@ -961,10 +1148,22 @@ static CyBool_t ZeabusUSBAppLPMRqtCB( CyU3PUsbLinkPowerMode link_mode )
 /************************************************************************************
  * Public API Functions
  ************************************************************************************/
-/*
- * Loop sending data through egress DMA buffer.
- */
-uint32_t zeabus_usb_send( uint8_t* buf, uint32_t size )
+uint16_t zeabus_usb_ep0_wdata( void )
+{
+    return( u16Ep0WData );
+}
+
+uint32_t zeabus_usb_ep0_dwdata( void )
+{
+    return( u32Ep0DWData );
+}
+
+uint8_t* zeabus_usb_ep0_buffer( void )
+{
+    return( au8Ep0Buffer );
+}
+
+uint32_t zeabus_usb_debug_send( uint8_t* buf, uint32_t size )
 {
     CyU3PDmaBuffer_t    buf_p;
     uint32_t            sent, granule;
@@ -973,7 +1172,7 @@ uint32_t zeabus_usb_send( uint8_t* buf, uint32_t size )
     while( size > 0 )
     {
         /* In this sub-system, the data must be able to be sent without waiting */
-        if( CyU3PDmaChannelGetBuffer( &xDMAChHandleBulkEgress, &buf_p, CYU3P_NO_WAIT ) != CY_U3P_SUCCESS )
+        if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDbgBulkEgress, &buf_p, CYU3P_NO_WAIT ) != CY_U3P_SUCCESS )
             break;
 
         if( size < buf_p.size )
@@ -984,7 +1183,7 @@ uint32_t zeabus_usb_send( uint8_t* buf, uint32_t size )
         /* Transfer data to DMA buffer */
         CyU3PMemCopy( buf_p.buffer, buf, granule );
 
-        if( CyU3PDmaChannelCommitBuffer( &xDMAChHandleBulkEgress, granule, 0 ) != CY_U3P_SUCCESS )
+        if( CyU3PDmaChannelCommitBuffer( &xDMAChHandleDbgBulkEgress, granule, 0 ) != CY_U3P_SUCCESS )
             break;
 
         /* Update variables */
@@ -996,26 +1195,84 @@ uint32_t zeabus_usb_send( uint8_t* buf, uint32_t size )
     return sent;
 }
 
-uint32_t zeabus_usb_reveive( uint8_t* buf, uint32_t max_size )
+uint32_t zeabus_usb_debug_receive( uint8_t* buf, uint32_t max_size )
 {
-    uint32_t    l, count;
+    CyU3PDmaBuffer_t buf_p;
+    uint32_t        count;
 
-    if( u32RecvBufTail == u32RecvBufHead )
-        return 0;       // Buffer is empty
-
-    if( max_size == 0 )
-        return 0;       // OOPS!!! Should not be here.
-
-    l = u32RecvBufTail;
-    for( count = 0; count < max_size; count++ )
+    count = 0;
+    /* This is a produce event notification to the CPU. This notification is
+     * received upon reception of every buffer.
+     */
+    if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDbgBulkIngress, &buf_p, CYU3P_NO_WAIT ) == CY_U3P_SUCCESS )
     {
-        buf[count] = au8RecvBuf[l];
-        count++;
-        l = (l + 1) & ZEABUS_BUF_POINTER_MASK;
-        if( l == u32RecvBufHead )
-            break;  // Notrhing more to read
+        if( buf_p.count < max_size )
+            count = buf_p.count;
+        else
+            count = max_size;
+
+        CyU3PMemCopy( buf, buf_p.buffer, count );
+        /* Finish the receiving, then discard the DMA buffer for next incoming */
+        CyU3PDmaChannelDiscardBuffer( &xDMAChHandleDbgBulkIngress );
     }
-    u32RecvBufTail = l;
+
+
+    return count;
+}
+
+uint32_t zeabus_usb_data_send( uint8_t* buf, uint32_t size )
+{
+    CyU3PDmaBuffer_t    buf_p;
+    uint32_t            sent, granule;
+
+    sent = 0;
+    while( size > 0 )
+    {
+        /* In this sub-system, the data must be able to be sent without waiting */
+        if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDataBulkEgress, &buf_p, CYU3P_NO_WAIT ) != CY_U3P_SUCCESS )
+            break;
+
+        if( size < buf_p.size )
+            granule = size;
+        else
+            granule = buf_p.size;
+
+        /* Transfer data to DMA buffer */
+        CyU3PMemCopy( buf_p.buffer, buf, granule );
+
+        if( CyU3PDmaChannelCommitBuffer( &xDMAChHandleDataBulkEgress, granule, 0 ) != CY_U3P_SUCCESS )
+            break;
+
+        /* Update variables */
+        size -= granule;
+        sent += granule;
+        buf += granule;
+    }
+
+    return sent;
+}
+
+uint32_t zeabus_usb_data_receive( uint8_t* buf, uint32_t max_size )
+{
+    CyU3PDmaBuffer_t buf_p;
+    uint32_t        count;
+
+    count = 0;
+    /* This is a produce event notification to the CPU. This notification is
+     * received upon reception of every buffer.
+     */
+    if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDataBulkIngress, &buf_p, CYU3P_NO_WAIT ) == CY_U3P_SUCCESS )
+    {
+        if( buf_p.count < max_size )
+            count = buf_p.count;
+        else
+            count = max_size;
+
+        CyU3PMemCopy( buf, buf_p.buffer, count );
+        /* Finish the receiving, then discard the DMA buffer for next incoming */
+        CyU3PDmaChannelDiscardBuffer( &xDMAChHandleDataBulkIngress );
+    }
+
 
     return count;
 }
@@ -1029,7 +1286,7 @@ bool zeabus_usb_initialize( void )
     apiRetStatus = CyU3PUsbStart();
     if( ( apiRetStatus != CY_U3P_SUCCESS ) && ( apiRetStatus != CY_U3P_ERROR_NO_REENUM_REQUIRED ) )
         return false;
- 
+
     u32USBBulkDest = ZEABUS_USB_REQ_UNBIND_BULK;
     /* Setup the callback to handle the setup requests */
     /* The fast enumeration is the easiest way to setup a USB connection,
@@ -1041,7 +1298,7 @@ bool zeabus_usb_initialize( void )
     CyU3PUsbRegisterEventCallback( ZeabusUSBAppUSBEventCB );
 
     /* Register a callback to handle LPM requests from the USB 3.0 host. */
-    CyU3PUsbRegisterLPMRequestCallback( ZeabusUSBAppLPMRqtCB );    
+    CyU3PUsbRegisterLPMRequestCallback( ZeabusUSBAppLPMRqtCB );
 
     /* Set the USB enumeration descriptors */
 

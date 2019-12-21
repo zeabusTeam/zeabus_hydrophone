@@ -3,7 +3,7 @@
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -58,11 +58,11 @@
  * the sepcified sector (denoted as "p"). The last byte is the data offset
  * within the page (denoted as "o").
  *
- * According to flash-memory technology, reading canbe performed at any 
+ * According to flash-memory technology, reading canbe performed at any
  * position with the reading amount in bytes. However, writing should be
  * issues in whole pages. Moreover, erasing must be in the unit of sectors.
  * Dividing the address information as above eases these operations.
- * 
+ *
  */
 
 #define FLASH_PAGE_SIZE     256

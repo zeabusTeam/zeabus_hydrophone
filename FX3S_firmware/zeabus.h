@@ -3,7 +3,7 @@
  *
  * Zeabus firmware for EZ-USB FX3 Microcontrollers
  * Copyright (C) 2019-2020 Zeabus Term, Kasetsart University.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -54,7 +54,7 @@
 #define ZEABUS_GPIO_FPGA_CSI_B    39
 #define ZEABUS_GPIO_FPGA_DONE     40
 
-#define ZEABUS_GPIO_OTG_EN        57 
+#define ZEABUS_GPIO_OTG_EN        57
 
 // Bitmap use to confifure GPIO module at system start */
 #define ZEABUS_GPIO_SIMPLE_BITMAP ( \
@@ -69,38 +69,39 @@
 /* DMA Socket allocation */
 /* FX3S has some fixed sockets available as:
  *  - CPU : 1 consumer + 1 producer
- *  - USB (U-Port or UIB) : 16 consumers(egress) + 16 producers(ingress) (indexed from 0 - 15) 
+ *  - USB (U-Port or UIB) : 16 consumers(egress) + 16 producers(ingress) (indexed from 0 - 15)
  *  - Storage (S-Port or SIB) : 6 bi-direction (indexed from 0 - 5)
  *  - GPIF II plus some interface logics (P-Port or PIB) : 16 bi-direction + 16 ingress (indexed from 0 - 31)
  *  - Low-Performance Port (LPP) : 1 pair for each device as:
  *          * CY_U3P_LPP_SOCKET_I2S_LEFT : Left-channel output to I2S port.
  *          * CY_U3P_LPP_SOCKET_I2S_RIGHT : Right-channel output to I2S port.
- *          * CY_U3P_LPP_SOCKET_UART_PROD : Incoming data from UART peer. 
- *          * CY_U3P_LPP_SOCKET_UART_CONS : Outgoing data to UART peer. 
+ *          * CY_U3P_LPP_SOCKET_UART_PROD : Incoming data from UART peer.
+ *          * CY_U3P_LPP_SOCKET_UART_CONS : Outgoing data to UART peer.
  *          * CY_U3P_LPP_SOCKET_SPI_PROD : Incoming data from SPI slave.
- *          * CY_U3P_LPP_SOCKET_SPI_CONS  : Outgoing data to SPI slave. 
- *          * CY_U3P_LPP_SOCKET_I2C_PROD : Incoming data from I2C slave. 
+ *          * CY_U3P_LPP_SOCKET_SPI_CONS  : Outgoing data to SPI slave.
+ *          * CY_U3P_LPP_SOCKET_I2C_PROD : Incoming data from I2C slave.
  *          * CY_U3P_LPP_SOCKET_I2C_CONS : Outgoing data to I2C slave
  */
 
 /* Note: For USB 2.0 the endpoints and corresponding sockets are one-to-one mapped
          i.e. EP 1 is mapped to UIB socket 1 and EP 2 to socket 2 so on */
 
-#define ZEABUS_DMA_EP_USB_PRODUCER_SOCKET   CY_U3P_UIB_SOCKET_PROD_2    /* USB BULK producer */
-#define ZEABUS_DMA_EP_USB_CONSUMER_SOCKET   CY_U3P_UIB_SOCKET_CONS_2    /* USB BULK  consumer */
+#define ZEABUS_DMA_EP_USB_DATA_PRODUCER_SOCKET   CY_U3P_UIB_SOCKET_PROD_3    /* USB CDC BULK producer */
+#define ZEABUS_DMA_EP_USB_DATA_CONSUMER_SOCKET   CY_U3P_UIB_SOCKET_CONS_3    /* USB CDC BULK  consumer */
+#define ZEABUS_DMA_EP_USB_DEBUG_PRODUCER_SOCKET  CY_U3P_UIB_SOCKET_PROD_2    /* USB CDC BULK producer */
+#define ZEABUS_DMA_EP_USB_DEBUG_CONSUMER_SOCKET  CY_U3P_UIB_SOCKET_CONS_2    /* USB CDC BULK  consumer */
 
 extern CyU3PEvent   xZeabusEvent;              /* Event ID of USB event group */
 
-/* USB Vendor request */
-#define ZEABUS_USB_REQ_UNBIND_BULK      (0xA1)          // Unbind CDC bulk from other peripherals
-#define ZEABUS_USB_REQ_BIND_BULK_FPGA   (0xA2)          // Bind CDC bulk endpoints to FPGA interface
+#include "zeabus_usb_cmd.h"                     // We defined vendor's command in another file, which is also used by host software
 
 /* Events */
-#define ZEABUS_EVENT_USB_INCOMING       (1 << 0)        // Incoming data from USB are available
-
-
-
-
-
+#define ZEABUS_EVENT_REQ_USB_PROG_FPGA  (1 << 0)        // Request for FPGA programming from USB
+#define ZEABUS_EVENT_REQ_SAVE_FPGA      (1 << 1)        // Request to save FPGA bitstream to SPI flash
+#define ZEABUS_EVENT_REQ_SAVE_FIRMWARE  (1 << 2)        // Request to save FX3S firmware to SPI flash
+#define ZEABUS_EVENT_REQ_READ_FLASH     (1 << 3)        // Request for raw data from SPI flash
+#define ZEABUS_EVENT_REQ_WRITE_FLASH    (1 << 4)        // Write raw data to SPI flash
+#define ZEABUS_EVENT_REQ_READ_EEPROM    (1 << 5)        // Request for raw data from EEPROM
+#define ZEABUS_EVENT_REQ_WRITE_EEPROM   (1 << 6)        // Write raw data to EEPROM
 
 #endif // __ZEABUS_H

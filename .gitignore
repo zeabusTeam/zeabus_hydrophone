@@ -6,3 +6,5 @@ circuit/zeabus_hydrophone-cache.lib
 circuit/fp-info-cache
 *.elf
 FX3S_firmware/zeabus_hp_fx3s.map
+*.gbr
+*.drl
