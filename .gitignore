@@ -8,3 +8,4 @@ circuit/fp-info-cache
 FX3S_firmware/zeabus_hp_fx3s.map
 *.gbr
 *.drl
+FPGA_firmware/zeabus_hydrophone.cache
