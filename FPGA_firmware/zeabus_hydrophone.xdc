@@ -22,8 +22,8 @@ set_property PACKAGE_PIN P15 [get_ports clk_in]
 set_property IOSTANDARD LVCMOS33 [get_ports clk_in]
 
 # IFCLK (aka. FPGA <-> FX3S communication clock)
-set_property PACKAGE_PIN P17 [get_ports ifclk]
-set_property IOSTANDARD LVCMOS33 [get_ports ifclk]
+set_property PACKAGE_PIN P17 [get_ports ifclk_out]
+set_property IOSTANDARD LVCMOS33 [get_ports ifclk_out]
 
 ##################################################################################################
 ## FPGA <-> FX3S interface
@@ -61,30 +61,30 @@ set_property IOSTANDARD LVCMOS33 [get_ports {DQ[14]}]
 set_property PACKAGE_PIN M17 [get_ports {DQ[15]}]       ;# DQ15
 set_property IOSTANDARD LVCMOS33 [get_ports {DQ[15]}]
 
-set_property PACKAGE_PIN U12 [get_ports {CTL0}]         ;# CTL0/SLCS#/GPIO17
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL0}]
-set_property PACKAGE_PIN U11 [get_ports {CTL1}]         ;# CTL1/SLWR#/GPIO18
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL1}]
-set_property PACKAGE_PIN U13 [get_ports {CTL2}]         ;# CTL2/SLOE#/GPIO19
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL2}]
-set_property PACKAGE_PIN V12 [get_ports {CTL3}]         ;# CTL3/SLRD#/GPIO20
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL3}]
-set_property PACKAGE_PIN V11 [get_ports {CTL4}]         ;# CTL4/FLAGA/GPIO21
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL4}]
-set_property PACKAGE_PIN V14 [get_ports {CTL5}]         ;# CTL5/FLAGB/GPIO22
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL5}]
+set_property PACKAGE_PIN U12 [get_ports {SLCS}]         ;# CTL0/SLCS#/GPIO17
+set_property IOSTANDARD LVCMOS33 [get_ports {SLCS}]
+set_property PACKAGE_PIN U11 [get_ports {SLWR}]         ;# CTL1/SLWR#/GPIO18
+set_property IOSTANDARD LVCMOS33 [get_ports {SLWR}]
+set_property PACKAGE_PIN U13 [get_ports {SLOE}]         ;# CTL2/SLOE#/GPIO19
+set_property IOSTANDARD LVCMOS33 [get_ports {SLOE}]
+set_property PACKAGE_PIN V12 [get_ports {SLRD}]         ;# CTL3/SLRD#/GPIO20
+set_property IOSTANDARD LVCMOS33 [get_ports {SLRD}]
+set_property PACKAGE_PIN V11 [get_ports {FLAGA}]        ;# CTL4/FLAGA/GPIO21
+set_property IOSTANDARD LVCMOS33 [get_ports {FLAGA}]
+set_property PACKAGE_PIN V14 [get_ports {FLAGB}]        ;# CTL5/FLAGB/GPIO22
+set_property IOSTANDARD LVCMOS33 [get_ports {FLAGB}]
 set_property PACKAGE_PIN T14 [get_ports {CTL6}]         ;# CTL6/GPIO23
 set_property IOSTANDARD LVCMOS33 [get_ports {CTL6}]
-set_property PACKAGE_PIN V10 [get_ports {CTL7}]         ;# CTL7/PKTEND#/GPIO24
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL7}]
-set_property PACKAGE_PIN V16 [get_ports {CTL8}]         ;# CTL8/FLAGD/GPIO25
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL8}]
+set_property PACKAGE_PIN V10 [get_ports {PKTEND}]       ;# CTL7/PKTEND#/GPIO24
+set_property IOSTANDARD LVCMOS33 [get_ports {PKTEND}]
+set_property PACKAGE_PIN V16 [get_ports {FLAGD}]        ;# CTL8/FLAGD/GPIO25
+set_property IOSTANDARD LVCMOS33 [get_ports {FLAGD}]
 set_property PACKAGE_PIN U14 [get_ports {CTL9}]         ;# CTL9/GPIO26
 set_property IOSTANDARD LVCMOS33 [get_ports {CTL9}]
-set_property PACKAGE_PIN T15 [get_ports {CTL11}]        ;# CTL11/A1/GPIO28
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL11}]
-set_property PACKAGE_PIN U16 [get_ports {CTL12}]        ;# CTL12/A0/GPIO29
-set_property IOSTANDARD LVCMOS33 [get_ports {CTL12}]
+set_property PACKAGE_PIN T15 [get_ports {A[1]}]        	;# CTL11/A1/GPIO28
+set_property IOSTANDARD LVCMOS33 [get_ports {A[1]}]
+set_property PACKAGE_PIN U16 [get_ports {A[0]}]        	;# CTL12/A0/GPIO29
+set_property IOSTANDARD LVCMOS33 [get_ports {A[0]}]
 set_property PACKAGE_PIN T13 [get_ports {CTL15}]        ;# INT#/CTL15
 set_property IOSTANDARD LVCMOS33 [get_ports {CTL15}]
 
@@ -106,17 +106,24 @@ set_property IOSTANDARD LVCMOS33 [get_ports {S_SCL}]
 set_property PACKAGE_PIN T9 [get_ports {S_SDA}]         ;# Slave SDA
 set_property IOSTANDARD LVCMOS33 [get_ports {S_SDA}]
 
-set_property PACKAGE_PIN R17 [get_ports {SPI_CLK}]          ;# FPGA_CLK
+set_property PACKAGE_PIN R17 [get_ports {SPI_CLK}]      ;# FPGA_CLK
 set_property IOSTANDARD LVCMOS33 [get_ports {SPI_CLK}]
-set_property PACKAGE_PIN N17 [get_ports {SPI_CS_N}]         ;# FPGA_CS#
+set_property PACKAGE_PIN N17 [get_ports {SPI_CS_N}]     ;# FPGA_CS#
 set_property IOSTANDARD LVCMOS33 [get_ports {SPI_CS_N}]
-set_property PACKAGE_PIN N16 [get_ports {SPI_MISO}]         ;# FPGA_MISO
+set_property PACKAGE_PIN N16 [get_ports {SPI_MISO}]     ;# FPGA_MISO
 set_property IOSTANDARD LVCMOS33 [get_ports {SPI_MISO}]
-set_property PACKAGE_PIN L16 [get_ports {SPI_MOSI}]         ;# FPGA_MOSI
+set_property PACKAGE_PIN L16 [get_ports {SPI_MOSI}]     ;# FPGA_MOSI
 set_property IOSTANDARD LVCMOS33 [get_ports {SPI_MOSI}]
 
-set_property PACKAGE_PIN T11 [get_ports {LED1_red}]         ;# LED1:red
-set_property IOSTANDARD LVCMOS33 [get_ports {LED1_red}]
+##################################################################################################
+## LED
+##################################################################################################
+set_property PACKAGE_PIN T11 [get_ports {LED1_red_n}]   ;# LED1:red (Active low)
+set_property IOSTANDARD LVCMOS33 [get_ports {LED1_red_n}]
+set_property PACKAGE_PIN E17 [get_ports {LED2_green}]   ;# B13:LED2:Green
+set_property IOSTANDARD LVCMOS33 [get_ports {LED2_green}]
+set_property PACKAGE_PIN D17 [get_ports {LED3_blue}]    ;# B14:LED3:Blue
+set_property IOSTANDARD LVCMOS33 [get_ports {LED3_blue}]
 
 ##################################################################################################
 ## ADC1
@@ -421,10 +428,6 @@ set_property PACKAGE_PIN F16 [get_ports {IO_B[8]}]      ;# B11 / F16~IO_L14N_T2_
 set_property IOSTANDARD LVCMOS33 [get_ports {IO_B[8]}]
 set_property PACKAGE_PIN F15 [get_ports {IO_B[9]}]      ;# B12 / F15~IO_L14P_T2_SRCC_15
 set_property IOSTANDARD LVCMOS33 [get_ports {IO_B[9]}]
-set_property PACKAGE_PIN E17 [get_ports {IO_B[10]}]     ;# B13 / E17~IO_L16P_T2_A28_15
-set_property IOSTANDARD LVCMOS33 [get_ports {IO_B[10]}]
-set_property PACKAGE_PIN D17 [get_ports {IO_B[11]}]     ;# B14 / D17~IO_L16N_T2_A27_15
-set_property IOSTANDARD LVCMOS33 [get_ports {IO_B[11]}]
 set_property PACKAGE_PIN F14 [get_ports {IO_B[12]}]     ;# B18 / F14~IO_L5N_T0_AD9N_15
 set_property IOSTANDARD LVCMOS33 [get_ports {IO_B[12]}]
 set_property PACKAGE_PIN E15 [get_ports {IO_B[13]}]     ;# B19 / E15~IO_L11P_T1_SRCC_15

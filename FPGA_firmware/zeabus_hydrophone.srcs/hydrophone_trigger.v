@@ -38,7 +38,7 @@ module hydrophone_trigger
 	parameter header = 1000,		// Number of d_in samples preceded of the trigged points
 	parameter trigged_tailed = 1000,	// Number of d_in samples include in a valid data packet after the trigger level is not satisfied
 	
-	localparam total_tail = (header+trigged_tailed)	// Total tailling is the deisred tail plus the backlog in the buffer
+	localparam total_tail = (header+trigged_tailed)	// Total tailling is the deisred tail plus the backlog in the buffer.
 	) (
 	input rst,					// system reset (active high)
 	input clk,					// signal clock (1 MHz)
@@ -114,40 +114,45 @@ module hydrophone_trigger
 		    wr_en = 1;
 			case (trig_state)
 				2'b00:	// Fill the FIFO for "header" samples without reading out.
+				begin
+					counter = counter + 1;
+					if( counter > header )
 					begin
-						counter = counter + 1;
-						if( counter >= header )
-						begin
-							rd_en <= 1'b1;
-							trig_state <= 2'b01;
-						end
+						rd_en <= 1'b1;
+						trig_state <= 2'b01;
 					end
+				end
 				2'b01:	// Waiting for trigger level.
+				begin
+					if( trigger_compare( d_in, trigger_level ) == 1 )
 					begin
-						if( trigger_compare( d_in, trigger_level ) == 1 )
-						begin
-							trig_state <= 2'b10;	// Trigger found
-							trigged <= 1;
-							counter <= 16'b0;
-						end
+						trig_state <= 2'b10;	// Trigger found
+						trigged <= 1;
+						counter <= 16'b0;
 					end
+				end
 				2'b10:	// Trigger found. gives the output
+				begin
+					if( trigger_compare( d_in, trigger_level ) == 1 )
 					begin
-						if( trigger_compare( d_in, trigger_level ) == 1 )
+						counter <= 16'b0;
+					end
+					else
+					begin
+						// If trigger level is no longer satisfied, count for packet tailing.
+						counter = counter + 1;
+						if( counter > total_tail )
 						begin
-							counter <= 16'b0;
-						end
-						else
-						begin
-							// If trigger level is no longer satisfied, count for packet tailing.
-							counter = counter + 1;
-							if( counter >= total_tail )
-							begin
-								trig_state <= 2'b01;	// Back to trigger level waiting
-								trigged <= 0;
-							end
+							trig_state <= 2'b01;	// Back to trigger level waiting
+							trigged <= 0;
 						end
 					end
+				end
+				2'b11:	// Error!!! We should not be here
+				begin
+					trigged <= 0;
+					trig_state <= 2'b01;	// Go back to find trigger again
+				end
 			endcase
 		end
 	end
