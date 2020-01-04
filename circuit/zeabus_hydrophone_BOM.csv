@@ -21,3 +21,6 @@ Item,Qty,Reference(s),Value,Footprint,Element14 part no.,remark,
 20,4,"U4, U5, U7, U8",OPA2365,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,1363691,,
 21,2,"U6, U9",ADA4940-2,Package_CSP:LFCSP-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm,2070673,Back order,Mouser: 584-ADA4940-2ACPZ-R7
 22,2,"U10, U11",MAX5387LAUD+T (10k),Package_SO:TSSOP-14_4.4x5mm_P0.65mm,2516213,10k version,
+23,1,LED1,Blue,Package_0603,2610410,,
+24,1,LED2,Green,Package_0603,2610409,,
+25,2,"R53, R54",240,Package 0603,2447305,purchase in unit of 10,
