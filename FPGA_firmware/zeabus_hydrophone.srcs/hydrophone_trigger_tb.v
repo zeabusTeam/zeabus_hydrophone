@@ -75,12 +75,6 @@ module hydrophone_trigger_tb;
 		d_in = in_data[cycle_count];
 	end
 
-	// Apply sample data every clock edge
-	always @(posedge clk)
-	begin
-		d_in = in_data[cycle_count];
-	end
-
 	// stop the simulation total_data and close the file
 	// i.e. store only total_data values in file
 	always @(posedge clk)
