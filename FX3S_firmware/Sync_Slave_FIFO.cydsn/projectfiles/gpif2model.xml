@@ -4,7 +4,7 @@
     <InterfaceSetting>
       <I2SEnabled>False</I2SEnabled>
       <I2CEnabled>True</I2CEnabled>
-      <SPIEnabled>False</SPIEnabled>
+      <SPIEnabled>True</SPIEnabled>
       <I2SEnabled>False</I2SEnabled>
       <ADMuxedEnabled>False</ADMuxedEnabled>
       <InterfaceType>Slave</InterfaceType>
@@ -12,12 +12,12 @@
       <ClockSource>External</ClockSource>
       <ClockEdge>Positive</ClockEdge>
       <Endianness>BigEndian</Endianness>
-      <DataBusWidth>Bit32</DataBusWidth>
+      <DataBusWidth>Bit16</DataBusWidth>
       <AddressBuswidth>2</AddressBuswidth>
     </InterfaceSetting>
   </InterfaceDefination>
   <Signals>
-    <Signal ElementId="INPUT0" SignalType="Input" SpecialFunction="None">
+    <Signal ElementId="INPUT0" SignalType="Input" SpecialFunction="OE">
       <DisplayName>SLOE</DisplayName>
       <GPIOPinNumber>GPIO_19</GPIOPinNumber>
       <Polarity>ActiveLow</Polarity>
@@ -47,21 +47,14 @@
       <GPIOPinNumber>GPIO_21</GPIOPinNumber>
       <IntialValue>Low</IntialValue>
       <Polarity>ActiveLow</Polarity>
-      <Flags>Thread_3_DMA_Ready</Flags>
+      <Flags>Thread_0_DMA_Ready</Flags>
     </Signal>
-    <Signal ElementId="FLAG2" SignalType="Flags" SpecialFunction="None">
+    <Signal ElementId="FLAG1" SignalType="Flags" SpecialFunction="None">
       <DisplayName>FLAGB</DisplayName>
       <GPIOPinNumber>GPIO_22</GPIOPinNumber>
       <IntialValue>Low</IntialValue>
       <Polarity>ActiveLow</Polarity>
-      <Flags>Thread_2_DMA_Ready</Flags>
-    </Signal>
-    <Signal ElementId="FLAG3" SignalType="Flags" SpecialFunction="None">
-      <DisplayName>FLAGD</DisplayName>
-      <GPIOPinNumber>GPIO_25</GPIOPinNumber>
-      <IntialValue>High</IntialValue>
-      <Polarity>ActiveLow</Polarity>
-      <Flags>Thread_0_DMA_Ready</Flags>
+      <Flags>Thread_1_DMA_WaterMark</Flags>
     </Signal>
   </Signals>
   <StateMachine>

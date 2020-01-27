@@ -19,6 +19,11 @@ OBJS = $(MODULE).o zeabus_config.o zeabus_fpgaconf.o zeabus_flash.o zeabus_eepro
 USER_CFLAGS = -Os
 USER_LDFLAGS =
 ARMGCC_VERSION=9.2.1
+ifeq ($(OS),Windows_NT)
+	InstallDir = C:/Program\ Files\ (x86)/GNU\ Tools\ Arm\ Embedded/9\ 2019-q4-major
+else
+	InstallDir = /usr/local
+endif
 
 # Tools
 CC  = arm-none-eabi-gcc
@@ -45,8 +50,8 @@ CCFLAGS += $(USER_CFLAGS)
 # NOTE: This order is important for GNU linker. Do not change
 LDLIBS = -L ./lib -lcyu3sport -lcyu3lpp -lcyfxapi -lcyu3threadx
 LDLIBS  += \
-	/usr/local/arm-none-eabi/lib/libc.a	\
-	/usr/local/lib/gcc/arm-none-eabi/$(ARMGCC_VERSION)/libgcc.a
+	$(InstallDir)/arm-none-eabi/lib/libc.a	\
+	$(InstallDir)/lib/gcc/arm-none-eabi/$(ARMGCC_VERSION)/libgcc.a
 
 # System module
 OBJS += cyfxtx.o cyfx_gcc_startup.o

@@ -34,9 +34,10 @@
 // --------------------------------------------------------------------------------
 
 module fx3_interface_tb;
+	parameter	FX3S_DMA_Size = 4096;	// Size of FX3S receiving DMA buffer (in 16-bit words)
 	localparam	total_data = 10000;
 	
-	integer out_file, input_cycle_count = 0, counter_64MHz = 0, conf_index = 0;
+	integer out_file, input_cycle_count = 0, counter_64MHz = 0, conf_index = 0, DMA_Counter = 0, DMA_Wait = 0;
 
 	reg [63:0] in_data[0:total_data-1];		// Sampling data
 	reg [15:0] conf_data[0:15];				// Configuration data
@@ -90,7 +91,7 @@ module fx3_interface_tb;
 						.FLAGA(FLAGA), .FLAGB(FLAGB), 
 						.state(state), .TxEmpty(tx_empty), .TxFull(tx_full), .RxEmpty(rx_empty), .RxFull(rx_full),
 						.TxWrRstBusy(tx_wr_rst_busy), .TxRdRstBusy(tx_rd_rst_busy), .RxWrRstBusy(rx_wr_rst_busy), .RxRdRstBusy(rx_rd_rst_busy),
-						.TxWrEn(tx_wr_en), .TxRdEn(tx_rd_en), .RxWrEn(rx_wr_en), .RxRden(rx_rd_en), .d_data(d_data), .d_clk(d_clk), .dd_clk(dd_clk),
+						.TxWrEn(tx_wr_en), .TxRdEn(tx_rd_en), .RxWrEn(rx_wr_en), .RxRdEn(rx_rd_en), .d_data(d_data), .d_clk(d_clk), .dd_clk(dd_clk),
 						.sending(is_sending)
 	);
 
@@ -121,8 +122,8 @@ module fx3_interface_tb;
 		counter_64MHz = 0;
 		conf_index = 0;
 		level = 16'd2000; // 0x07D0
-		FLAGA = 1;
-		FLAGB = 1;
+		FLAGA = 0;
+		FLAGB = 0;
 		i_oe = 0;
 		rst = 1; #8 rst = 0;
 	end
@@ -171,14 +172,33 @@ module fx3_interface_tb;
 	always @(posedge ifclk)
 	begin
 		if(counter_64MHz == 20)
-			FLAGB = 0;		// Enable FPGA->FX3S
+			FLAGB = 1;		// Enable FPGA->FX3S (Buffer not full)
 		if(counter_64MHz == 32'h3ebca)
-			FLAGA = 0;
+			FLAGA = 1;		// Enable FX3S->FPGA (Buffer not empty)
 		
-		if( !FLAGA && !SLOE && !SLRD )
+		if( DMA_Wait > 0 && counter_64MHz > 20)
+			DMA_Wait = DMA_Wait - 1;
+		else
+			FLAGB = 1;
+			
+		if( FLAGB && !SLWR )
+		begin
+			DMA_Counter = DMA_Counter + 1;
+			if( DMA_Counter == FX3S_DMA_Size )
+			begin
+				DMA_Counter = 0;
+				DMA_Wait = 5;
+				FLAGB = 0;
+			end
+		end
+		
+		if( FLAGA && !SLOE && !SLRD )
 		begin
 			if(conf_index > 15)
-				FLAGA = 1;
+				if(conf_index > 17 )
+					FLAGA = 0;
+				else
+					conf_index = conf_index + 1;
 			else
 			begin
 				DQ_In = conf_data[conf_index];

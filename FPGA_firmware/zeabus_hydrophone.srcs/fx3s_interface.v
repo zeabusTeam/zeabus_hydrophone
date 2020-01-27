@@ -34,30 +34,37 @@
 // --------------------------------------------------------------------------------
 
 module fx3s_interface #(
+	parameter	FX3S_DMA_Size = 4096,	// Size of FX3S receiving DMA buffer (in 16-bit words)
+	
 	// Address value
 	localparam addr_write = 1'b1,
 	localparam addr_read = 1'b0,
 
 	// State value
 	localparam state_idle = 4'b0000,
+	
 	localparam state_start_read = 4'b0001,
-	localparam state_enable_read = 4'b0010,
-	localparam state_read_wait_1 = 4'b0011,
-	localparam state_reading = 4'b0100,
-	localparam state_reading_fin = 4'b0101,
-	localparam state_start_write = 4'b0110,
-	localparam state_write_wait_1 = 4'b0111,
-	localparam state_writing = 4'b1000,
-	localparam state_write_wait_2 = 4'b1001,
-	localparam state_write_wait_3 = 4'b1010,
-	localparam state_write_ZLP = 4'b1011,
-	localparam state_write_fin = 4'b1100
+	localparam state_read_pre1 = 4'b0010,
+	localparam state_read_pre2 = 4'b0011,
+	localparam state_read_pre3 = 4'b0100,
+	localparam state_read_loop = 4'b0101,
+	
+	localparam state_start_write = 4'b1000,
+	localparam state_write_wait1 = 4'b1001,
+	localparam state_write_wait2 = 4'b1010,
+	localparam state_write_wait3 = 4'b1011,
+
+	localparam state_zlp = 4'b1100,
+	localparam state_zlp_wait1 = 4'b1101,
+	localparam state_zlp_wait2 = 4'b1110,
+	localparam state_zlp_wait3 = 4'b1111
+	
 	) (
 	// Debug signals
 	output [3:0] state,
 	output TxEmpty, TxFull, RxEmpty, RxFull,
 	output TxWrRstBusy, TxRdRstBusy, RxWrRstBusy, RxRdRstBusy,
-	output TxWrEn, TxRdEn, RxWrEn, RxRden,
+	output TxWrEn, TxRdEn, RxWrEn, RxRdEn,
 	output [15:0] d_data,
 	output d_clk, dd_clk,
 	output sending,
@@ -71,8 +78,8 @@ module fx3s_interface #(
 	output reg SLOE, 				// Enable FX3S -> FPGA data direction (Active low)
 	output reg PKTEND,				// Writing a short packet or zero-length packet (Used to indicate end of data) (Active low)
 	input FLAGA, FLAGB,				// Flags from FX3S use to indicates almost full or empty of DMA buffer. (Active Low)
-									// FLAGA : indicates that FX3S has some data to read.
-									// FLAGB : indicates that FX3S has some spacce to accept more data
+									// FLAGA : indicates that FX3S has some data to read. (0 = Empty)
+									// FLAGB : indicates that FX3S has some spacce to accept more data (1 = Available)
 									// Important Note: FLAGB has 3-clock delay. Thus, it must indicate "almost" full to aviod overrun.
 
 	// Control signal
@@ -96,34 +103,38 @@ module fx3s_interface #(
 	// This module use FIFO to store incoming and outgoing data
 	// The FIFO size for arrival data is 32 16-bit words.
 	// The FIFO size for departure data is 1024 64-bit words.
-	wire	dep_wr_rst_busy, dep_rd_rst_busy, arr_wr_rst_busy, arr_rd_rst_busy;
-	wire	[15:0] departure_data;
-	wire	[15:0] arrival_data;
-	wire	arrival_empty, arrival_full, departure_empty;	// Full and empty FIFO flag
-	wire	arrival_rd_en;
-	wire	departure_wr_en;
-	reg		arrival_wr_en, departure_rd_en;	// FIFO write and read enable controlled by state machine
+	wire	tx_wr_rst_busy, tx_rd_rst_busy, rx_wr_rst_busy, rx_rd_rst_busy;
+	wire	[15:0] tx_data;
+	wire	[15:0] rx_data;
+	wire	rx_empty, rx_full, tx_empty;	// Full and empty FIFO flag
+	wire	rx_rd_en;
+	wire	tx_wr_en;
+	reg		rx_wr_en, tx_rd_en;		// FIFO write and read enable controlled by state machine
 	reg		is_sending;				// Indicate current data direction: 0 = FX3S -> FPGA, 1 = FPGA -> FX3S
-	reg [3:0] master_state;			// State of the interface
+	reg 	[3:0] master_state;		// State of the interface
+	reg		is_writing;				// Indicate whether the writing process has started
+	reg		[15:0] rx_buf_d;
+	reg     [15:0] rx_buf_dd;	     // pre-buffer for reading as FLAGA has 2 clocks delay.
 	reg		input_d_clk_d;
+	integer u32WrCounter;			// Counter for DMA sending words
 
 	//************************************************************
 	// Combination logic
 	//************************************************************
 	assign state = master_state;
 	assign TxFull = input_full;
-	assign TxEmpty = departure_empty;
-	assign RxFull = arrival_full;
-	assign RxEmpty = arrival_empty;
-	assign TxWrRstBusy = dep_wr_rst_busy;
-	assign TxRdRstBusy = dep_rd_rst_busy;
-	assign RxWrRstBusy = arr_wr_rst_busy;
-	assign RxRdRstBusy = arr_rd_rst_busy;
-	assign TxWrEn = departure_wr_en;
-	assign TxRdEn = departure_rd_en;
-	assign RxWrEn = arrival_wr_en;
-	assign RxRdEn = arrival_rd_en;
-	assign d_data = departure_data;
+	assign TxEmpty = tx_empty;
+	assign RxFull = rx_full;
+	assign RxEmpty = rx_empty;
+	assign TxWrRstBusy = tx_wr_rst_busy;
+	assign TxRdRstBusy = tx_rd_rst_busy;
+	assign RxWrRstBusy = rx_wr_rst_busy;
+	assign RxRdRstBusy = rx_rd_rst_busy;
+	assign TxWrEn = tx_wr_en;
+	assign TxRdEn = tx_rd_en;
+	assign RxWrEn = rx_wr_en;
+	assign RxRdEn = rx_rd_en;
+	assign d_data = tx_data;
 	assign d_clk = input_d_clk;
 	assign dd_clk = input_d_clk_d;
 	assign sending = is_sending;
@@ -133,14 +144,14 @@ module fx3s_interface #(
 	// Reset and ready signals
 	assign A[1] = 0;				// A[1] is always 0. We use only A[0] bit
 	assign A[0] = is_sending;		// Data direction bit is designed to be equal to A[0]
-	assign rdy = !( dep_wr_rst_busy | dep_rd_rst_busy | arr_wr_rst_busy | arr_rd_rst_busy );
-	assign departure_wr_en = input_valid & !dep_wr_rst_busy & ( !input_d_clk_d & input_d_clk );
-	assign output_valid = !arrival_empty & !arr_rd_rst_busy;
-	assign arrival_rd_en = output_d_oe & !arr_rd_rst_busy;
+	assign rdy = !( tx_wr_rst_busy | tx_rd_rst_busy | rx_wr_rst_busy | rx_rd_rst_busy );
+	assign tx_wr_en = input_valid & !tx_wr_rst_busy & ( !input_d_clk_d & input_d_clk );
+	assign output_valid = !rx_empty & !rx_rd_rst_busy;
+	assign rx_rd_en = output_d_oe & !rx_rd_rst_busy;
 
 	// MUX and DEMUX DQ pins with 2 internal sub-systems
-	assign arrival_data = (!is_sending) ? DQ : 16'b0;
-	assign DQ = (is_sending) ? departure_data : 16'bz;
+	assign rx_data = (!is_sending) ? DQ : 16'b0;
+	assign DQ = (is_sending) ? tx_data : 16'bz;
 
 	//************************************************************
 	// Initialization
@@ -152,10 +163,12 @@ module fx3s_interface #(
 		SLOE <= 1;
 		PKTEND <= 1;
 		is_sending <= 0;
-		arrival_wr_en <= 0;
-		departure_rd_en <= 0;
+		rx_wr_en <= 0;
+		tx_rd_en <= 0;
 		input_d_clk_d <= 0;
+		is_writing <= 0;
 		master_state <= state_idle;
+		u32WrCounter <= FX3S_DMA_Size;
 	end
 
 	//************************************************************
@@ -171,37 +184,43 @@ module fx3s_interface #(
 	/*
 	 * State transition table (FLAGA and FLAGB are active low)
 	 * ------------------------------------------------------------------------------------
-	 *  State | Meaning      | Input condition                 |  Next State | Action
+	 *     State     | Input condition                 |  Next State | Action
 	 * ------------------------------------------------------------------------------------
-	 * 	 0000 | Idle         | !arrival_full && !FLAGA         | 0001        |
-	 *        |              | !departure_empty && !FLAGB      | 0110        |
+	 *     idle      | is_writing && FLAGB && tx_empty |             |
+	 *               |                 && !input_valid | zlp         | is_sending = 1, SLCS = 0, PEND = 0
+	 * 	             | !rx_full && FLAGA               | start_read  | is_sending = 0, SLCS = 0, SLOE = 0
+	 *               | !tx_empty && FLAGB              | start_write | is_sending = 1, SLCS = 0, SLWR = 0, tx_rd_en = 1, is_writing = 1
 	 * ------------------------------------------------------------------------------------
-	 *   0001 | Start read   | 1                               | 0010        | SLCS = 0, is_sending = 0 (3 cycles delay)
+	 *  start_read   | 1                               | read_pre1   | SLRD = 0
 	 * ------------------------------------------------------------------------------------
-	 *   0010 | Enable read  | 1                               | 0011        | SLOE = 0, SLRD = 0
+	 *  read_pre1    | 1                               | read_pre2   |
 	 * ------------------------------------------------------------------------------------
-	 *   0011 | Read wait 1  | 1                               | 0100        | arrival_wr_en = 1
+	 *  read_pre2    | !FLAGA                          | idle        | SLCS = 1, SLRD = 1, SLOE = 1
+	 *               | else                            | read_pre3   | rx_buf_dd = rx_data
 	 * ------------------------------------------------------------------------------------
-	 *   0100 | Reading      | FLAGA || arrival_full           | 0101        | arrival_wr_en = 0, SLRD = 1, SLOE = 1, SLCS = 1
+	 *  read_pre3    | !FLAGA                          | idle        | SLCS = 1, SLRD = 1, SLOE = 1
+	 *               | else                            | read_loop   | rx_buf_d = rx_data, rx_wr_en = 1
 	 * ------------------------------------------------------------------------------------
-	 *   0101 | Reading Fin  | 1                               | 0000        |
+	 *  read_loop    | !FLAGA || rx_full               | idle        | SLCS = 1, SLRD = 1, SLOE = 1, rx_wr_en = 0
+	 *               | else                            | read_loop   | rx_buf_dd = rx_buf_d, rx_buf_d = rx_data
 	 * ------------------------------------------------------------------------------------
-	 *   0110 | Start write  | 1                               | 0111        | SLCS = 1, is_sending = 1
+	 *  start_write  | !FLAGB || tx_empty              | idle        | SLCS = 1, SLWR = 1, tx_rd_en = 0, is_sending = 0
+	 *               | else { u32WrCounter == 0 }      | write_wait1 | SLCS = 1, SLWR = 1, tx_rd_en = 0 (then wait 3 clocks)
+	 *               | else { else }                   | start_write | u32WrCounter = u32WrCounter - 1
 	 * ------------------------------------------------------------------------------------
-	 *   0111 | Write wait 1 | 1                               | 1000        | departure_rd_en = 1, SLWR = 0
+	 *  write_wait1  | 1                               | write_wait2 |
 	 * ------------------------------------------------------------------------------------
-	 *   1000 | Writing      | departure_empty && !input_valid | 1011        | departure_rd_en = 0, SLWR = 1, PKTEND = 0, is_sending = 0 (Finish)
-	 *        |              | departure_empty && input_valid  | 1010        | departure_rd_en = 0, SLWR = 1 (Waiting for more data)
-	 *        |              | FLAGB                           | 1001        | departure_rd_en = 0, SLWR = 1 (FX3S buffer is full)
+	 *  write_wait2  | 1                               | write_wait3 |
 	 * ------------------------------------------------------------------------------------
-	 *   1001 | Write wait 2 | !FLAGB                          | 1000        | departure_rd_en = 1, SLWR = 0 (Wait for FX3S to ready again)
+	 *  write_wait3  | 1                               | idle        | is_sending = 0, u32WrCounter = FX3S_DMA_Size
 	 * ------------------------------------------------------------------------------------
-	 *   1010 | Write wait 3 | !departure_empty                | 1000        | departure_rd_en = 1, SLWR = 0 (Wait for next data)
-	 *        |              | !input_valid                    | 1011        | PKTEND = 1, is_sending = 0 (Finish)
+	 *  zlp          | 1                               | zlp_wait1   | PEND = 1 (then wait 3 clocks)
 	 * ------------------------------------------------------------------------------------
-	 *   1011 | Write ZLP    | 1                               | 1011        | PKTEND = 1, SLCS = 1
+	 *  zlp_wait1    | 1                               | zlp_wait2   |
 	 * ------------------------------------------------------------------------------------
-	 *   1100 | Write Fin    | 1                               | 0000        |
+	 *  zlp_wait2    | 1                               | zlp_wait3   |
+	 * ------------------------------------------------------------------------------------
+	 *  zlp_wait3    | 1                               | idle        | SLCS = 1, is_sending = 0, is_writing = 0, u32WrCounter = FX3S_DMA_Size
 	 * ------------------------------------------------------------------------------------
 	 * ------------------------------------------------------------------------------------
 
@@ -216,8 +235,9 @@ module fx3s_interface #(
 			SLOE <= 1;
 			PKTEND <= 1;
 			is_sending <= 0;
-			arrival_wr_en <= 0;
-			departure_rd_en <= 0;
+			is_writing <= 0;
+			rx_wr_en <= 0;
+			tx_rd_en <= 0;
 			master_state <= state_idle;
 		end
 		else
@@ -225,144 +245,164 @@ module fx3s_interface #(
 			case( master_state )
 				state_idle:
 				begin
-					SLCS <= 1;
-					SLWR <= 1;
-					SLRD <= 1;
-					SLOE <= 1;
-					PKTEND <= 1;
-					is_sending <= 0;
-					arrival_wr_en <= 0;
-					departure_rd_en <= 0;
-					if( !arrival_full && !FLAGA )				// Rx buffer has some space and FX3S has some data
+					if( is_writing && FLAGB && tx_empty && !input_valid )
 					begin
-						master_state = state_start_read;
+						is_sending <= 1;
+						SLCS <= 0;
+						PKTEND <= 0;
+						master_state <= state_zlp;
 					end
-					else
+
+					if( !rx_full && FLAGA )
 					begin
-						if( !departure_empty && !FLAGB )				// Tx buffer has some data and FX3S has some space
-						begin
-							master_state = state_start_write;
-						end
+						is_sending <= 0;
+						SLCS <= 0;
+						SLOE <= 0;
+						master_state <= state_start_read;
+					end
+					
+					if( !tx_empty && FLAGB )
+					begin
+						is_sending <= 1;
+						SLCS <= 0;
+						SLWR <= 0;
+						tx_rd_en <= 1;
+						is_writing <= 1;
+						master_state <= state_start_write;
 					end
 				end
 
 				// FX3S -> FPGA states
 				state_start_read:
 				begin
-					SLCS <= 0;
-					is_sending <= 0;
-					master_state <= state_enable_read;
-				end
-
-				state_enable_read:
-				begin
-					SLOE <= 0;
 					SLRD <= 0;
-					master_state <= state_read_wait_1;
+					master_state <= state_read_pre1;
 				end
-
-				state_read_wait_1:
+				
+				state_read_pre1:
 				begin
-					arrival_wr_en <= 1;
-					master_state <= state_reading;
+					master_state <= state_read_pre2;
 				end
-
-				state_reading:
+				
+				state_read_pre2:
 				begin
-					// If done, then change state. Otherwise, stay at this state.
-					if( FLAGA || arrival_full )	// Either end-of-data or the Rx buffer is full.
+					if( !FLAGA )
 					begin
-						arrival_wr_en <= 0;
+						SLCS <= 1;
 						SLRD <= 1;
 						SLOE <= 1;
-						SLCS <= 1;
-						master_state <= state_reading_fin;
+						master_state <= state_idle;
+					end
+					else
+					begin
+						rx_buf_dd <= rx_data;
+						master_state <= state_read_pre3;
 					end
 				end
 
-				state_reading_fin:
+				state_read_pre3:
 				begin
-					master_state <= state_idle;
+					if( !FLAGA )
+					begin
+						SLCS <= 1;
+						SLRD <= 1;
+						SLOE <= 1;
+						rx_wr_en <= 0;
+						master_state <= state_idle;
+					end
+					else
+					begin
+						rx_buf_d <= rx_data;
+						rx_wr_en <= 1;
+						master_state <= state_read_loop;
+					end
+				end
+
+				state_read_loop:
+				begin
+					if( !FLAGA || rx_full )
+					begin
+						SLCS <= 1;
+						SLRD <= 1;
+						SLOE <= 1;
+						rx_wr_en <= 0;
+						master_state <= state_idle;
+					end
+					else
+					begin
+						rx_buf_dd <= rx_buf_d;
+						rx_buf_d <= rx_data;
+						/* stay at state_read_loop */
+					end
 				end
 
 				// FPGA -> FX3S states
 				state_start_write:
 				begin
-					SLCS <= 1;
-					is_sending <= 1;
-					master_state <= state_write_wait_1;
-				end
-
-				state_write_wait_1:
-				begin
-					departure_rd_en <= 1;
-					SLWR <= 0;
-					master_state <= state_writing;
-				end
-
-				state_writing:
-				begin
-					if( departure_empty ) 
+					if( !FLAGB || tx_empty )
 					begin
-						departure_rd_en <= 0;
+						SLCS <= 1;
 						SLWR <= 1;
-						if( !input_valid )						// All data are sent out
-						begin
-							PKTEND <= 0;
-							is_sending <= 0;
-							master_state <= state_write_ZLP;
-						end
-						else
-						begin
-							master_state <= state_write_wait_3;
-						end
+						tx_rd_en <= 0;
+						is_sending <= 0;
+						master_state <= state_idle;
 					end
 					else
 					begin
-						if( FLAGB )							// FX3S buffer is full
+						if( u32WrCounter == 0 )	/* End of a chunk */
 						begin
-							departure_rd_en <= 0;
+							SLCS <= 1;
 							SLWR <= 1;
-							master_state <= state_write_wait_2;
+							tx_rd_en <= 0;
+							master_state <= state_write_wait1;
+						end
+						else
+						begin
+							u32WrCounter = u32WrCounter - 1;
+							/* stay at state_writing */
 						end
 					end
 				end
 
-				state_write_wait_2:
+				state_write_wait1:
 				begin
-					if( !FLAGB )
-					begin
-						departure_rd_en <= 1;
-						SLWR <= 0;
-						master_state <= state_writing;
-					end
+					master_state <= state_write_wait2;
 				end
 
-				state_write_wait_3:
+				state_write_wait2:
 				begin
-					if( !departure_empty )
-					begin
-						departure_rd_en <= 1;
-						SLWR <= 0;
-						master_state <= state_writing;
-					end
-					if( !input_valid )
-					begin
-						PKTEND <= 0;
-						is_sending <= 0;
-						master_state <= state_write_ZLP;
-					end
+					master_state <= state_write_wait3;
 				end
 
-				state_write_ZLP:
+				state_write_wait3:
+				begin
+					u32WrCounter <= FX3S_DMA_Size;
+					master_state <= state_idle;
+				end
+
+				// FPGA -> FX3S with zero-length packet states
+				state_zlp:
 				begin
 					PKTEND <= 1;
-					SLCS <= 1;
-					master_state <= state_write_fin;
+					master_state <= state_zlp_wait1;
 				end
 
-				state_write_fin:
+				state_zlp_wait1:
 				begin
+					master_state <= state_zlp_wait2;
+				end
+
+				state_zlp_wait2:
+				begin
+					master_state <= state_zlp_wait3;
+				end
+
+				state_zlp_wait3:
+				begin
+					SLCS <= 1;
+					is_writing <= 0;
+					is_sending <= 0;
+					u32WrCounter <= FX3S_DMA_Size;
 					master_state <= state_idle;
 				end
 				
@@ -374,8 +414,9 @@ module fx3s_interface #(
 					SLOE <= 1;
 					PKTEND <= 1;
 					is_sending <= 0;
-					arrival_wr_en <= 0;
-					departure_rd_en <= 0;
+					is_writing <= 0;
+					rx_wr_en <= 0;
+					tx_rd_en <= 0;
 					master_state <= state_idle;	// Go back to idle
 				end
 			endcase
@@ -390,26 +431,26 @@ module fx3s_interface #(
 		.wr_clk(clk_64M),       	// input wire wr_clk
 		.rd_clk(!clk_64M),          // input wire rd_clk : Data must be ready on the bus by the next clock posedge
 		.din(d_in),                 // input wire [63 : 0] din
-		.wr_en(departure_wr_en),    // input wire wr_en
-		.rd_en(departure_rd_en),    // input wire rd_en
-		.dout(departure_data),      // output wire [15 : 0] dout
+		.wr_en(tx_wr_en),    // input wire wr_en
+		.rd_en(tx_rd_en),    // input wire rd_en
+		.dout(tx_data),      // output wire [15 : 0] dout
 		.full(input_full),          // output wire full
-		.empty(departure_empty),    // output wire empty
-		.wr_rst_busy(dep_wr_rst_busy), // output wire wr_rst_busy
-		.rd_rst_busy(dep_rd_rst_busy)  // output wire rd_rst_busy
+		.empty(tx_empty),    // output wire empty
+		.wr_rst_busy(tx_wr_rst_busy), // output wire wr_rst_busy
+		.rd_rst_busy(tx_rd_rst_busy)  // output wire rd_rst_busy
 	);
 
 	fifo_arrival_64x16b fifo_arrival (
 		.rst(rst),                  // input wire rst
 		.wr_clk(clk_64M),           // input wire wr_clk
 		.rd_clk(output_d_clk),      // input wire rd_clk
-		.din(arrival_data),         // input wire [15 : 0] din
-		.wr_en(arrival_wr_en),      // input wire wr_en
-		.rd_en(arrival_rd_en),      // input wire rd_en
+		.din(rx_buf_dd),         // input wire [15 : 0] din
+		.wr_en(rx_wr_en),      // input wire wr_en
+		.rd_en(rx_rd_en),      // input wire rd_en
 		.dout(d_out),               // output wire [15 : 0] dout
-		.full(arrival_full),        // output wire full
-		.empty(arrival_empty),      // output wire empty
-		.wr_rst_busy(arr_wr_rst_busy), // output wire wr_rst_busy
-		.rd_rst_busy(arr_rd_rst_busy)  // output wire rd_rst_busy
+		.full(rx_full),        // output wire full
+		.empty(rx_empty),      // output wire empty
+		.wr_rst_busy(rx_wr_rst_busy), // output wire wr_rst_busy
+		.rd_rst_busy(rx_rd_rst_busy)  // output wire rd_rst_busy
 	);
 endmodule
