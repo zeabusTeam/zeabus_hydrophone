@@ -15,7 +15,7 @@
 ##
 
 MODULE = zeabus_hp_fx3s
-OBJS = $(MODULE).o zeabus_config.o zeabus_fpgaconf.o zeabus_flash.o zeabus_eeprom.o zeabus_gpio.o zeabus_usb.o zeabus_error.o zeabus_app_init.o printf.o
+OBJS = $(MODULE).o zeabus_slavefifo.o zeabus_config.o zeabus_fpgaconf.o zeabus_flash.o zeabus_eeprom.o zeabus_gpio.o zeabus_usb.o zeabus_error.o zeabus_app_init.o printf.o
 USER_CFLAGS = -Os
 USER_LDFLAGS =
 ARMGCC_VERSION=9.2.1

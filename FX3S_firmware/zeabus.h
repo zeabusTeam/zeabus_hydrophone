@@ -86,8 +86,9 @@
 /* Note: For USB 2.0 the endpoints and corresponding sockets are one-to-one mapped
          i.e. EP 1 is mapped to UIB socket 1 and EP 2 to socket 2 so on */
 
-#define ZEABUS_DMA_EP_USB_DATA_PRODUCER_SOCKET   CY_U3P_UIB_SOCKET_PROD_3    /* USB CDC BULK producer */
-#define ZEABUS_DMA_EP_USB_DATA_CONSUMER_SOCKET   CY_U3P_UIB_SOCKET_CONS_3    /* USB CDC BULK  consumer */
+#define ZEABUS_DMA_EP_USB_FPGA_CONSUMER_SOCKET   CY_U3P_UIB_SOCKET_CONS_4    /* USB BULK consumer */
+#define ZEABUS_DMA_EP_USB_DATA_PRODUCER_SOCKET   CY_U3P_UIB_SOCKET_PROD_3    /* USB BULK producer */
+#define ZEABUS_DMA_EP_USB_DATA_CONSUMER_SOCKET   CY_U3P_UIB_SOCKET_CONS_3    /* USB BULK  consumer */
 #define ZEABUS_DMA_EP_USB_DEBUG_PRODUCER_SOCKET  CY_U3P_UIB_SOCKET_PROD_2    /* USB CDC BULK producer */
 #define ZEABUS_DMA_EP_USB_DEBUG_CONSUMER_SOCKET  CY_U3P_UIB_SOCKET_CONS_2    /* USB CDC BULK  consumer */
 

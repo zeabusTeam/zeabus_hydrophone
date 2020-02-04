@@ -43,6 +43,7 @@
 #include "zeabus.h"
 #include "zeabus_error.h"
 #include "zeabus_usb.h"
+#include "zeabus_slavefifo.h"
 
 /*
  * USB Interface Block (UIB) in FX3S can operate as a USB3.0 peripheral.
@@ -64,6 +65,7 @@
 #define ZEABUS_RELEASE      (0x0100)    /* BCD format in XX.XX */
 
 /* Endpoint address of each USB stream. The MSB indicates the data direction (1 = device outgoing) */
+#define ZEABUS_USB_EP_FPGA_BULKIN   (0x84)   /* EP 4 IN (comsumer) (device outgoing) */
 #define ZEABUS_USB_EP_DATA_BULKOUT  (0x03)   /* EP 3 OUT (producer) (device incoming) */
 #define ZEABUS_USB_EP_DATA_BULKIN   (0x83)   /* EP 3 IN (comsumer) (device outgoing) */
 #define ZEABUS_USB_EP_DBG_BULKOUT   (0x02)   /* EP 2 OUT (producer) (device incoming) */
@@ -168,7 +170,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x78,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x85,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x03,                           /* COnfiguration string index */
@@ -279,7 +281,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_USB_INTRFC_DESCR,        /* Interface Descriptor type */
     0x02,                           /* Interface number */
     0x00,                           /* Alternate setting number */
-    0x02,                           /* Number of end points */
+    0x03,                           /* Number of end points */
     0xFF,                           /* Interface class : Vendor specific*/
     0x00,                           /* Interface sub class */
     0x00,                           /* Interface protocol code */
@@ -313,6 +315,21 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_SS_EP_COMPN_DESCR,       /* SS endpoint companion descriptor type */
     0x00,                           /* Max no. of packets in a burst : 0: burst 1 packet at a time */
     0x00,                           /* Mult.: Max number of packets : 1 */
+    0x00,0x00,                      /* Bytes per interval : 0 for BULK */
+
+    /* Endpoint descriptor for producer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_FPGA_BULKIN,      /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
+    0x00,0x04,                      /* Max packet size = 1024 bytes */
+    0x00,                           /* Servicing interval for data transfers */
+
+    /* Super speed endpoint companion descriptor for producer EP */
+    0x06,                           /* Descriptor size */
+    CY_U3P_SS_EP_COMPN_DESCR,       /* SS endpoint companion descriptor type */
+    0x00,                           /* Max no. of packets in a burst : 0: burst 1 packet at a time */
+    0x00,                           /* Mult.: Max number of packets : 1 */
     0x00,0x00                       /* Bytes per interval : 0 for BULK */
 };
 
@@ -322,7 +339,7 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x5A,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x61,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x03,                           /* COnfiguration string index */
@@ -433,6 +450,14 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x00,0x02,                      /* Max packet size = 512 bytes */
     0x00,                           /* Servicing interval for data transfers */
+
+    /* Endpoint descriptor for consumer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_FPGA_BULKIN,      /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
+    0x00,0x02,                      /* Max packet size = 512 bytes */
+    0x00                            /* Servicing interval for data transfers */
 };
 
 /* Standard full speed configuration descriptor */
@@ -441,7 +466,7 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x5A,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x61,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x03,                           /* COnfiguration string index */
@@ -554,6 +579,14 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
     0x40,0x00,                      /* Max packet size = 64 bytes */
     0x00,                           /* Servicing interval for data transfers */
+
+    /* Endpoint descriptor for consumer EP */
+    0x07,                           /* Descriptor size */
+    CY_U3P_USB_ENDPNT_DESCR,        /* Endpoint descriptor type */
+    ZEABUS_USB_EP_FPGA_BULKIN,      /* Endpoint address and description */
+    CY_U3P_USB_EP_BULK,             /* BULK endpoint type */
+    0x40,0x00,                      /* Max packet size = 64 bytes */
+    0x00                            /* Servicing interval for data transfers */
 };
 
 /* Standard language ID string descriptor */
@@ -609,7 +642,7 @@ static uint8_t          au8Ep0Buffer[1024] __attribute__ ((aligned (32)));
 static uint32_t         u32Ep0DWData = 0;
 static uint16_t         u16Ep0WData = 0;
 
-static uint32_t         u32USBBulkDest;         // Identify the target that USB BULK endpoints bound to.
+static bool             bIsSlaveFIFOInited = false;     // Whether the slave-FIFO has started. This flag allows USB to restart slave FIFO function.
 
 /************************************************************************************
  * Private Functions
@@ -664,8 +697,6 @@ static void ZeabusUSBAppStart( void )
         return;     /* Quit if the speed is un-supported */
     }
 
-    u32USBBulkDest = ZEABUS_USB_REQ_UNBIND_BULK;
-
     CyU3PMemSet ((uint8_t *)&epCfg, 0, sizeof (epCfg));
     epCfg.enable = CyTrue;
     epCfg.epType = CY_U3P_USB_EP_BULK;
@@ -701,12 +732,20 @@ static void ZeabusUSBAppStart( void )
         zeabus_app_err_handler (apiRetStatus);
     }
 
+    /* FPGA data consumer endpoint configuration */
+    apiRetStatus = CyU3PSetEpConfig( ZEABUS_USB_EP_FPGA_BULKIN, &epCfg );
+    if(apiRetStatus != CY_U3P_SUCCESS)
+    {
+        zeabus_app_err_handler (apiRetStatus);
+    }
+
     /*
        Configure the IN endpoint to allow combining data from multiple buffers into one burst.
        This can help achieve better performance in most cases.
      */
     CyU3PUsbEPSetBurstMode( ZEABUS_USB_EP_DBG_BULKIN, CyTrue );
     CyU3PUsbEPSetBurstMode( ZEABUS_USB_EP_DATA_BULKIN, CyTrue );
+    CyU3PUsbEPSetBurstMode( ZEABUS_USB_EP_FPGA_BULKIN, CyTrue );
 
     /* Interrupt endpoint configuration. This is the legacy interface. No data is expected on it. */
     epCfg.epType = CY_U3P_USB_EP_INTR;
@@ -720,6 +759,7 @@ static void ZeabusUSBAppStart( void )
     }
 
     /* Flush the endpoint memory */
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_FPGA_BULKIN);
     CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKOUT);
     CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKIN);
     CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_BULKOUT);
@@ -816,6 +856,12 @@ static void ZeabusUSBAppStart( void )
         zeabus_app_err_handler(apiRetStatus);
     }
 
+    /* If the slave FIFO had been started before, then restart it */
+    if( bIsSlaveFIFOInited )
+    {
+        (void)zeabus_slavefifo_start();
+    }
+
     /* Set DMA Channel transfer size */
     apiRetStatus = CyU3PDmaChannelSetXfer(&xDMAChHandleDbgBulkIngress, 0); /* DMA transfer size is set to infinite */
     if(apiRetStatus != CY_U3P_SUCCESS)
@@ -853,17 +899,26 @@ static void ZeabusUSBAppStart( void )
 static void ZeabusUSBAppStop( void )
 {
     CyU3PEpConfig_t epCfg;
-    CyU3PReturnStatus_t apiRetStatus[5];
+    CyU3PReturnStatus_t apiRetStatus[6];
 
     /* Update the flag so that the application thread is notified of this. */
     bIsUSBActive = false;
-    u32USBBulkDest = ZEABUS_USB_REQ_UNBIND_BULK;
 
     /* Destroy the channels */
     CyU3PDmaChannelDestroy (&xDMAChHandleDbgBulkIngress);
     CyU3PDmaChannelDestroy (&xDMAChHandleDbgBulkEgress);
+    CyU3PDmaChannelDestroy (&xDMAChHandleDataBulkIngress);
+    CyU3PDmaChannelDestroy (&xDMAChHandleDataBulkEgress);
+
+    /* Slave FIFO cut-out */
+    bIsSlaveFIFOInited = zeabus_slavefifo_is_started();
+    if( bIsSlaveFIFOInited )
+    {
+        zeabus_slavefifo_stop();
+    }
 
     /* Flush the endpoint memory */
+    CyU3PUsbFlushEp(ZEABUS_USB_EP_FPGA_BULKIN);
     CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKOUT);
     CyU3PUsbFlushEp(ZEABUS_USB_EP_DATA_BULKIN);
     CyU3PUsbFlushEp(ZEABUS_USB_EP_DBG_BULKOUT);
@@ -884,10 +939,12 @@ static void ZeabusUSBAppStop( void )
     apiRetStatus[3] = CyU3PSetEpConfig(ZEABUS_USB_EP_DATA_BULKOUT, &epCfg);
     /* Consumer endpoint configuration. */
     apiRetStatus[4] = CyU3PSetEpConfig(ZEABUS_USB_EP_DATA_BULKIN, &epCfg);
+    /* Consumer endpoint configuration. */
+    apiRetStatus[5] = CyU3PSetEpConfig(ZEABUS_USB_EP_FPGA_BULKIN, &epCfg);
 
     /* Whether some errors occured */
     if( (apiRetStatus[0] != CY_U3P_SUCCESS) || (apiRetStatus[1] != CY_U3P_SUCCESS) || (apiRetStatus[2] != CY_U3P_SUCCESS)
-        || (apiRetStatus[3] != CY_U3P_SUCCESS) || (apiRetStatus[4] != CY_U3P_SUCCESS) )
+        || (apiRetStatus[3] != CY_U3P_SUCCESS) || (apiRetStatus[4] != CY_U3P_SUCCESS) || (apiRetStatus[5] != CY_U3P_SUCCESS) )
     {
         /* Report only one error */
         if(apiRetStatus[0] != CY_U3P_SUCCESS)
@@ -900,6 +957,8 @@ static void ZeabusUSBAppStop( void )
             zeabus_app_err_handler(apiRetStatus[3]);
         if(apiRetStatus[4] != CY_U3P_SUCCESS)
             zeabus_app_err_handler(apiRetStatus[4]);
+        if(apiRetStatus[5] != CY_U3P_SUCCESS)
+            zeabus_app_err_handler(apiRetStatus[5]);
     }
 }
 
@@ -1116,11 +1175,6 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
             case ZEABUS_USB_REQ_WRITE_EEPROM:
                 CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_WRITE_EEPROM, CYU3P_EVENT_OR );
                 break;
-            case ZEABUS_USB_REQ_UNBIND_BULK:
-                // Unbind CDC bulk from other peripherals
-            case ZEABUS_USB_REQ_BIND_BULK_FPGA:
-                // Bind CDC bulk endpoints to FPGA interface
-                break;
 
             default:
                 isHandled = CyFalse;     // Unknown command
@@ -1287,7 +1341,6 @@ bool zeabus_usb_initialize( void )
     if( ( apiRetStatus != CY_U3P_SUCCESS ) && ( apiRetStatus != CY_U3P_ERROR_NO_REENUM_REQUIRED ) )
         return false;
 
-    u32USBBulkDest = ZEABUS_USB_REQ_UNBIND_BULK;
     /* Setup the callback to handle the setup requests */
     /* The fast enumeration is the easiest way to setup a USB connection,
      * where all enumeration phase is handled by the library. Only the

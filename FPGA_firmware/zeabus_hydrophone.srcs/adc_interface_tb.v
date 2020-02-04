@@ -1,4 +1,4 @@
-`timescale 1ns / 1ns
+`timescale 1ns / 10ps
 
 // --------------------------------------------------------------------------------
 // Copyright 2019-2020 Akrapong Patchararungruang.
@@ -40,9 +40,8 @@ module avg_filter_tb;
 
 	// Device pins
 	reg [13:0] D_1;	// Data channel 0+1 from ADC 1
-	reg [13:0] D_2;	// Data channel 2+3 from ADC 2
-	wire CLKA_1, CLKB_1, CLKA_2, CLKB_2;	// ADC Clocks all are identical
-	reg OTR_1, OTR_2;	// Data overflow flags from ADC 1 and ADC 2
+	wire CLKA_1, CLKB_1;	// ADC Clocks all are identical
+	reg OTR_1;	// Data overflow flags from ADC 1 and ADC 2
 	
 	// Control signals
 	reg clk_64MHz;	// System clock.
@@ -51,16 +50,14 @@ module avg_filter_tb;
 	// Output data
 	wire [13:0] d0_out;
 	wire [13:0] d1_out;
-	wire [13:0] d2_out;
-	wire [13:0] d3_out;
 	
 	// Additional variables
 	integer outfile, cycle_count;
 
 	// Module under test
-	adc_interface adc( .D_1(D_1), .D_2(D_2), .CLKA_1(CLKA_1), .CLKB_1(CLKB_1), .CLKA_2(CLKA_2), .CLKB_2(CLKB_2),
-						 .d0_out(d0_out), .d1_out(d1_out), .d2_out(d2_out), .d3_out(d3_out),
-						 .clk_64MHz(clk_64MHz), .clk_64MHz_90(clk_64MHz_90) );
+	adc_interface adc( .d_in(D_1), .clk_a(CLKA_1), .clk_b(CLKB_1),
+						 .d0_out(d0_out), .d1_out(d1_out),
+						 .clk_64MHz(clk_64MHz), .clk_64MHz_90(clk_64MHz_90), .rst(0) );
 
 	// Initialization
 	initial
@@ -72,7 +69,6 @@ module avg_filter_tb;
 		clk_64MHz_90 <= 0;
 		cycle_count <= 0;
 		OTR_1 <= 0;
-		OTR_2 <= 0;
 	end
 	
 	// System clock generator
@@ -104,12 +100,10 @@ module avg_filter_tb;
 	always @(posedge CLKA_1)
 	begin
 		D_1 = in_data[cycle_count];
-		D_2 = in_data[cycle_count];
 	end
 	always @(negedge CLKA_1)
 	begin
 		D_1 = in_data[cycle_count];
-		D_2 = in_data[cycle_count];
 		cycle_count = cycle_count + 1;
 	end
 	

@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 10ps
 
 // --------------------------------------------------------------------------------
 // Copyright 2019-2020 Akrapong Patchararungruang.
@@ -35,6 +35,7 @@
 
 module median_filter(
 	input clk,			// System clock (each rising edge indicates new data is ready)
+	input rst,			// Synchronous reset (active high)
 	input [13:0] d_in,	// Input valid at clock rising edge
 	output [13:0] d_out	// Data output
 );
@@ -68,9 +69,18 @@ module median_filter(
 	// Data delay
 	always @(posedge clk)
 	begin
-		ddd <= dd;
-		dd <= d;
-		d <= d_in;
+		if( rst )
+		begin
+			d <= 0;
+			dd <= 0;
+			ddd <= 0;
+		end
+		else
+		begin
+			ddd <= dd;
+			dd <= d;
+			d <= d_in;
+		end
 	end
 endmodule
 
@@ -125,38 +135,37 @@ module adc_frontend(
 endmodule
 
 //===============================================================
+// Abstract module for 1 ADC chip. We need 2 instances for each chip.
+// Because each chip connects to different FPGA block, separating 
+// interface instances allows synthesizer to plce each in corresponding block.
 module adc_interface(
-	// Device pins
-	input [13:0] D_1,	// Data channel 0+1 from ADC 1
-	input [13:0] D_2,	// Data channel 2+3 from ADC 2
-	output CLKA_1, CLKB_1, CLKA_2, CLKB_2,	// ADC Clocks all are identical
-	input OTR_1, OTR_2,	// Data overflow flags from ADC 1 and ADC 2
+	// Interface to hardware
+	input [13:0] d_in,		// Data channel from ADC chip
+	input overflow,			// overflow flag from ADC chip
+	output clk_a, clk_b,	// ADC clock. Both are identical
 	
 	// Control signals
-	input clk_64MHz,	// System clock.
-	input clk_64MHz_90,	// Identical of system clock with 90-degree phase lag
+	input clk_64MHz,		// System clock.
+	input clk_64MHz_90,		// Identical of system clock with 90-degree phase lag
+	input rst,				// Synchronous reset (active high)
 	
 	// Output data
-	output [13:0] d0_out,
+	output [13:0] d0_out,	// Output from each ADC channel
 	output [13:0] d1_out,
-	output [13:0] d2_out,
-	output [13:0] d3_out
+	output clk_out			// Clock for output data (data are valid at rising-edge)
 );
 
-	wire [13:0] d0, d1, d2, d3;
+	wire [13:0] d0, d1, d0_mean, d1_mean, clk_out1, clk_out2;
 	
 	// Combination logic
 	assign CLKA_1 = clk_64MHz;
 	assign CLKB_1 = clk_64MHz;
-	assign CLKA_2 = clk_64MHz;
-	assign CLKB_2 = clk_64MHz;
-	
+	assign clk_out = clk_out1 & clk_out2;
+
 	// Instantiation
-	adc_frontend adc1( .clk(clk_64MHz_90), .overflow(OTR_1), .d_in(D_1), .d0_out(d0), .d1_out(d1) );
-	adc_frontend adc2( .clk(clk_64MHz_90), .overflow(OTR_2), .d_in(D_2), .d0_out(d2), .d1_out(d3) );
-	median_filter m_filter1( .clk(clk_64MHz), .d_in(d0), .d_out(d0_out) );
-	median_filter m_filter2( .clk(clk_64MHz), .d_in(d1), .d_out(d1_out) );
-	median_filter m_filter3( .clk(clk_64MHz), .d_in(d2), .d_out(d2_out) );
-	median_filter m_filter4( .clk(clk_64MHz), .d_in(d3), .d_out(d3_out) );
+	adc_frontend adc( .clk(clk_64MHz_90), .overflow(overflow), .d_in(d_in), .d0_out(d0), .d1_out(d1) );
+	median_filter m_filter1( .clk(clk_64MHz), .rst(rst), .d_in(d0), .d_out(d0_mean) );
+	median_filter m_filter2( .clk(clk_64MHz), .rst(rst), .d_in(d1), .d_out(d1_mean) );
+	avg64_filter avg_filter1( .clk_64MHz(clk_64MHz), .rst(rst), .clk_out(clk_out1), .d_in(d0_mean), .d_out(d0_out) ); 
+	avg64_filter avg_filter2( .clk_64MHz(clk_64MHz), .rst(rst), .clk_out(clk_out2), .d_in(d1_mean), .d_out(d1_out) ); 
 endmodule
-	

@@ -40,5 +40,6 @@
 bool zeabus_slavefifo_start( void );
 void zeabus_slavefifo_stop( void );
 bool zeabus_slavefifo_send( uint8_t* buf, uint32_t size );
+bool zeabus_slavefifo_is_started( void );
 
 #endif // __ZEABUS_SLAVEFIFO_H

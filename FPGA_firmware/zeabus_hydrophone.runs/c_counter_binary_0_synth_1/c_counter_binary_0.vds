@@ -2,8 +2,8 @@
 # Vivado v2019.1 (64-bit)
 # SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
 # IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
-# Start of session at: Mon Jan 13 20:35:19 2020
-# Process ID: 7016
+# Start of session at: Sat Feb  1 16:17:28 2020
+# Process ID: 6688
 # Current directory: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/c_counter_binary_0_synth_1
 # Command line: vivado.exe -log c_counter_binary_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source c_counter_binary_0.tcl
 # Log file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/c_counter_binary_0_synth_1/c_counter_binary_0.vds
@@ -16,17 +16,17 @@ Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Device 21-403] Loading part xc7a15tcsg324-1
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 13672 
+INFO: Helper process launched with PID 15956 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 710.332 ; gain = 177.844
+Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 710.488 ; gain = 177.391
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-638] synthesizing module 'c_counter_binary_0' [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/synth/c_counter_binary_0.vhd:66]
+INFO: [Synth 8-638] synthesizing module 'c_counter_binary_0' [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/synth/c_counter_binary_0.vhd:67]
 	Parameter C_IMPLEMENTATION bound to: 0 - type: integer 
 	Parameter C_VERBOSITY bound to: 0 - type: integer 
 	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
 	Parameter C_WIDTH bound to: 6 - type: integer 
 	Parameter C_HAS_CE bound to: 0 - type: integer 
-	Parameter C_HAS_SCLR bound to: 0 - type: integer 
+	Parameter C_HAS_SCLR bound to: 1 - type: integer 
 	Parameter C_RESTRICT_COUNT bound to: 0 - type: integer 
 	Parameter C_COUNT_TO bound to: 1 - type: string 
 	Parameter C_COUNT_BY bound to: 1 - type: string 
@@ -43,14 +43,13 @@ INFO: [Synth 8-638] synthesizing module 'c_counter_binary_0' [c:/Users/akrap/Goo
 	Parameter C_SCLR_OVERRIDES_SSET bound to: 1 - type: integer 
 	Parameter C_HAS_SSET bound to: 0 - type: integer 
 	Parameter C_HAS_SINIT bound to: 0 - type: integer 
-INFO: [Synth 8-3491] module 'c_counter_binary_v12_0_13' declared at 'c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/hdl/c_counter_binary_v12_0_vh_rfs.vhd:2147' bound to instance 'U0' of component 'c_counter_binary_v12_0_13' [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/synth/c_counter_binary_0.vhd:121]
-INFO: [Synth 8-256] done synthesizing module 'c_counter_binary_0' (8#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/synth/c_counter_binary_0.vhd:66]
+INFO: [Synth 8-3491] module 'c_counter_binary_v12_0_13' declared at 'c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/hdl/c_counter_binary_v12_0_vh_rfs.vhd:2147' bound to instance 'U0' of component 'c_counter_binary_v12_0_13' [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/synth/c_counter_binary_0.vhd:124]
+INFO: [Synth 8-256] done synthesizing module 'c_counter_binary_0' (8#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/c_counter_binary_0/synth/c_counter_binary_0.vhd:67]
 WARNING: [Synth 8-3331] design c_reg_fd_v12_0_6_viv has unconnected port CE
 WARNING: [Synth 8-3331] design c_reg_fd_v12_0_6_viv has unconnected port AINIT
 WARNING: [Synth 8-3331] design c_reg_fd_v12_0_6_viv has unconnected port ACLR
 WARNING: [Synth 8-3331] design c_reg_fd_v12_0_6_viv has unconnected port ASET
 WARNING: [Synth 8-3331] design c_reg_fd_v12_0_6_viv has unconnected port SINIT
-WARNING: [Synth 8-3331] design c_reg_fd_v12_0_6_viv has unconnected port SCLR
 WARNING: [Synth 8-3331] design c_reg_fd_v12_0_6_viv has unconnected port SSET
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port b[5]
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port b[4]
@@ -62,7 +61,6 @@ WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected por
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port c_in
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port ce
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port bypass
-WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port sclr
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port sset
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_lut6_legacy has unconnected port sinit
 WARNING: [Synth 8-3331] design c_addsub_v12_0_13_legacy has unconnected port c_in
@@ -84,11 +82,10 @@ WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_legacy has unconnected 
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_legacy has unconnected port iv[2]
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_legacy has unconnected port iv[1]
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_legacy has unconnected port iv[0]
-WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_legacy has unconnected port sclr
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_legacy has unconnected port sset
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_legacy has unconnected port sinit
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:11 . Memory (MB): peak = 793.707 ; gain = 261.219
+Finished RTL Elaboration : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 793.832 ; gain = 260.734
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -101,10 +98,10 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 793.707 ; gain = 261.219
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 793.832 ; gain = 260.734
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:11 . Memory (MB): peak = 793.707 ; gain = 261.219
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 793.832 ; gain = 260.734
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 11 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -118,30 +115,30 @@ Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeab
 Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/c_counter_binary_0_synth_1/dont_touch.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 844.594 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 844.895 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.043 . Memory (MB): peak = 856.074 ; gain = 11.480
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.044 . Memory (MB): peak = 855.789 ; gain = 10.895
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 856.074 ; gain = 323.586
+Finished Constraint Validation : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 855.789 ; gain = 322.691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a15tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 856.074 ; gain = 323.586
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 855.789 ; gain = 322.691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 Applied set_property DONT_TOUCH = true for U0. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/c_counter_binary_0_synth_1/dont_touch.xdc, line 9).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 856.074 ; gain = 323.586
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 855.789 ; gain = 322.691
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 856.074 ; gain = 323.586
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:19 ; elapsed = 00:00:22 . Memory (MB): peak = 855.789 ; gain = 322.691
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -175,7 +172,6 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected port CE
-WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected port SCLR
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected port SSET
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected port SINIT
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected port UP
@@ -187,7 +183,7 @@ WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected por
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected port L[1]
 WARNING: [Synth 8-3331] design c_counter_binary_v12_0_13_viv has unconnected port L[0]
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 856.074 ; gain = 323.586
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:20 ; elapsed = 00:00:23 . Memory (MB): peak = 855.789 ; gain = 322.691
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -199,13 +195,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 856.074 ; gain = 323.586
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:34 . Memory (MB): peak = 857.914 ; gain = 324.816
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 856.074 ; gain = 323.586
+Finished Timing Optimization : Time (s): cpu = 00:00:30 ; elapsed = 00:00:34 . Memory (MB): peak = 857.914 ; gain = 324.816
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -217,7 +213,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 863.520 ; gain = 331.031
+Finished Technology Mapping : Time (s): cpu = 00:00:30 ; elapsed = 00:00:34 . Memory (MB): peak = 867.445 ; gain = 334.348
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -241,7 +237,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Finished IO Insertion : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 883.246 ; gain = 350.148
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -254,7 +250,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 883.246 ; gain = 350.148
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -266,25 +262,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 883.246 ; gain = 350.148
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 883.246 ; gain = 350.148
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 883.246 ; gain = 350.148
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 883.246 ; gain = 350.148
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -306,35 +302,35 @@ Report Cell Usage:
 |4     |FDRE  |     6|
 +------+------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 883.246 ; gain = 350.148
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 12 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:14 ; elapsed = 00:00:26 . Memory (MB): peak = 879.328 ; gain = 284.473
-Synthesis Optimization Complete : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 879.328 ; gain = 346.840
+Synthesis finished with 0 errors, 0 critical warnings and 11 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:19 ; elapsed = 00:00:34 . Memory (MB): peak = 883.246 ; gain = 288.191
+Synthesis Optimization Complete : Time (s): cpu = 00:00:33 ; elapsed = 00:00:38 . Memory (MB): peak = 883.246 ; gain = 350.148
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Netlist 29-17] Analyzing 11 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 896.984 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 903.766 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 2 instances were transformed.
   (MUXCY,XORCY) => CARRY4: 2 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-16 Infos, 54 Warnings, 0 Critical Warnings and 0 Errors encountered.
+16 Infos, 50 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:31 ; elapsed = 00:00:35 . Memory (MB): peak = 896.984 ; gain = 605.879
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 896.984 ; gain = 0.000
+synth_design: Time (s): cpu = 00:00:41 ; elapsed = 00:00:47 . Memory (MB): peak = 903.766 ; gain = 608.871
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 903.766 ; gain = 0.000
 WARNING: [Constraints 18-5210] No constraints selected for write.
 Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
 INFO: [Common 17-1381] The checkpoint 'C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/c_counter_binary_0_synth_1/c_counter_binary_0.dcp' has been generated.
 WARNING: [Common 17-576] 'use_project_ipc' is deprecated. This option is deprecated and no longer used.
-INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP c_counter_binary_0, cache-ID = b4cc1a094f1b4f15
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP c_counter_binary_0, cache-ID = c2e6a698451895d3
 INFO: [Coretcl 2-1174] Renamed 7 cell refs.
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 896.984 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 903.766 ; gain = 0.000
 WARNING: [Constraints 18-5210] No constraints selected for write.
 Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
 INFO: [Common 17-1381] The checkpoint 'C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/c_counter_binary_0_synth_1/c_counter_binary_0.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file c_counter_binary_0_utilization_synth.rpt -pb c_counter_binary_0_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Mon Jan 13 20:36:00 2020...
+INFO: [Common 17-206] Exiting Vivado at Sat Feb  1 16:18:28 2020...

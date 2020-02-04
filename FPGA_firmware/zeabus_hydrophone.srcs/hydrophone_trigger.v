@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 10ps
 
 // --------------------------------------------------------------------------------
 // Copyright 2019-2020 Akrapong Patchararungruang.
@@ -33,6 +33,12 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------------
 
+// Helper module to get absolute value
+module absolute( input [15:0] in, output [15:0] out );
+	assign out = in[15] ? -in : in;
+endmodule
+
+// Main trigger module
 module hydrophone_trigger
 	#(
 	parameter header = 1000,		// Number of d_in samples preceded of the trigged points
@@ -53,6 +59,16 @@ module hydrophone_trigger
 	reg [1:0] trig_state;		// State of the trigger
 	reg rd_en, wr_en;			// FIFO read and write enables
 	
+	wire [63:0] abs_d_in;		// Magnetude (aka. absolute) values of d_in
+	wire [15:0] abs_trigger;	// Magnetude of trigger level
+	
+	// Absolute implementation
+	absolute abs1( .in(d_in[15:0]), .out(abs_d_in[15:0]) );
+	absolute abs2( .in(d_in[31:16]), .out(abs_d_in[31:16]) );
+	absolute abs3( .in(d_in[47:32]), .out(abs_d_in[47:32]) );
+	absolute abs4( .in(d_in[63:48]), .out(abs_d_in[63:48]) );
+	absolute abs5( .in(trigger_level), .out(abs_trigger) );
+	
 	// Helper function to compare trigger level with the signal
 	function [0:0] trigger_compare( input [63:0] signal, input [15:0] trigger );
 		if( trigger[15] )
@@ -69,10 +85,10 @@ module hydrophone_trigger
 		else
 		begin
 			// trigger_level is positive
-			if( ( $signed(signal[15:0]) >= $signed(trigger) ) ||
-				( $signed(signal[31:16]) >= $signed(trigger) ) ||
-				( $signed(signal[47:32]) >= $signed(trigger) ) ||
-				( $signed(signal[63:48]) >= $signed(trigger) ) )
+			if( ( signal[15:0] >= trigger ) ||
+				( signal[31:16] >= trigger ) ||
+				( signal[47:32] >= trigger ) ||
+				( signal[63:48] >= trigger ) )
 				trigger_compare = 1;
 			else
 				trigger_compare = 0;
@@ -124,7 +140,7 @@ module hydrophone_trigger
 				end
 				2'b01:	// Waiting for trigger level.
 				begin
-					if( trigger_compare( d_in, trigger_level ) == 1 )
+					if( trigger_compare( abs_d_in, abs_trigger ) == 1 )
 					begin
 						trig_state <= 2'b10;	// Trigger found
 						trigged <= 1;
@@ -133,7 +149,7 @@ module hydrophone_trigger
 				end
 				2'b10:	// Trigger found. gives the output
 				begin
-					if( trigger_compare( d_in, trigger_level ) == 1 )
+					if( trigger_compare( abs_d_in, abs_trigger ) == 1 )
 					begin
 						counter <= 16'b0;
 					end

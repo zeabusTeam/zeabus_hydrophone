@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 10ps
 
 // --------------------------------------------------------------------------------
 // Copyright 2019-2020 Akrapong Patchararungruang.
@@ -34,67 +34,51 @@
 // --------------------------------------------------------------------------------
 
 module avg64_filter(
-	input [13:0] d0_in,		// Data input channel 0
-	input [13:0] d1_in,		// Data input channel 1
-	input [13:0] d2_in,		// Data input channel 2
-	input [13:0] d3_in,		// Data input channel 3
+	input [13:0] d_in,		// Data input
 	
-	output reg [15:0] d0_out,	// Data output channle 0 in format Q13.2
-	output reg [15:0] d1_out,	// Data output channle 1 in format Q13.2
-	output reg [15:0] d2_out,	// Data output channle 2 in format Q13.2
-	output reg [15:0] d3_out,	// Data output channle 3 in format Q13.2
+	output reg [15:0] d_out,	// Data output in format Q13.2
 	
+	input rst,				// Synchronous reset (active high)
 	input clk_64M,			// System 64 MHz clock
 	output reg clk_out			// Output clock. Data is updated at the rising edge. The propagation delay of output FF should be considered.
 );
 
-	reg [19:0] d0_acc;		// Accumulator for channel 0
-	reg [19:0] d1_acc;		// Accumulator for channel 1
-	reg [19:0] d2_acc;		// Accumulator for channel 2
-	reg [19:0] d3_acc;		// Accumulator for channel 3
+	reg [19:0] d_acc;		// Accumulator for channel 0
 	
 	wire [5:0] counter_q;
 	
 	// Counter instance
 	c_counter_binary_0 avg_counter (
 		.CLK(clk_64M),  // input wire CLK
-		.Q(counter_q)   // output wire [5 : 0] Q
+		.Q(counter_q),  // output wire [5 : 0] Q
+		.SCLR(rst)		// Synchronous clear
 	);
 	
 	initial 
 	begin
-		d0_acc <= 0;
-		d1_acc <= 0;
-		d2_acc <= 0;
-		d3_acc <= 0;
-		d0_out <= 0;
-		d1_out <= 0;
-		d2_out <= 0;
-		d3_out <= 0;
+		d_acc <= 0;
+		d_out <= 0;
+		clk_out <= 1;
 	end
 	
 	// Main operation
 	always @(posedge clk_64M)
 	begin
+		if( rst )
+		begin
+			d_acc = 0;
+		end
+			
 		if( counter_q == 0 )
 		begin
-			clk_out = 1;
-			d0_out = d0_acc[19:4];
-			d1_out = d1_acc[19:4];
-			d2_out = d2_acc[19:4];
-			d3_out = d3_acc[19:4];
-			d0_acc = { d0_in[13], d0_in[13], d0_in[13], d0_in[13], d0_in[13], d0_in[13], d0_in[13:0] };
-			d1_acc = { d1_in[13], d1_in[13], d1_in[13], d1_in[13], d1_in[13], d1_in[13], d1_in[13:0] };
-			d2_acc = { d2_in[13], d2_in[13], d2_in[13], d2_in[13], d2_in[13], d2_in[13], d2_in[13:0] };
-			d3_acc = { d3_in[13], d3_in[13], d3_in[13], d3_in[13], d3_in[13], d3_in[13], d3_in[13:0] };
+			clk_out = 0;
+			d_out = d_acc[19:4];
+			d_acc = { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
 		end
 		else
 		begin
-			clk_out = 0;
-			d0_acc = d0_acc + { d0_in[13], d0_in[13], d0_in[13], d0_in[13], d0_in[13], d0_in[13], d0_in[13:0] };
-			d1_acc = d1_acc + { d1_in[13], d1_in[13], d1_in[13], d1_in[13], d1_in[13], d1_in[13], d1_in[13:0] };
-			d2_acc = d2_acc + { d2_in[13], d2_in[13], d2_in[13], d2_in[13], d2_in[13], d2_in[13], d2_in[13:0] };
-			d3_acc = d3_acc + { d3_in[13], d3_in[13], d3_in[13], d3_in[13], d3_in[13], d3_in[13], d3_in[13:0] };
+			clk_out = 1;
+			d_acc = d_acc + { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
 		end
 	end
 endmodule

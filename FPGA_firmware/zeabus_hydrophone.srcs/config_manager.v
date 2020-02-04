@@ -1,4 +1,4 @@
-`timescale 1ns / 10ps // time-unit = 1 ns, precision = 10 ps
+`timescale 1ns / 10ps
 
 // --------------------------------------------------------------------------------
 // Copyright 2019-2020 Akrapong Patchararungruang.
@@ -33,65 +33,14 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------------
 
-module hydrophone_trigger_tb;
-	localparam	total_data = 10000, clk_toggle_period = 5;
+// Module to store and manage all settings such as trigger level and poten value.
+// It also parse the configuration setting data from host through FX3S slave FIFO.
+module hydrophone_config_manager (
+	// Interface to slave fifo output buffer
+	input  [15:0] d_in,				// Data from slave FIFO
+	input  data_valid,				// Indicate that there are some available config data to read
+	output config_d_oe,				// Enable read-out data
+	output config_d_clk				// Clocking for data reading
+);
 
-	reg [63:0] in_data[0:total_data-1];		// Sampling data
-	reg [63:0] d_in;		// Input data
-	wire [63:0] d_out;		// Output data
-	reg [15:0] level;		// Trigger level
-	reg rst;				// Reset (active high)
-	wire trigged;			// Trigger armed status
-	reg clk;				// System clock
-	
-	integer out_file, cycle_count = 0;
-	
-	// Module under test
-	hydrophone_trigger ht( .rst(rst), .clk(clk), .trigger_level(level), .d_out(d_out), .d_in(d_in), .trigged(trigged) );
-	
-	initial
-	begin
-		$readmemh( "data.hex", in_data );
-		out_file = $fopen("output.hex"); // open file
-		$fmonitor(out_file, "%d : %016X,%b,%b", cycle_count, d_out, trigged, rst);
-		//$monitor("%d : %016X,%b,%b", d_out, trigged, rst);
-		level = 16'd2000; // 0x07D0
-		rst = 1; #clk_toggle_period rst = 0;
-	end
-	
-	// Clk gen
-	always
-	begin
-		clk = 1'b1; 
-		#clk_toggle_period; // high for clk_toggle_period
-
-		clk = 1'b0;
-		#clk_toggle_period; // low for clk_toggle_period
-	end
-	
-	// Apply sample data every clock edge
-	always @(posedge clk)
-	begin
-		d_in = in_data[cycle_count];
-	end
-
-	// stop the simulation total_data and close the file
-	// i.e. store only total_data values in file
-	always @(posedge clk)
-	begin
-		if (cycle_count == total_data) 
-		begin
-			$fclose(out_file);  // close the file
-			$stop;
-		end
-		else
-		begin
-			if(rst)
-				cycle_count = 0;
-			else
-				cycle_count = cycle_count + 1;
-		end
-	end
-
-	
 endmodule

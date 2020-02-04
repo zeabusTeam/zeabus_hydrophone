@@ -46,6 +46,7 @@
 #include "zeabus_eeprom.h"
 #include "zeabus_config.h"
 #include "zeabus_fpgaconf.h"
+#include "zeabus_slavefifo.h"
 
 #define ZEABUS_CONF_FIRMWARE_SPI_PAGE   (0)
 #define ZEABUS_CONF_BITSTREAM_SPI_PAGE  (0x008000UL)
@@ -63,14 +64,6 @@ CyU3PEvent   xZeabusEvent;              /* Global system event group */
  * --  0  0          FX3 --> FPGA   FPGA_RESET_N     0             1
  * --  1  0          FPGA -> FLASH  FPGA_RESET_N     1             0
  */
-
-/* Clock config for general processing except Synchronous Slave mode. */
-static CyU3PPibClock_t zeabus_general_pib_clock = {
-    .clkDiv = 6,                // 416 / 6.5 = 64 MHz
-    .clkSrc = CY_U3P_SYS_CLK,   // 416 MHz
-    .isHalfDiv = CyTrue,
-    .isDllEnable = CyFalse
-};
 
 /* LED blinkting period using for some status showing */
 static uint32_t u32LEDOnTime = 1000;
@@ -362,7 +355,14 @@ void zeabus_main( uint32_t input )
     {
         // Found a valid FPGA image
         if(zeabus_conf_get_bitstream_info( &addr, &len ))
+        {
             zeabus_spi2fpga( addr, len );
+            // Automatically start slaveFIFO
+            if( !zeabus_slavefifo_start() )
+            {
+                _log( "Failed to start slave FIFO\r\n" );
+            }
+        }
 
     }
 
@@ -395,10 +395,16 @@ void zeabus_main( uint32_t input )
             if( ( eventFlag & ZEABUS_EVENT_REQ_USB_PROG_FPGA ) != 0 )
             {
                 len = zeabus_usb_ep0_dwdata();
-                _log("Start program FPGA for %d bytes\r\n", len);
+                zeabus_slavefifo_stop();
+                _log( "Start program FPGA for %d bytes\r\n", len );
                 if( !zeabus_usb2fpga( len ) )
                 {
-                    _log("Init Failed!!!\r\n");
+                    _log( "Init Failed!!!\r\n" );
+                }
+                // Automatically start slave FIFO
+                if( !zeabus_slavefifo_start() )
+                {
+                    _log( "Failed to start slave FIFO\r\n" );
                 }
             }
 

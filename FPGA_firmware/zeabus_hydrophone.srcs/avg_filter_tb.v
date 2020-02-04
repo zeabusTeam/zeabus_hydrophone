@@ -1,4 +1,4 @@
-`timescale 1ns / 1ns
+`timescale 1ns / 10ps
 
 // --------------------------------------------------------------------------------
 // Copyright 2019-2020 Akrapong Patchararungruang.
@@ -38,15 +38,9 @@ module avg_filter_tb;
 
 	reg [15:0] in_data[0:total_data-1];		// Sampling data
 
-	reg [13:0] d0_in;		// Data input channel 0
-	reg [13:0] d1_in;		// Data input channel 1
-	reg [13:0] d2_in;		// Data input channel 2
-	reg [13:0] d3_in;		// Data input channel 3
+	reg [13:0] d_in;		// Data input
 	
-	wire [15:0] d0_out;		// Data output channle 0 in format Q13.2
-	wire [15:0] d1_out;		// Data output channle 1 in format Q13.2
-	wire [15:0] d2_out;		// Data output channle 2 in format Q13.2
-	wire [15:0] d3_out;		// Data output channle 3 in format Q13.2
+	wire [15:0] d_out;		// Data output in format Q13.2
 	
 	reg clk_64M;			// System 64 MHz clock
 	wire clk_out;			// Output clock. Data is updated at the rising edge. The propagation delay of output FF should be considered.
@@ -55,16 +49,14 @@ module avg_filter_tb;
 	integer outfile, cycle_count;
 
 	// Module under test
-	avg64_filter filter( .d0_in(d0_in), .d1_in(d1_in), .d2_in(d2_in), .d3_in(d3_in),
-						 .d0_out(d0_out), .d1_out(d1_out), .d2_out(d2_out), .d3_out(d3_out),
-						 .clk_64M(clk_64M), .clk_out(clk_out) );
+	avg64_filter filter( .d_in(d_in), .d_out(d_out), .clk_64M(clk_64M), .clk_out(clk_out), .rst(0) );
 
 	// Initialization
 	initial
 	begin
 		$readmemh( "hp_data.hex", in_data );
 		outfile = $fopen( "hp_output.hex" ); // open file
-		$fmonitor(outfile, "%X,%04X", clk_out, d0_out);
+		$fmonitor(outfile, "%X,%04X", clk_out, d_out);
 		clk_64M <= 0;
 		cycle_count <= 0;
 	end
@@ -93,10 +85,7 @@ module avg_filter_tb;
 	// Main event
 	always @(posedge clk_64M)
 	begin
-		d0_in = in_data[cycle_count];
-		d1_in = in_data[cycle_count];
-		d2_in = in_data[cycle_count];
-		d3_in = in_data[cycle_count];
+		d_in = in_data[cycle_count];
 	end
 	
 endmodule

@@ -36,9 +36,9 @@
 #ifndef __ZEABUS_USB_CMD_H
 #define __ZEABUS_USB_CMD_H
 
-// We borrow Cypress CDC vendor ID and product ID. The more appropriate is 0x0525:0xA4A7 belonging to a defuct company (NetChip Tech.).
-#define ZEABUS_VENDOR_ID                (0x04B4)
-#define ZEABUS_PRODUCT_ID               (0x0008)
+// The ID registered to Zeabus. Another appropriate is 0x0525:0xA4A7 belonging to a defuct company (NetChip Tech.).
+#define ZEABUS_VENDOR_ID                (0x1209)
+#define ZEABUS_PRODUCT_ID               (0xDCB0)
 
 /* USB Vendor request */
 #define ZEABUS_USB_REQ_PROG_FPGA        (0xA0)          // Request for FPGA programming directly from USB
@@ -49,7 +49,5 @@
 #define ZEABUS_USB_REQ_WRITE_FLASH      (0xA5)          // Write raw data to SPI flash
 #define ZEABUS_USB_REQ_READ_EEPROM      (0xA6)          // Request for raw data from EEPROM
 #define ZEABUS_USB_REQ_WRITE_EEPROM     (0xA7)          // Write raw data to EEPROM
-#define ZEABUS_USB_REQ_UNBIND_BULK      (0xB0)          // Unbind bulk EP from other peripherals
-#define ZEABUS_USB_REQ_BIND_BULK_FPGA   (0xB1)          // Bind bulk endpoints to FPGA interface
 
 #endif // __ZEABUS_USB_CMD_H
