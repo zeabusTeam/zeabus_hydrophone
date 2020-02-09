@@ -83,7 +83,7 @@ module fx3s_interface #(
 									// Important Note: FLAGB has 3-clock delay. Thus, it must indicate "almost" full to aviod overrun.
 
 	// Control signal
-	input clk_64M,					// Master clock for this module (64 MHz 0-degree)
+	input clk_64MHz,				// Master clock for this module (64 MHz 0-degree)
 	input rst,						// Synchronous reset (active high)
 	output rdy,						// Indicate that the system is ready for data
 
@@ -139,15 +139,15 @@ module fx3s_interface #(
 	assign dd_clk = input_d_clk_d;
 	assign sending = is_sending;
 
-	assign ifclk_out = clk_64M;		// Slave FIFO interface operates at 64 MHz
+	assign ifclk_out = clk_64MHz;		// Slave FIFO interface operates at 64 MHz
 
 	// Reset and ready signals
 	assign A[1] = 0;				// A[1] is always 0. We use only A[0] bit
 	assign A[0] = is_sending;		// Data direction bit is designed to be equal to A[0]
-	assign rdy = !( tx_wr_rst_busy | tx_rd_rst_busy | rx_wr_rst_busy | rx_rd_rst_busy );
-	assign tx_wr_en = input_valid & !tx_wr_rst_busy & ( !input_d_clk_d & input_d_clk );
-	assign output_valid = !rx_empty & !rx_rd_rst_busy;
-	assign rx_rd_en = output_d_oe & !rx_rd_rst_busy;
+	assign rdy = ~( tx_wr_rst_busy | tx_rd_rst_busy | rx_wr_rst_busy | rx_rd_rst_busy );
+	assign tx_wr_en = input_valid & ~tx_wr_rst_busy & ( ~input_d_clk_d & input_d_clk );
+	assign output_valid = ~rx_empty & ~rx_rd_rst_busy;
+	assign rx_rd_en = output_d_oe & ~rx_rd_rst_busy;
 
 	// MUX and DEMUX DQ pins with 2 internal sub-systems
 	assign rx_data = (!is_sending) ? DQ : 16'b0;
@@ -175,7 +175,7 @@ module fx3s_interface #(
 	// Behavioral blocks
 	//************************************************************
 	// Clock synchronizer
-	always @(posedge clk_64M)
+	always @(posedge clk_64MHz)
 	begin
 		input_d_clk_d <= input_d_clk;
 	end
@@ -225,7 +225,7 @@ module fx3s_interface #(
 	 * ------------------------------------------------------------------------------------
 
 	 */
-	always @(posedge clk_64M)
+	always @(posedge clk_64MHz)
 	begin
 		if( rst )
 		begin
@@ -428,28 +428,28 @@ module fx3s_interface #(
 	//************************************************************
 	fifo_departure_1024x64b fifo_departure (
 		.rst(rst),                  // input wire rst
-		.wr_clk(clk_64M),       	// input wire wr_clk
-		.rd_clk(!clk_64M),          // input wire rd_clk : Data must be ready on the bus by the next clock posedge
+		.wr_clk(clk_64MHz),       	// input wire wr_clk
+		.rd_clk(!clk_64MHz),		// input wire rd_clk : Data must be ready on the bus by the next clock posedge
 		.din(d_in),                 // input wire [63 : 0] din
-		.wr_en(tx_wr_en),    // input wire wr_en
-		.rd_en(tx_rd_en),    // input wire rd_en
-		.dout(tx_data),      // output wire [15 : 0] dout
+		.wr_en(tx_wr_en),    		// input wire wr_en
+		.rd_en(tx_rd_en),    		// input wire rd_en
+		.dout(tx_data),      		// output wire [15 : 0] dout
 		.full(input_full),          // output wire full
-		.empty(tx_empty),    // output wire empty
+		.empty(tx_empty),    		// output wire empty
 		.wr_rst_busy(tx_wr_rst_busy), // output wire wr_rst_busy
 		.rd_rst_busy(tx_rd_rst_busy)  // output wire rd_rst_busy
 	);
 
 	fifo_arrival_64x16b fifo_arrival (
 		.rst(rst),                  // input wire rst
-		.wr_clk(clk_64M),           // input wire wr_clk
+		.wr_clk(clk_64MHz),         // input wire wr_clk
 		.rd_clk(output_d_clk),      // input wire rd_clk
-		.din(rx_buf_dd),         // input wire [15 : 0] din
-		.wr_en(rx_wr_en),      // input wire wr_en
-		.rd_en(rx_rd_en),      // input wire rd_en
+		.din(rx_buf_dd),         	// input wire [15 : 0] din
+		.wr_en(rx_wr_en),      		// input wire wr_en
+		.rd_en(rx_rd_en),      		// input wire rd_en
 		.dout(d_out),               // output wire [15 : 0] dout
-		.full(rx_full),        // output wire full
-		.empty(rx_empty),      // output wire empty
+		.full(rx_full),        		// output wire full
+		.empty(rx_empty),      		// output wire empty
 		.wr_rst_busy(rx_wr_rst_busy), // output wire wr_rst_busy
 		.rd_rst_busy(rx_rd_rst_busy)  // output wire rd_rst_busy
 	);

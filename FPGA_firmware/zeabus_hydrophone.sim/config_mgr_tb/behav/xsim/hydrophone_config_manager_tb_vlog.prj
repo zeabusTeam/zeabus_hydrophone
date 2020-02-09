@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll" \
+"../../../../zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/sim/fifo_arrival_64x16b.v" \
+"../../../../zeabus_hydrophone.srcs/config_manager.v" \
+"../../../../zeabus_hydrophone.srcs/config_manager_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

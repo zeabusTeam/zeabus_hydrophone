@@ -64,10 +64,10 @@ module poten_interface #(
 	input start_update,	// Activation bit. Rising edge of this bit means starting of sending data to poten
 	
 	// Potentiometer data
-	output [7:0] p0_val,
-	output [7:0] p1_val,
-	output [7:0] p2_val,
-	output [7:0] p3_val
+	input [7:0] p0_val,
+	input [7:0] p1_val,
+	input [7:0] p2_val,
+	input [7:0] p3_val
 );
 
 	// wishbone register address for i2c
@@ -80,8 +80,8 @@ module poten_interface #(
 	localparam SR      = 3'b100;	// status register
 
 	// internal i2c signals
-	wire scl_pad_o, scl_padoen_oe;
-	wire sda_pad_o, sda_padoen_oe;
+	wire scl_pad_i, scl_pad_o, scl_padoen_o;
+	wire sda_pad_i, sda_pad_o, sda_padoen_o;
 	
 	// Wishbone signals
 	wire [2:0] 	wb_addr;
@@ -94,8 +94,10 @@ module poten_interface #(
 	reg [7:0] q;				// Temp register
 	
 	// Combination circuit for device pins
-	assign SCL = scl_padoen_oe ? 1'bz : scl_pad_o;
-	assign SDA = sda_padoen_oe ? 1'bz: sda_pad_o;
+	assign SCL = scl_padoen_o ? 1'bz : scl_pad_o;
+	assign SDA = sda_padoen_o ? 1'bz: sda_pad_o;
+	assign scl_pad_i = SCL;
+	assign sda_pad_i = SDA;
 	
 	// Wishbone bus operation model
 	wb_master_model #( .dwidth(8), .awidth(3) ) wb (
@@ -129,22 +131,23 @@ module poten_interface #(
 		.wb_inta_o( wb_inta ),
  
 		// i2c signals
-		.scl_pad_i( SCL ),
+		.scl_pad_i( scl_pad_i ),
 		.scl_pad_o( scl_pad_o ),
 		.scl_padoen_o( scl_padoen_o ),
-		.sda_pad_i( SDA ),
+		.sda_pad_i( sda_pad_i ),
 		.sda_pad_o( sda_pad_o ),
 		.sda_padoen_o( sda_padoen_o )
 	);
 	
 	// Initialization
-	initial
-	begin
+	//initial
+	//begin
 		// Set i2c prescaler
-		wb.wb_write( 1, PRER_LO, i2c_clk_prescaler[7:0] );
-		wb.wb_write( 1, PRER_HI, i2c_clk_prescaler[15:8] );
-		wb.wb_write( 1, CTR, 8'h80 ); 	// enable core
-	end
+	//	wait( !rst );
+	//	wb.wb_write( 1, PRER_LO, i2c_clk_prescaler[7:0] );
+	//	wb.wb_write( 1, PRER_HI, i2c_clk_prescaler[15:8] );
+	//	wb.wb_write( 1, CTR, 8'h80 ); 	// enable core
+	//end
 
 	// Shifting for edge detection
 	always @(posedge clk_64MHz)
