@@ -42,14 +42,14 @@ module avg_filter_tb;
 	
 	wire [15:0] d_out;		// Data output in format Q13.2
 	
-	reg clk_64M;			// System 64 MHz clock
+	reg clk_64MHz;			// System 64 MHz clock
 	wire clk_out;			// Output clock. Data is updated at the rising edge. The propagation delay of output FF should be considered.
 	
 	// Additional variables
 	integer outfile, cycle_count;
 
 	// Module under test
-	avg64_filter filter( .d_in(d_in), .d_out(d_out), .clk_64M(clk_64M), .clk_out(clk_out), .rst(0) );
+	avg64_filter filter( .d_in(d_in), .d_out(d_out), .clk_64MHz(clk_64MHz), .clk_out(clk_out), .rst(0) );
 
 	// Initialization
 	initial
@@ -57,19 +57,19 @@ module avg_filter_tb;
 		$readmemh( "hp_data.hex", in_data );
 		outfile = $fopen( "hp_output.hex" ); // open file
 		$fmonitor(outfile, "%X,%04X", clk_out, d_out);
-		clk_64M <= 0;
+		clk_64MHz <= 0;
 		cycle_count <= 0;
 	end
 	
 	// System clock generator
 	always 
 	begin
-		#8 clk_64M = !clk_64M;
+		#8 clk_64MHz = !clk_64MHz;
 	end
 	
 	// stop the simulation total_data and close the file
 	// i.e. store only total_data values in file
-	always @(posedge clk_64M)
+	always @(posedge clk_64MHz)
 	begin
 		if (cycle_count == total_data) 
 		begin
@@ -83,7 +83,7 @@ module avg_filter_tb;
 	end
 	
 	// Main event
-	always @(posedge clk_64M)
+	always @(posedge clk_64MHz)
 	begin
 		d_in = in_data[cycle_count];
 	end

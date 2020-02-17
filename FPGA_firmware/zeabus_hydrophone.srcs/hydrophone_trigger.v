@@ -51,7 +51,11 @@ module hydrophone_trigger
 	input [63:0] d_in,			// data input (concatenation of 4 16-bit data)
 	input [15:0] trigger_level,	// level of the trigger in 16-bit signed integer
 	output [63:0] d_out,		// data output 
-	output reg trigged			// indicates that the data is part of packet of trigged signal
+	output reg trigged,			// indicates that the data is part of packet of trigged signal
+	
+	// Debug
+	output [63:0] debug_d, debug_r,
+	output [15:0] debug_t
 );
 
 	// Variables
@@ -61,6 +65,10 @@ module hydrophone_trigger
 	
 	wire [63:0] abs_d_in;		// Magnetude (aka. absolute) values of d_in
 	wire [15:0] abs_trigger;	// Magnetude of trigger level
+	
+	assign debug_d = abs_d_in;
+	assign debug_t = abs_trigger;
+	assign debug_r = d_in;
 	
 	// Absolute implementation
 	absolute abs1( .in(d_in[15:0]), .out(abs_d_in[15:0]) );
@@ -105,13 +113,10 @@ module hydrophone_trigger
 		wr_en <= 0;
 	end
 	
-	// Reset state machine
-	// Memo:  RST must be held high for at least five WRCLK clock cycles, 
-	//        and WREN must be low before RST becomes active high, and WREN 
-	//        remains low during this reset cycle.
+	// Main state machine
 	always @(posedge clk)
 	begin
-		if( rst == 1 )
+		if( rst )
 		begin
 			// Reset signal asserted. Just initialize state
 			counter <= 16'b0;
@@ -120,12 +125,7 @@ module hydrophone_trigger
 			wr_en <= 0;
 			rd_en <= 0;
 		end
-	end
-	
-	// Main state machine
-	always @(posedge clk)
-	begin
-		if( rst == 0 )
+		else
 		begin
 		    wr_en = 1;
 			case (trig_state)
@@ -175,7 +175,7 @@ module hydrophone_trigger
 
 	// IP Instance 
 	fifo_1024x64b_bram backlog_fifo (
-		.srst(fifo_rst),// input wire rst
+		.srst(rst),		// input wire rst
 		.clk(clk),  	// input wire clk
 		.din(d_in),     // input wire [63 : 0] din
 		.wr_en(wr_en),  // input wire wr_en

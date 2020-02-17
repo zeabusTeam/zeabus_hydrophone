@@ -48,8 +48,8 @@ module avg_filter_tb;
 	reg clk_64MHz_90;	// Identical of system clock with 90-degree phase lag
 	
 	// Output data
-	wire [13:0] d0_out;
-	wire [13:0] d1_out;
+	wire [15:0] d0_out;
+	wire [15:0] d1_out;
 	
 	// Additional variables
 	integer outfile, cycle_count;
@@ -64,7 +64,7 @@ module avg_filter_tb;
 	begin
 		$readmemh( "hp_data.hex", in_data );
 		outfile = $fopen( "hp_output.hex" ); // open file
-		$fmonitor(outfile, "%X,%04X", clk_64MHz_90,{ d0_out[13], d0_out[13], d0_out });
+		$fmonitor(outfile, "%X,%04X", clk_64MHz_90, sd0_out);
 		clk_64MHz <= 0;
 		clk_64MHz_90 <= 0;
 		cycle_count <= 0;

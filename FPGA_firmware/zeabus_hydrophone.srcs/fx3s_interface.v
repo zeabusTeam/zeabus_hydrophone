@@ -116,7 +116,7 @@ module fx3s_interface #(
 	reg		[15:0] rx_buf_d;
 	reg     [15:0] rx_buf_dd;	     // pre-buffer for reading as FLAGA has 2 clocks delay.
 	reg		input_d_clk_d;
-	integer u32WrCounter;			// Counter for DMA sending words
+	reg		[15:0] u16WrCounter;			// Counter for DMA sending words
 
 	//************************************************************
 	// Combination logic
@@ -168,7 +168,7 @@ module fx3s_interface #(
 		input_d_clk_d <= 0;
 		is_writing <= 0;
 		master_state <= state_idle;
-		u32WrCounter <= FX3S_DMA_Size;
+		u16WrCounter <= FX3S_DMA_Size;
 	end
 
 	//************************************************************
@@ -205,14 +205,14 @@ module fx3s_interface #(
 	 *               | else                            | read_loop   | rx_buf_dd = rx_buf_d, rx_buf_d = rx_data
 	 * ------------------------------------------------------------------------------------
 	 *  start_write  | !FLAGB || tx_empty              | idle        | SLCS = 1, SLWR = 1, tx_rd_en = 0, is_sending = 0
-	 *               | else { u32WrCounter == 0 }      | write_wait1 | SLCS = 1, SLWR = 1, tx_rd_en = 0 (then wait 3 clocks)
-	 *               | else { else }                   | start_write | u32WrCounter = u32WrCounter - 1
+	 *               | else { u16WrCounter == 0 }      | write_wait1 | SLCS = 1, SLWR = 1, tx_rd_en = 0 (then wait 3 clocks)
+	 *               | else { else }                   | start_write | u16WrCounter = u16WrCounter - 1
 	 * ------------------------------------------------------------------------------------
 	 *  write_wait1  | 1                               | write_wait2 |
 	 * ------------------------------------------------------------------------------------
 	 *  write_wait2  | 1                               | write_wait3 |
 	 * ------------------------------------------------------------------------------------
-	 *  write_wait3  | 1                               | idle        | is_sending = 0, u32WrCounter = FX3S_DMA_Size
+	 *  write_wait3  | 1                               | idle        | is_sending = 0, u16WrCounter = FX3S_DMA_Size
 	 * ------------------------------------------------------------------------------------
 	 *  zlp          | 1                               | zlp_wait1   | PEND = 1 (then wait 3 clocks)
 	 * ------------------------------------------------------------------------------------
@@ -220,7 +220,7 @@ module fx3s_interface #(
 	 * ------------------------------------------------------------------------------------
 	 *  zlp_wait2    | 1                               | zlp_wait3   |
 	 * ------------------------------------------------------------------------------------
-	 *  zlp_wait3    | 1                               | idle        | SLCS = 1, is_sending = 0, is_writing = 0, u32WrCounter = FX3S_DMA_Size
+	 *  zlp_wait3    | 1                               | idle        | SLCS = 1, is_sending = 0, is_writing = 0, u16WrCounter = FX3S_DMA_Size
 	 * ------------------------------------------------------------------------------------
 	 * ------------------------------------------------------------------------------------
 
@@ -330,8 +330,8 @@ module fx3s_interface #(
 					end
 					else
 					begin
-						rx_buf_dd <= rx_buf_d;
-						rx_buf_d <= rx_data;
+						rx_buf_dd = rx_buf_d;
+						rx_buf_d = rx_data;
 						/* stay at state_read_loop */
 					end
 				end
@@ -349,7 +349,7 @@ module fx3s_interface #(
 					end
 					else
 					begin
-						if( u32WrCounter == 0 )	/* End of a chunk */
+						if( u16WrCounter == 0 )	/* End of a chunk */
 						begin
 							SLCS <= 1;
 							SLWR <= 1;
@@ -358,7 +358,7 @@ module fx3s_interface #(
 						end
 						else
 						begin
-							u32WrCounter = u32WrCounter - 1;
+							u16WrCounter = u16WrCounter - 1;
 							/* stay at state_writing */
 						end
 					end
@@ -376,7 +376,7 @@ module fx3s_interface #(
 
 				state_write_wait3:
 				begin
-					u32WrCounter <= FX3S_DMA_Size;
+					u16WrCounter <= FX3S_DMA_Size;
 					master_state <= state_idle;
 				end
 
@@ -402,7 +402,7 @@ module fx3s_interface #(
 					SLCS <= 1;
 					is_writing <= 0;
 					is_sending <= 0;
-					u32WrCounter <= FX3S_DMA_Size;
+					u16WrCounter <= FX3S_DMA_Size;
 					master_state <= state_idle;
 				end
 				
@@ -429,7 +429,7 @@ module fx3s_interface #(
 	fifo_departure_1024x64b fifo_departure (
 		.rst(rst),                  // input wire rst
 		.wr_clk(clk_64MHz),       	// input wire wr_clk
-		.rd_clk(!clk_64MHz),		// input wire rd_clk : Data must be ready on the bus by the next clock posedge
+		.rd_clk(~clk_64MHz),		// input wire rd_clk : Data must be ready on the bus by the next clock posedge
 		.din(d_in),                 // input wire [63 : 0] din
 		.wr_en(tx_wr_en),    		// input wire wr_en
 		.rd_en(tx_rd_en),    		// input wire rd_en

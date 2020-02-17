@@ -1,10 +1,8 @@
 # compile verilog/system verilog design source files
-verilog xil_defaultlib  \
+verilog xil_defaultlib  --include "../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll" \
 "../../../../zeabus_hydrophone.srcs/i2c_wishbone/i2c_master_bit_ctrl.v" \
 "../../../../zeabus_hydrophone.srcs/i2c_wishbone/i2c_master_byte_ctrl.v" \
-"../../../../zeabus_hydrophone.srcs/i2c_wishbone/i2c_master_top.v" \
 "../../../../zeabus_hydrophone.srcs/poten_interface.v" \
-"../../../../zeabus_hydrophone.srcs/i2c_wishbone/wb_master_model.v" \
 "../../../../zeabus_hydrophone.srcs/poten_interface_tb.v" \
 
 # compile glbl module

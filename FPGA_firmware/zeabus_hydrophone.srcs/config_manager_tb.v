@@ -214,7 +214,7 @@
 		// Control
 		.clk_64MHz( clk_64MHz ),			// Master clock
 		.rst( rst ),						// Master reset (active high)
-		.update_trigger( update_trigger ),	// Trigger for register updating. (rising edge)
+		.update_poten( update_trigger ),	// Trigger for register updating. (rising edge)
 	
 		// Register
 		.trigger_level( trigger_level ),	// hydrophone signal level

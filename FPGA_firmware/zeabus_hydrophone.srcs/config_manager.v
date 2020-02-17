@@ -50,11 +50,16 @@ module hydrophone_config_manager #(
 	parameter config_prefix = 16'hDCB0,
 	parameter rst_delay = 8,			// Total clock cycles to delay the start after reset
 	// State value
-	localparam state_wait_prefix = 0,	// Waiting for the prefix. Also flushout unknown data
-	localparam state_read_confbit = 1,	// Read configuration bit fields from input
-	localparam state_read_trigger = 2,	// Read trigger level from input
-	localparam state_read_poten1_2 = 3,	// Read values of potentiometer 1 and 2 from input
-	localparam state_read_poten3_4 = 4  // Read values of potentiometer 3 and 4 from input
+	localparam state_wait_prefix = 0,	// Waiting for the prefix
+	localparam state_read_prefix = 1,	// Reading the prefix and validate with the pre-defined value
+	localparam state_wait_confbit = 3,	// Waiting for the configuration bit fields
+	localparam state_read_confbit = 4,	// Read configuration bit fields from input
+	localparam state_wait_trigger = 5,	// Waiting for trigger level from input
+	localparam state_read_trigger = 6,	// Read trigger level from input
+	localparam state_wait_poten1_2 = 7,	// Waiting for the values of potentiometer 1 and 2 from input
+	localparam state_read_poten1_2 = 8,	// Read values of potentiometer 1 and 2 from input
+	localparam state_wait_poten3_4 = 9, // Waiting for the values of potentiometer 3 and 4 from input
+	localparam state_read_poten3_4 = 10 // Read values of potentiometer 3 and 4 from input
 	
 	) (
 	// Interface to slave fifo output buffer
@@ -66,7 +71,7 @@ module hydrophone_config_manager #(
 	// Control
 	input clk_64MHz,				// Master clock
 	input rst,						// Master reset (active high)
-	output reg update_trigger,		// Trigger for register updating. (rising edge)
+	output reg update_poten,		// Trigger for potentiometer register updating. (rising edge)
 	
 	// Register
 	output reg [15:0] trigger_level,// hydrophone signal level
@@ -78,7 +83,7 @@ module hydrophone_config_manager #(
 
 	// Variables
 	integer state, counter;			// Counter is for the initialization step
-	reg [15:0] config_bit;
+	reg [15:0] config_bit, prefix_in;
 	
 	// combination logic
 	assign config_d_clk = clk_64MHz;
@@ -89,7 +94,7 @@ module hydrophone_config_manager #(
 		state <= state_wait_prefix;
 		counter <= 0;
 		config_d_oe <= 0;
-		update_trigger <= 0;
+		update_poten <= 0;
 		trigger_level <= 16'd16384;
 		poten1_value <= 8'h80;
 		poten2_value <= 8'h80;
@@ -104,7 +109,7 @@ module hydrophone_config_manager #(
 			state <= state_wait_prefix;
 			counter <= 0;
 			config_d_oe <= 0;
-			update_trigger <= 0;
+			update_poten <= 0;
 			trigger_level <= 16'd16384;
 			poten1_value <= 8'h80;
 			poten2_value <= 8'h80;
@@ -116,77 +121,115 @@ module hydrophone_config_manager #(
 			if( counter >= rst_delay )
 			begin
 				case( state )
-					state_wait_prefix:	// Waiting for the prefix. Also flushout unknown data
+					state_wait_prefix:	// Waiting for the prefix
 					begin
-						update_trigger = 1;
-						wait( data_valid )			// Wait until incoming data is available
+						update_poten = 1;
+						if( data_valid )
 						begin
 							config_d_oe = 1;
-							@(posedge clk_64MHz);	// Wait for the next clock to get data
-							if( d_in == config_prefix )
-							begin
-								update_trigger = 0;
-								state = state_read_confbit;
-							end
-							config_d_oe = 0;
+							state = state_read_prefix;
 						end
 					end
-				
-					state_read_confbit:	// Read configuration bit fields from input
+					
+					state_read_prefix:	// Reading the prefix and validate with the pre-defined value
 					begin
-						wait( data_valid )			// Wait until incoming data is available	
+						prefix_in = d_in;
+						config_d_oe = 0;
+						if( prefix_in == config_prefix )
+						begin
+							state = state_wait_confbit;
+						end
+						else
+						begin
+							state = state_wait_prefix;
+						end
+					end
+					
+					state_wait_confbit:	// Waiting for the configuration bit fields
+					begin
+						if( data_valid )
 						begin
 							config_d_oe = 1;
-							@(posedge clk_64MHz);	// Wait for the next clock to get data
-							config_bit = d_in;
-							config_d_oe = 0;
-							if( config_bit[15] )
-								state = state_read_trigger;
+							state = state_read_confbit;
+						end
+					end
+
+					state_read_confbit:	// Read configuration bit fields from input
+					begin
+						config_bit = d_in;
+						config_d_oe = 0;
+						if( config_bit[15] )
+						begin
+							state = state_wait_trigger;
+						end
+						else
+						begin
+							if( config_bit[14] )
+							begin
+								update_poten = 0;
+								state = state_wait_poten1_2;
+							end
 							else
-								if( config_bit[14] )
-									state = state_read_poten1_2;
-								else
-									state = state_wait_prefix;		// All reserved bits mean doing nothing
+							begin
+								state = state_wait_prefix;		// All reserved bits mean doing nothing
+							end
+						end
+					end
+					
+					state_wait_trigger:	// Waiting for trigger level from input
+					begin
+						if( data_valid )
+						begin
+							config_d_oe = 1;
+							state = state_read_trigger;
 						end
 					end
 				
 					state_read_trigger:	// Read trigger level from input
 					begin
-						wait( data_valid )			// Wait until incoming data is available
+						trigger_level = d_in;
+						config_d_oe = 0;
+						if( config_bit[14] )
 						begin
-							config_d_oe = 1;
-							@(posedge clk_64MHz);	// Wait for the next clock to get data
-							trigger_level = d_in;
-							config_d_oe = 0;
-							if( config_bit[14] )
-								state = state_read_poten1_2;
-							else
-								state = state_wait_prefix;			// All reserved bits mean doing nothing
+							update_poten = 0;
+							state = state_wait_poten1_2;
+						end
+						else
+						begin
+							state = state_wait_prefix;			// All reserved bits mean doing nothing
 						end
 					end
-				
-					state_read_poten1_2:	// Read values of potentiometer 1 and 2 from input
+					
+					state_wait_poten1_2:	// Waiting for the values of potentiometer 1 and 2 from input
 					begin
-						wait( data_valid )			// Wait until incoming data is available
+						if( data_valid )
 						begin
 							config_d_oe = 1;
-							@(posedge clk_64MHz);	// Wait for the next clock to get data
-							{ poten1_value, poten2_value } = d_in;
-							config_d_oe = 0;
+							state = state_read_poten1_2;
+						end
+					end
+								
+					state_read_poten1_2:	// Read values of potentiometer 1 and 2 from input
+					begin
+						{ poten1_value, poten2_value } = d_in;
+						config_d_oe = 0;
+						state = state_wait_poten3_4;
+					end
+					
+					state_wait_poten3_4: // Waiting for the values of potentiometer 3 and 4 from input
+					begin
+						if( data_valid )
+						begin
+							config_d_oe = 1;
 							state = state_read_poten3_4;
 						end
 					end
 				
 					state_read_poten3_4: // Read values of potentiometer 3 and 4 from input
 					begin
-						wait( data_valid )			// Wait until incoming data is available
-						begin
-							config_d_oe = 1;
-							@(posedge clk_64MHz);	// Wait for the next clock to get data
-							{ poten3_value, poten4_value } = d_in;
-							config_d_oe = 0;
-							state = state_wait_prefix;
-						end
+						{ poten3_value, poten4_value } = d_in;
+						config_d_oe = 0;
+						state = state_wait_prefix;
 					end				
 				endcase
 			end

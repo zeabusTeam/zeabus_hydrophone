@@ -34,8 +34,7 @@
 // --------------------------------------------------------------------------------
 
 // Implementation is based on https://opencores.org/projects/i2c/
-
-`include "i2c_wishbone/i2c_master_defines.v"
+// We strip-off wishbone bus and interface to i2c_master_byte directly
 
 //===============================================================
 module poten_interface #(
@@ -69,86 +68,99 @@ module poten_interface #(
 	input [7:0] p2_val,
 	input [7:0] p3_val
 );
-
-	// wishbone register address for i2c
-	localparam PRER_LO = 3'b000;	// clock prescaler (low byte)
-	localparam PRER_HI = 3'b001;	// clock prescaler (high byte)
-	localparam CTR     = 3'b010;	// control register (bit7: en/~dis i2c core, bit6: en/~dis interrupt)
-	localparam RXR     = 3'b011;	// receive register (when read)
-	localparam TXR     = 3'b011;	// transmitt register (when write)
-	localparam CR      = 3'b100;	// command register
-	localparam SR      = 3'b100;	// status register
+	// Command bits
+	localparam CMD_GEN_START = 4'b1000;		// Generate START or REPEAT_START along with the next data
+	localparam CMD_GEN_STOP  = 4'b0100;		// Generate STOP along with the next data
+	localparam CMD_READ      = 4'b0010;		// Perform READ
+	localparam CMD_WRITE     = 4'b0001;		// Perform WRITE
+	
+	// States
+	// Sub-state
+	localparam SUBSTATE_SEND_SLAVE_ADDR = 2'b00;
+	localparam SUBSTATE_SEND_POTEN_ADDR = 2'b01;
+	localparam SUBSTATE_SEND_POTEN_VAL = 2'b10;
+	
+	// Main state
+	localparam STATE_IDLE = 3'b000;
+	localparam STATE_SET_POTEN1 = 3'b001;
+	localparam STATE_SET_POTEN2 = 3'b010;
+	localparam STATE_SET_POTEN3 = 3'b011;
+	localparam STATE_SET_POTEN4 = 3'b100;
 
 	// internal i2c signals
 	wire scl_pad_i, scl_pad_o, scl_padoen_o;
 	wire sda_pad_i, sda_pad_o, sda_padoen_o;
 	
-	// Wishbone signals
-	wire [2:0] 	wb_addr;
-	wire [7:0] 	wb_dat_i, wb_dat_o;
-	wire wb_we, wb_cyc, wb_ack, wb_stb, wb_inta;
- 
 	// local variables
 	reg start_dd, start_d;		// Registers for edge detection of start_update
 	reg rst_dd, rst_d;			// Registers for edge detection of rst
-	reg [7:0] q;				// Temp register
+	reg core_en;				// Enable I2C core
+	reg [3:0] cmd;				// Command register
+	reg  [ 7:0] txr;  			// transmit register
+	wire [ 7:0] rxr;  			// receive register
+	reg  txack;					// acknowledge value to send to slave
+	wire rxack;       			// received aknowledge from slave
+	wire i2c_busy;    			// bus busy (start signal detected)
+	wire i2c_al;      			// i2c bus arbitration lost
+		
+	// done signal: command completed, clear command register
+	wire done;
+	wire inprogress;			// i2c operation is inprogress
 	
+	// State variables
+	reg cmd_phase;				// Phase of I2C byte operation (0 = activate, 1 = wait for complete)
+	reg [1:0] sub_state;
+	reg [2:0] main_state;
+
 	// Combination circuit for device pins
 	assign SCL = scl_padoen_o ? 1'bz : scl_pad_o;
 	assign SDA = sda_padoen_o ? 1'bz: sda_pad_o;
 	assign scl_pad_i = SCL;
 	assign sda_pad_i = SDA;
-	
-	// Wishbone bus operation model
-	wb_master_model #( .dwidth(8), .awidth(3) ) wb (
-		.clk( clk_64MHz ),
-		.rst( ~rst ),
-		.adr( wb_addr ),
-		.din( wb_dat_i ),
-		.dout( wb_dat_o ),
-		.cyc( wb_cyc ),
-		.stb( wb_stb ),
-		.we( wb_we ),
-		.sel(),
-		.ack( wb_ack ),
-		.err( 1'b0 ),
-		.rty( 1'b0 )
-	);
+	assign inprogress = ( cmd[1] | cmd[0] );
 	
 	// i2c instantiation
-	i2c_master_top #( .ARST_LVL( 1'b1 ) ) i2c_top  (
-		// wishbone interface
-		.wb_clk_i( clk_64MHz ),
-		.wb_rst_i( 1'b0 ),	// Unused. Must be 0
-		.arst_i( rst ),		// Master reset (active high)
-		.wb_adr_i( wb_addr ),
-		.wb_dat_i( wb_dat_o ),	// d_in and d_out should be in reverse from wb_master_model
-		.wb_dat_o( wb_dat_i ),
-		.wb_we_i( wb_we ),
-		.wb_stb_i( wb_stb ),
-		.wb_cyc_i( wb_cyc ),
-		.wb_ack_o( wb_ack ),
-		.wb_inta_o( wb_inta ),
- 
-		// i2c signals
-		.scl_pad_i( scl_pad_i ),
-		.scl_pad_o( scl_pad_o ),
-		.scl_padoen_o( scl_padoen_o ),
-		.sda_pad_i( sda_pad_i ),
-		.sda_pad_o( sda_pad_o ),
-		.sda_padoen_o( sda_padoen_o )
+	// hookup byte controller block
+	i2c_master_byte_ctrl byte_controller (
+		.clk      ( clk_64MHz    ),		// Master clock
+		.rst      ( rst     	 ),		// Synchronous reset
+		.nReset   ( 1'b1       	 ),		// Asynchronous reset (Active Low) (unused, tied to negate)
+		.ena      ( core_en      ),
+		.clk_cnt  ( i2c_clk_prescaler ),// Clock prescaler
+		
+		// Command bits (Setting these command bits starts the operation)
+		.start    ( cmd[3]       ),		// Generate START or REPEAT_START along with the next data
+		.stop     ( cmd[2]       ),		// Generate STOP along with the next data
+		.read     ( cmd[1]       ),		// Perform READ
+		.write    ( cmd[0]       ),		// Perform WRITE
+		
+		// Data
+		.ack_in   ( txack        ),		// ACK value when received a byte
+		.din      ( txr          ),		// Data to send
+		.dout     ( rxr          ),		// Received data
+		
+		// Status 
+		.cmd_ack  ( done         ),		// The command is done
+		.ack_out  ( rxack        ),		// ACK value from slave device from previous sending
+		.i2c_busy ( i2c_busy     ),		// Bus is busy
+		.i2c_al   ( i2c_al       ),		// Arbitration lost
+		
+		// I2C pads
+		.scl_i    ( scl_pad_i    ),
+		.scl_o    ( scl_pad_o    ),
+		.scl_oen  ( scl_padoen_o ),
+		.sda_i    ( sda_pad_i    ),
+		.sda_o    ( sda_pad_o    ),
+		.sda_oen  ( sda_padoen_o )
 	);
+		
+	initial
+	begin
+		core_en <= 0;
+		cmd_phase <= 0;
+		cmd <= 0;
+	end
 	
-	// Initialization
-	//initial
-	//begin
-		// Set i2c prescaler
-	//	wait( !rst );
-	//	wb.wb_write( 1, PRER_LO, i2c_clk_prescaler[7:0] );
-	//	wb.wb_write( 1, PRER_HI, i2c_clk_prescaler[15:8] );
-	//	wb.wb_write( 1, CTR, 8'h80 ); 	// enable core
-	//end
-
 	// Shifting for edge detection
 	always @(posedge clk_64MHz)
 	begin
@@ -158,120 +170,95 @@ module poten_interface #(
 		rst_d <= rst;
 	end
 	
-	// Main process
+	// Reset and enable the i2c core
 	always @(posedge clk_64MHz)
 	begin
-		if( !start_dd && start_d && !rst )	// rising edge
+		if( rst )
 		begin
-			/* Update poten 1 channel 1 */
-			// Drive slave address
-			wb.wb_write( 1, TXR, i2c_address_1 ); 	// present slave address, set write-bit
-			wb.wb_write( 0, CR, 8'h90 ); 			// set command (start, write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
+			core_en <= 0;
+		end
+		else
+			core_en <= #2 1;
+	end
 
-			// Set channel 1
-			wb.wb_write( 1, TXR, 8'h11 ); 		
-			wb.wb_write( 0, CR, 8'h10 ); 			// set command (write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			// Set poten value
-			wb.wb_write( 1, TXR, p0_val ); 				
-			wb.wb_write( 0, CR, 8'h50 ); 			// set command (write, stop)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			/* Update poten 1 channel 2 */
-			// Drive slave address
-			wb.wb_write( 1, TXR, i2c_address_1 ); 	// present slave address, set write-bit
-			wb.wb_write( 0, CR, 8'h90 ); 			// set command (start, write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			// Set channel 1
-			wb.wb_write( 1, TXR, 8'h12 ); 		
-			wb.wb_write( 0, CR, 8'h10 ); 			// set command (write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			// Set poten value
-			wb.wb_write( 1, TXR, p1_val ); 				
-			wb.wb_write( 0, CR, 8'h50 ); 			// set command (write, stop)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			/* Update poten 2 channel 1 */
-			// Drive slave address
-			wb.wb_write( 1, TXR, i2c_address_2 ); 	// present slave address, set write-bit
-			wb.wb_write( 0, CR, 8'h90 ); 			// set command (start, write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			// Set channel 1
-			wb.wb_write( 1, TXR, 8'h11 ); 		
-			wb.wb_write( 0, CR, 8'h10 ); 			// set command (write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			// Set poten value
-			wb.wb_write( 1, TXR, p2_val ); 				
-			wb.wb_write( 0, CR, 8'h50 ); 			// set command (write, stop)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			/* Update poten 2 channel 2 */
-			// Drive slave address
-			wb.wb_write( 1, TXR, i2c_address_2 ); 	// present slave address, set write-bit
-			wb.wb_write( 0, CR, 8'h90 ); 			// set command (start, write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			// Set channel 1
-			wb.wb_write( 1, TXR, 8'h12 ); 		
-			wb.wb_write( 0, CR, 8'h10 ); 			// set command (write)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
-
-			// Set poten value
-			wb.wb_write( 1, TXR, p3_val ); 				
-			wb.wb_write( 0, CR, 8'h50 ); 			// set command (write, stop)
-			
-			wb.wb_read(1, SR, q);					// check tip bit
-			while(q[1])
-				wb.wb_read(0, SR, q); 				// poll it until it is zero
+	// Main process
+	`define activate_i2c(next_state, command) \
+		if( !cmd_phase ) \
+		begin \
+			cmd = command; \
+			cmd_phase = 1; \
+		end \
+		else \
+		begin \
+			if( !inprogress ) \
+			begin \
+				cmd_phase = 0; \
+				sub_state = next_state; \
+			end \
+		end
+	
+	`define poten_sub(next_state, s_addr, p_addr, p_value) \
+		case( sub_state ) \
+			SUBSTATE_SEND_SLAVE_ADDR: \
+			begin \
+				txr = s_addr; \
+				`activate_i2c( SUBSTATE_SEND_POTEN_ADDR, (CMD_GEN_START | CMD_WRITE) ) \
+			end \
+			SUBSTATE_SEND_POTEN_ADDR: \
+			begin \
+				txr = p_addr; \
+				`activate_i2c( SUBSTATE_SEND_POTEN_VAL, CMD_WRITE ) \
+			end \
+			SUBSTATE_SEND_POTEN_VAL: \
+			begin \
+				txr = p_value; \
+				`activate_i2c( SUBSTATE_SEND_SLAVE_ADDR, (CMD_GEN_STOP | CMD_WRITE) ) \
+				if( sub_state == SUBSTATE_SEND_SLAVE_ADDR ) \
+					main_state = next_state; \
+			end \
+		endcase
+	
+	always @(posedge clk_64MHz)
+	begin
+		if( rst )
+		begin
+			cmd_phase <= 0;
+			sub_state <= SUBSTATE_SEND_SLAVE_ADDR;
+			main_state <= STATE_IDLE;
+			cmd <= 4'b0;
 		end
 		else
 		begin
-			if( rst_dd && !rst_d )	// Falling edge
-			begin
-				// Set i2c prescaler
-				wb.wb_write( 1, PRER_LO, i2c_clk_prescaler[7:0] );
-				wb.wb_write( 1, PRER_HI, i2c_clk_prescaler[15:8] );
-				wb.wb_write( 1, CTR, 8'h80 ); 	// enable core
-			end
+	        if(done | i2c_al)
+				cmd <= 4'b0;    // clear command bits when done or when aribitration lost
+			
+			case( main_state )
+				STATE_IDLE:
+				begin
+					if( !start_dd && start_d )	// rising edge
+						main_state = STATE_SET_POTEN1;
+				end
+				
+				STATE_SET_POTEN1: /* Update poten 1 channel 1 */
+				begin
+					`poten_sub( STATE_SET_POTEN2, i2c_address_1, 8'h11, p0_val )
+				end
+				
+				STATE_SET_POTEN2: /* Update poten 1 channel 2 */
+				begin
+					`poten_sub( STATE_SET_POTEN3, i2c_address_1, 8'h12, p1_val )
+				end
+				
+				STATE_SET_POTEN3: /* Update poten 2 channel 1 */
+				begin
+					`poten_sub( STATE_SET_POTEN4, i2c_address_2, 8'h11, p2_val )
+				end
+				
+				STATE_SET_POTEN4: /* Update poten 2 channel 2 */
+				begin
+					`poten_sub( STATE_IDLE, i2c_address_2, 8'h12, p3_val )
+				end
+			endcase
 		end
 	end	
 endmodule

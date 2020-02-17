@@ -150,16 +150,17 @@ module adc_interface(
 	input rst,				// Synchronous reset (active high)
 	
 	// Output data
-	output [13:0] d0_out,	// Output from each ADC channel
-	output [13:0] d1_out,
+	output [15:0] d0_out,	// Output from each ADC channel
+	output [15:0] d1_out,
 	output clk_out			// Clock for output data (data are valid at rising-edge)
 );
 
-	wire [13:0] d0, d1, d0_mean, d1_mean, clk_out1, clk_out2;
+	wire [13:0] d0, d1, d0_mean, d1_mean;
+	wire clk_out1, clk_out2;
 	
 	// Combination logic
-	assign CLKA_1 = clk_64MHz;
-	assign CLKB_1 = clk_64MHz;
+	assign clk_a = clk_64MHz;
+	assign clk_b = clk_64MHz;
 	assign clk_out = clk_out1 & clk_out2;
 
 	// Instantiation

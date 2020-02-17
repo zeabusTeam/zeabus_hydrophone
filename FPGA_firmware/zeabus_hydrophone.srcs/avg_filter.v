@@ -39,7 +39,7 @@ module avg64_filter(
 	output reg [15:0] d_out,	// Data output in format Q13.2
 	
 	input rst,				// Synchronous reset (active high)
-	input clk_64M,			// System 64 MHz clock
+	input clk_64MHz,			// System 64 MHz clock
 	output reg clk_out			// Output clock. Data is updated at the rising edge. The propagation delay of output FF should be considered.
 );
 
@@ -49,7 +49,7 @@ module avg64_filter(
 	
 	// Counter instance
 	c_counter_binary_0 avg_counter (
-		.CLK(clk_64M),  // input wire CLK
+		.CLK(clk_64MHz),  // input wire CLK
 		.Q(counter_q),  // output wire [5 : 0] Q
 		.SCLR(rst)		// Synchronous clear
 	);
@@ -62,7 +62,7 @@ module avg64_filter(
 	end
 	
 	// Main operation
-	always @(posedge clk_64M)
+	always @(posedge clk_64MHz)
 	begin
 		if( rst )
 		begin

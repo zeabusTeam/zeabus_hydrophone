@@ -1,5 +1,5 @@
 # compile verilog/system verilog design source files
-verilog xil_defaultlib  \
+verilog xil_defaultlib  --include "../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll" \
 "../../../../zeabus_hydrophone.srcs/sources_1/ip/fifo_1024x64b_bram/sim/fifo_1024x64b_bram.v" \
 "../../../../zeabus_hydrophone.srcs/hydrophone_trigger.v" \
 "../../../../zeabus_hydrophone.srcs/hydrophone_trigger_tb.v" \
