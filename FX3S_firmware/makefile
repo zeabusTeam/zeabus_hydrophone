@@ -13,11 +13,12 @@
 ## where <install> is the Cypress software
 ## installation root directory path.
 ##
-
 MODULE = zeabus_hp_fx3s
 OBJS = $(MODULE).o zeabus_slavefifo.o zeabus_config.o zeabus_fpgaconf.o zeabus_flash.o zeabus_eeprom.o zeabus_gpio.o zeabus_usb.o zeabus_error.o zeabus_app_init.o printf.o
 USER_CFLAGS = -Os
 USER_LDFLAGS =
+#LINKING_DESC = ./lib/zeabus.ld
+LINKING_DESC = ./lib/fx3_512k.ld
 ARMGCC_VERSION=9.2.1
 ifeq ($(OS),Windows_NT)
 	InstallDir = C:/Program\ Files\ (x86)/GNU\ Tools\ Arm\ Embedded/9\ 2019-q4-major
@@ -67,7 +68,7 @@ ASMFLAGS += -Wall -c -mcpu=arm926ej-s -mthumb-interwork
 CCFLAGS  += -Wall -mcpu=arm926ej-s -mthumb-interwork -ffunction-sections -fdata-sections
 
 # Select the linker script based on the chosen FX3 device.
-LDFLAGS += -T ./lib/zeabus.ld -d --gc-sections --no-wchar-size-warning -Map $(MODULE).map
+LDFLAGS += -T $(LINKING_DESC) -d --gc-sections --no-wchar-size-warning -Map $(MODULE).map
 
 %.o: %.c
 	$(CC) $(CCFLAGS) -c -o $@ $< 

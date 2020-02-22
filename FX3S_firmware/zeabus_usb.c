@@ -81,7 +81,6 @@
 #define SystemReset()   (*((uint16_t*)(REG_GCTL_CONTROL))&=(0xF7FF))
 #define Reboot()        (*((uint16_t*)(REG_GCTL_CONTROL))&=(0xFBFF))
 
-
 /****************************************************************************
  * USB Descripters
  * We copy this part from Cypress SDK with a little modification.
@@ -121,7 +120,7 @@ static const uint8_t CyFxUSB20DeviceDscr[] __attribute__ ((aligned (32))) =
     W2B(ZEABUS_RELEASE),            /* Device release number : Little-Endian */
     0x01,                           /* Manufacture string index */
     0x02,                           /* Product string index */
-    0x00,                           /* Serial number string index */
+    0x03,                           /* Serial number string index */
     0x01                            /* Number of configurations */
 };
 
@@ -156,7 +155,7 @@ static const uint8_t CyFxUSBDeviceQualDscr[] __attribute__ ((aligned (32))) =
     0x0A,                           /* Descriptor size */
     CY_U3P_USB_DEVQUAL_DESCR,       /* Device qualifier descriptor type */
     0x00,0x02,                      /* USB 2.0 */
-    0x02,                           /* Device class */
+    0x00,                           /* Device class */
     0x00,                           /* Device sub-class */
     0x00,                           /* Device protocol */
     0x08,                           /* Maxpacket size for EP0 */
@@ -173,7 +172,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     0x85,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
-    0x03,                           /* COnfiguration string index */
+    0x00,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
     0x19,                           /* Max power consumption of device (in 8mA unit) : 200mA */
 
@@ -281,7 +280,7 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_USB_INTRFC_DESCR,        /* Interface Descriptor type */
     0x02,                           /* Interface number */
     0x00,                           /* Alternate setting number */
-    0x03,                           /* Number of end points */
+    0x03,                           /* Number of endpoints */
     0xFF,                           /* Interface class : Vendor specific*/
     0x00,                           /* Interface sub class */
     0x00,                           /* Interface protocol code */
@@ -342,7 +341,7 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     0x61,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
-    0x03,                           /* COnfiguration string index */
+    0x00,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
     0x64,                           /* Max power consumption of device (in 2mA unit) : 200mA */
 
@@ -429,7 +428,7 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_USB_INTRFC_DESCR,        /* Interface Descriptor type */
     0x02,                           /* Interface number */
     0x00,                           /* Alternate setting number */
-    0x02,                           /* Number of end points */
+    0x03,                           /* Number of endpoints */
     0xFF,                           /* Interface class : Vendor specific*/
     0x00,                           /* Interface sub class */
     0x00,                           /* Interface protocol code */
@@ -469,7 +468,7 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     0x61,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
-    0x03,                           /* COnfiguration string index */
+    0x00,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
     0x64,                           /* Max power consumption of device (in 2mA unit) : 200mA */
 
@@ -558,7 +557,7 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     CY_U3P_USB_INTRFC_DESCR,        /* Interface Descriptor type */
     0x02,                           /* Interface number */
     0x00,                           /* Alternate setting number */
-    0x02,                           /* Number of end points */
+    0x03,                           /* Number of endpoints */
     0xFF,                           /* Interface class : Vendor specific*/
     0x00,                           /* Interface sub class */
     0x00,                           /* Interface protocol code */
@@ -628,6 +627,11 @@ const uint8_t CyFxUSBSerialDscr[] __attribute__ ((aligned (32))) =
     '0', 0x00, '1', 0x00
 };
 
+/* Place this buffer as the last buffer so that no other variable / code shares
+ * the same cache line. Do not add any other variables / arrays in this file.
+ * This will lead to variables sharing the same cache line. */
+const uint8_t CyFxUsbDscrAlignBuffer[32] __attribute__ ((aligned (32)));
+
 /************************************************************************************
  * Private Data
  ************************************************************************************/
@@ -690,6 +694,8 @@ static void ZeabusUSBAppStart( void )
         break;
 
     case  CY_U3P_SUPER_SPEED:
+        /* Turning low power mode off to avoid USB transfer delays. */
+        CyU3PUsbLPMDisable ();
         size = 1024;
         break;
 
@@ -782,8 +788,6 @@ static void ZeabusUSBAppStart( void )
     dmaCfg.prodSckId = ZEABUS_DMA_EP_USB_DEBUG_PRODUCER_SOCKET;
     dmaCfg.consSckId = CY_U3P_CPU_SOCKET_CONS;
     dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
-    //dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
-    //dmaCfg.cb = ZeabusDbgBulkDmaCallback;
     /* Call-back is nor working as the system wait until the buffer has beed fully filled.
      * This makes the last chunk of data, which has the size less than a full block, stays waiting
      * and cannot arrived at the destination
@@ -828,8 +832,6 @@ static void ZeabusUSBAppStart( void )
     dmaCfg.prodSckId = ZEABUS_DMA_EP_USB_DATA_PRODUCER_SOCKET;
     dmaCfg.consSckId = CY_U3P_CPU_SOCKET_CONS;
     dmaCfg.dmaMode = CY_U3P_DMA_MODE_BYTE;
-    //dmaCfg.notification = CY_U3P_DMA_CB_PROD_EVENT;
-    //dmaCfg.cb = ZeabusDataBulkDmaCallback;
     /* Call-back is nor working as the system wait until the buffer has beed fully filled.
      * This makes the last chunk of data, which has the size less than a full block, stays waiting
      * and cannot arrived at the destination
@@ -1002,7 +1004,6 @@ static void ZeabusUSBAppUSBEventCB (
 #define SET_LINE_CODING        0x20
 #define GET_LINE_CODING        0x21
 #define SET_CONTROL_LINE_STATE 0x22
-
 static CyBool_t ZeabusUSBAppUSBControlCB(
         uint32_t setupdat0, /* SETUP Data 0 */
         uint32_t setupdat1  /* SETUP Data 1 */
@@ -1017,6 +1018,12 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
     CyBool_t isHandled = CyFalse;
 
     /* Decode the fields from the setup request. */
+    /* For bReqType, 
+        bits 0:4 determine recipient as either DEVICE, INTERFACE, ENDPOINT, or OTHER.
+        bits 5:6 determine type as either STANDARD, CLASS, VENDOR, or RESERVED.
+        bit 7 determine data transfer direction: 0 = Host -> Dev, 1 = Dev -> Host.
+    */
+
     bReqType = (setupdat0 & CY_U3P_USB_REQUEST_TYPE_MASK);
     bType    = (bReqType & CY_U3P_USB_TYPE_MASK);
     bTarget  = (bReqType & CY_U3P_USB_TARGET_MASK);
@@ -1034,7 +1041,7 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
                     || (bRequest == CY_U3P_USB_SC_CLEAR_FEATURE)) && (wValue == 0))
         {
             if(bIsUSBActive)
-                CyU3PUsbAckSetup ();
+                CyU3PUsbAckSetup();
             else
                 CyU3PUsbStall (0, CyTrue, CyFalse);
 
@@ -1136,15 +1143,14 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
     }
 
     /* handle vendor requests */
-    //TODO: Vendor requests
     else if( bType == CY_U3P_USB_VENDOR_RQT )
     {
         // Extract data from request
         u16Ep0WData = wValue;
-        u32Ep0DWData = ( (uint32_t)wValue << 16 );
-        u32Ep0DWData += ( (uint32_t)wIndex & 0xFFFF );
+        u32Ep0DWData = ( (uint32_t)wIndex << 16 );
+        u32Ep0DWData += ( (uint32_t)wValue & 0xFFFF );
         isHandled = CyTrue;
-        if( wLength > 0 )
+        if( wLength > 0 && ( ( bReqType & 0x80 ) == 0 ) )
             CyU3PUsbGetEP0Data( wLength, au8Ep0Buffer, &readCount );
 
         /* Response to each request */
@@ -1175,11 +1181,21 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
             case ZEABUS_USB_REQ_WRITE_EEPROM:
                 CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_WRITE_EEPROM, CYU3P_EVENT_OR );
                 break;
+            case ZEABUS_USB_REQ_ARM_SOFT_RESET:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_ARM_SOFT_RES, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_REL_SOFT_RESET:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_REL_SOFT_RES, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_SEND_FPGA_DATA:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_SEND_FPGA_DATA, CYU3P_EVENT_OR );
+                break;
 
             default:
                 isHandled = CyFalse;     // Unknown command
                 break;
         }
+        CyU3PUsbAckSetup ();
     }
 
     return isHandled;
@@ -1269,7 +1285,6 @@ uint32_t zeabus_usb_debug_receive( uint8_t* buf, uint32_t max_size )
         /* Finish the receiving, then discard the DMA buffer for next incoming */
         CyU3PDmaChannelDiscardBuffer( &xDMAChHandleDbgBulkIngress );
     }
-
 
     return count;
 }

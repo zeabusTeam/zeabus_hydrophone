@@ -53,6 +53,7 @@
 #define ZEABUS_GPIO_FPGA_RDWR_B   38
 #define ZEABUS_GPIO_FPGA_CSI_B    39
 #define ZEABUS_GPIO_FPGA_DONE     40
+#define ZEABUS_GPIO_FPGA_SRES     23
 
 #define ZEABUS_GPIO_OTG_EN        57
 
@@ -104,5 +105,8 @@ extern CyU3PEvent   xZeabusEvent;              /* Event ID of USB event group */
 #define ZEABUS_EVENT_REQ_WRITE_FLASH    (1 << 4)        // Write raw data to SPI flash
 #define ZEABUS_EVENT_REQ_READ_EEPROM    (1 << 5)        // Request for raw data from EEPROM
 #define ZEABUS_EVENT_REQ_WRITE_EEPROM   (1 << 6)        // Write raw data to EEPROM
+#define ZEABUS_EVENT_REQ_ARM_SOFT_RES   (1 << 7)        // Arm FPGA soft reset
+#define ZEABUS_EVENT_REQ_REL_SOFT_RES   (1 << 8)        // Release FPGA soft reset
+#define ZEABUS_EVENT_REQ_SEND_FPGA_DATA (1 << 9)         // Send data to FPGA through slave FIFO
 
 #endif // __ZEABUS_H

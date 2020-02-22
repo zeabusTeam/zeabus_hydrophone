@@ -126,10 +126,6 @@ static void sighandler(int signum)
 
 int main(int argc, char **argv)
 {
-    int in;
-    uint8_t data[4096];
-    ssize_t s;
-    uint32_t size;
     int n;
 
     //Pass Interrupt Signal to our handler
@@ -154,39 +150,17 @@ int main(int argc, char **argv)
     }
     printf("Interface claimed\n");
 
-    in = open( "lightshow.brv", O_RDONLY );
-    if( in < 0 )
-        return -1;
-    printf("Phase1\n");
-
-    size = lseek( in, 0, SEEK_END );
-    lseek( in, 0, SEEK_SET );
     libusb_control_transfer(handle,
         LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE,
-        ZEABUS_USB_REQ_PROG_BITSTREAM, size & 0xFFFF, size >> 16,
-        (unsigned char*)data, 0, 1000);
+        ZEABUS_USB_REQ_ARM_SOFT_RESET, 0, 0,
+        0, 0, 1000);
 
-    n = 0;
-    do
-    {
-        s = read(in, data, 4096);
-        if(s > 0)
-        {
-            n += usb_write(data, s);
-            printf("Sum sent %d\n", n);
-        }
-    }while( s > 0 );
     n = libusb_release_interface(handle, 2);
     if (n < 0) {
         fprintf(stderr, "usb_release_interface error %d\n", n);
         return 2;
     }
 
-//    while (1){
-//        usb_read();
-//      usb_write();
-//    }
-    //never reached
     libusb_close(handle);
     libusb_exit(NULL);
 

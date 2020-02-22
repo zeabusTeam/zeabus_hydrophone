@@ -38,7 +38,7 @@
 #include "zeabus.h"
 #include "zeabus_error.h"
 
-#define ZEABUS_MAIN_THREAD_STACK_SIZE   (1000)
+#define ZEABUS_MAIN_THREAD_STACK_SIZE   (16384)
 #define ZEABUS_MAIN_THREAD_PRIORITY     (8)
 
 extern void zeabus_main( uint32_t );
@@ -120,7 +120,7 @@ int main (void)
     io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_DEFAULT;   // LPP only has SPI active
 
     /* Enable the GPIO which would have been setup by 2-stage booter. */
-    io_cfg.gpioSimpleEn[0]  = 0;    // GPIO 0 - 31 are used by GPIF II
+    io_cfg.gpioSimpleEn[0]  = (1 << ZEABUS_GPIO_FPGA_SRES);   // GPIO 0 - 31 are used by GPIF II except SRES (GPIO23)
     io_cfg.gpioSimpleEn[1]  = ZEABUS_GPIO_SIMPLE_BITMAP; // Define in zeabus.h
     io_cfg.gpioComplexEn[0] = 0;    // GPIO 0 - 31 are used by GPIF II
     io_cfg.gpioComplexEn[1] = 0;    // No complex GPIO.

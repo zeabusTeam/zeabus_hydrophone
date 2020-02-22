@@ -303,9 +303,18 @@ void zeabus_ledblinking( uint32_t input )
 /************************************************************************************
  * Public Functions
  ************************************************************************************/
+/* Clock config for FPGA programming (The field isDllEnable is different from FPGA configuration mode) */
+// static CyU3PPibClock_t zeabus_general_pib_clock = {
+//     .clkDiv = 6,                // 416 / 6.5 = 64 MHz
+//     .clkSrc = CY_U3P_SYS_CLK,   // 416 MHz
+//     .isHalfDiv = CyTrue,
+//     .isDllEnable = CyFalse
+// };
+
 #define __MAIN_EVENTS   (ZEABUS_EVENT_REQ_USB_PROG_FPGA | ZEABUS_EVENT_REQ_SAVE_FPGA | ZEABUS_EVENT_REQ_SAVE_FIRMWARE \
                         | ZEABUS_EVENT_REQ_READ_FLASH | ZEABUS_EVENT_REQ_WRITE_FLASH | ZEABUS_EVENT_REQ_READ_EEPROM \
-                        | ZEABUS_EVENT_REQ_WRITE_EEPROM)
+                        | ZEABUS_EVENT_REQ_WRITE_EEPROM | ZEABUS_EVENT_REQ_SEND_FPGA_DATA \
+                        | ZEABUS_EVENT_REQ_ARM_SOFT_RES | ZEABUS_EVENT_REQ_REL_SOFT_RES )
 void zeabus_main( uint32_t input )
 {
     void *ptr;
@@ -322,13 +331,13 @@ void zeabus_main( uint32_t input )
     if( !zeabus_gpio_initialize() )
         zeabus_app_err_handler( CY_U3P_ERROR_FAILURE );
 
-
     /* Configure GPIO pins */
     zeabus_configgpio_output( ZEABUS_GPIO_OTG_EN, false );
     zeabus_configgpio_output( ZEABUS_GPIO_LED, false );
     zeabus_configgpio_output( ZEABUS_GPIO_MODE1, true );
     zeabus_configgpio_output( ZEABUS_GPIO_MODE0, false );
 
+    zeabus_configgpio_output( ZEABUS_GPIO_FPGA_SRES, true );
     zeabus_configgpio_output( ZEABUS_GPIO_FPGA_RESET, true );
     zeabus_configgpio_output( ZEABUS_GPIO_FPGA_CSI_B, true );
     zeabus_configgpio_output( ZEABUS_GPIO_FPGA_RDWR_B, true );
@@ -388,15 +397,20 @@ void zeabus_main( uint32_t input )
         _log("Unable to start LED thread\r\n");
     }
 
+    _log( "Starting main loop\r\n" );
+
     while(1)    // Main loop of the system
     {
         if ( CyU3PEventGet(&xZeabusEvent, __MAIN_EVENTS, CYU3P_EVENT_OR_CLEAR, &eventFlag, CYU3P_WAIT_FOREVER)  == CY_U3P_SUCCESS)
         {
+            _log("Got a command\r\n");
+
             if( ( eventFlag & ZEABUS_EVENT_REQ_USB_PROG_FPGA ) != 0 )
             {
                 len = zeabus_usb_ep0_dwdata();
                 zeabus_slavefifo_stop();
                 _log( "Start program FPGA for %d bytes\r\n", len );
+                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, true );    // Arm soft reset
                 if( !zeabus_usb2fpga( len ) )
                 {
                     _log( "Init Failed!!!\r\n" );
@@ -406,6 +420,27 @@ void zeabus_main( uint32_t input )
                 {
                     _log( "Failed to start slave FIFO\r\n" );
                 }
+            }
+
+            if( ( eventFlag & ZEABUS_EVENT_REQ_ARM_SOFT_RES ) != 0 )
+            {
+                _log( "Arm soft reset signal\r\n" );
+                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, true );    // Arm soft reset
+            }
+
+            if( ( eventFlag & ZEABUS_EVENT_REQ_REL_SOFT_RES ) != 0 )
+            {
+                _log( "Release soft reset signal\r\n" );
+                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, false );    // Release soft reset
+            }
+
+            if( ( eventFlag & ZEABUS_EVENT_REQ_SEND_FPGA_DATA ) != 0 )
+            {
+                len = zeabus_usb_ep0_dwdata();
+                ep0_data = zeabus_usb_ep0_buffer();
+                _log( "Sending data to FPGA through slave FIFO\r\n" );
+                if( !( zeabus_slavefifo_send( ep0_data, len ) ) )
+                    _log( "Failed to send data to FPGA.\r\n");
             }
 
             if( ( eventFlag & ZEABUS_EVENT_REQ_SAVE_FPGA ) != 0 )

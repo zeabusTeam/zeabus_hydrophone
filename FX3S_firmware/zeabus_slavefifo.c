@@ -66,6 +66,7 @@ static CyU3PDmaChannel xDMAFIFOFromFPGA;	/* DMA Channel handle for FPGA->FX3S tr
 bool zeabus_slavefifo_start( void )
 {
     CyU3PDmaChannelConfig_t dmaConfig;
+    // CyU3PReturnStatus_t apiRetStatus = CY_U3P_SUCCESS;
 
     if ( !bIsInitialized ) 
     {
@@ -74,14 +75,14 @@ bool zeabus_slavefifo_start( void )
         (void)CyU3PPibDeInit();
         if( CyU3PPibInit( CyTrue, &zeabus_slavefifo_pib_clock ) != CY_U3P_SUCCESS )
         {
-			_log( "Unable to set PIB clock for slave FIFO\n" );
+			_log( "Unable to set PIB clock for slave FIFO\r\n" );
             return false;
         }
 
         // create dma channel for FX3S to FPGA
         CyU3PMemSet ((uint8_t *)&dmaConfig, 0, sizeof(dmaConfig));
         dmaConfig.size           = 1024;
-        dmaConfig.count          = 0;
+        dmaConfig.count          = 1;
         dmaConfig.prodAvailCount = 0;
         dmaConfig.dmaMode        = CY_U3P_DMA_MODE_BYTE;
         dmaConfig.prodHeader     = 0;
@@ -94,7 +95,7 @@ bool zeabus_slavefifo_start( void )
 
         if( CyU3PDmaChannelCreate( &xDMAFIFOToFPGA, CY_U3P_DMA_TYPE_MANUAL_OUT, &dmaConfig ) != CY_U3P_SUCCESS )
         {
-			_log( "Unable to create FX3S->FPGA DMA for slave FIFO\n" );
+			_log( "Unable to create FX3S->FPGA DMA for slave FIFO\r\n" );
             return false;
         }
 
@@ -106,7 +107,7 @@ bool zeabus_slavefifo_start( void )
 
         if( CyU3PDmaChannelCreate( &xDMAFIFOFromFPGA, CY_U3P_DMA_TYPE_AUTO, &dmaConfig ) != CY_U3P_SUCCESS )
         {
-			_log( "Unable to create FPGA->FX3S DMA for slave FIFO\n" );
+			_log( "Unable to create FPGA->FX3S DMA for slave FIFO\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
             return false;
         }
@@ -114,14 +115,14 @@ bool zeabus_slavefifo_start( void )
         /* Reload the GPIF state machine */
         if( CyU3PGpifLoad( &CyFxGpifConfig ) != CY_U3P_SUCCESS )
         {
-			_log( "Unable to load GPIF state machine\n" );
+			_log( "Unable to load GPIF state machine\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
             CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
             return false;
         }
         if( CyU3PGpifSocketConfigure( 0, ZEABUS_FIFO_CONS_SOCKET_ID, 2, CyFalse, 1 ) != CY_U3P_SUCCESS )
         {
-			_log( "Unable to associate FPGA->FX3S DMA to the GPIF thread\n" );
+			_log( "Unable to associate FPGA->FX3S DMA to the GPIF thread\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
             CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
             return false;
@@ -129,7 +130,7 @@ bool zeabus_slavefifo_start( void )
 
         if( CyU3PGpifSocketConfigure( 1, ZEABUS_FIFO_PROD_SOCKET_ID, 2, CyFalse, 1 ) != CY_U3P_SUCCESS )
         {
-			_log( "Unable to associate FX3S->FPGA DMA to the GPIF thread\n" );
+			_log( "Unable to associate FX3S->FPGA DMA to the GPIF thread\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
             CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
             return false;
@@ -137,7 +138,7 @@ bool zeabus_slavefifo_start( void )
      
 		if( CyU3PGpifSMStart (0, 0) != CY_U3P_SUCCESS )
         {
-			_log( "Unable to start slave-FIFO state machine\n" );
+			_log( "Unable to start slave-FIFO state machine\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
             CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
             return false;
@@ -146,7 +147,7 @@ bool zeabus_slavefifo_start( void )
 		/* Set DMA Channel transfer size and start DMA engine. (DMA transfer size = 0 means infinite) */
 		if( CyU3PDmaChannelSetXfer(&xDMAFIFOToFPGA, 0) != CY_U3P_SUCCESS )
 		{
-			_log( "Unable to start FX3S->FPGA DMA\n" );
+			_log( "Unable to start FX3S->FPGA DMA\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
             CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
             return false;
@@ -154,7 +155,7 @@ bool zeabus_slavefifo_start( void )
 
  		if( CyU3PDmaChannelSetXfer(&xDMAFIFOFromFPGA, 0) != CY_U3P_SUCCESS )
 		{
-			_log( "Unable to start FPGA->FX3S DMA\n" );
+			_log( "Unable to start FPGA->FX3S DMA\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
             CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
             return false;
