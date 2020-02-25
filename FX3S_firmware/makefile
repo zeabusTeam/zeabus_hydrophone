@@ -21,7 +21,7 @@ USER_LDFLAGS =
 LINKING_DESC = ./lib/fx3_512k.ld
 ARMGCC_VERSION=9.2.1
 ifeq ($(OS),Windows_NT)
-	InstallDir = C:/Program\ Files\ (x86)/GNU\ Tools\ Arm\ Embedded/9\ 2019-q4-major
+	InstallDir = "C:/Program Files (x86)/GNU Tools Arm Embedded/9 2019-q4-major"
 else
 	InstallDir = /usr/local
 endif

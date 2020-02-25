@@ -1,0 +1,12 @@
+0.6
+2019.1
+May 24 2019
+15:06:07
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.sim/sim_1/behav/xsim/glbl.v,1558713910,verilog,,,,glbl,,,,,,,,
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/fx3s_interface.v,1581852208,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v,,fx3s_interface,,,../../../../project_1.srcs/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v,1582542525,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify_tb.v,,fifo_verify,,,../../../../project_1.srcs/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify_tb.v,1582540645,verilog,,,,slavefifo_verify_tb,,,../../../../project_1.srcs/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.v,1582526624,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_arrival_64x16b/sim/fifo_arrival_64x16b.v,,clk_wiz_0,,,../../../../project_1.srcs/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v,1582526624,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.v,,clk_wiz_0_clk_wiz,,,../../../../project_1.srcs/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_arrival_64x16b/sim/fifo_arrival_64x16b.v,1582512018,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_departure_1024x64b/sim/fifo_departure_1024x64b.v,,fifo_arrival_64x16b,,,../../../../project_1.srcs/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_departure_1024x64b/sim/fifo_departure_1024x64b.v,1582511818,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/fx3s_interface.v,,fifo_departure_1024x64b,,,../../../../project_1.srcs/sources_1/ip/clk_wiz_0,,,,,

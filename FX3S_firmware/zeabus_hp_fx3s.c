@@ -92,7 +92,7 @@ static bool zeabus_usb2fpga( uint32_t len )
         else
             granule = len;
 
-        s = zeabus_usb_data_receive( buf, granule );
+        s = zeabus_usb_data_receive( buf, granule, 500 );
         if( s > 0 )
         {
             // Write data
@@ -101,7 +101,6 @@ static bool zeabus_usb2fpga( uint32_t len )
                 _log("Failed to write to FPGA\r\n");
                 break;
             }
-
             len -= s;
         }
     }
@@ -230,7 +229,7 @@ static uint32_t zeabus_usb2flash( uint16_t page_addr, uint32_t len )
             granule = len;
 
         // Wait for incoming data
-        s = zeabus_usb_data_receive( buf, granule );
+        s = zeabus_usb_data_receive( buf, granule, 500 );
         if( s > 0 )
         {
             // Write data
@@ -281,10 +280,11 @@ static uint32_t zeabus_usb2eeprom( uint8_t addr, uint8_t len )
     uint8_t u;
     uint8_t buf[256];
 
-    u = (uint8_t)zeabus_usb_data_receive( buf, (uint32_t)len );
+    u = (uint8_t)zeabus_usb_data_receive( buf, (uint32_t)len, 500 );
     if( u > 0 )
-         u = zeabus_eeprom_read( addr, buf, u );
+         u = zeabus_eeprom_write( addr, buf, u );
 
+    _log( "Wrote %u bytes\r\n", u );
     return u;
 }
 
@@ -528,7 +528,7 @@ void zeabus_main( uint32_t input )
                 _log("Writing EEPROM at %02X for %d bytes\r\n", b_addr, b_len);
                 if( zeabus_usb2eeprom( b_addr, b_len ) != b_len )
                 {
-                    _log( "Failed to write EEPROM!!\r\n ");
+                    _log( "Failed to write EEPROM!!\r\n");
                 }
             }
         }

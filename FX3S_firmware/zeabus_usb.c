@@ -84,6 +84,17 @@
 /****************************************************************************
  * USB Descripters
  * We copy this part from Cypress SDK with a little modification.
+ * =========
+ * Important !!!!
+ * Latest USB specification does not directly support composition of interfaces into
+ * a single device (one such as CDC-ACM, which composes of CDC Data and 
+ * CDC Control interfaces). Therfore, another USB device type has beed specified
+ * as Class=0xEF (Miscelleneous device), Sub-class=0x02, and Protocol=0x01
+ * for those that have this composition. Also, another configuration descriptor
+ * is assigned to describe the composition, IAD descriptor.
+ * 
+ * FX3 SDK has no document about this issue. The incident was found by
+ * comparing descriptors of an ST Nucleo board with the SDK examples.
  ****************************************************************************/
 
 /* Standard device descriptor for USB 3.0 */
@@ -92,9 +103,9 @@ static const uint8_t CyFxUSB30DeviceDscr[] __attribute__ ((aligned (32))) =
     0x12,                           /* Descriptor size */
     CY_U3P_USB_DEVICE_DESCR,        /* Device descriptor type */
     0x10,0x03,                      /* USB 3.1 */
-    0x00,                           /* Device class : defined in interface descripter */
-    0x00,                           /* Device sub-class */
-    0x00,                           /* Device protocol */
+    0xEF,                           /* Device class : Miscelleneous device */
+    0x02,                           /* Device sub-class */
+    0x01,                           /* Device protocol : Interface Association (IAD) */
     0x09,                           /* Maxpacket size for EP0 : 2^9 */
     W2B(ZEABUS_VENDOR_ID),          /* Vendor ID : Little-Endian */
     W2B(ZEABUS_PRODUCT_ID),         /* Product ID : Little-Endian */
@@ -110,10 +121,10 @@ static const uint8_t CyFxUSB20DeviceDscr[] __attribute__ ((aligned (32))) =
 {
     0x12,                           /* Descriptor size */
     CY_U3P_USB_DEVICE_DESCR,        /* Device descriptor type */
-    0x10,0x02,                      /* USB 2.10 */
-    0x00,                           /* Device class : defined in interface descripter */
-    0x00,                           /* Device sub-class */
-    0x00,                           /* Device protocol */
+    0x00,0x02,                      /* USB 2.00 */
+    0xEF,                           /* Device class : Miscelleneous */
+    0x02,                           /* Device sub-class */
+    0x01,                           /* Device protocol : Interface Association (IAD) */
     0x40,                           /* Maxpacket size for EP0 : 64 bytes */
     W2B(ZEABUS_VENDOR_ID),          /* Vendor ID : Little-Endian */
     W2B(ZEABUS_PRODUCT_ID),         /* Product ID : Little-Endian */
@@ -169,12 +180,23 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x85,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x8D,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x00,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
-    0x19,                           /* Max power consumption of device (in 8mA unit) : 200mA */
+    0x32,                           /* Max power consumption of device (in 8mA unit) : 400mA */
+
+    /* Interface Association Descriptor (IAD). This descriptor is absent in FX3 SDK */
+    /* Windows requires this descriptor to combine CDC interfaces together as one dedvice */
+    0x08,                           /* Descriptor size */
+    0x0B,                           /* Interface Descriptor type */
+    0x00,                           /* First interface index (not interface number) */
+    0x02,                           /* Interface count */
+    0x02,                           /* Interface class : Communication interface */
+    0x02,                           /* Interface sub class */
+    0x01,                           /* Interface protocol code */
+    0x00,                           /* Interface descriptor string index */
 
     /* Interface 1 */
     /* Communication Interface descriptor */
@@ -195,11 +217,19 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     0x00,                           /* DescriptorSubType : Header Functional Descriptor */
     0x10,0x01,                      /* bcdCDC : CDC Release Number */
 
+    /* Call Management Functional Descriptor */
+    0x05,                           /*  Descriptors Length (5) */
+    0x24,                           /*  bDescriptorType: CS_INTERFACE */
+    0x01,                           /*  bDescriptorSubType: Call Management Functional Descriptor */
+    0x00,                           /*  bmCapabilities: Device sends/receives call management information
+                                        only over the Communication Class Interface. */
+    0x01,                           /*  Interface Number of Data Class interface */
+
     /* Abstract Control Management Functional Descriptor */
     0x04,                           /* Descriptors Length (4) */
     0x24,                           /* bDescriptorType: CS_INTERFACE */
     0x02,                           /* bDescriptorSubType: Abstract Control Model Functional Descriptor */
-    0x02,                           /* bmCapabilities: Supports the request combination of Set_Line_Coding,
+    0x06,                           /* bmCapabilities: Supports the request combination of Set_Line_Coding,
                                        Set_Control_Line_State, Get_Line_Coding and the notification Serial_State */
 
     /* Union Functional Descriptor */
@@ -208,14 +238,6 @@ static const uint8_t CyFxUSBSSConfigDscr[] __attribute__ ((aligned (32))) =
     0x06,                           /* bDescriptorSubType: Union Functional Descriptor */
     0x00,                           /* bMasterInterface */
     0x01,                           /* bSlaveInterface */
-
-    /* Call Management Functional Descriptor */
-    0x05,                           /*  Descriptors Length (5) */
-    0x24,                           /*  bDescriptorType: CS_INTERFACE */
-    0x01,                           /*  bDescriptorSubType: Call Management Functional Descriptor */
-    0x00,                           /*  bmCapabilities: Device sends/receives call management information
-                                        only over the Communication Class Interface. */
-    0x01,                           /*  Interface Number of Data Class interface */
 
     /* Endpoint Descriptor(Interrupt) */
     0x07,                           /* Descriptor size */
@@ -338,12 +360,23 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x61,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x69,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x00,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
-    0x64,                           /* Max power consumption of device (in 2mA unit) : 200mA */
+    0xC8,                           /* Max power consumption of device (in 2mA unit) : 400mA */
+
+    /* Interface Association Descriptor (IAD). This descriptor is absent in FX3 SDK */
+    /* Windows requires this descriptor to combine CDC interfaces together as one dedvice */
+    0x08,                           /* Descriptor size */
+    0x0B,                           /* Interface Descriptor type */
+    0x00,                           /* First interface index (not interface number) */
+    0x02,                           /* Interface count */
+    0x02,                           /* Interface class : Communication interface */
+    0x02,                           /* Interface sub class */
+    0x01,                           /* Interface protocol code */
+    0x00,                           /* Interface descriptor string index */
 
     /* Interface 1 */
     /* Communication Interface descriptor */
@@ -364,11 +397,19 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     0x00,                           /* DescriptorSubType : Header Functional Descriptor */
     0x10,0x01,                      /* bcdCDC : CDC Release Number */
 
+    /* Call Management Functional Descriptor */
+    0x05,                           /*  Descriptors Length (5) */
+    0x24,                           /*  bDescriptorType: CS_INTERFACE */
+    0x01,                           /*  bDescriptorSubType: Call Management Functional Descriptor */
+    0x00,                           /*  bmCapabilities: Device sends/receives call management information
+                                        only over the Communication Class Interface. */
+    0x01,                           /*  Interface Number of Data Class interface */
+
     /* Abstract Control Management Functional Descriptor */
     0x04,                           /* Descriptors Length (4) */
     0x24,                           /* bDescriptorType: CS_INTERFACE */
     0x02,                           /* bDescriptorSubType: Abstract Control Model Functional Descriptor */
-    0x02,                           /* bmCapabilities: Supports the request combination of Set_Line_Coding,
+    0x06,                           /* bmCapabilities: Supports the request combination of Set_Line_Coding,
                                        Set_Control_Line_State, Get_Line_Coding and the notification Serial_State */
 
     /* Union Functional Descriptor */
@@ -377,14 +418,6 @@ static const uint8_t CyFxUSBHSConfigDscr[] __attribute__ ((aligned (32))) =
     0x06,                           /* bDescriptorSubType: Union Functional Descriptor */
     0x00,                           /* bMasterInterface */
     0x01,                           /* bSlaveInterface */
-
-    /* Call Management Functional Descriptor */
-    0x05,                           /*  Descriptors Length (5) */
-    0x24,                           /*  bDescriptorType: CS_INTERFACE */
-    0x01,                           /*  bDescriptorSubType: Call Management Functional Descriptor */
-    0x00,                           /*  bmCapabilities: Device sends/receives call management information
-                                        only over the Communication Class Interface. */
-    0x01,                           /*  Interface Number of Data Class interface */
 
     /* Endpoint Descriptor(Interrupt) */
     0x07,                           /* Descriptor size */
@@ -465,12 +498,23 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     /* Configuration descriptor */
     0x09,                           /* Descriptor size */
     CY_U3P_USB_CONFIG_DESCR,        /* Configuration descriptor type */
-    0x61,0x00,                      /* Length of this descriptor and all sub descriptors */
+    0x69,0x00,                      /* Length of this descriptor and all sub descriptors */
     0x03,                           /* Number of interfaces */
     0x01,                           /* Configuration number */
     0x00,                           /* COnfiguration string index */
     0x80,                           /* Config characteristics - bus powered */
     0x64,                           /* Max power consumption of device (in 2mA unit) : 200mA */
+
+    /* Interface Association Descriptor (IAD). This descriptor is absent in FX3 SDK */
+    /* Windows requires this descriptor to combine CDC interfaces together as one dedvice */
+    0x08,                           /* Descriptor size */
+    0x0B,                           /* Interface Descriptor type */
+    0x00,                           /* First interface index (not interface number) */
+    0x02,                           /* Interface count */
+    0x02,                           /* Interface class : Communication interface */
+    0x02,                           /* Interface sub class */
+    0x01,                           /* Interface protocol code */
+    0x00,                           /* Interface descriptor string index */
 
     /* Interface 1 */
     /* Communication Interface descriptor */
@@ -491,11 +535,19 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     0x00,                           /* DescriptorSubType : Header Functional Descriptor */
     0x10,0x01,                      /* bcdCDC : CDC Release Number */
 
+    /* Call Management Functional Descriptor */
+    0x05,                           /*  Descriptors Length (5) */
+    0x24,                           /*  bDescriptorType: CS_INTERFACE */
+    0x01,                           /*  bDescriptorSubType: Call Management Functional Descriptor */
+    0x00,                           /*  bmCapabilities: Device sends/receives call management information only over
+                                        the Communication Class Interface. */
+    0x01,                           /*  Interface Number of Data Class interface */
+
     /* Abstract Control Management Functional Descriptor */
     0x04,                           /* Descriptors Length (4) */
     0x24,                           /* bDescriptorType: CS_INTERFACE */
     0x02,                           /* bDescriptorSubType: Abstract Control Model Functional Descriptor */
-    0x02,                           /* bmCapabilities: Supports the request combination of Set_Line_Coding,
+    0x06,                           /* bmCapabilities: Supports the request combination of Set_Line_Coding,
                                        Set_Control_Line_State, Get_Line_Coding and the notification Serial_State */
 
     /* Union Functional Descriptor */
@@ -504,14 +556,6 @@ static const uint8_t CyFxUSBFSConfigDscr[] __attribute__ ((aligned (32))) =
     0x06,                           /* bDescriptorSubType: Union Functional Descriptor */
     0x00,                           /* bMasterInterface */
     0x01,                           /* bSlaveInterface */
-
-    /* Call Management Functional Descriptor */
-    0x05,                           /*  Descriptors Length (5) */
-    0x24,                           /*  bDescriptorType: CS_INTERFACE */
-    0x01,                           /*  bDescriptorSubType: Call Management Functional Descriptor */
-    0x00,                           /*  bmCapabilities: Device sends/receives call management information only over
-                                        the Communication Class Interface. */
-    0x01,                           /*  Interface Number of Data Class interface */
 
     /* Endpoint Descriptor(Interrupt) */
     0x07,                           /* Descriptor size */
@@ -1265,16 +1309,27 @@ uint32_t zeabus_usb_debug_send( uint8_t* buf, uint32_t size )
     return sent;
 }
 
-uint32_t zeabus_usb_debug_receive( uint8_t* buf, uint32_t max_size )
+uint32_t zeabus_usb_debug_receive( uint8_t* buf, uint32_t max_size, int32_t wait_time )
 {
     CyU3PDmaBuffer_t buf_p;
     uint32_t        count;
+    uint32_t        waitOption;
 
     count = 0;
+    if( wait_time == 0 )
+        waitOption = CYU3P_NO_WAIT;
+    else
+    {
+        if( wait_time < 0 )
+            waitOption = CYU3P_WAIT_FOREVER;
+        else
+            waitOption = (uint32_t)wait_time;
+    }
+
     /* This is a produce event notification to the CPU. This notification is
      * received upon reception of every buffer.
      */
-    if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDbgBulkIngress, &buf_p, CYU3P_NO_WAIT ) == CY_U3P_SUCCESS )
+    if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDbgBulkIngress, &buf_p, waitOption ) == CY_U3P_SUCCESS )
     {
         if( buf_p.count < max_size )
             count = buf_p.count;
@@ -1321,16 +1376,27 @@ uint32_t zeabus_usb_data_send( uint8_t* buf, uint32_t size )
     return sent;
 }
 
-uint32_t zeabus_usb_data_receive( uint8_t* buf, uint32_t max_size )
+uint32_t zeabus_usb_data_receive( uint8_t* buf, uint32_t max_size, int32_t wait_time )
 {
     CyU3PDmaBuffer_t buf_p;
     uint32_t        count;
+    uint32_t        waitOption;
 
     count = 0;
+    if( wait_time == 0 )
+        waitOption = CYU3P_NO_WAIT;
+    else
+    {
+        if( wait_time < 0 )
+            waitOption = CYU3P_WAIT_FOREVER;
+        else
+            waitOption = (uint32_t)wait_time;
+    }
+    
     /* This is a produce event notification to the CPU. This notification is
      * received upon reception of every buffer.
      */
-    if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDataBulkIngress, &buf_p, CYU3P_NO_WAIT ) == CY_U3P_SUCCESS )
+    if( CyU3PDmaChannelGetBuffer( &xDMAChHandleDataBulkIngress, &buf_p, waitOption ) == CY_U3P_SUCCESS )
     {
         if( buf_p.count < max_size )
             count = buf_p.count;
@@ -1411,7 +1477,7 @@ bool zeabus_usb_initialize( void )
         return false;
 
     /* String descriptor 3 */
-    if( CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 2, (uint8_t *)CyFxUSBSerialDscr) != CY_U3P_SUCCESS )
+    if( CyU3PUsbSetDesc(CY_U3P_USB_SET_STRING_DESCR, 3, (uint8_t *)CyFxUSBSerialDscr) != CY_U3P_SUCCESS )
         return false;
 
     /* Connect the USB Pins with super speed operation enabled. */

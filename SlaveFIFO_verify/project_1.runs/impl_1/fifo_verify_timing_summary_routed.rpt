@@ -1,0 +1,1470 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
+| Date         : Mon Feb 24 18:31:26 2020
+| Host         : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
+| Command      : report_timing_summary -max_paths 10 -file fifo_verify_timing_summary_routed.rpt -pb fifo_verify_timing_summary_routed.pb -rpx fifo_verify_timing_summary_routed.rpx -warn_on_violation
+| Design       : fifo_verify
+| Device       : 7a15t-csg324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  No
+  Borrow Time for Max Delay Exceptions       :  Yes
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock
+2. checking constant_clock
+3. checking pulse_width_clock
+4. checking unconstrained_internal_endpoints
+5. checking no_input_delay
+6. checking no_output_delay
+7. checking multiple_clock
+8. checking generated_clocks
+9. checking loops
+10. checking partial_input_delay
+11. checking partial_output_delay
+12. checking latch_loops
+
+1. checking no_clock
+--------------------
+ There are 6 register/latch pins with no clock driven by root clock pin: clk_1MHz_reg/Q (HIGH)
+
+
+2. checking constant_clock
+--------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock
+-----------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints
+--------------------------------------------
+ There are 11 pins that are not constrained for maximum delay. (HIGH)
+
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+
+5. checking no_input_delay
+--------------------------
+ There are 3 input ports with no input delay specified. (HIGH)
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay
+---------------------------
+ There are 23 ports with no output delay specified. (HIGH)
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock
+--------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks
+----------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops
+-----------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay
+--------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay
+---------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops
+------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+      3.262        0.000                      0                  627        0.069        0.000                      0                  627        6.833        0.000                       0                   363  
+
+
+All user specified timing constraints are met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock                 Waveform(ns)       Period(ns)      Frequency(MHz)
+-----                 ------------       ----------      --------------
+clk_gen/inst/clk_in   {0.000 19.231}     38.462          26.000          
+  clk_64_clk_wiz_0    {0.000 7.813}      15.625          63.999          
+  clkfbout_clk_wiz_0  {0.000 19.231}     38.462          26.000          
+clk_in                {0.000 19.231}     38.462          26.000          
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock                     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----                     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk_gen/inst/clk_in                                                                                                                                                    14.171        0.000                       0                     1  
+  clk_64_clk_wiz_0          3.262        0.000                      0                  627        0.069        0.000                      0                  627        6.833        0.000                       0                   358  
+  clkfbout_clk_wiz_0                                                                                                                                                   14.171        0.000                       0                     3  
+clk_in                                                                                                                                                                 36.307        0.000                       0                     1  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_gen/inst/clk_in
+  To Clock:  clk_gen/inst/clk_in
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack       14.171ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_gen/inst/clk_in
+Waveform(ns):       { 0.000 19.231 }
+Period(ns):         38.462
+Sources:            { clk_gen/inst/clk_in }
+
+Check Type        Corner  Lib Pin           Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     PLLE2_ADV/CLKIN1  n/a            1.249         38.462      37.213     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKIN1
+Max Period        n/a     PLLE2_ADV/CLKIN1  n/a            52.633        38.462      14.171     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKIN1
+Low Pulse Width   Slow    PLLE2_ADV/CLKIN1  n/a            5.000         19.231      14.231     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKIN1
+Low Pulse Width   Fast    PLLE2_ADV/CLKIN1  n/a            5.000         19.231      14.231     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKIN1
+High Pulse Width  Slow    PLLE2_ADV/CLKIN1  n/a            5.000         19.231      14.231     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKIN1
+High Pulse Width  Fast    PLLE2_ADV/CLKIN1  n/a            5.000         19.231      14.231     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKIN1
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_64_clk_wiz_0
+  To Clock:  clk_64_clk_wiz_0
+
+Setup :            0  Failing Endpoints,  Worst Slack        3.262ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.069ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        6.833ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             3.262ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/SLCS_reg/CE
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.813ns  (logic 0.828ns (29.439%)  route 1.985ns (70.561%))
+  Logic Levels:           3  (LUT6=3)
+  Clock Path Skew:        -1.372ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.502ns = ( 17.128 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 f  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.489    11.627    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y26          LUT6 (Prop_lut6_I5_O)        0.124    11.751 r  slave_fifo/SLCS_i_6/O
+                         net (fo=2, routed)           0.438    12.189    slave_fifo/SLCS_i_6_n_0
+    SLICE_X0Y25          LUT6 (Prop_lut6_I0_O)        0.124    12.313 r  slave_fifo/SLCS_i_5/O
+                         net (fo=1, routed)           0.490    12.803    slave_fifo/SLCS_i_5_n_0
+    SLICE_X0Y25          LUT6 (Prop_lut6_I5_O)        0.124    12.927 r  slave_fifo/SLCS_i_1/O
+                         net (fo=1, routed)           0.568    13.495    slave_fifo/SLCS_i_1_n_0
+    SLICE_X0Y25          FDSE                                         r  slave_fifo/SLCS_reg/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.502    17.128    slave_fifo/ifclk_out_OBUF
+    SLICE_X0Y25          FDSE                                         r  slave_fifo/SLCS_reg/C
+                         clock pessimism             -0.005    17.123    
+                         clock uncertainty           -0.161    16.962    
+    SLICE_X0Y25          FDSE (Setup_fdse_C_CE)      -0.205    16.757    slave_fifo/SLCS_reg
+  -------------------------------------------------------------------
+                         required time                         16.757    
+                         arrival time                         -13.495    
+  -------------------------------------------------------------------
+                         slack                                  3.262    
+
+Slack (MET) :             3.266ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/FSM_sequential_master_state_reg[0]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.810ns  (logic 0.828ns (29.462%)  route 1.982ns (70.538%))
+  Logic Levels:           3  (LUT4=1 LUT6=2)
+  Clock Path Skew:        -1.370ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.504ns = ( 17.130 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.592    11.730    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y27          LUT4 (Prop_lut4_I1_O)        0.124    11.854 r  slave_fifo/PKTEND_i_2/O
+                         net (fo=3, routed)           0.520    12.374    slave_fifo/PKTEND_i_2_n_0
+    SLICE_X0Y27          LUT6 (Prop_lut6_I1_O)        0.124    12.498 r  slave_fifo/FSM_sequential_master_state[3]_i_3/O
+                         net (fo=1, routed)           0.340    12.838    slave_fifo/FSM_sequential_master_state[3]_i_3_n_0
+    SLICE_X1Y27          LUT6 (Prop_lut6_I2_O)        0.124    12.962 r  slave_fifo/FSM_sequential_master_state[3]_i_1/O
+                         net (fo=4, routed)           0.531    13.493    slave_fifo/FSM_sequential_master_state[3]_i_1_n_0
+    SLICE_X0Y26          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[0]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.504    17.130    slave_fifo/ifclk_out_OBUF
+    SLICE_X0Y26          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[0]/C
+                         clock pessimism             -0.005    17.125    
+                         clock uncertainty           -0.161    16.964    
+    SLICE_X0Y26          FDRE (Setup_fdre_C_CE)      -0.205    16.759    slave_fifo/FSM_sequential_master_state_reg[0]
+  -------------------------------------------------------------------
+                         required time                         16.759    
+                         arrival time                         -13.493    
+  -------------------------------------------------------------------
+                         slack                                  3.266    
+
+Slack (MET) :             3.266ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/FSM_sequential_master_state_reg[2]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.810ns  (logic 0.828ns (29.462%)  route 1.982ns (70.538%))
+  Logic Levels:           3  (LUT4=1 LUT6=2)
+  Clock Path Skew:        -1.370ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.504ns = ( 17.130 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.592    11.730    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y27          LUT4 (Prop_lut4_I1_O)        0.124    11.854 r  slave_fifo/PKTEND_i_2/O
+                         net (fo=3, routed)           0.520    12.374    slave_fifo/PKTEND_i_2_n_0
+    SLICE_X0Y27          LUT6 (Prop_lut6_I1_O)        0.124    12.498 r  slave_fifo/FSM_sequential_master_state[3]_i_3/O
+                         net (fo=1, routed)           0.340    12.838    slave_fifo/FSM_sequential_master_state[3]_i_3_n_0
+    SLICE_X1Y27          LUT6 (Prop_lut6_I2_O)        0.124    12.962 r  slave_fifo/FSM_sequential_master_state[3]_i_1/O
+                         net (fo=4, routed)           0.531    13.493    slave_fifo/FSM_sequential_master_state[3]_i_1_n_0
+    SLICE_X0Y26          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[2]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.504    17.130    slave_fifo/ifclk_out_OBUF
+    SLICE_X0Y26          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[2]/C
+                         clock pessimism             -0.005    17.125    
+                         clock uncertainty           -0.161    16.964    
+    SLICE_X0Y26          FDRE (Setup_fdre_C_CE)      -0.205    16.759    slave_fifo/FSM_sequential_master_state_reg[2]
+  -------------------------------------------------------------------
+                         required time                         16.759    
+                         arrival time                         -13.493    
+  -------------------------------------------------------------------
+                         slack                                  3.266    
+
+Slack (MET) :             3.266ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/FSM_sequential_master_state_reg[3]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.810ns  (logic 0.828ns (29.462%)  route 1.982ns (70.538%))
+  Logic Levels:           3  (LUT4=1 LUT6=2)
+  Clock Path Skew:        -1.370ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.504ns = ( 17.130 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.592    11.730    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y27          LUT4 (Prop_lut4_I1_O)        0.124    11.854 r  slave_fifo/PKTEND_i_2/O
+                         net (fo=3, routed)           0.520    12.374    slave_fifo/PKTEND_i_2_n_0
+    SLICE_X0Y27          LUT6 (Prop_lut6_I1_O)        0.124    12.498 r  slave_fifo/FSM_sequential_master_state[3]_i_3/O
+                         net (fo=1, routed)           0.340    12.838    slave_fifo/FSM_sequential_master_state[3]_i_3_n_0
+    SLICE_X1Y27          LUT6 (Prop_lut6_I2_O)        0.124    12.962 r  slave_fifo/FSM_sequential_master_state[3]_i_1/O
+                         net (fo=4, routed)           0.531    13.493    slave_fifo/FSM_sequential_master_state[3]_i_1_n_0
+    SLICE_X0Y26          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[3]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.504    17.130    slave_fifo/ifclk_out_OBUF
+    SLICE_X0Y26          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[3]/C
+                         clock pessimism             -0.005    17.125    
+                         clock uncertainty           -0.161    16.964    
+    SLICE_X0Y26          FDRE (Setup_fdre_C_CE)      -0.205    16.759    slave_fifo/FSM_sequential_master_state_reg[3]
+  -------------------------------------------------------------------
+                         required time                         16.759    
+                         arrival time                         -13.493    
+  -------------------------------------------------------------------
+                         slack                                  3.266    
+
+Slack (MET) :             3.407ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/FSM_sequential_master_state_reg[1]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.671ns  (logic 0.828ns (31.005%)  route 1.843ns (68.995%))
+  Logic Levels:           3  (LUT4=1 LUT6=2)
+  Clock Path Skew:        -1.369ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.505ns = ( 17.131 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.592    11.730    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y27          LUT4 (Prop_lut4_I1_O)        0.124    11.854 r  slave_fifo/PKTEND_i_2/O
+                         net (fo=3, routed)           0.520    12.374    slave_fifo/PKTEND_i_2_n_0
+    SLICE_X0Y27          LUT6 (Prop_lut6_I1_O)        0.124    12.498 r  slave_fifo/FSM_sequential_master_state[3]_i_3/O
+                         net (fo=1, routed)           0.340    12.838    slave_fifo/FSM_sequential_master_state[3]_i_3_n_0
+    SLICE_X1Y27          LUT6 (Prop_lut6_I2_O)        0.124    12.962 r  slave_fifo/FSM_sequential_master_state[3]_i_1/O
+                         net (fo=4, routed)           0.391    13.353    slave_fifo/FSM_sequential_master_state[3]_i_1_n_0
+    SLICE_X0Y27          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[1]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.505    17.131    slave_fifo/ifclk_out_OBUF
+    SLICE_X0Y27          FDRE                                         r  slave_fifo/FSM_sequential_master_state_reg[1]/C
+                         clock pessimism             -0.005    17.126    
+                         clock uncertainty           -0.161    16.965    
+    SLICE_X0Y27          FDRE (Setup_fdre_C_CE)      -0.205    16.760    slave_fifo/FSM_sequential_master_state_reg[1]
+  -------------------------------------------------------------------
+                         required time                         16.760    
+                         arrival time                         -13.353    
+  -------------------------------------------------------------------
+                         slack                                  3.407    
+
+Slack (MET) :             3.522ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/SLWR_reg/CE
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.555ns  (logic 0.900ns (35.225%)  route 1.655ns (64.775%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
+  Clock Path Skew:        -1.369ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.505ns = ( 17.131 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 f  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.592    11.730    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y27          LUT2 (Prop_lut2_I1_O)        0.118    11.848 r  slave_fifo/FSM_sequential_master_state[2]_i_2/O
+                         net (fo=7, routed)           0.495    12.343    slave_fifo/FSM_sequential_master_state[2]_i_2_n_0
+    SLICE_X1Y27          LUT6 (Prop_lut6_I3_O)        0.326    12.669 r  slave_fifo/SLWR_i_1/O
+                         net (fo=1, routed)           0.569    13.237    slave_fifo/SLWR_i_1_n_0
+    SLICE_X1Y27          FDSE                                         r  slave_fifo/SLWR_reg/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.505    17.131    slave_fifo/ifclk_out_OBUF
+    SLICE_X1Y27          FDSE                                         r  slave_fifo/SLWR_reg/C
+                         clock pessimism             -0.005    17.126    
+                         clock uncertainty           -0.161    16.965    
+    SLICE_X1Y27          FDSE (Setup_fdse_C_CE)      -0.205    16.760    slave_fifo/SLWR_reg
+  -------------------------------------------------------------------
+                         required time                         16.760    
+                         arrival time                         -13.237    
+  -------------------------------------------------------------------
+                         slack                                  3.522    
+
+Slack (MET) :             3.861ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/is_sending_reg/D
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.452ns  (logic 1.024ns (41.758%)  route 1.428ns (58.242%))
+  Logic Levels:           3  (LUT2=1 LUT6=2)
+  Clock Path Skew:        -1.367ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.507ns = ( 17.133 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.592    11.730    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y27          LUT2 (Prop_lut2_I1_O)        0.118    11.848 f  slave_fifo/FSM_sequential_master_state[2]_i_2/O
+                         net (fo=7, routed)           0.534    12.382    slave_fifo/FSM_sequential_master_state[2]_i_2_n_0
+    SLICE_X0Y27          LUT6 (Prop_lut6_I1_O)        0.326    12.708 r  slave_fifo/is_sending_i_4/O
+                         net (fo=1, routed)           0.303    13.010    slave_fifo/is_sending_i_4_n_0
+    SLICE_X0Y28          LUT6 (Prop_lut6_I4_O)        0.124    13.134 r  slave_fifo/is_sending_i_2/O
+                         net (fo=1, routed)           0.000    13.134    slave_fifo/is_sending_i_1_n_0
+    SLICE_X0Y28          FDSE                                         r  slave_fifo/is_sending_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.507    17.133    slave_fifo/ifclk_out_OBUF
+    SLICE_X0Y28          FDSE                                         r  slave_fifo/is_sending_reg/C
+                         clock pessimism             -0.005    17.128    
+                         clock uncertainty           -0.161    16.967    
+    SLICE_X0Y28          FDSE (Setup_fdse_C_D)        0.029    16.996    slave_fifo/is_sending_reg
+  -------------------------------------------------------------------
+                         required time                         16.996    
+                         arrival time                         -13.134    
+  -------------------------------------------------------------------
+                         slack                                  3.861    
+
+Slack (MET) :             3.892ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/PKTEND_reg/CE
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.185ns  (logic 0.704ns (32.217%)  route 1.481ns (67.783%))
+  Logic Levels:           2  (LUT4=1 LUT5=1)
+  Clock Path Skew:        -1.369ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.505ns = ( 17.131 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.592    11.730    slave_fifo/fifo_departure_n_17
+    SLICE_X1Y27          LUT4 (Prop_lut4_I1_O)        0.124    11.854 r  slave_fifo/PKTEND_i_2/O
+                         net (fo=3, routed)           0.424    12.278    slave_fifo/PKTEND_i_2_n_0
+    SLICE_X1Y27          LUT5 (Prop_lut5_I0_O)        0.124    12.402 r  slave_fifo/PKTEND_i_1/O
+                         net (fo=1, routed)           0.466    12.867    slave_fifo/PKTEND_i_1_n_0
+    SLICE_X3Y27          FDSE                                         r  slave_fifo/PKTEND_reg/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.505    17.131    slave_fifo/ifclk_out_OBUF
+    SLICE_X3Y27          FDSE                                         r  slave_fifo/PKTEND_reg/C
+                         clock pessimism             -0.005    17.126    
+                         clock uncertainty           -0.161    16.965    
+    SLICE_X3Y27          FDSE (Setup_fdse_C_CE)      -0.205    16.760    slave_fifo/PKTEND_reg
+  -------------------------------------------------------------------
+                         required time                         16.760    
+                         arrival time                         -12.867    
+  -------------------------------------------------------------------
+                         slack                                  3.892    
+
+Slack (MET) :             3.995ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/u16WrCounter_reg[4]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.120ns  (logic 0.704ns (33.210%)  route 1.416ns (66.790%))
+  Logic Levels:           2  (LUT6=2)
+  Clock Path Skew:        -1.367ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.507ns = ( 17.133 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 f  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.437    11.576    slave_fifo/fifo_departure_n_17
+    SLICE_X4Y27          LUT6 (Prop_lut6_I0_O)        0.124    11.700 r  slave_fifo/FSM_sequential_master_state[3]_i_5/O
+                         net (fo=4, routed)           0.478    12.177    slave_fifo/FSM_sequential_master_state[3]_i_5_n_0
+    SLICE_X1Y28          LUT6 (Prop_lut6_I0_O)        0.124    12.301 r  slave_fifo/u16WrCounter[0]_i_1/O
+                         net (fo=16, routed)          0.501    12.802    slave_fifo/u16WrCounter[0]_i_1_n_0
+    SLICE_X2Y28          FDRE                                         r  slave_fifo/u16WrCounter_reg[4]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.507    17.133    slave_fifo/ifclk_out_OBUF
+    SLICE_X2Y28          FDRE                                         r  slave_fifo/u16WrCounter_reg[4]/C
+                         clock pessimism             -0.005    17.128    
+                         clock uncertainty           -0.161    16.967    
+    SLICE_X2Y28          FDRE (Setup_fdre_C_CE)      -0.169    16.798    slave_fifo/u16WrCounter_reg[4]
+  -------------------------------------------------------------------
+                         required time                         16.798    
+                         arrival time                         -12.802    
+  -------------------------------------------------------------------
+                         slack                                  3.995    
+
+Slack (MET) :             3.995ns  (required time - arrival time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_64_clk_wiz_0'  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/u16WrCounter_reg[5]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            7.813ns  (clk_64_clk_wiz_0 rise@15.625ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        2.120ns  (logic 0.704ns (33.210%)  route 1.416ns (66.790%))
+  Logic Levels:           2  (LUT6=2)
+  Clock Path Skew:        -1.367ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.507ns = ( 17.133 - 15.625 ) 
+    Source Clock Delay      (SCD):    2.870ns = ( 10.682 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    -0.005ns
+  Clock Uncertainty:      0.161ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.314ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           1.598     9.411    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.350     6.061 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.655     7.717    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         2.141     9.954    slave_fifo/ifclk_out_OBUF
+    SLICE_X6Y27          LUT1 (Prop_lut1_I0_O)        0.124    10.078 r  slave_fifo/fifo_departure_i_2/O
+                         net (fo=2, routed)           0.604    10.682    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/lopt
+    SLICE_X7Y27          FDSE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y27          FDSE (Prop_fdse_C_Q)         0.456    11.138 f  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/ram_empty_i_reg/Q
+                         net (fo=7, routed)           0.437    11.576    slave_fifo/fifo_departure_n_17
+    SLICE_X4Y27          LUT6 (Prop_lut6_I0_O)        0.124    11.700 r  slave_fifo/FSM_sequential_master_state[3]_i_5/O
+                         net (fo=4, routed)           0.478    12.177    slave_fifo/FSM_sequential_master_state[3]_i_5_n_0
+    SLICE_X1Y28          LUT6 (Prop_lut6_I0_O)        0.124    12.301 r  slave_fifo/u16WrCounter[0]_i_1/O
+                         net (fo=16, routed)          0.501    12.802    slave_fifo/u16WrCounter[0]_i_1_n_0
+    SLICE_X2Y28          FDRE                                         r  slave_fifo/u16WrCounter_reg[5]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                     15.625    15.625 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000    15.625 r  sysclk_buf/O
+                         net (fo=1, routed)           1.479    17.105    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -3.146    13.958 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           1.576    15.534    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    15.625 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         1.507    17.133    slave_fifo/ifclk_out_OBUF
+    SLICE_X2Y28          FDRE                                         r  slave_fifo/u16WrCounter_reg[5]/C
+                         clock pessimism             -0.005    17.128    
+                         clock uncertainty           -0.161    16.967    
+    SLICE_X2Y28          FDRE (Setup_fdre_C_CE)      -0.169    16.798    slave_fifo/u16WrCounter_reg[5]
+  -------------------------------------------------------------------
+                         required time                         16.798    
+                         arrival time                         -12.802    
+  -------------------------------------------------------------------
+                         slack                                  3.995    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.069ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/gic0.gc0.count_d2_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/ADDRARDADDR[6]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 rise@0.000ns - clk_64_clk_wiz_0 rise@0.000ns)
+  Data Path Delay:        0.328ns  (logic 0.141ns (42.945%)  route 0.187ns (57.055%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.076ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.866ns
+    Source Clock Delay      (SCD):    0.556ns
+    Clock Pessimism Removal (CPR):    0.234ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.554     0.554    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081    -0.527 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501    -0.026    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.556     0.556    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/wr_clk
+    SLICE_X11Y27         FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/gic0.gc0.count_d2_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X11Y27         FDRE (Prop_fdre_C_Q)         0.141     0.697 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/gic0.gc0.count_d2_reg[1]/Q
+                         net (fo=4, routed)           0.187     0.884    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram_0[1]
+    RAMB36_X0Y5          RAMB36E1                                     r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/ADDRARDADDR[6]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.822     0.822    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396    -0.575 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546    -0.029    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.866     0.866    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/wr_clk
+    RAMB36_X0Y5          RAMB36E1                                     r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/CLKARDCLK
+                         clock pessimism             -0.234     0.632    
+    RAMB36_X0Y5          RAMB36E1 (Hold_ramb36e1_CLKARDCLK_ADDRARDADDR[6])
+                                                      0.183     0.815    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram
+  -------------------------------------------------------------------
+                         required time                         -0.815    
+                         arrival time                           0.884    
+  -------------------------------------------------------------------
+                         slack                                  0.069    
+
+Slack (MET) :             0.111ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/gic0.gc0.count_d2_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/ADDRARDADDR[7]
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 rise@0.000ns - clk_64_clk_wiz_0 rise@0.000ns)
+  Data Path Delay:        0.372ns  (logic 0.141ns (37.902%)  route 0.231ns (62.098%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.078ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.866ns
+    Source Clock Delay      (SCD):    0.554ns
+    Clock Pessimism Removal (CPR):    0.234ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.554     0.554    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081    -0.527 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501    -0.026    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.554     0.554    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/wr_clk
+    SLICE_X11Y26         FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/gic0.gc0.count_d2_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X11Y26         FDRE (Prop_fdre_C_Q)         0.141     0.695 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/wpntr/gic0.gc0.count_d2_reg[2]/Q
+                         net (fo=4, routed)           0.231     0.926    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram_0[2]
+    RAMB36_X0Y5          RAMB36E1                                     r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/ADDRARDADDR[7]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.822     0.822    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396    -0.575 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546    -0.029    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.866     0.866    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/wr_clk
+    RAMB36_X0Y5          RAMB36E1                                     r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/CLKARDCLK
+                         clock pessimism             -0.234     0.632    
+    RAMB36_X0Y5          RAMB36E1 (Hold_ramb36e1_CLKARDCLK_ADDRARDADDR[7])
+                                                      0.183     0.815    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram
+  -------------------------------------------------------------------
+                         required time                         -0.815    
+                         arrival time                           0.926    
+  -------------------------------------------------------------------
+                         slack                                  0.111    
+
+Slack (MET) :             0.117ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][7]/C
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][7]/D
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 fall@7.813ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        0.202ns  (logic 0.146ns (72.314%)  route 0.056ns (27.686%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.003ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.852ns = ( 8.664 - 7.813 ) 
+    Source Clock Delay      (SCD):    0.583ns = ( 8.395 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    0.266ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.554     8.366    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081     7.286 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501     7.787    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.583     8.395    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_clk
+    SLICE_X5Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][7]/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X5Y28          FDRE (Prop_fdre_C_Q)         0.146     8.541 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][7]/Q
+                         net (fo=1, routed)           0.056     8.597    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff[0][7]
+    SLICE_X5Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.822     8.634    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396     7.238 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546     7.784    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.852     8.664    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_clk
+    SLICE_X5Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][7]/C  (IS_INVERTED)
+                         clock pessimism             -0.266     8.398    
+    SLICE_X5Y28          FDRE (Hold_fdre_C_D)         0.082     8.480    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][7]
+  -------------------------------------------------------------------
+                         required time                         -8.480    
+                         arrival time                           8.597    
+  -------------------------------------------------------------------
+                         slack                                  0.117    
+
+Slack (MET) :             0.117ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.ENB_NO_REG.ENB_dly_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.ENB_NO_REG.ENB_dly_D_reg/D
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 fall@7.813ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        0.202ns  (logic 0.146ns (72.314%)  route 0.056ns (27.686%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.003ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.855ns = ( 8.667 - 7.813 ) 
+    Source Clock Delay      (SCD):    0.586ns = ( 8.398 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    0.266ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.554     8.366    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081     7.286 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501     7.787    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.586     8.398    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/rd_clk
+    SLICE_X7Y31          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.ENB_NO_REG.ENB_dly_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y31          FDRE (Prop_fdre_C_Q)         0.146     8.544 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.ENB_NO_REG.ENB_dly_reg/Q
+                         net (fo=1, routed)           0.056     8.600    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/ENB_dly
+    SLICE_X7Y31          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.ENB_NO_REG.ENB_dly_D_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.822     8.634    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396     7.238 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546     7.784    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.855     8.667    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/rd_clk
+    SLICE_X7Y31          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.ENB_NO_REG.ENB_dly_D_reg/C  (IS_INVERTED)
+                         clock pessimism             -0.266     8.401    
+    SLICE_X7Y31          FDRE (Hold_fdre_C_D)         0.082     8.483    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.ENB_NO_REG.ENB_dly_D_reg
+  -------------------------------------------------------------------
+                         required time                         -8.483    
+                         arrival time                           8.600    
+  -------------------------------------------------------------------
+                         slack                                  0.117    
+
+Slack (MET) :             0.117ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff_reg[0]/C
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff_reg[1]/D
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 fall@7.813ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        0.202ns  (logic 0.146ns (72.314%)  route 0.056ns (27.686%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.003ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.854ns = ( 8.666 - 7.813 ) 
+    Source Clock Delay      (SCD):    0.585ns = ( 8.397 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    0.266ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.554     8.366    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081     7.286 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501     7.787    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.585     8.397    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/dest_clk
+    SLICE_X7Y30          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff_reg[0]/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y30          FDRE (Prop_fdre_C_Q)         0.146     8.543 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff_reg[0]/Q
+                         net (fo=1, routed)           0.056     8.599    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff[0]
+    SLICE_X7Y30          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.822     8.634    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396     7.238 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546     7.784    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.854     8.666    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/dest_clk
+    SLICE_X7Y30          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff_reg[1]/C  (IS_INVERTED)
+                         clock pessimism             -0.266     8.400    
+    SLICE_X7Y30          FDRE (Hold_fdre_C_D)         0.082     8.482    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd/syncstages_ff_reg[1]
+  -------------------------------------------------------------------
+                         required time                         -8.482    
+                         arrival time                           8.599    
+  -------------------------------------------------------------------
+                         slack                                  0.117    
+
+Slack (MET) :             0.117ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff_reg[0]/C
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff_reg[1]/D
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 fall@7.813ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        0.202ns  (logic 0.146ns (72.314%)  route 0.056ns (27.686%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.003ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.854ns = ( 8.666 - 7.813 ) 
+    Source Clock Delay      (SCD):    0.585ns = ( 8.397 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    0.266ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.554     8.366    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081     7.286 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501     7.787    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.585     8.397    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/dest_clk
+    SLICE_X5Y30          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff_reg[0]/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X5Y30          FDRE (Prop_fdre_C_Q)         0.146     8.543 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff_reg[0]/Q
+                         net (fo=1, routed)           0.056     8.599    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff[0]
+    SLICE_X5Y30          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.822     8.634    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396     7.238 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546     7.784    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.854     8.666    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/dest_clk
+    SLICE_X5Y30          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff_reg[1]/C  (IS_INVERTED)
+                         clock pessimism             -0.266     8.400    
+    SLICE_X5Y30          FDRE (Hold_fdre_C_D)         0.082     8.482    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst/syncstages_ff_reg[1]
+  -------------------------------------------------------------------
+                         required time                         -8.482    
+                         arrival time                           8.599    
+  -------------------------------------------------------------------
+                         slack                                  0.117    
+
+Slack (MET) :             0.118ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.rd_rst_wr_ext_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 rise@0.000ns - clk_64_clk_wiz_0 rise@0.000ns)
+  Data Path Delay:        0.252ns  (logic 0.186ns (73.740%)  route 0.066ns (26.260%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.853ns
+    Source Clock Delay      (SCD):    0.584ns
+    Clock Pessimism Removal (CPR):    0.256ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.554     0.554    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081    -0.527 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501    -0.026    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.584     0.584    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/wr_clk
+    SLICE_X7Y20          FDRE                                         r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.rd_rst_wr_ext_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y20          FDRE (Prop_fdre_C_Q)         0.141     0.725 f  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.rd_rst_wr_ext_reg[1]/Q
+                         net (fo=3, routed)           0.066     0.791    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/rd_rst_wr_ext[1]
+    SLICE_X6Y20          LUT4 (Prop_lut4_I2_O)        0.045     0.836 r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_i_1/O
+                         net (fo=1, routed)           0.000     0.836    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_i_1_n_0
+    SLICE_X6Y20          FDRE                                         r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.822     0.822    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396    -0.575 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546    -0.029    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.853     0.853    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/wr_clk
+    SLICE_X6Y20          FDRE                                         r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg/C
+                         clock pessimism             -0.256     0.597    
+    SLICE_X6Y20          FDRE (Hold_fdre_C_D)         0.121     0.718    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg
+  -------------------------------------------------------------------
+                         required time                         -0.718    
+                         arrival time                           0.836    
+  -------------------------------------------------------------------
+                         slack                                  0.118    
+
+Slack (MET) :             0.121ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][9]/C
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][9]/D
+                            (falling edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 fall@7.813ns - clk_64_clk_wiz_0 fall@7.813ns)
+  Data Path Delay:        0.202ns  (logic 0.146ns (72.314%)  route 0.056ns (27.686%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.003ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.852ns = ( 8.664 - 7.813 ) 
+    Source Clock Delay      (SCD):    0.583ns = ( 8.395 - 7.813 ) 
+    Clock Pessimism Removal (CPR):    0.266ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.554     8.366    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081     7.286 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501     7.787    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.583     8.395    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_clk
+    SLICE_X5Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][9]/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X5Y28          FDRE (Prop_fdre_C_Q)         0.146     8.541 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[0][9]/Q
+                         net (fo=1, routed)           0.056     8.597    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff[0][9]
+    SLICE_X5Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][9]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 fall edge)
+                                                      7.813     7.813 f  
+    BUFGCTRL_X0Y2        BUFG                         0.000     7.813 f  sysclk_buf/O
+                         net (fo=1, routed)           0.822     8.634    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396     7.238 f  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546     7.784    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     7.813 f  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.852     8.664    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_clk
+    SLICE_X5Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][9]/C  (IS_INVERTED)
+                         clock pessimism             -0.266     8.398    
+    SLICE_X5Y28          FDRE (Hold_fdre_C_D)         0.078     8.476    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst/dest_graysync_ff_reg[1][9]
+  -------------------------------------------------------------------
+                         required time                         -8.476    
+                         arrival time                           8.597    
+  -------------------------------------------------------------------
+                         slack                                  0.121    
+
+Slack (MET) :             0.121ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][6]/C
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][6]/D
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 rise@0.000ns - clk_64_clk_wiz_0 rise@0.000ns)
+  Data Path Delay:        0.197ns  (logic 0.141ns (71.611%)  route 0.056ns (28.389%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.824ns
+    Source Clock Delay      (SCD):    0.556ns
+    Clock Pessimism Removal (CPR):    0.268ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.554     0.554    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081    -0.527 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501    -0.026    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.556     0.556    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_clk
+    SLICE_X9Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][6]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X9Y28          FDRE (Prop_fdre_C_Q)         0.141     0.697 r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][6]/Q
+                         net (fo=1, routed)           0.056     0.752    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff[0][6]
+    SLICE_X9Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.822     0.822    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396    -0.575 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546    -0.029    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.824     0.824    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_clk
+    SLICE_X9Y28          FDRE                                         r  slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][6]/C
+                         clock pessimism             -0.268     0.556    
+    SLICE_X9Y28          FDRE (Hold_fdre_C_D)         0.076     0.632    slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][6]
+  -------------------------------------------------------------------
+                         required time                         -0.632    
+                         arrival time                           0.752    
+  -------------------------------------------------------------------
+                         slack                                  0.121    
+
+Slack (MET) :             0.122ns  (arrival time - required time)
+  Source:                 slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][0]/C
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Destination:            slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][0]/D
+                            (rising edge-triggered cell FDRE clocked by clk_64_clk_wiz_0  {rise@0.000ns fall@7.813ns period=15.625ns})
+  Path Group:             clk_64_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_64_clk_wiz_0 rise@0.000ns - clk_64_clk_wiz_0 rise@0.000ns)
+  Data Path Delay:        0.197ns  (logic 0.141ns (71.611%)  route 0.056ns (28.389%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.853ns
+    Source Clock Delay      (SCD):    0.585ns
+    Clock Pessimism Removal (CPR):    0.268ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.554     0.554    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.081    -0.527 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.501    -0.026    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.585     0.585    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_clk
+    SLICE_X3Y22          FDRE                                         r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X3Y22          FDRE (Prop_fdre_C_Q)         0.141     0.726 r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][0]/Q
+                         net (fo=1, routed)           0.056     0.781    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff[0][0]
+    SLICE_X3Y22          FDRE                                         r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_64_clk_wiz_0 rise edge)
+                                                      0.000     0.000 r  
+    BUFGCTRL_X0Y2        BUFG                         0.000     0.000 r  sysclk_buf/O
+                         net (fo=1, routed)           0.822     0.822    clk_gen/inst/clk_in
+    PLLE2_ADV_X1Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -1.396    -0.575 r  clk_gen/inst/plle2_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.546    -0.029    clk_64MHz_raw
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     0.000 r  clk_64MHz_buf/O
+                         net (fo=356, routed)         0.853     0.853    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_clk
+    SLICE_X3Y22          FDRE                                         r  slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][0]/C
+                         clock pessimism             -0.268     0.585    
+    SLICE_X3Y22          FDRE (Hold_fdre_C_D)         0.075     0.660    slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][0]
+  -------------------------------------------------------------------
+                         required time                         -0.660    
+                         arrival time                           0.781    
+  -------------------------------------------------------------------
+                         slack                                  0.122    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_64_clk_wiz_0
+Waveform(ns):       { 0.000 7.813 }
+Period(ns):         15.625
+Sources:            { clk_gen/inst/plle2_adv_inst/CLKOUT0 }
+
+Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.576         15.625      13.049     RAMB36_X0Y6     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/CLKARDCLK
+Min Period        n/a     RAMB36E1/CLKBWRCLK  n/a            2.576         15.625      13.049     RAMB36_X0Y6     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/CLKBWRCLK
+Min Period        n/a     RAMB36E1/CLKARDCLK  n/a            2.576         15.625      13.049     RAMB36_X0Y5     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/CLKARDCLK
+Min Period        n/a     RAMB36E1/CLKBWRCLK  n/a            2.576         15.625      13.049     RAMB36_X0Y5     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM36.ram/CLKBWRCLK
+Min Period        n/a     BUFG/I              n/a            2.155         15.625      13.470     BUFGCTRL_X0Y0   clk_64MHz_buf/I
+Min Period        n/a     PLLE2_ADV/CLKOUT0   n/a            1.249         15.625      14.376     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKOUT0
+Min Period        n/a     FDRE/C              n/a            1.000         15.625      14.625     SLICE_X9Y30     simdata_reg[5]/C
+Min Period        n/a     FDRE/C              n/a            1.000         15.625      14.625     SLICE_X9Y30     simdata_reg[6]/C
+Min Period        n/a     FDRE/C              n/a            1.000         15.625      14.625     SLICE_X9Y30     simdata_reg[7]/C
+Min Period        n/a     FDRE/C              n/a            1.000         15.625      14.625     SLICE_X9Y31     simdata_reg[8]/C
+Max Period        n/a     PLLE2_ADV/CLKOUT0   n/a            160.000       15.625      144.375    PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKOUT0
+Low Pulse Width   Fast    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y32     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTA_SHFT_REG_reg[3]_srl3/CLK
+Low Pulse Width   Slow    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y31     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTB_SHFT_REG_reg[3]_srl3/CLK
+Low Pulse Width   Fast    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y31     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTB_SHFT_REG_reg[3]_srl3/CLK
+Low Pulse Width   Slow    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y32     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTA_SHFT_REG_reg[3]_srl3/CLK
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y30     simdata_reg[5]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y30     simdata_reg[6]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y30     simdata_reg[7]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y28     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][11]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y28     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][5]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y28     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][6]/C
+High Pulse Width  Fast    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y31     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTB_SHFT_REG_reg[3]_srl3/CLK
+High Pulse Width  Slow    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y32     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTA_SHFT_REG_reg[3]_srl3/CLK
+High Pulse Width  Fast    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y32     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTA_SHFT_REG_reg[3]_srl3/CLK
+High Pulse Width  Slow    SRL16E/CLK          n/a            0.980         7.813       6.833      SLICE_X6Y31     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/SAFETY_CKT_GEN.RSTB_SHFT_REG_reg[3]_srl3/CLK
+High Pulse Width  Fast    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X8Y26     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][2]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y26     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][3]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y26     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[0][4]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X8Y26     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][2]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y26     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][3]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         7.813       7.313      SLICE_X9Y26     slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst/dest_graysync_ff_reg[1][4]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clkfbout_clk_wiz_0
+  To Clock:  clkfbout_clk_wiz_0
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack       14.171ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clkfbout_clk_wiz_0
+Waveform(ns):       { 0.000 19.231 }
+Period(ns):         38.462
+Sources:            { clk_gen/inst/plle2_adv_inst/CLKFBOUT }
+
+Check Type  Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
+Min Period  n/a     BUFG/I              n/a            2.155         38.462      36.307     BUFGCTRL_X0Y1   clk_gen/inst/clkf_buf/I
+Min Period  n/a     PLLE2_ADV/CLKFBOUT  n/a            1.249         38.462      37.213     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKFBOUT
+Min Period  n/a     PLLE2_ADV/CLKFBIN   n/a            1.249         38.462      37.213     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKFBIN
+Max Period  n/a     PLLE2_ADV/CLKFBIN   n/a            52.633        38.462      14.171     PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKFBIN
+Max Period  n/a     PLLE2_ADV/CLKFBOUT  n/a            160.000       38.462      121.538    PLLE2_ADV_X1Y0  clk_gen/inst/plle2_adv_inst/CLKFBOUT
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_in
+  To Clock:  clk_in
+
+Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack       36.307ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_in
+Waveform(ns):       { 0.000 19.231 }
+Period(ns):         38.462
+Sources:            { clk_in }
+
+Check Type  Corner  Lib Pin  Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
+Min Period  n/a     BUFG/I   n/a            2.155         38.462      36.307     BUFGCTRL_X0Y2  sysclk_buf/I
+
+
+

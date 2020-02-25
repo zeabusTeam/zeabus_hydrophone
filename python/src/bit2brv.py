@@ -9,7 +9,7 @@ def gen_in_out_filename( inputfile ):
     if x > 0:
         # If yes, out1 = inputfile, out2 = extension-stripped inputfile + .brv
         out1 = inputfile
-        out2 = inputfile[0:x] +'brv'
+        out2 = inputfile[0:x] +'.brv'
     else:
         # If no, out1 = inputfile + .bit, out2 = inputfile + .brv
         out1 = inputfile + '.bit'
@@ -109,7 +109,7 @@ def convert_file( src_name ):
     out_file.close()
 
     # Print final report
-    print( 'Length value remaining {bitlen} bytes and extra length {extra} bytes' )
+    print( 'Length value remaining ', bitlen, ' bytes and extra length ', extra, ' bytes' )
 
 # Main part
 if __name__ == '__main__':

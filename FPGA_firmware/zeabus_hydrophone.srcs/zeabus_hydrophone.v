@@ -33,6 +33,9 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------------
 
+// Important note on PLL module setting. Please refer to
+// https://forums.xilinx.com/t5/Implementation/Drc-23-20-Rule-violation-REQP-1712-Input-clock-driver/td-p/586641
+
 module zeabus_hydrophone #(
 	parameter trigger_head = 1000,
 	parameter trigger_tail = 1000

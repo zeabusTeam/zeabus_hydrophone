@@ -44,8 +44,8 @@ uint16_t zeabus_usb_ep0_wdata( void );
 uint32_t zeabus_usb_ep0_dwdata( void );
 uint8_t* zeabus_usb_ep0_buffer( void );
 uint32_t zeabus_usb_debug_send( uint8_t* buf, uint32_t size );
-uint32_t zeabus_usb_debug_receive( uint8_t* buf, uint32_t max_size ); // Get only available data without waiting
+uint32_t zeabus_usb_debug_receive( uint8_t* buf, uint32_t max_size, int32_t wait_time ); /* wait_time is in Tick count */
 uint32_t zeabus_usb_data_send( uint8_t* buf, uint32_t size );
-uint32_t zeabus_usb_data_receive( uint8_t* buf, uint32_t max_size ); // Get only available data without waiting
+uint32_t zeabus_usb_data_receive( uint8_t* buf, uint32_t max_size, int32_t wait_time ); /* wait_time is in Tick count */
 
 #endif // __ZEABUS_USB_H

@@ -134,7 +134,7 @@ class hydrophone_usb:
     self.dev.set_configuration()
 
   def get_pulse_data( self ):
-    buffer = np.zeros(65536)
+    buffer = np.zeros( 65536, dtype=np.uint8 )
     size = self.dev.read( ZEABUS_EP_FPGA_IN, buffer )
     return buffer, size
   
@@ -145,14 +145,15 @@ class hydrophone_usb:
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-        
+
+    # Full function call with prototype for future reference.    
     self.dev.ctrl_transfer( 
       bmRequestType = (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ), # bmRequestType
-      bRequest = ZEABUS_USB_REQ_ARM_SOFT_RESET,              # bRequest
-      wValue = 0,                                          # wValue
-      wIndex = 0,                                          # wIndex
-      data_or_wLength = None,                                       # data or length
-      timeout = None                                        # timeout
+      bRequest = ZEABUS_USB_REQ_ARM_SOFT_RESET,                   # bRequest
+      wValue = 0,                                                 # wValue
+      wIndex = 0,                                                 # wIndex
+      data_or_wLength = None,                                     # data or length
+      timeout = None                                              # timeout
     )
 
   def release_soft_reset( self ):
@@ -175,6 +176,7 @@ class hydrophone_usb:
       raise ValueError('Device not found')
         
     fsize = os.path.getsize( filepath )
+    print( 'Sending file ', filepath, ' with size ', fsize, ' byte' )
     if fsize > 0:
       offset = 0
       f = open( filepath, 'rb' )
@@ -185,9 +187,14 @@ class hydrophone_usb:
         
         # Sending data
         while( offset < fsize ):
-          data = np.fromfile( f, dtype=np.uint8, count=4096, offset=offset )
+          print( 'From offset ', offset, ' : ', end='' )
+          data = f.read( 4096 )
           sent_size = self.dev.write( ZEABUS_EP_DATA_OUT, data, 1000 )
           offset = offset + sent_size
+          if sent_size < len(data):
+            # We cannot send the whole data. Thus, adjusting the file pointer
+            f.seek( offset )
+          print( 'Sent ', sent_size, ' bytes.' )
         
         f.close()
       else:
@@ -219,7 +226,7 @@ class hydrophone_usb:
     if self.dev is None:
       raise ValueError('Device not found')
 
-    blank = np.zeros( 8 )
+    blank = np.zeros( 8, dtype=np.uint8 )
     # Start the command
     self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
       ZEABUS_USB_REQ_WRITE_EEPROM, wValue=0x0870, wIndex=0, timeout=1000 )
@@ -228,4 +235,4 @@ class hydrophone_usb:
 # Main part
 if __name__ == '__main__':
   s = hydrophone_usb()
-  s.release_soft_reset()
+  s.invalidate_fpga_image()
