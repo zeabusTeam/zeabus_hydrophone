@@ -50,7 +50,18 @@ module fifo_verify (
 	output LED_RED_n,
 	
 	// Master clock input (26 MHz)
-	input clk_in	
+	input clk_in,
+	
+	// Debug LEDS
+	output LED_RED_1,		// FLAGA
+	output LED_YELLOW_1,	// FLAGB
+	output LED_GREEN_1, 
+	output LED_RED_2,
+	output LED_YELLOW_2, 
+	output LED_GREEN_2,		// trigged
+	output LED_RED_3,		// rst
+	output LED_YELLOW_3,	// RST
+	output LED_GREEN_3		// FX3S Module ready
 	
 	// debug
 	//output [3:0] fifo_state,
@@ -127,7 +138,17 @@ module fifo_verify (
 	wire [15:0] rx_data;						// Incoming data from FX3S
 	wire rx_valid, rx_clk, rx_oe;				// Incoming data FIFO controls
 	
+	wire flaga, flagb;
 	// Combination logic
+	assign flaga = FLAGA;
+	assign flagb = FLAGB;
+	assign LED_RED_1 = flaga;
+	assign LED_YELLOW_1 = flagb;
+	
+	assign LED_RED_3 = rst;
+	assign LED_YELLOW_3 = RST;
+	assign LED_GREEN_2 = trigged;
+	
 	assign LED_RED_n = ~tx_full;
 	assign #(0,308) rst = ( RST | ~pll_locked );
 	assign trigger_upd = ~( ( ~adc_clkout_dd & adc_clkout_d ) | ( ~adc_clkout_ddd & adc_clkout_dd ) );
@@ -164,7 +185,7 @@ module fifo_verify (
 		// Control signal
 		.clk_64MHz(clk_64MHz),			// Master clock for this module (64 MHz 0-degree)
 		.rst(rst),						// Synchronous reset (active high)
-		.rdy(),							// Indicate that the system is ready for data (unused)
+		.rdy(LED_GREEN_3),				// Indicate that the system is ready for data (unused)
 
 		// Data to send out (FPGA -> FX3S)
 		.d_in(trigged_out),				// Input data to send to FX3S
@@ -176,10 +197,10 @@ module fifo_verify (
 		.d_out(rx_data),				// Output data
 		.output_valid(rx_valid),		// Indicate that there are some available data to read
 		.output_d_oe(rx_oe),			// Enable read-out data
-		.output_d_clk(rx_clk),			// Clocking for data reading
+		.output_d_clk(rx_clk)			// Clocking for data reading
 		
 		// Debug
-		.state(fifo_state), .RxFull(rx_full)
+		//.state(fifo_state), .RxFull(rx_full)
 	);
 
     BUFG sysclk_buf(

@@ -19,11 +19,13 @@ USER_CFLAGS = -Os
 USER_LDFLAGS =
 #LINKING_DESC = ./lib/zeabus.ld
 LINKING_DESC = ./lib/fx3_512k.ld
-ARMGCC_VERSION=9.2.1
+ARMGCC_VERSION = 9.2.1
 ifeq ($(OS),Windows_NT)
 	InstallDir = "C:/Program Files (x86)/GNU Tools Arm Embedded/9 2019-q4-major"
+	Remove_cmd = del
 else
 	InstallDir = /usr/local
+	Remove_cmd = rm -f
 endif
 
 # Tools
@@ -83,9 +85,9 @@ $(MODULE).img: $(MODULE).elf
 	$(ELF2IMG) -i2cconf 20 -o $@ -i $<
 
 clean:
-	rm -f *~ *.bak *.old
-	rm -f *.rel *.rst *.lnk *.lst *.map *.asm *.sym *.mem *.tmp.c *.lk
-	rm -f *.o *.elf *.map *.tmp.c *.img
+	$(Remove_cmd) *~ *.bak *.old
+	$(Remove_cmd) *.rel *.rst *.lnk *.lst *.map *.asm *.sym *.mem *.tmp.c *.lk
+	$(Remove_cmd) *.o *.elf *.map *.tmp.c *.img
 
 all: $(MODULE).img
 

@@ -2,8 +2,8 @@
 # Vivado v2019.1 (64-bit)
 # SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
 # IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
-# Start of session at: Mon Feb 24 18:24:31 2020
-# Process ID: 19648
+# Start of session at: Thu Feb 27 20:13:01 2020
+# Process ID: 4964
 # Current directory: C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1
 # Command line: vivado.exe -log fifo_verify.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fifo_verify.tcl
 # Log file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/fifo_verify.vds
@@ -16,13 +16,13 @@ Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Device 21-403] Loading part xc7a15tcsg324-1
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 17028 
+INFO: Helper process launched with PID 4936 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 713.590 ; gain = 177.559
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 713.004 ; gain = 176.984
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'fifo_verify' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:39]
 INFO: [Synth 8-6157] synthesizing module 'fx3s_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/fx3s_interface.v:36]
-	Parameter FX3S_DMA_Size bound to: 4096 - type: integer 
+	Parameter FX3S_DMA_Size bound to: 4095 - type: integer 
 	Parameter addr_write bound to: 1'b1 
 	Parameter addr_read bound to: 1'b0 
 	Parameter state_idle bound to: 4'b0000 
@@ -35,17 +35,16 @@ INFO: [Synth 8-6157] synthesizing module 'fx3s_interface' [C:/Users/akrap/Google
 	Parameter state_write_wait1 bound to: 4'b1001 
 	Parameter state_write_wait2 bound to: 4'b1010 
 	Parameter state_write_wait3 bound to: 4'b1011 
+	Parameter state_write_wait4 bound to: 4'b0110 
 	Parameter state_zlp bound to: 4'b1100 
 	Parameter state_zlp_wait1 bound to: 4'b1101 
 	Parameter state_zlp_wait2 bound to: 4'b1110 
 	Parameter state_zlp_wait3 bound to: 4'b1111 
-INFO: [Synth 8-6157] synthesizing module 'fifo_departure_1024x64b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-19648-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_departure_1024x64b' (1#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-19648-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'fifo_arrival_64x16b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-19648-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_arrival_64x16b' (2#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-19648-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'fifo_departure_1024x64b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-4964-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_departure_1024x64b' (1#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-4964-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'fifo_arrival_64x16b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-4964-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_arrival_64x16b' (2#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/.Xil/Vivado-4964-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
 INFO: [Synth 8-6155] done synthesizing module 'fx3s_interface' (3#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/fx3s_interface.v:36]
-WARNING: [Synth 8-689] width (1) of port connection 'state' does not match port width (4) of module 'fx3s_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:182]
-WARNING: [Synth 8-7023] instance 'slave_fifo' of module 'fx3s_interface' has 38 connections declared, but only 23 given [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:150]
 INFO: [Synth 8-6157] synthesizing module 'BUFG' [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp.v:1075]
 INFO: [Synth 8-6155] done synthesizing module 'BUFG' (4#1) [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp.v:1075]
 INFO: [Synth 8-6157] synthesizing module 'clk_wiz_0' [c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.v:71]
@@ -92,10 +91,16 @@ INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV' [C:/Xilinx/Vivado/2019.1/sc
 INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV' (6#1) [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp.v:61199]
 INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0_clk_wiz' (7#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v:69]
 INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_0' (8#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.v:71]
-WARNING: [Synth 8-3848] Net rx_oe in module/entity fifo_verify does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:128]
+WARNING: [Synth 8-3848] Net LED_GREEN_1 in module/entity fifo_verify does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:58]
+WARNING: [Synth 8-3848] Net LED_RED_2 in module/entity fifo_verify does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:59]
+WARNING: [Synth 8-3848] Net LED_YELLOW_2 in module/entity fifo_verify does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:60]
+WARNING: [Synth 8-3848] Net rx_oe in module/entity fifo_verify does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:139]
 INFO: [Synth 8-6155] done synthesizing module 'fifo_verify' (9#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v:39]
+WARNING: [Synth 8-3331] design fifo_verify has unconnected port LED_GREEN_1
+WARNING: [Synth 8-3331] design fifo_verify has unconnected port LED_RED_2
+WARNING: [Synth 8-3331] design fifo_verify has unconnected port LED_YELLOW_2
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 778.953 ; gain = 242.922
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 779.777 ; gain = 243.758
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -108,10 +113,10 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:14 . Memory (MB): peak = 778.953 ; gain = 242.922
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 779.777 ; gain = 243.758
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:14 . Memory (MB): peak = 778.953 ; gain = 242.922
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 779.777 ; gain = 243.758
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -140,20 +145,20 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/fifo_verify_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 898.250 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 897.332 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.028 . Memory (MB): peak = 898.250 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.012 . Memory (MB): peak = 897.332 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:25 ; elapsed = 00:00:32 . Memory (MB): peak = 898.250 ; gain = 362.219
+Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 897.332 ; gain = 361.313
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a15tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:25 ; elapsed = 00:00:32 . Memory (MB): peak = 898.250 ; gain = 362.219
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 897.332 ; gain = 361.313
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -163,7 +168,7 @@ Applied set_property DONT_TOUCH = true for clk_gen. (constraint file  auto gener
 Applied set_property DONT_TOUCH = true for slave_fifo/fifo_departure. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for slave_fifo/fifo_arrival. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:25 ; elapsed = 00:00:33 . Memory (MB): peak = 898.250 ; gain = 362.219
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 897.332 ; gain = 361.313
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'master_state_reg' in module 'fx3s_interface'
 ---------------------------------------------------------------------------------------------------
@@ -186,7 +191,7 @@ INFO: [Synth 8-802] inferred FSM for state register 'master_state_reg' in module
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'master_state_reg' using encoding 'sequential' in module 'fx3s_interface'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:26 ; elapsed = 00:00:34 . Memory (MB): peak = 898.250 ; gain = 362.219
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 897.332 ; gain = 361.313
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -211,7 +216,7 @@ Detailed RTL Component Info :
 	   2 Input     64 Bit        Muxes := 1     
 	   2 Input     16 Bit        Muxes := 2     
 	  14 Input     16 Bit        Muxes := 2     
-	  14 Input      4 Bit        Muxes := 2     
+	  14 Input      4 Bit        Muxes := 1     
 	   2 Input      4 Bit        Muxes := 5     
 	   2 Input      1 Bit        Muxes := 8     
 	  14 Input      1 Bit        Muxes := 21    
@@ -244,7 +249,7 @@ Detailed RTL Component Info :
 +---Muxes : 
 	   2 Input     16 Bit        Muxes := 2     
 	  14 Input     16 Bit        Muxes := 2     
-	  14 Input      4 Bit        Muxes := 2     
+	  14 Input      4 Bit        Muxes := 1     
 	   2 Input      4 Bit        Muxes := 5     
 	   2 Input      1 Bit        Muxes := 7     
 	  14 Input      1 Bit        Muxes := 21    
@@ -265,6 +270,9 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
 WARNING: [Synth 8-3917] design fifo_verify has port A[1] driven by constant 0
+WARNING: [Synth 8-3331] design fifo_verify has unconnected port LED_GREEN_1
+WARNING: [Synth 8-3331] design fifo_verify has unconnected port LED_RED_2
+WARNING: [Synth 8-3331] design fifo_verify has unconnected port LED_YELLOW_2
 INFO: [Synth 8-3886] merging instance 'clk_1M_cnt_reg[7]' (FD) to 'clk_1M_cnt_reg[6]'
 INFO: [Synth 8-3886] merging instance 'clk_1M_cnt_reg[8]' (FD) to 'clk_1M_cnt_reg[6]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\clk_1M_cnt_reg[6] )
@@ -282,7 +290,7 @@ INFO: [Synth 8-3886] merging instance 'clkcnt_reg[5]' (FD) to 'clkcnt_reg[6]'
 INFO: [Synth 8-3886] merging instance 'clkcnt_reg[6]' (FD) to 'clkcnt_reg[7]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\clkcnt_reg[7] )
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:31 ; elapsed = 00:00:40 . Memory (MB): peak = 898.250 ; gain = 362.219
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 897.332 ; gain = 361.313
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -296,13 +304,13 @@ Start Applying XDC Timing Constraints
 INFO: [Synth 8-5578] Moved timing constraint from pin 'clk_gen/inst/clk_in' to pin 'sysclk_buf/O'
 INFO: [Synth 8-5819] Moved 1 constraints on hierarchical pins to their respective driving/loading pins
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:48 ; elapsed = 00:01:00 . Memory (MB): peak = 898.250 ; gain = 362.219
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 897.332 ; gain = 361.313
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:49 ; elapsed = 00:01:01 . Memory (MB): peak = 898.250 ; gain = 362.219
+Finished Timing Optimization : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 898.703 ; gain = 362.684
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -314,7 +322,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:49 ; elapsed = 00:01:01 . Memory (MB): peak = 898.551 ; gain = 362.520
+Finished Technology Mapping : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 900.848 ; gain = 364.828
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -338,7 +346,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Finished IO Insertion : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 907.633 ; gain = 371.613
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -351,7 +359,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 907.633 ; gain = 371.613
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -363,25 +371,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 907.633 ; gain = 371.613
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 907.633 ; gain = 371.613
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 907.633 ; gain = 371.613
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 907.633 ; gain = 371.613
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -404,34 +412,35 @@ Report Cell Usage:
 |3     |BUFG                    |     6|
 |4     |CARRY4                  |    14|
 |5     |LUT1                    |    21|
-|6     |LUT2                    |    57|
+|6     |LUT2                    |    44|
 |7     |LUT3                    |     3|
-|8     |LUT4                    |    14|
-|9     |LUT5                    |    20|
-|10    |LUT6                    |    47|
+|8     |LUT4                    |    18|
+|9     |LUT5                    |    11|
+|10    |LUT6                    |    58|
 |11    |PLLE2_ADV               |     1|
 |12    |FDRE                    |    88|
 |13    |FDSE                    |     6|
 |14    |IBUF                    |     5|
 |15    |IOBUF                   |    16|
-|16    |OBUF                    |     9|
+|16    |OBUF                    |    15|
+|17    |OBUFT                   |     3|
 +------+------------------------+------+
 
 Report Instance Areas: 
 +------+-------------+------------------+------+
 |      |Instance     |Module            |Cells |
 +------+-------------+------------------+------+
-|1     |top          |                  |   347|
+|1     |top          |                  |   349|
 |2     |  clk_gen    |clk_wiz_0         |     5|
 |3     |    inst     |clk_wiz_0_clk_wiz |     5|
-|4     |  slave_fifo |fx3s_interface    |   258|
+|4     |  slave_fifo |fx3s_interface    |   251|
 +------+-------------+------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 907.633 ; gain = 371.613
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:37 ; elapsed = 00:00:58 . Memory (MB): peak = 903.344 ; gain = 248.016
-Synthesis Optimization Complete : Time (s): cpu = 00:00:53 ; elapsed = 00:01:05 . Memory (MB): peak = 903.344 ; gain = 367.313
+Synthesis finished with 0 errors, 0 critical warnings and 4 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:20 ; elapsed = 00:00:28 . Memory (MB): peak = 907.633 ; gain = 254.059
+Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 907.633 ; gain = 371.613
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Netlist 29-17] Analyzing 31 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -439,18 +448,18 @@ INFO: [Project 1-570] Preparing netlist for logic optimization
 WARNING: [Opt 31-32] Removing redundant IBUF since it is not being driven by a top-level port. clk_gen/inst/clkin1_ibufg 
 Resolution: The tool has removed redundant IBUF. To resolve this warning, check for redundant IBUF in the input design.
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 917.355 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 920.410 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 16 instances were transformed.
   IOBUF => IOBUF (IBUF, OBUFT): 16 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-55 Infos, 5 Warnings, 0 Critical Warnings and 0 Errors encountered.
+55 Infos, 12 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:02 ; elapsed = 00:01:18 . Memory (MB): peak = 917.355 ; gain = 626.523
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 917.355 ; gain = 0.000
+synth_design: Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 920.410 ; gain = 629.457
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 920.410 ; gain = 0.000
 WARNING: [Constraints 18-5210] No constraints selected for write.
 Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
 INFO: [Common 17-1381] The checkpoint 'C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.runs/synth_1/fifo_verify.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file fifo_verify_utilization_synth.rpt -pb fifo_verify_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Mon Feb 24 18:26:02 2020...
+INFO: [Common 17-206] Exiting Vivado at Thu Feb 27 20:13:44 2020...

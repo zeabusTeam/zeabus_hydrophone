@@ -34,7 +34,7 @@
 // --------------------------------------------------------------------------------
 
 module fx3s_interface #(
-	parameter	FX3S_DMA_Size = 4096,	// Size of FX3S receiving DMA buffer (in 16-bit words)
+	parameter	FX3S_DMA_Size = 4095,	// Size of FX3S receiving DMA buffer (in 16-bit words) minus 1
 	
 	// Address value
 	localparam addr_write = 1'b1,

@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date         : Mon Feb 24 18:26:02 2020
+| Date         : Thu Feb 27 20:13:44 2020
 | Host         : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 | Command      : report_utilization -file fifo_verify_utilization_synth.rpt -pb fifo_verify_utilization_synth.pb
 | Design       : fifo_verify
@@ -30,8 +30,8 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             |  121 |     0 |     10400 |  1.16 |
-|   LUT as Logic          |  121 |     0 |     10400 |  1.16 |
+| Slice LUTs*             |  124 |     0 |     10400 |  1.19 |
+|   LUT as Logic          |  124 |     0 |     10400 |  1.19 |
 |   LUT as Memory         |    0 |     0 |      9600 |  0.00 |
 | Slice Registers         |   94 |     0 |     20800 |  0.45 |
 |   Register as Flip Flop |   94 |     0 |     20800 |  0.45 |
@@ -90,7 +90,7 @@ Table of Contents
 +-----------------------------+------+-------+-----------+-------+
 |          Site Type          | Used | Fixed | Available | Util% |
 +-----------------------------+------+-------+-----------+-------+
-| Bonded IOB                  |   29 |     0 |       210 | 13.81 |
+| Bonded IOB                  |   38 |     0 |       210 | 18.10 |
 | Bonded IPADs                |    0 |     0 |         2 |  0.00 |
 | PHY_CONTROL                 |    0 |     0 |         5 |  0.00 |
 | PHASER_REF                  |    0 |     0 |         5 |  0.00 |
@@ -147,15 +147,15 @@ Table of Contents
 |  Ref Name | Used | Functional Category |
 +-----------+------+---------------------+
 | FDRE      |   88 |        Flop & Latch |
-| LUT2      |   57 |                 LUT |
-| LUT6      |   47 |                 LUT |
+| LUT6      |   58 |                 LUT |
+| LUT2      |   44 |                 LUT |
 | LUT1      |   21 |                 LUT |
-| LUT5      |   20 |                 LUT |
 | IBUF      |   20 |                  IO |
-| OBUFT     |   16 |                  IO |
-| LUT4      |   14 |                 LUT |
+| OBUFT     |   19 |                  IO |
+| LUT4      |   18 |                 LUT |
+| OBUF      |   15 |                  IO |
 | CARRY4    |   14 |          CarryLogic |
-| OBUF      |    9 |                  IO |
+| LUT5      |   11 |                 LUT |
 | FDSE      |    6 |        Flop & Latch |
 | BUFG      |    6 |               Clock |
 | LUT3      |    3 |                 LUT |

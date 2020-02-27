@@ -64,3 +64,21 @@ set_property src_info {type:XDC file:2 line:89 export:INPUT save:INPUT read:READ
 set_property PACKAGE_PIN U16 [get_ports {A[0]}]        	;# CTL12/A0/GPIO29
 set_property src_info {type:XDC file:2 line:124 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN T11 [get_ports {LED_RED_n}]   ;# LED1:red (Active low)
+set_property src_info {type:XDC file:2 line:127 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN P5 [get_ports {LED_GREEN_3}]      ;# D19 / P5~IO_L13N_T2_MRCC_34
+set_property src_info {type:XDC file:2 line:129 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN N5 [get_ports {LED_YELLOW_3}]      ;# D20 / N5~IO_L13P_T2_MRCC_34
+set_property src_info {type:XDC file:2 line:131 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN P4 [get_ports {LED_RED_3}]      ;# D21 / P4~IO_L14P_T2_SRCC_34
+set_property src_info {type:XDC file:2 line:133 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN P3 [get_ports {LED_GREEN_2}]      ;# D22 / P3~IO_L14N_T2_SRCC_34
+set_property src_info {type:XDC file:2 line:135 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN T1 [get_ports {LED_YELLOW_2}]      ;# D23 / T1~IO_L17N_T2_34
+set_property src_info {type:XDC file:2 line:137 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN R1 [get_ports {LED_RED_2}]      ;# D24 / R1~IO_L17P_T2_34
+set_property src_info {type:XDC file:2 line:139 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN R2 [get_ports {LED_GREEN_1}]      ;# D25 / R2~IO_L15N_T2_DQS_34
+set_property src_info {type:XDC file:2 line:141 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN P2 [get_ports {LED_YELLOW_1}]      ;# D26 / P2~IO_L15P_T2_DQS_34
+set_property src_info {type:XDC file:2 line:143 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN N2 [get_ports {LED_RED_1}]      ;# D27 / N2~IO_L3P_T0_DQS_34

@@ -35,17 +35,17 @@ read_verilog -library xil_defaultlib {
   C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/fx3s_interface.v
   C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/slavefifo_verify.v
 }
-read_ip -quiet c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
+read_ip -quiet C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0_board.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0_ooc.xdc]
 
-read_ip -quiet c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_departure_1024x64b/fifo_departure_1024x64b.xci
+read_ip -quiet C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_departure_1024x64b/fifo_departure_1024x64b.xci
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_departure_1024x64b/fifo_departure_1024x64b.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_departure_1024x64b/fifo_departure_1024x64b_clocks.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_departure_1024x64b/fifo_departure_1024x64b_ooc.xdc]
 
-read_ip -quiet c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b.xci
+read_ip -quiet C:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b.xci
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b_clocks.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/SlaveFIFO_verify/project_1.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b_ooc.xdc]

@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date         : Mon Feb 24 18:30:31 2020
+| Date         : Thu Feb 27 20:15:04 2020
 | Host         : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file fifo_verify_control_sets_placed.rpt
 | Design       : fifo_verify
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    20 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |   100 |
+| Unused register locations in slices containing registers |    99 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -58,12 +58,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             228 |           53 |
+| No           | No                    | No                     |             229 |           53 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |              19 |           11 |
 | Yes          | No                    | No                     |              16 |            4 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |              93 |           23 |
+| Yes          | Yes                   | No                     |              93 |           22 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -73,26 +73,26 @@ Table of Contents
 +------------------------------------+-----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+------------------+----------------+
 |            Clock Signal            |                                               Enable Signal                                               |                                                           Set/Reset Signal                                                           | Slice Load Count | Bel Load Count |
 +------------------------------------+-----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+------------------+----------------+
-|  clk_1MHz_reg_n_0                  |                                                                                                           |                                                                                                                                      |                1 |              1 |
-|  ifclk_out_OBUF                    | slave_fifo/SLOE_i_1_n_0                                                                                   | slave_fifo/rst                                                                                                                       |                1 |              1 |
-|  ifclk_out_OBUF                    | slave_fifo/PKTEND_i_1_n_0                                                                                 | slave_fifo/rst                                                                                                                       |                1 |              1 |
-|  ifclk_out_OBUF                    | slave_fifo/SLWR_i_1_n_0                                                                                   | slave_fifo/rst                                                                                                                       |                1 |              1 |
-|  ifclk_out_OBUF                    | slave_fifo/SLRD_i_1_n_0                                                                                   | slave_fifo/rst                                                                                                                       |                1 |              1 |
-|  ifclk_out_OBUF                    | slave_fifo/SLCS_i_1_n_0                                                                                   | slave_fifo/rst                                                                                                                       |                1 |              1 |
-|  slave_fifo/fifo_departure_i_2_n_0 |                                                                                                           | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_rd_rst_ic_reg_0 |                1 |              2 |
+|  ifclk_out_OBUF                    | slave_fifo/SLWR_i_1_n_0                                                                                   | slave_fifo/LED_RED_3_OBUF                                                                                                            |                1 |              1 |
+|  ifclk_out_OBUF                    | slave_fifo/SLOE_i_1_n_0                                                                                   | slave_fifo/LED_RED_3_OBUF                                                                                                            |                1 |              1 |
+|  ifclk_out_OBUF                    | slave_fifo/PKTEND_i_1_n_0                                                                                 | slave_fifo/LED_RED_3_OBUF                                                                                                            |                1 |              1 |
+|  ifclk_out_OBUF                    | slave_fifo/SLRD_i_1_n_0                                                                                   | slave_fifo/LED_RED_3_OBUF                                                                                                            |                1 |              1 |
+|  ifclk_out_OBUF                    | slave_fifo/SLCS_i_1_n_0                                                                                   | slave_fifo/LED_RED_3_OBUF                                                                                                            |                1 |              1 |
+|  slave_fifo/fifo_departure_i_1_n_0 |                                                                                                           | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_rd_rst_ic_reg_0 |                1 |              2 |
 |  ifclk_out_OBUF                    |                                                                                                           | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/SR[0]                                                            |                1 |              2 |
+|  clk_1MHz_reg_n_0                  |                                                                                                           |                                                                                                                                      |                1 |              2 |
 |  ifclk_out_OBUF                    |                                                                                                           | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg_0 |                2 |              3 |
 |  ifclk_out_OBUF                    |                                                                                                           | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg_0   |                2 |              3 |
-|  ifclk_out_OBUF                    |                                                                                                           | slave_fifo/rst                                                                                                                       |                4 |              4 |
-|  ifclk_out_OBUF                    | slave_fifo/FSM_sequential_master_state[3]_i_1_n_0                                                         | slave_fifo/rst                                                                                                                       |                2 |              4 |
+|  ifclk_out_OBUF                    |                                                                                                           | slave_fifo/LED_RED_3_OBUF                                                                                                            |                4 |              4 |
+|  ifclk_out_OBUF                    | slave_fifo/FSM_sequential_master_state[3]_i_1_n_0                                                         | slave_fifo/LED_RED_3_OBUF                                                                                                            |                1 |              4 |
 |  clk_1MHz_reg_n_0                  |                                                                                                           | clkcnt_reg[4]_i_1_n_3                                                                                                                |                1 |              5 |
 |  ifclk_out_OBUF                    | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/E[0]      | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/SR[0]                                                            |                2 |             12 |
 |  ifclk_out_OBUF                    | slave_fifo/u16WrCounter[0]_i_1_n_0                                                                        |                                                                                                                                      |                4 |             16 |
-|  ifclk_out_OBUF                    | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/E[0]      | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg_0   |                3 |             18 |
-| ~ifclk_out_OBUF                    | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/p_8_out | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_rd_rst_ic_reg_0 |                5 |             24 |
+|  ifclk_out_OBUF                    | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/E[0]      | slave_fifo/fifo_arrival/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg_0   |                4 |             18 |
+| ~ifclk_out_OBUF                    | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.rd/gras.rsts/p_8_out | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_rd_rst_ic_reg_0 |                4 |             24 |
 |  ifclk_out_OBUF                    | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/E[0]    | slave_fifo/fifo_departure/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.sckt_wr_rst_ic_reg_0 |                6 |             30 |
-| ~ifclk_out_OBUF                    |                                                                                                           |                                                                                                                                      |               16 |             59 |
-|  ifclk_out_OBUF                    |                                                                                                           |                                                                                                                                      |               36 |            170 |
+| ~ifclk_out_OBUF                    |                                                                                                           |                                                                                                                                      |               15 |             59 |
+|  ifclk_out_OBUF                    |                                                                                                           |                                                                                                                                      |               37 |            170 |
 +------------------------------------+-----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------+------------------+----------------+
 
 

@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version              : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date                      : Sun Feb 16 20:55:17 2020
+| Date                      : Thu Feb 27 21:02:39 2020
 | Host                      : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 | Command                   : report_io -file zeabus_hydrophone_io_placed.rpt
 | Design                    : zeabus_hydrophone

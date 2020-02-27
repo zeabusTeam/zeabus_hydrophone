@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date             : Mon Feb 24 18:31:26 2020
+| Date             : Thu Feb 27 20:15:31 2020
 | Host             : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 | Command          : report_power -file fifo_verify_power_routed.rpt -pb fifo_verify_power_summary_routed.pb -rpx fifo_verify_power_routed.rpx
 | Design           : fifo_verify
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.183        |
+| Total On-Chip Power (W)  | 0.186        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.111        |
+| Dynamic (W)              | 0.114        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 4.8          |
 | Max Ambient (C)          | 84.1         |
@@ -52,19 +52,19 @@ Table of Contents
 +-------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.002 |        6 |       --- |             --- |
-| Slice Logic             |    <0.001 |      698 |       --- |             --- |
-|   LUT as Logic          |    <0.001 |      201 |     10400 |            1.93 |
+| Clocks                  |     0.001 |        6 |       --- |             --- |
+| Slice Logic             |    <0.001 |      694 |       --- |             --- |
+|   LUT as Logic          |    <0.001 |      204 |     10400 |            1.96 |
+|   Register              |    <0.001 |      357 |     20800 |            1.72 |
 |   CARRY4                |    <0.001 |       25 |      8150 |            0.31 |
-|   Register              |    <0.001 |      356 |     20800 |            1.71 |
 |   Others                |     0.000 |       64 |       --- |             --- |
 |   LUT as Shift Register |     0.000 |        2 |      9600 |            0.02 |
-| Signals                 |    <0.001 |      486 |       --- |             --- |
+| Signals                 |    <0.001 |      493 |       --- |             --- |
 | Block RAM               |     0.002 |        2 |        25 |            8.00 |
 | PLL                     |     0.096 |        1 |         5 |           20.00 |
-| I/O                     |     0.011 |       29 |       210 |           13.81 |
+| I/O                     |     0.014 |       38 |       210 |           18.10 |
 | Static Power            |     0.072 |          |           |                 |
-| Total                   |     0.183 |          |           |                 |
+| Total                   |     0.186 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -75,8 +75,8 @@ Table of Contents
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
 | Vccint    |       1.000 |     0.021 |       0.012 |      0.010 |
-| Vccaux    |       1.800 |     0.062 |       0.049 |      0.013 |
-| Vcco33    |       3.300 |     0.004 |       0.003 |      0.001 |
+| Vccaux    |       1.800 |     0.062 |       0.050 |      0.013 |
+| Vcco33    |       3.300 |     0.005 |       0.004 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
@@ -146,7 +146,7 @@ Table of Contents
 +--------------------+-----------+
 | Name               | Power (W) |
 +--------------------+-----------+
-| fifo_verify        |     0.111 |
+| fifo_verify        |     0.114 |
 |   clk_gen          |     0.096 |
 |     inst           |     0.096 |
 |   slave_fifo       |     0.004 |

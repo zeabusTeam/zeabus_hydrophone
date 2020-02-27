@@ -54,7 +54,7 @@
       <GPIOPinNumber>GPIO_22</GPIOPinNumber>
       <IntialValue>Low</IntialValue>
       <Polarity>ActiveLow</Polarity>
-      <Flags>Thread_1_DMA_WaterMark</Flags>
+      <Flags>Thread_1_DMA_Ready</Flags>
     </Signal>
   </Signals>
   <StateMachine>

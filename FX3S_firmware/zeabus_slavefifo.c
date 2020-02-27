@@ -39,10 +39,21 @@
 #include "zeabus_error.h"
 #include "zeabus_slavefifo.h"
 #include "zeabus_usb.h"
+#include "zeabus_gpio.h"
 #include "Sync_Slave_FIFO.cydsn/cyfxgpif2config.h"
 
+/* Note:
+ * Thread 0 = FX3S ==> FPGA
+ * Thread 1 = FX3S <== FPGA
+ *
+ * FLAGA : indicates that FX3S has some data to read. (0 = Empty)
+ * FLAGB : indicates that FX3S has some spacce to accept more data (1 = Available)
+ */
 #define ZEABUS_FIFO_CONS_SOCKET_ID   CY_U3P_PIB_SOCKET_1
 #define ZEABUS_FIFO_PROD_SOCKET_ID   CY_U3P_PIB_SOCKET_0
+
+// A DMA buffer should have the same size as defined in FPGA part
+#define ZEABUS_FIFO_DMA_BUFF_SIZE	8192
 
 /* Clock config for FPGA programming (The field isDllEnable is different from FPGA configuration mode) */
 static CyU3PPibClock_t zeabus_slavefifo_pib_clock = {
@@ -55,6 +66,47 @@ static CyU3PPibClock_t zeabus_slavefifo_pib_clock = {
 static bool bIsInitialized = false;
 static CyU3PDmaChannel xDMAFIFOToFPGA;  	/* DMA Channel handle for FX3S->FPGA transfer. */
 static CyU3PDmaChannel xDMAFIFOFromFPGA;	/* DMA Channel handle for FPGA->FX3S transfer. */
+
+/************************************************************************************
+ * Private Functions
+ ************************************************************************************/
+ /* Callback function to check for PIB ERROR*/
+static void gpif_error_cb(CyU3PPibIntrType cbType, uint16_t cbArg)
+{
+	if(cbType==CYU3P_PIB_INTR_ERROR)
+	{
+		switch(CYU3P_GET_PIB_ERROR_TYPE(cbArg))
+		{
+			case CYU3P_PIB_ERR_THR0_WR_OVERRUN:
+				_log( "Slave FIFO thread 0 writing overrun\r\n" );
+				break;
+			case CYU3P_PIB_ERR_THR1_WR_OVERRUN:
+				_log( "Slave FIFO thread 1 writing overrun\r\n" );
+				break;
+			case CYU3P_PIB_ERR_THR2_WR_OVERRUN:
+				_log( "Slave FIFO thread 2 writing overrun\r\n" );
+				break;
+			case CYU3P_PIB_ERR_THR3_WR_OVERRUN:
+				_log( "Slave FIFO thread 3 writing overrun\r\n" );
+				break;
+			case CYU3P_PIB_ERR_THR0_RD_UNDERRUN:
+				_log( "Slave FIFO thread 0 reading underrun\r\n" );
+				break;
+			case CYU3P_PIB_ERR_THR1_RD_UNDERRUN:
+				_log( "Slave FIFO thread 1 reading underrun\r\n" );
+				break;
+			case CYU3P_PIB_ERR_THR2_RD_UNDERRUN:
+				_log( "Slave FIFO thread 2 reading underrun\r\n" );
+				break;
+			case CYU3P_PIB_ERR_THR3_RD_UNDERRUN:
+				_log( "Slave FIFO thread 3 reading underrun\r\n" );
+				break;
+			default:
+				_log( "No Underrun/Overrun Error\r\n" );
+				break;
+		}
+	}
+}
 
 /************************************************************************************
  * Public API Functions
@@ -82,7 +134,7 @@ bool zeabus_slavefifo_start( void )
         // create dma channel for FX3S to FPGA
         CyU3PMemSet ((uint8_t *)&dmaConfig, 0, sizeof(dmaConfig));
         dmaConfig.size           = 1024;
-        dmaConfig.count          = 1;
+        dmaConfig.count          = 2;
         dmaConfig.prodAvailCount = 0;
         dmaConfig.dmaMode        = CY_U3P_DMA_MODE_BYTE;
         dmaConfig.prodHeader     = 0;
@@ -100,8 +152,8 @@ bool zeabus_slavefifo_start( void )
         }
 
         // create dma channel for FPGA to FX3S
-        dmaConfig.size           = 8192;
-        dmaConfig.count          = 2;
+        dmaConfig.size           = ZEABUS_FIFO_DMA_BUFF_SIZE;
+        dmaConfig.count          = 4;
         dmaConfig.consSckId      = ZEABUS_DMA_EP_USB_FPGA_CONSUMER_SOCKET;
         dmaConfig.prodSckId      = ZEABUS_FIFO_CONS_SOCKET_ID;
 
@@ -120,15 +172,8 @@ bool zeabus_slavefifo_start( void )
             CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
             return false;
         }
-        if( CyU3PGpifSocketConfigure( 0, ZEABUS_FIFO_CONS_SOCKET_ID, 2, CyFalse, 1 ) != CY_U3P_SUCCESS )
-        {
-			_log( "Unable to associate FPGA->FX3S DMA to the GPIF thread\r\n" );
-            CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
-            CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
-            return false;
-        }
-
-        if( CyU3PGpifSocketConfigure( 1, ZEABUS_FIFO_PROD_SOCKET_ID, 2, CyFalse, 1 ) != CY_U3P_SUCCESS )
+		
+        if( CyU3PGpifSocketConfigure( 0, ZEABUS_FIFO_PROD_SOCKET_ID, 2, CyFalse, 1 ) != CY_U3P_SUCCESS )
         {
 			_log( "Unable to associate FX3S->FPGA DMA to the GPIF thread\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
@@ -136,6 +181,17 @@ bool zeabus_slavefifo_start( void )
             return false;
         }
      
+        if( CyU3PGpifSocketConfigure( 1, ZEABUS_FIFO_CONS_SOCKET_ID, 2, CyFalse, 1 ) != CY_U3P_SUCCESS )
+        {
+			_log( "Unable to associate FPGA->FX3S DMA to the GPIF thread\r\n" );
+            CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
+            CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
+            return false;
+        }
+
+		/* Register a callback for notification of PIB interrupts*/
+		CyU3PPibRegisterCallback(gpif_error_cb, 0xffff);
+		
 		if( CyU3PGpifSMStart (0, 0) != CY_U3P_SUCCESS )
         {
 			_log( "Unable to start slave-FIFO state machine\r\n" );
@@ -161,7 +217,13 @@ bool zeabus_slavefifo_start( void )
             return false;
 		}
 
-       bIsInitialized = true;
+		/* callback to see if there is any overflow of data on the GPIF II side*/
+		CyU3PPibRegisterCallback( gpif_error_cb, 0xffff );
+		
+		// Finalize
+		zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, false );	// Release reset
+		bIsInitialized = true;
+		_log( "Slave FIFO started\r\n" );
     }
 
     return true;
@@ -176,7 +238,9 @@ void zeabus_slavefifo_stop( void )
         CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
         CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
     }
+	zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, true );	// Arm reset
     bIsInitialized = false;
+	_log( "Slave FIFO stopped\r\n" );
 }
 
 bool zeabus_slavefifo_send( uint8_t* buf, uint32_t size )
@@ -192,11 +256,18 @@ bool zeabus_slavefifo_send( uint8_t* buf, uint32_t size )
     buf_p.status = 0;
 
     if( CyU3PDmaChannelSetupSendBuffer( &xDMAFIFOToFPGA, &buf_p ) != CY_U3P_SUCCESS )
+	{
+		_log( "Unable to allocate DMA buffer for sending data to FPGA\r\n" );
         return false;
+	}
 
     if( CyU3PDmaChannelWaitForCompletion (&xDMAFIFOToFPGA, 500) != CY_U3P_SUCCESS )
+	{
+		_log( "Failed to send data to FPGA\r\n" );
         return false;
+	}
 
+	_log( "Sent data with size %u bytes to FPGA\r\n", size );
     return true;
 }
 

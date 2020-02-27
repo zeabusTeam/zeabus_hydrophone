@@ -34,7 +34,7 @@
 // --------------------------------------------------------------------------------
 
 module fx3s_interface #(
-	parameter	FX3S_DMA_Size = 4096,	// Size of FX3S receiving DMA buffer (in 16-bit words)
+	parameter	FX3S_DMA_Size = 4095,	// Size of FX3S receiving DMA buffer (in 16-bit words) minus 1
 	
 	// Address value
 	localparam addr_write = 1'b1,
@@ -61,13 +61,13 @@ module fx3s_interface #(
 	
 	) (
 	// Debug signals
-	output [3:0] state,
-	output TxEmpty, TxFull, RxEmpty, RxFull,
-	output TxWrRstBusy, TxRdRstBusy, RxWrRstBusy, RxRdRstBusy,
-	output TxWrEn, TxRdEn, RxWrEn, RxRdEn,
-	output [15:0] d_data,
-	output d_clk, dd_clk,
-	output sending,
+	// output [3:0] state,
+	// output TxEmpty, TxFull, RxEmpty, RxFull,
+	// output TxWrRstBusy, TxRdRstBusy, RxWrRstBusy, RxRdRstBusy,
+	// output TxWrEn, TxRdEn, RxWrEn, RxRdEn,
+	// output [15:0] d_data,
+	// output d_clk, dd_clk,
+	// output sending,
 	
 	// Device pins
 	output ifclk_out,				// Communication clock from FPGA -> FX3S (FPGA controlled)
@@ -121,23 +121,23 @@ module fx3s_interface #(
 	//************************************************************
 	// Combination logic
 	//************************************************************
-	assign state = master_state;
-	assign TxFull = input_full;
-	assign TxEmpty = tx_empty;
-	assign RxFull = rx_full;
-	assign RxEmpty = rx_empty;
-	assign TxWrRstBusy = tx_wr_rst_busy;
-	assign TxRdRstBusy = tx_rd_rst_busy;
-	assign RxWrRstBusy = rx_wr_rst_busy;
-	assign RxRdRstBusy = rx_rd_rst_busy;
-	assign TxWrEn = tx_wr_en;
-	assign TxRdEn = tx_rd_en;
-	assign RxWrEn = rx_wr_en;
-	assign RxRdEn = rx_rd_en;
-	assign d_data = tx_data;
-	assign d_clk = input_d_clk;
-	assign dd_clk = input_d_clk_d;
-	assign sending = is_sending;
+	// assign state = master_state;
+	// assign TxFull = input_full;
+	// assign TxEmpty = tx_empty;
+	// assign RxFull = rx_full;
+	// assign RxEmpty = rx_empty;
+	// assign TxWrRstBusy = tx_wr_rst_busy;
+	// assign TxRdRstBusy = tx_rd_rst_busy;
+	// assign RxWrRstBusy = rx_wr_rst_busy;
+	// assign RxRdRstBusy = rx_rd_rst_busy;
+	// assign TxWrEn = tx_wr_en;
+	// assign TxRdEn = tx_rd_en;
+	// assign RxWrEn = rx_wr_en;
+	// assign RxRdEn = rx_rd_en;
+	// assign d_data = tx_data;
+	// assign d_clk = input_d_clk;
+	// assign dd_clk = input_d_clk_d;
+	// assign sending = is_sending;
 
 	assign ifclk_out = clk_64MHz;		// Slave FIFO interface operates at 64 MHz
 
@@ -374,9 +374,15 @@ module fx3s_interface #(
 					master_state <= state_write_wait3;
 				end
 
+				// state_write_wait3:
+				// begin
+					// master_state <= state_write_wait4;
+				// end
+
 				state_write_wait3:
 				begin
-					u16WrCounter <= FX3S_DMA_Size;
+					if( u16WrCounter == 0 )
+						u16WrCounter <= FX3S_DMA_Size;
 					master_state <= state_idle;
 				end
 

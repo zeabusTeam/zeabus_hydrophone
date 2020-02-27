@@ -133,14 +133,19 @@ class hydrophone_usb:
     # Activate the only configuration available
     self.dev.set_configuration()
 
-  def get_pulse_data( self ):
-    buffer = np.zeros( 65536, dtype=np.uint8 )
-    size = self.dev.read( ZEABUS_EP_FPGA_IN, buffer )
-    return buffer, size
+  def get_pulse_data( self, timeout = 900000 ): # Reading with default timeout = 15 minutes
+    buffer = self.dev.read( ZEABUS_EP_FPGA_IN, 8192, timeout )
+    return buffer
   
   #
   # Extra functions
   #
+  def is_ready( self ):
+    if self.dev is None:
+      return False
+    else:
+      return True
+
   def arm_soft_reset( self ):
     # was it found?
     if self.dev is None:
@@ -170,7 +175,7 @@ class hydrophone_usb:
       None                                        # timeout
     )
 
-  def __send_file( self, filepath, request_cmd ):
+  def __send_file( self, request_cmd, filepath ):
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
@@ -202,14 +207,36 @@ class hydrophone_usb:
     else:
       raise ValueError( 'Unable to get file size' )
   
+  def __send_stream( self, request_cmd, data ):
+    # was it found?
+    if self.dev is None:
+      raise ValueError('Device not found')
+        
+    fsize = len(data)
+    print( 'Sending stream with size ', fsize, ' byte' )
+    if fsize > 0:
+      offset = 0
+      # Start the command
+      self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
+        request_cmd, wValue=(fsize & 0xFFFF), wIndex=(fsize >> 16), timeout=1000 )
+        
+      # Sending data
+      while( offset < fsize ):
+        print( 'From offset ', offset, ' : ', end='' )
+        sent_size = self.dev.write( ZEABUS_EP_DATA_OUT, data[offset:], 1000 )
+        offset = offset + sent_size
+        print( 'Sent ', sent_size, ' bytes.' )
+    else:
+      raise ValueError( 'Unable to get file size' )
+  
   def program_fpga( self, filepath ):
-    self.__send_file( filepath, ZEABUS_USB_REQ_PROG_FPGA )
+    self.__send_file( ZEABUS_USB_REQ_PROG_FPGA, filepath )
   
   def write_firmware_to_flash( self, filepath ):
-    self.__send_file( filepath, ZEABUS_USB_REQ_PROG_FIRMWARE )
+    self.__send_file( ZEABUS_USB_REQ_PROG_FIRMWARE, filepath )
   
   def write_fpga_to_flash( self, filepath ):
-    self.__send_file( filepath, ZEABUS_USB_REQ_PROG_BITSTREAM )
+    self.__send_file( ZEABUS_USB_REQ_PROG_BITSTREAM, filepath )
   
   def send_data_to_fpga( self, data ):
     # was it found?
@@ -234,5 +261,8 @@ class hydrophone_usb:
 
 # Main part
 if __name__ == '__main__':
-  s = hydrophone_usb()
-  s.invalidate_fpga_image()
+  # Check argument
+  if len( sys.argv ) != 2:
+    print( 'ERROR!!! This module should not run as standalone without argument' )
+    print( '  Usage: python3 hydrophone_usb.py filename' )
+    sys.exit()

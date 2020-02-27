@@ -2,8 +2,8 @@
 # Vivado v2019.1 (64-bit)
 # SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
 # IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
-# Start of session at: Sun Feb 16 20:53:07 2020
-# Process ID: 10324
+# Start of session at: Thu Feb 27 21:00:23 2020
+# Process ID: 8128
 # Current directory: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1
 # Command line: vivado.exe -log zeabus_hydrophone.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source zeabus_hydrophone.tcl
 # Log file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/zeabus_hydrophone.vds
@@ -16,15 +16,15 @@ Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Device 21-403] Loading part xc7a15tcsg324-1
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 1584 
+INFO: Helper process launched with PID 15036 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 713.637 ; gain = 177.754
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 714.211 ; gain = 176.711
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'zeabus_hydrophone' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:36]
+INFO: [Synth 8-6157] synthesizing module 'zeabus_hydrophone' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:39]
 	Parameter trigger_head bound to: 1000 - type: integer 
 	Parameter trigger_tail bound to: 1000 - type: integer 
 INFO: [Synth 8-6157] synthesizing module 'fx3s_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/fx3s_interface.v:36]
-	Parameter FX3S_DMA_Size bound to: 4096 - type: integer 
+	Parameter FX3S_DMA_Size bound to: 4095 - type: integer 
 	Parameter addr_write bound to: 1'b1 
 	Parameter addr_read bound to: 1'b0 
 	Parameter state_idle bound to: 4'b0000 
@@ -41,12 +41,12 @@ INFO: [Synth 8-6157] synthesizing module 'fx3s_interface' [C:/Users/akrap/Google
 	Parameter state_zlp_wait1 bound to: 4'b1101 
 	Parameter state_zlp_wait2 bound to: 4'b1110 
 	Parameter state_zlp_wait3 bound to: 4'b1111 
-INFO: [Synth 8-6157] synthesizing module 'fifo_departure_1024x64b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_departure_1024x64b' (1#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'fifo_arrival_64x16b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_arrival_64x16b' (2#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'fifo_departure_1024x64b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_departure_1024x64b' (1#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'fifo_arrival_64x16b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_arrival_64x16b' (2#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
 INFO: [Synth 8-6155] done synthesizing module 'fx3s_interface' (3#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/fx3s_interface.v:36]
-WARNING: [Synth 8-7023] instance 'slave_fifo' of module 'fx3s_interface' has 38 connections declared, but only 21 given [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:107]
+WARNING: [Synth 8-7023] instance 'slave_fifo' of module 'fx3s_interface' has 38 connections declared, but only 21 given [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:110]
 INFO: [Synth 8-6157] synthesizing module 'hydrophone_config_manager' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:48]
 	Parameter config_prefix bound to: 16'b1101110010110000 
 	Parameter rst_delay bound to: 8 - type: integer 
@@ -140,20 +140,20 @@ INFO: [Synth 8-6157] synthesizing module 'hydrophone_trigger' [C:/Users/akrap/Go
 	Parameter total_tail bound to: 2000 - type: integer 
 INFO: [Synth 8-6157] synthesizing module 'absolute' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:37]
 INFO: [Synth 8-6155] done synthesizing module 'absolute' (8#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:37]
-INFO: [Synth 8-6157] synthesizing module 'fifo_1024x64b_bram' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_1024x64b_bram' (9#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'fifo_1024x64b_bram' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_1024x64b_bram' (9#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
 INFO: [Synth 8-6155] done synthesizing module 'hydrophone_trigger' (10#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:42]
-WARNING: [Synth 8-689] width (1) of port connection 'debug_d' does not match port width (64) of module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:176]
-WARNING: [Synth 8-689] width (1) of port connection 'debug_t' does not match port width (16) of module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:177]
-WARNING: [Synth 8-689] width (1) of port connection 'debug_r' does not match port width (64) of module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:178]
+WARNING: [Synth 8-689] width (1) of port connection 'debug_d' does not match port width (64) of module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:179]
+WARNING: [Synth 8-689] width (1) of port connection 'debug_t' does not match port width (16) of module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:180]
+WARNING: [Synth 8-689] width (1) of port connection 'debug_r' does not match port width (64) of module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:181]
 INFO: [Synth 8-6157] synthesizing module 'adc_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:141]
 INFO: [Synth 8-6157] synthesizing module 'adc_frontend' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:88]
 INFO: [Synth 8-6155] done synthesizing module 'adc_frontend' (11#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:88]
 INFO: [Synth 8-6157] synthesizing module 'median_filter' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:36]
 INFO: [Synth 8-6155] done synthesizing module 'median_filter' (12#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:36]
 INFO: [Synth 8-6157] synthesizing module 'avg64_filter' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/avg_filter.v:36]
-INFO: [Synth 8-6157] synthesizing module 'c_counter_binary_0' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/c_counter_binary_0_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'c_counter_binary_0' (13#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-10324-DESKTOP-MDIICNE/realtime/c_counter_binary_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'c_counter_binary_0' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/c_counter_binary_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'c_counter_binary_0' (13#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-8128-DESKTOP-MDIICNE/realtime/c_counter_binary_0_stub.v:6]
 INFO: [Synth 8-6155] done synthesizing module 'avg64_filter' (14#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/avg_filter.v:36]
 INFO: [Synth 8-6155] done synthesizing module 'adc_interface' (15#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:141]
 INFO: [Synth 8-6157] synthesizing module 'BUFG' [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp.v:1075]
@@ -202,9 +202,9 @@ INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV' [C:/Xilinx/Vivado/2019.1/sc
 INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV' (18#1) [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp.v:61199]
 INFO: [Synth 8-6155] done synthesizing module 'clk_pll_clk_wiz' (19#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v:69]
 INFO: [Synth 8-6155] done synthesizing module 'clk_pll' (20#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll.v:71]
-INFO: [Synth 8-6155] done synthesizing module 'zeabus_hydrophone' (21#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:36]
+INFO: [Synth 8-6155] done synthesizing module 'zeabus_hydrophone' (21#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:39]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 782.332 ; gain = 246.449
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 782.262 ; gain = 244.762
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -217,10 +217,10 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 782.332 ; gain = 246.449
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 782.262 ; gain = 244.762
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 782.332 ; gain = 246.449
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 782.262 ; gain = 244.762
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -259,24 +259,24 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/zeabus_hydrophone_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 914.922 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 913.469 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.017 . Memory (MB): peak = 914.922 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.025 . Memory (MB): peak = 913.469 ; gain = 0.000
 WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'adc1/avg_filter1/avg_counter' at clock pin 'CLK' is different from the actual clock period '15.625', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'adc1/avg_filter2/avg_counter' at clock pin 'CLK' is different from the actual clock period '15.625', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'adc2/avg_filter1/avg_counter' at clock pin 'CLK' is different from the actual clock period '15.625', this can lead to different synthesis results.
 WARNING: [Timing 38-316] Clock period '100.000' specified during out-of-context synthesis of instance 'adc2/avg_filter2/avg_counter' at clock pin 'CLK' is different from the actual clock period '15.625', this can lead to different synthesis results.
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 914.922 ; gain = 379.039
+Finished Constraint Validation : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 913.469 ; gain = 375.969
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a15tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 914.922 ; gain = 379.039
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 913.469 ; gain = 375.969
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -291,7 +291,7 @@ Applied set_property DONT_TOUCH = true for adc1/avg_filter2/avg_counter. (constr
 Applied set_property DONT_TOUCH = true for adc2/avg_filter1/avg_counter. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for adc2/avg_filter2/avg_counter. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 914.922 ; gain = 379.039
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 913.469 ; gain = 375.969
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'master_state_reg' in module 'fx3s_interface'
 WARNING: [Synth 8-3936] Found unconnected internal register 'config_bit_reg' and it is trimmed from '16' to '15' bits. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:159]
@@ -391,7 +391,7 @@ INFO: [Synth 8-3354] encoded FSM with state register 'sub_state_reg' using encod
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'trig_state_reg' using encoding 'sequential' in module 'hydrophone_trigger'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 914.922 ; gain = 379.039
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:16 ; elapsed = 00:00:18 . Memory (MB): peak = 913.469 ; gain = 375.969
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -627,7 +627,7 @@ Start Cross Boundary and Area Optimization
 Warning: Parallel synthesis criteria is not met 
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\poten_i2c/cmd_reg[1] )
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 914.922 ; gain = 379.039
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:22 ; elapsed = 00:00:25 . Memory (MB): peak = 913.469 ; gain = 375.969
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -641,13 +641,13 @@ Start Applying XDC Timing Constraints
 INFO: [Synth 8-5578] Moved timing constraint from pin 'clk_gen/inst/clk_in' to pin 'sysclk_buf/O'
 INFO: [Synth 8-5819] Moved 1 constraints on hierarchical pins to their respective driving/loading pins
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:00:30 . Memory (MB): peak = 914.922 ; gain = 379.039
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 913.469 ; gain = 375.969
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:34 ; elapsed = 00:00:36 . Memory (MB): peak = 962.781 ; gain = 426.898
+Finished Timing Optimization : Time (s): cpu = 00:00:37 ; elapsed = 00:00:40 . Memory (MB): peak = 960.539 ; gain = 423.039
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -659,7 +659,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:35 ; elapsed = 00:00:37 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished Technology Mapping : Time (s): cpu = 00:00:38 ; elapsed = 00:00:41 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -683,7 +683,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished IO Insertion : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -696,7 +696,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -708,25 +708,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -756,59 +756,60 @@ Report Cell Usage:
 |8     |BUFG                    |     6|
 |9     |CARRY4                  |   112|
 |10    |LUT1                    |   131|
-|11    |LUT2                    |    89|
-|12    |LUT3                    |   139|
-|13    |LUT4                    |   337|
-|14    |LUT5                    |    32|
-|15    |LUT6                    |   288|
-|16    |PLLE2_ADV               |     1|
-|17    |FDRE                    |   592|
-|18    |FDSE                    |    56|
-|19    |IBUF                    |    35|
-|20    |IOBUF                   |    18|
-|21    |OBUF                    |    15|
+|11    |LUT2                    |   176|
+|12    |LUT3                    |   153|
+|13    |LUT4                    |   261|
+|14    |LUT5                    |    64|
+|15    |LUT6                    |   279|
+|16    |MUXF7                   |     4|
+|17    |PLLE2_ADV               |     1|
+|18    |FDRE                    |   595|
+|19    |FDSE                    |    53|
+|20    |IBUF                    |    35|
+|21    |IOBUF                   |    18|
+|22    |OBUF                    |    15|
 +------+------------------------+------+
 
 Report Instance Areas: 
 +------+---------------------+--------------------------+------+
 |      |Instance             |Module                    |Cells |
 +------+---------------------+--------------------------+------+
-|1     |top                  |                          |  1981|
+|1     |top                  |                          |  2033|
 |2     |  clk_gen            |clk_pll                   |     5|
 |3     |    inst             |clk_pll_clk_wiz           |     5|
-|4     |  adc1               |adc_interface__xdcDup__1  |   544|
+|4     |  adc1               |adc_interface__xdcDup__1  |   566|
 |5     |    adc              |adc_frontend_1            |    43|
-|6     |    avg_filter1      |avg64_filter__xdcDup__1   |   145|
-|7     |    avg_filter2      |avg64_filter__xdcDup__2   |   146|
-|8     |    m_filter1        |median_filter_2           |   105|
-|9     |    m_filter2        |median_filter_3           |   105|
-|10    |  adc2               |adc_interface             |   546|
+|6     |    avg_filter1      |avg64_filter__xdcDup__1   |   154|
+|7     |    avg_filter2      |avg64_filter__xdcDup__2   |   155|
+|8     |    m_filter1        |median_filter_2           |   107|
+|9     |    m_filter2        |median_filter_3           |   107|
+|10    |  adc2               |adc_interface             |   568|
 |11    |    adc              |adc_frontend              |    43|
-|12    |    avg_filter1      |avg64_filter__xdcDup__3   |   145|
-|13    |    avg_filter2      |avg64_filter              |   147|
-|14    |    m_filter1        |median_filter             |   105|
-|15    |    m_filter2        |median_filter_0           |   106|
-|16    |  config_man         |hydrophone_config_manager |   189|
-|17    |  poten_i2c          |poten_interface           |   266|
-|18    |    byte_controller  |i2c_master_byte_ctrl      |   208|
-|19    |      bit_controller |i2c_master_bit_ctrl       |   170|
-|20    |  slave_fifo         |fx3s_interface            |   220|
-|21    |  trigger            |hydrophone_trigger        |   137|
+|12    |    avg_filter1      |avg64_filter__xdcDup__3   |   154|
+|13    |    avg_filter2      |avg64_filter              |   156|
+|14    |    m_filter1        |median_filter             |   107|
+|15    |    m_filter2        |median_filter_0           |   108|
+|16    |  config_man         |hydrophone_config_manager |   187|
+|17    |  poten_i2c          |poten_interface           |   269|
+|18    |    byte_controller  |i2c_master_byte_ctrl      |   209|
+|19    |      bit_controller |i2c_master_bit_ctrl       |   169|
+|20    |  slave_fifo         |fx3s_interface            |   229|
+|21    |  trigger            |hydrophone_trigger        |   135|
 +------+---------------------+--------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 961.551 ; gain = 424.051
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:29 ; elapsed = 00:00:36 . Memory (MB): peak = 963.789 ; gain = 295.316
-Synthesis Optimization Complete : Time (s): cpu = 00:00:38 ; elapsed = 00:00:39 . Memory (MB): peak = 963.789 ; gain = 427.906
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:31 ; elapsed = 00:00:40 . Memory (MB): peak = 961.551 ; gain = 292.844
+Synthesis Optimization Complete : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 961.551 ; gain = 424.051
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 131 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 135 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 WARNING: [Opt 31-32] Removing redundant IBUF since it is not being driven by a top-level port. clk_gen/inst/clkin1_ibufg 
 Resolution: The tool has removed redundant IBUF. To resolve this warning, check for redundant IBUF in the input design.
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 975.668 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 970.324 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 18 instances were transformed.
   IOBUF => IOBUF (IBUF, OBUFT): 18 instances
@@ -816,10 +817,10 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 INFO: [Common 17-83] Releasing license: Synthesis
 92 Infos, 26 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:43 ; elapsed = 00:00:47 . Memory (MB): peak = 975.668 ; gain = 684.758
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 975.668 ; gain = 0.000
+synth_design: Time (s): cpu = 00:00:49 ; elapsed = 00:00:54 . Memory (MB): peak = 970.324 ; gain = 678.996
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 970.324 ; gain = 0.000
 WARNING: [Constraints 18-5210] No constraints selected for write.
 Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
 INFO: [Common 17-1381] The checkpoint 'C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/zeabus_hydrophone.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file zeabus_hydrophone_utilization_synth.rpt -pb zeabus_hydrophone_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Sun Feb 16 20:54:04 2020...
+INFO: [Common 17-206] Exiting Vivado at Thu Feb 27 21:01:24 2020...
