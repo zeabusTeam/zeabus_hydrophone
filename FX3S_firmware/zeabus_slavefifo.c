@@ -221,7 +221,6 @@ bool zeabus_slavefifo_start( void )
 		CyU3PPibRegisterCallback( gpif_error_cb, 0xffff );
 		
 		// Finalize
-		zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, false );	// Release reset
 		bIsInitialized = true;
 		_log( "Slave FIFO started\r\n" );
     }

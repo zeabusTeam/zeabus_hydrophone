@@ -372,7 +372,6 @@ void zeabus_main( uint32_t input )
                 _log( "Failed to start slave FIFO\r\n" );
             }
         }
-
     }
 
     /* Initialize PIB clock. Should be performed after FPGA config */
@@ -410,7 +409,6 @@ void zeabus_main( uint32_t input )
                 len = zeabus_usb_ep0_dwdata();
                 zeabus_slavefifo_stop();
                 _log( "Start program FPGA for %d bytes\r\n", len );
-                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, true );    // Arm soft reset
                 if( !zeabus_usb2fpga( len ) )
                 {
                     _log( "Init Failed!!!\r\n" );

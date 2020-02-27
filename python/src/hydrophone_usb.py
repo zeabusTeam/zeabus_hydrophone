@@ -264,5 +264,11 @@ if __name__ == '__main__':
   # Check argument
   if len( sys.argv ) != 2:
     print( 'ERROR!!! This module should not run as standalone without argument' )
-    print( '  Usage: python3 hydrophone_usb.py filename' )
+    print( '  Usage: python3 hydrophone_usb.py filename[.brv]' )
     sys.exit()
+  hp = hydrophone_usb()
+  if not hp.is_ready():
+    print( 'Unable to open hydrophone device' )
+    sys.exit()
+  # Then write that file to FPGA
+  hp.program_fpga( sys.argv[1] )
