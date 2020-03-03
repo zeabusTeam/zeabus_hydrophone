@@ -314,7 +314,8 @@ void zeabus_ledblinking( uint32_t input )
 #define __MAIN_EVENTS   (ZEABUS_EVENT_REQ_USB_PROG_FPGA | ZEABUS_EVENT_REQ_SAVE_FPGA | ZEABUS_EVENT_REQ_SAVE_FIRMWARE \
                         | ZEABUS_EVENT_REQ_READ_FLASH | ZEABUS_EVENT_REQ_WRITE_FLASH | ZEABUS_EVENT_REQ_READ_EEPROM \
                         | ZEABUS_EVENT_REQ_WRITE_EEPROM | ZEABUS_EVENT_REQ_SEND_FPGA_DATA \
-                        | ZEABUS_EVENT_REQ_ARM_SOFT_RES | ZEABUS_EVENT_REQ_REL_SOFT_RES )
+                        | ZEABUS_EVENT_REQ_ARM_SOFT_RES | ZEABUS_EVENT_REQ_REL_SOFT_RES \
+                        | ZEABUS_USB_REQ_FIR_EN | ZEABUS_USB_REQ_FIR_DIS )
 void zeabus_main( uint32_t input )
 {
     void *ptr;
@@ -337,6 +338,7 @@ void zeabus_main( uint32_t input )
     zeabus_configgpio_output( ZEABUS_GPIO_MODE1, true );
     zeabus_configgpio_output( ZEABUS_GPIO_MODE0, false );
 
+     zeabus_configgpio_output( ZEABUS_GPIO_FPGA_FIR_EN, false );
     zeabus_configgpio_output( ZEABUS_GPIO_FPGA_SRES, true );
     zeabus_configgpio_output( ZEABUS_GPIO_FPGA_RESET, true );
     zeabus_configgpio_output( ZEABUS_GPIO_FPGA_CSI_B, true );
@@ -528,6 +530,20 @@ void zeabus_main( uint32_t input )
                 {
                     _log( "Failed to write EEPROM!!\r\n");
                 }
+            }
+
+            // Enable FIR filter
+            if( ( eventFlag & ZEABUS_USB_REQ_FIR_EN ) != 0 )
+            {
+                _log( "Enable FIR filter\r\n" );
+                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_FIR_EN, true );
+            }
+
+            // Disable FIR filter
+            if( ( eventFlag & ZEABUS_USB_REQ_FIR_DIS ) != 0 )
+            {
+                _log( "Disable FIR filter\r\n" );
+                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_FIR_EN, false );
             }
         }
     }

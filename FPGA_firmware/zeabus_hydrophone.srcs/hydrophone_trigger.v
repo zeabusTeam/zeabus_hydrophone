@@ -51,11 +51,7 @@ module hydrophone_trigger
 	input [63:0] d_in,			// data input (concatenation of 4 16-bit data)
 	input [15:0] trigger_level,	// level of the trigger in 16-bit signed integer
 	output [63:0] d_out,		// data output 
-	output reg trigged,			// indicates that the data is part of packet of trigged signal
-	
-	// Debug
-	output [63:0] debug_d, debug_r,
-	output [15:0] debug_t
+	output reg trigged			// indicates that the data is part of packet of trigged signal
 );
 
 	// Variables
@@ -65,10 +61,6 @@ module hydrophone_trigger
 	
 	wire [63:0] abs_d_in;		// Magnetude (aka. absolute) values of d_in
 	wire [15:0] abs_trigger;	// Magnetude of trigger level
-	
-	assign debug_d = abs_d_in;
-	assign debug_t = abs_trigger;
-	assign debug_r = d_in;
 	
 	// Absolute implementation
 	absolute abs1( .in(d_in[15:0]), .out(abs_d_in[15:0]) );

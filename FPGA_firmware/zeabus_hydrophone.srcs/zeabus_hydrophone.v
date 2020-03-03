@@ -54,6 +54,9 @@ module zeabus_hydrophone #(
 	// Potentiometers pins
 	inout SCL, SDA,			// I2C functions
 	
+	// FIR control pins
+	input FIR_EN,			// Enable FIR function
+	
 	// FX3S Interface
 	output ifclk_out,		// Slave FIFO clock
 	inout [15:0]DQ,			// Data bus
@@ -65,6 +68,17 @@ module zeabus_hydrophone #(
 	// Status LEDs
 	output LED_BLUE, LED_GREEN, LED_RED_n,
 	
+	// Debug LEDs
+	output LED_RED_1,
+	output LED_YELLOW_1,
+	output LED_GREEN_1,
+	output LED_RED_2,
+	output LED_YELLOW_2,		// trigged
+	output LED_GREEN_2,			// p_data_valid
+	output LED_RED_3,			// RST
+	output LED_YELLOW_3,		// rst
+	output LED_GREEN_3,			// Slave FIFO ready
+	
 	// Master clock input (26 MHz)
 	input clk_in	
 );
@@ -75,10 +89,12 @@ module zeabus_hydrophone #(
 	wire clk_64MHz, clk_64MHz_90, clk_in_buf;	// clocks from BUFG that can distributes through out the chip
 	wire pll_locked;							// Output PLL clock is ready
 	wire [15:0] adc1_1_out,  adc1_2_out, adc2_1_out, adc2_2_out;	// Data output from ADC modules
-	wire adc1_clkout, adc2_clkout, adc_clkout;	// Clock out from ADC modules data are valid at rising edges
 	wire [15:0] trigger_level;					// Defined trigger level
 	wire [63:0] trigged_out;					// Data-out from trigger circuit
 	wire trigged;								// Trigger signal (active high)
+	wire [63:0] packetize_out;					// Data-out from packetize circuit
+	wire p_data_valid;							// Trigger signale (active high) from packetizer
+	wire p_data_clk;							// Output strobe clock from packetizer
 	wire poten_update_start;					// Rising edge indicates starting of updating poten values
 	wire [7:0] poten0, poten1, poten2, poten3;	// Values of potentiometers (aka. amplifier gain)
 	wire [15:0] rx_data;						// Incoming data from FX3S
@@ -86,24 +102,35 @@ module zeabus_hydrophone #(
 	wire tx_full;
 	
 	// Combination logic
-	assign adc_clkout = adc1_clkout & adc2_clkout;
-	assign LED_BLUE = trigged;
+	assign LED_BLUE = p_data_valid;
 	assign LED_GREEN = ~rst;
 	assign LED_RED_n = ~tx_full;
 	
+	// Debug LED
+	assign LED_RED_3 = RST;
+	assign LED_YELLOW_3 = rst;
+	assign LED_RED_2 = 0;
+	assign LED_YELLOW_2 = trigged;
+	assign LED_GREEN_2 = p_data_valid;
+	assign LED_RED_1 = 0;
+	assign LED_YELLOW_1 = 0;
+	assign LED_GREEN_1 = 0;
+	
 	assign #(0,308) rst = ( RST | ~pll_locked );
 	
-	// ADC clock-out synchronizer
-	reg adc_clkout_d, adc_clkout_dd, adc_clkout_ddd;
-	wire adc_d_clk;
-	wire trigger_upd;
-	assign adc_d_clk = ( ~adc_clkout_dd & adc_clkout_d & clk_64MHz );
-	assign trigger_upd = ~( ( ~adc_clkout_dd & adc_clkout_d ) | ( ~adc_clkout_ddd & adc_clkout_dd ) );
+	// ADC output clock  (1MHz) generator
+	reg adc_d_clk;
+	reg [4:0] adc_clk_cnt;
+	initial
+	begin
+		adc_clk_cnt <= 0;
+		adc_d_clk <= 0;
+	end
 	always @(posedge clk_64MHz)
 	begin
-		adc_clkout_ddd <= adc_clkout_dd;
-		adc_clkout_dd <= adc_clkout_d;
-		adc_clkout_d <= adc_clkout;
+		adc_clk_cnt = adc_clk_cnt + 1;
+		if( adc_clk_cnt == 0)
+			adc_d_clk = ~adc_d_clk;
 	end
 
 	// Instances
@@ -124,12 +151,12 @@ module zeabus_hydrophone #(
 		// Control signal
 		.clk_64MHz(clk_64MHz),			// Master clock for this module (64 MHz 0-degree)
 		.rst(rst),						// Synchronous reset (active high)
-		.rdy(),							// Indicate that the system is ready for data (unused)
+		.rdy(LED_GREEN_3),				// Indicate that the system is ready for data (unused)
 
 		// Data to send out (FPGA -> FX3S)
-		.d_in(trigged_out),				// Input data to send to FX3S
-		.input_valid(trigged),			// Indicates that the d_in value is valid
-		.input_d_clk(trigger_upd),		// Clocking for data input (data valid at posedge)
+		.d_in(packetize_out),			// Input data to send to FX3S
+		.input_valid(p_data_valid),		// Indicates that the d_in value is valid
+		.input_d_clk(p_data_clk),		// Clocking for data input (data valid at posedge)
 		.input_full(tx_full),			// Flag to indicate that the buffer for departure data is full
 
 		// Arrival data (FX3S -> FPGA)
@@ -175,10 +202,20 @@ module zeabus_hydrophone #(
 		.p3_val(poten3)
 	);
 
+	packetizer packetizer_inst(
+		.rst(rst),						// System reset (active high)
+		.clk_64MHz(clk_64MHz),			// Master clock
+		
+		.d_in(trigged_out),				// Data from trigger
+		.in_valid(trigged),				// Data-valid signal from trigger
+		.in_strobe(adc_d_clk),			// Input data clock (latch at posedge)
+		
+		.d_out(packetize_out),			// Output data
+		.out_valid(p_data_valid),		// Data-valid signal to FX3 interface
+		.out_strobe(p_data_clk)		// Output data clock (latch at posedge)
+	);
+	
 	hydrophone_trigger #( .header(trigger_head), .trigged_tailed(trigger_tail) ) trigger(
-		.debug_d(debug_d),
-		.debug_t(debug_t),
-		.debug_r(debug_r),
 		.rst(rst),						// system reset (active high)
 		.clk(adc_d_clk),				// signal clock (1 MHz)
 		.d_in( { adc1_1_out, adc1_2_out, adc2_1_out, adc2_2_out } ),// data input (concatenation of 4 16-bit data)
@@ -201,8 +238,7 @@ module zeabus_hydrophone #(
 	
 		// Output data
 		.d0_out(adc1_1_out),			// Output from each ADC channel
-		.d1_out(adc1_2_out),
-		.clk_out(adc1_clkout)			// Clock for output data (data are valid at rising-edge)
+		.d1_out(adc1_2_out)
 	);
 
 	adc_interface adc2(
@@ -219,8 +255,7 @@ module zeabus_hydrophone #(
 	
 		// Output data
 		.d0_out(adc2_1_out),			// Output from each ADC channel
-		.d1_out(adc2_2_out),
-		.clk_out(adc2_clkout)			// Clock for output data (data are valid at rising-edge)
+		.d1_out(adc2_2_out)
 	);
 
     BUFG sysclk_buf(

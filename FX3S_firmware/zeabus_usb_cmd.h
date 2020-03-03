@@ -52,5 +52,7 @@
 #define ZEABUS_USB_REQ_ARM_SOFT_RESET   (0xA8)          // Arm FPGA soft reset
 #define ZEABUS_USB_REQ_REL_SOFT_RESET   (0xA9)          // Release FPGA soft reset
 #define ZEABUS_USB_REQ_SEND_FPGA_DATA   (0xAA)          // Send data to FPGA through slave FIFO
+#define ZEABUS_USB_REQ_FIR_EN           (0xAB)          // Enable FIR filter
+#define ZEABUS_USB_REQ_FIR_DIS          (0xAC)          // Disable FIR filter
 
 #endif // __ZEABUS_USB_CMD_H

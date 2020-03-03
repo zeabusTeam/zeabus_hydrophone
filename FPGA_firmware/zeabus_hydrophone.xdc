@@ -82,8 +82,8 @@ set_property PACKAGE_PIN V10 [get_ports {PKTEND}]       ;# CTL7/PKTEND#/GPIO24
 set_property IOSTANDARD LVCMOS33 [get_ports {PKTEND}]
 #set_property PACKAGE_PIN V16 [get_ports {FLAGD}]        ;# CTL8/FLAGD/GPIO25
 #set_property IOSTANDARD LVCMOS33 [get_ports {FLAGD}]
-#set_property PACKAGE_PIN U14 [get_ports {CTL9}]         ;# CTL9/GPIO26
-#set_property IOSTANDARD LVCMOS33 [get_ports {CTL9}]
+set_property PACKAGE_PIN U14 [get_ports {FIR_EN}]       ;# CTL9/GPIO26/Enable FIR module
+set_property IOSTANDARD LVCMOS33 [get_ports {FIR_EN}]
 set_property PACKAGE_PIN T15 [get_ports {A[1]}]        	;# CTL11/A1/GPIO28
 set_property IOSTANDARD LVCMOS33 [get_ports {A[1]}]
 set_property PACKAGE_PIN U16 [get_ports {A[0]}]        	;# CTL12/A0/GPIO29
@@ -127,6 +127,29 @@ set_property PACKAGE_PIN E17 [get_ports {LED_GREEN}]   ;# B13:LED2:Green
 set_property IOSTANDARD LVCMOS33 [get_ports {LED_GREEN}]
 set_property PACKAGE_PIN D17 [get_ports {LED_BLUE}]    ;# B14:LED3:Blue
 set_property IOSTANDARD LVCMOS33 [get_ports {LED_BLUE}]
+
+##################################################################################################
+## Debug LEDs
+##################################################################################################
+set_property PACKAGE_PIN P5 [get_ports {LED_RED_1}]      ;# D19 / P5~IO_L13N_T2_MRCC_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_RED_1}]
+set_property PACKAGE_PIN N5 [get_ports {LED_YELLOW_1}]   ;# D20 / N5~IO_L13P_T2_MRCC_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_YELLOW_1}]
+set_property PACKAGE_PIN P4 [get_ports {LED_GREEN_1}]    ;# D21 / P4~IO_L14P_T2_SRCC_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_GREEN_1}]
+set_property PACKAGE_PIN P3 [get_ports {LED_RED_2}]      ;# D22 / P3~IO_L14N_T2_SRCC_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_RED_2}]
+set_property PACKAGE_PIN T1 [get_ports {LED_YELLOW_2}]   ;# D23 / T1~IO_L17N_T2_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_YELLOW_2}]
+set_property PACKAGE_PIN R1 [get_ports {LED_GREEN_2}]    ;# D24 / R1~IO_L17P_T2_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_GREEN_2}]
+set_property PACKAGE_PIN R2 [get_ports {LED_RED_3}]      ;# D25 / R2~IO_L15N_T2_DQS_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_RED_3}]
+set_property PACKAGE_PIN P2 [get_ports {LED_YELLOW_3}]   ;# D26 / P2~IO_L15P_T2_DQS_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_YELLOW_3}]
+set_property PACKAGE_PIN N2 [get_ports {LED_GREEN_3}]    ;# D27 / N2~IO_L3P_T0_DQS_34
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_GREEN_3}]
+
 
 ##################################################################################################
 ## ADC1
@@ -501,24 +524,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports {SDA}]
 #set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[11]}]
 #set_property PACKAGE_PIN R3 [get_ports {IO_D[12]}]      ;# D15 / R3~IO_L11P_T1_SRCC_34
 #set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[12]}]
-#set_property PACKAGE_PIN P5 [get_ports {IO_D[13]}]      ;# D19 / P5~IO_L13N_T2_MRCC_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[13]}]
-#set_property PACKAGE_PIN N5 [get_ports {IO_D[14]}]      ;# D20 / N5~IO_L13P_T2_MRCC_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[14]}]
-#set_property PACKAGE_PIN P4 [get_ports {IO_D[15]}]      ;# D21 / P4~IO_L14P_T2_SRCC_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[15]}]
-#set_property PACKAGE_PIN P3 [get_ports {IO_D[16]}]      ;# D22 / P3~IO_L14N_T2_SRCC_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[16]}]
-#set_property PACKAGE_PIN T1 [get_ports {IO_D[17]}]      ;# D23 / T1~IO_L17N_T2_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[17]}]
-#set_property PACKAGE_PIN R1 [get_ports {IO_D[18]}]      ;# D24 / R1~IO_L17P_T2_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[18]}]
-#set_property PACKAGE_PIN R2 [get_ports {IO_D[19]}]      ;# D25 / R2~IO_L15N_T2_DQS_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[19]}]
-#set_property PACKAGE_PIN P2 [get_ports {IO_D[20]}]      ;# D26 / P2~IO_L15P_T2_DQS_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[20]}]
-#set_property PACKAGE_PIN N2 [get_ports {IO_D[21]}]      ;# D27 / N2~IO_L3P_T0_DQS_34
-#set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[21]}]
 #set_property PACKAGE_PIN N1 [get_ports {IO_D[22]}]      ;# D28 / N1~IO_L3N_T0_DQS_34
 #set_property IOSTANDARD LVCMOS33 [get_ports {IO_D[22]}]
 #set_property PACKAGE_PIN M1 [get_ports {IO_D[23]}]      ;# D29 / M1~IO_L1N_T0_34

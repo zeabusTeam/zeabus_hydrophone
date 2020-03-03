@@ -181,6 +181,24 @@ module poten_interface #(
 			core_en <= #2 1;
 	end
 
+	/*
+	 * The I2C subsystem used in this project operates as a byte sender/receiver with modifiers.
+	 * The modifiers indicate the I2C bus operation along with the travelling byte, such as
+	 * initiate START, STOP, or REPEAT-START conditions. After getting the command, the subsystem
+	 * operates on its own until finish sending or receiving. There is an output flag to check
+	 * the completeness of this operation.
+	 * Commanding 4 external potentiometers requires the system to send a sequence of commands 
+	 * to each potentiometer. Hence, repeating the subsystem byte command for several times.
+	 * Therefore, we define 2 macros to aggregate relevant steps.
+	 *
+	 * The first macro (activate_i2c) manage byte transferring and wait until that transfer to finish.
+	 *
+	 * The second macro (poten_sub) manage transferring a sequence of potentiometer setting by 
+	 * utilizing the "activate_i2c" macro for each byte in the sequence.
+	 * 
+	 * Finally, the main process has to activate the "poten_sub" macro for each potentiometer.
+	 *
+	 */
 	// Main process
 	`define activate_i2c(next_state, command) \
 		if( !cmd_phase ) \

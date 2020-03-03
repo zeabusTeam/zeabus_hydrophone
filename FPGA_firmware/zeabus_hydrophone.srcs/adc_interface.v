@@ -151,22 +151,19 @@ module adc_interface(
 	
 	// Output data
 	output [15:0] d0_out,	// Output from each ADC channel
-	output [15:0] d1_out,
-	output clk_out			// Clock for output data (data are valid at rising-edge)
+	output [15:0] d1_out
 );
 
 	wire [13:0] d0, d1, d0_mean, d1_mean;
-	wire clk_out1, clk_out2;
 	
 	// Combination logic
 	assign clk_a = clk_64MHz;
 	assign clk_b = clk_64MHz;
-	assign clk_out = clk_out1 & clk_out2;
 
 	// Instantiation
 	adc_frontend adc( .clk(clk_64MHz_90), .overflow(overflow), .d_in(d_in), .d0_out(d0), .d1_out(d1) );
 	median_filter m_filter1( .clk(clk_64MHz), .rst(rst), .d_in(d0), .d_out(d0_mean) );
 	median_filter m_filter2( .clk(clk_64MHz), .rst(rst), .d_in(d1), .d_out(d1_mean) );
-	avg64_filter avg_filter1( .clk_64MHz(clk_64MHz), .rst(rst), .clk_out(clk_out1), .d_in(d0_mean), .d_out(d0_out) ); 
-	avg64_filter avg_filter2( .clk_64MHz(clk_64MHz), .rst(rst), .clk_out(clk_out2), .d_in(d1_mean), .d_out(d1_out) ); 
+	avg64_filter avg_filter1( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d0_mean), .d_out(d0_out) ); 
+	avg64_filter avg_filter2( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d1_mean), .d_out(d1_out) ); 
 endmodule

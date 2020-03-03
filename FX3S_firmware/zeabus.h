@@ -54,18 +54,20 @@
 #define ZEABUS_GPIO_FPGA_CSI_B    39
 #define ZEABUS_GPIO_FPGA_DONE     40
 #define ZEABUS_GPIO_FPGA_SRES     23
+#define ZEABUS_GPIO_FPGA_FIR_EN   26
 
 #define ZEABUS_GPIO_OTG_EN        57
 
 // Bitmap use to confifure GPIO module at system start */
-#define ZEABUS_GPIO_SIMPLE_BITMAP ( \
+#define ZEABUS_GPIO_SIMPLE_BITMAP_LO  ( \
+      (1 << ZEABUS_GPIO_FPGA_SRES) |  (1 << ZEABUS_GPIO_FPGA_FIR_EN) )
+#define ZEABUS_GPIO_SIMPLE_BITMAP_HI ( \
       ( 1 << ( ZEABUS_GPIO_MODE0 - 32 ) ) | ( 1 << ( ZEABUS_GPIO_MODE1 - 32 ) ) \
     | ( 1 << ( ZEABUS_GPIO_LED - 32 ) ) | ( 1 << ( ZEABUS_GPIO_FPGA_RESET -32 ) ) \
     | ( 1 << ( ZEABUS_GPIO_FPGA_DONE - 32 ) ) | ( 1 << ( ZEABUS_GPIO_FPGA_INIT_B - 32 ) ) \
     | ( 1 << ( ZEABUS_GPIO_FPGA_RDWR_B - 32 ) ) | ( 1 << ( ZEABUS_GPIO_FPGA_CSI_B - 32 ) )  \
     | ( 1 << ( ZEABUS_GPIO_OTG_EN - 32 ) ) \
     )
-
 
 /* DMA Socket allocation */
 /* FX3S has some fixed sockets available as:

@@ -120,8 +120,8 @@ int main (void)
     io_cfg.lppMode   = CY_U3P_IO_MATRIX_LPP_DEFAULT;   // LPP only has SPI active
 
     /* Enable the GPIO which would have been setup by 2-stage booter. */
-    io_cfg.gpioSimpleEn[0]  = (1 << ZEABUS_GPIO_FPGA_SRES);   // GPIO 0 - 31 are used by GPIF II except SRES (GPIO23)
-    io_cfg.gpioSimpleEn[1]  = ZEABUS_GPIO_SIMPLE_BITMAP; // Define in zeabus.h
+    io_cfg.gpioSimpleEn[0]  = ZEABUS_GPIO_SIMPLE_BITMAP_LO; // Defined in zeabus.h
+    io_cfg.gpioSimpleEn[1]  = ZEABUS_GPIO_SIMPLE_BITMAP_HI; // Defined in zeabus.h
     io_cfg.gpioComplexEn[0] = 0;    // GPIO 0 - 31 are used by GPIF II
     io_cfg.gpioComplexEn[1] = 0;    // No complex GPIO.
     if ( CyU3PDeviceConfigureIOMatrix( &io_cfg ) != CY_U3P_SUCCESS )

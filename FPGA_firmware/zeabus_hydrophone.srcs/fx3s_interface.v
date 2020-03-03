@@ -34,7 +34,7 @@
 // --------------------------------------------------------------------------------
 
 module fx3s_interface #(
-	parameter	FX3S_DMA_Size = 4095,	// Size of FX3S receiving DMA buffer (in 16-bit words) minus 1
+	parameter	FX3S_DMA_Size = 4096,	// Size of FX3S receiving DMA buffer (in 16-bit words)
 	
 	// Address value
 	localparam addr_write = 1'b1,
@@ -205,8 +205,8 @@ module fx3s_interface #(
 	 *               | else                            | read_loop   | rx_buf_dd = rx_buf_d, rx_buf_d = rx_data
 	 * ------------------------------------------------------------------------------------
 	 *  start_write  | !FLAGB || tx_empty              | idle        | SLCS = 1, SLWR = 1, tx_rd_en = 0, is_sending = 0
-	 *               | else { u16WrCounter == 0 }      | write_wait1 | SLCS = 1, SLWR = 1, tx_rd_en = 0 (then wait 3 clocks)
-	 *               | else { else }                   | start_write | u16WrCounter = u16WrCounter - 1
+	 *               | else { u16WrCounter == 0 }      | write_wait1 | u16WrCounter = u16WrCounter - 1, SLCS = 1, 
+	 *                                                               |     SLWR = 1, tx_rd_en = 0 (then wait 3 clocks)
 	 * ------------------------------------------------------------------------------------
 	 *  write_wait1  | 1                               | write_wait2 |
 	 * ------------------------------------------------------------------------------------
@@ -349,17 +349,13 @@ module fx3s_interface #(
 					end
 					else
 					begin
+						u16WrCounter = u16WrCounter - 1;
 						if( u16WrCounter == 0 )	/* End of a chunk */
 						begin
 							SLCS <= 1;
 							SLWR <= 1;
 							tx_rd_en <= 0;
 							master_state <= state_write_wait1;
-						end
-						else
-						begin
-							u16WrCounter = u16WrCounter - 1;
-							/* stay at state_writing */
 						end
 					end
 				end

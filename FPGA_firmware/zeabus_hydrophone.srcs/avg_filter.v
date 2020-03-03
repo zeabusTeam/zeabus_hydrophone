@@ -34,31 +34,23 @@
 // --------------------------------------------------------------------------------
 
 module avg64_filter(
-	input [13:0] d_in,		// Data input
+	input [13:0] d_in,			// Data input
 	
-	output reg [15:0] d_out,	// Data output in format Q13.2
+	output reg [15:0] d_out,		// Data output in format Q13.2
 	
-	input rst,				// Synchronous reset (active high)
-	input clk_64MHz,			// System 64 MHz clock
-	output reg clk_out			// Output clock. Data is updated at the rising edge. The propagation delay of output FF should be considered.
+	input rst,					// Synchronous reset (active high)
+	input clk_64MHz			// System 64 MHz clock
 );
 
 	reg [19:0] d_acc;		// Accumulator for channel 0
 	
-	wire [5:0] counter_q;
-	
-	// Counter instance
-	c_counter_binary_0 avg_counter (
-		.CLK(clk_64MHz),  // input wire CLK
-		.Q(counter_q),  // output wire [5 : 0] Q
-		.SCLR(rst)		// Synchronous clear
-	);
-	
+	reg [5:0] counter_q;
+		
 	initial 
 	begin
+		counter_q <= 0;
 		d_acc <= 0;
 		d_out <= 0;
-		clk_out <= 1;
 	end
 	
 	// Main operation
@@ -66,19 +58,21 @@ module avg64_filter(
 	begin
 		if( rst )
 		begin
-			d_acc = 0;
-		end
-			
-		if( counter_q == 0 )
-		begin
-			clk_out = 0;
-			d_out = d_acc[19:4];
-			d_acc = { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+			d_acc <= 0;
+			counter_q <= 0;
 		end
 		else
 		begin
-			clk_out = 1;
-			d_acc = d_acc + { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+			if( counter_q == 0 )
+			begin
+				d_out = d_acc[19:4];
+				d_acc = { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+			end
+			else
+			begin
+				d_acc = d_acc + { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+			end
+			counter_q = counter_q + 1;
 		end
 	end
 endmodule
