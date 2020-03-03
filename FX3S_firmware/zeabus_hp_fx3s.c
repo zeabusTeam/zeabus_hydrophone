@@ -315,7 +315,7 @@ void zeabus_ledblinking( uint32_t input )
                         | ZEABUS_EVENT_REQ_READ_FLASH | ZEABUS_EVENT_REQ_WRITE_FLASH | ZEABUS_EVENT_REQ_READ_EEPROM \
                         | ZEABUS_EVENT_REQ_WRITE_EEPROM | ZEABUS_EVENT_REQ_SEND_FPGA_DATA \
                         | ZEABUS_EVENT_REQ_ARM_SOFT_RES | ZEABUS_EVENT_REQ_REL_SOFT_RES \
-                        | ZEABUS_USB_REQ_FIR_EN | ZEABUS_USB_REQ_FIR_DIS )
+                        | ZEABUS_EVENT_REQ_FIR_EN | ZEABUS_EVENT_REQ_FIR_DIS )
 void zeabus_main( uint32_t input )
 {
     void *ptr;
@@ -533,14 +533,14 @@ void zeabus_main( uint32_t input )
             }
 
             // Enable FIR filter
-            if( ( eventFlag & ZEABUS_USB_REQ_FIR_EN ) != 0 )
+            if( ( eventFlag & ZEABUS_EVENT_REQ_FIR_EN ) != 0 )
             {
                 _log( "Enable FIR filter\r\n" );
                 zeabus_gpiowrite( ZEABUS_GPIO_FPGA_FIR_EN, true );
             }
 
             // Disable FIR filter
-            if( ( eventFlag & ZEABUS_USB_REQ_FIR_DIS ) != 0 )
+            if( ( eventFlag & ZEABUS_EVENT_REQ_FIR_DIS ) != 0 )
             {
                 _log( "Disable FIR filter\r\n" );
                 zeabus_gpiowrite( ZEABUS_GPIO_FPGA_FIR_EN, false );

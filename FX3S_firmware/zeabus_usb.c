@@ -1234,6 +1234,12 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
             case ZEABUS_USB_REQ_SEND_FPGA_DATA:
                 CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_SEND_FPGA_DATA, CYU3P_EVENT_OR );
                 break;
+            case ZEABUS_USB_REQ_FIR_EN:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_FIR_EN, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_REQ_FIR_DIS:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_FIR_DIS, CYU3P_EVENT_OR );
+                break;
 
             default:
                 isHandled = CyFalse;     // Unknown command

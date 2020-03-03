@@ -109,6 +109,8 @@ extern CyU3PEvent   xZeabusEvent;              /* Event ID of USB event group */
 #define ZEABUS_EVENT_REQ_WRITE_EEPROM   (1 << 6)        // Write raw data to EEPROM
 #define ZEABUS_EVENT_REQ_ARM_SOFT_RES   (1 << 7)        // Arm FPGA soft reset
 #define ZEABUS_EVENT_REQ_REL_SOFT_RES   (1 << 8)        // Release FPGA soft reset
-#define ZEABUS_EVENT_REQ_SEND_FPGA_DATA (1 << 9)         // Send data to FPGA through slave FIFO
+#define ZEABUS_EVENT_REQ_SEND_FPGA_DATA (1 << 9)        // Send data to FPGA through slave FIFO
+#define ZEABUS_EVENT_REQ_FIR_EN         (1 << 10)       // Enable FIR module
+#define ZEABUS_EVENT_REQ_FIR_DIS        (1 << 11)       // Disable FIR module
 
 #endif // __ZEABUS_H
