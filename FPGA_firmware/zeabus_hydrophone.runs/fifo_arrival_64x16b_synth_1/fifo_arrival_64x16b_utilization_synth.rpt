@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date         : Wed Jan  1 21:18:36 2020
+| Tool Version : Vivado v.2019.2.1 (win64) Build 2729669 Thu Dec  5 04:49:17 MST 2019
+| Date         : Thu Mar 12 20:14:02 2020
 | Host         : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 | Command      : report_utilization -file fifo_arrival_64x16b_utilization_synth.rpt -pb fifo_arrival_64x16b_utilization_synth.pb
 | Design       : fifo_arrival_64x16b
@@ -30,13 +30,13 @@ Table of Contents
 +----------------------------+------+-------+-----------+-------+
 |          Site Type         | Used | Fixed | Available | Util% |
 +----------------------------+------+-------+-----------+-------+
-| Slice LUTs*                |   52 |     0 |     10400 |  0.50 |
-|   LUT as Logic             |   49 |     0 |     10400 |  0.47 |
+| Slice LUTs*                |   65 |     0 |     10400 |  0.63 |
+|   LUT as Logic             |   62 |     0 |     10400 |  0.60 |
 |   LUT as Memory            |    3 |     0 |      9600 |  0.03 |
 |     LUT as Distributed RAM |    0 |     0 |           |       |
 |     LUT as Shift Register  |    3 |     0 |           |       |
-| Slice Registers            |  122 |     0 |     20800 |  0.59 |
-|   Register as Flip Flop    |  122 |     0 |     20800 |  0.59 |
+| Slice Registers            |  123 |     0 |     20800 |  0.59 |
+|   Register as Flip Flop    |  123 |     0 |     20800 |  0.59 |
 |   Register as Latch        |    0 |     0 |     20800 |  0.00 |
 | F7 Muxes                   |    0 |     0 |     16300 |  0.00 |
 | F8 Muxes                   |    0 |     0 |      8150 |  0.00 |
@@ -59,7 +59,7 @@ Table of Contents
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
 | 8     |          Yes |         Set |            - |
-| 114   |          Yes |       Reset |            - |
+| 115   |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -149,15 +149,15 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| FDRE     |  114 |        Flop & Latch |
+| FDRE     |  115 |        Flop & Latch |
 | LUT2     |   20 |                 LUT |
 | LUT4     |   15 |                 LUT |
+| LUT1     |   15 |                 LUT |
 | LUT6     |    9 |                 LUT |
 | FDSE     |    8 |        Flop & Latch |
 | LUT3     |    6 |                 LUT |
 | LUT5     |    5 |                 LUT |
 | SRL16E   |    3 |  Distributed Memory |
-| LUT1     |    2 |                 LUT |
 | RAMB18E1 |    1 |        Block Memory |
 +----------+------+---------------------+
 

@@ -37,8 +37,8 @@
 // https://forums.xilinx.com/t5/Implementation/Drc-23-20-Rule-violation-REQP-1712-Input-clock-driver/td-p/586641
 
 module zeabus_hydrophone #(
-	parameter trigger_head = 1000,
-	parameter trigger_tail = 1000
+	parameter trigger_head = 1000,	// Number of sampling preceded of the trigged points
+	parameter trigger_tail = 1000	// Number of sampling include in a valid data packet after the trigger level is not satisfied
 	)(
 	/* Device pins */
 	// ADC-1 pins
@@ -86,7 +86,7 @@ module zeabus_hydrophone #(
 	wire rst;
 	// Wires that connects modules
 	wire clk_64MHz_raw, clk_64MHz_90_raw;		// raw system clocks
-	wire clk_64MHz, clk_64MHz_90, clk_in_buf;	// clocks from BUFG that can distributes through out the chip
+	wire clk_64MHz, clk_in_buf;					// clocks from BUFG that can distributes through out the chip
 	wire pll_locked;							// Output PLL clock is ready
 	wire [15:0] adc1_1_out,  adc1_2_out, adc2_1_out, adc2_2_out;	// Data output from ADC modules
 	wire [15:0] trigger_level;					// Defined trigger level
@@ -129,7 +129,8 @@ module zeabus_hydrophone #(
 	always @(posedge clk_64MHz)
 	begin
 		adc_clk_cnt = adc_clk_cnt + 1;
-		if( adc_clk_cnt == 0)
+		if( adc_clk_cnt == 5'd10)	// Add phase delay to avoid race condition between avg64 and trigger
+			// Toggle every counter wrapping
 			adc_d_clk = ~adc_d_clk;
 	end
 
@@ -218,7 +219,7 @@ module zeabus_hydrophone #(
 	hydrophone_trigger #( .header(trigger_head), .trigged_tailed(trigger_tail) ) trigger(
 		.rst(rst),						// system reset (active high)
 		.clk(adc_d_clk),				// signal clock (1 MHz)
-		.d_in( { adc1_1_out, adc1_2_out, adc2_1_out, adc2_2_out } ),// data input (concatenation of 4 16-bit data)
+		.d_in( { adc1_1_out, adc1_2_out, adc2_1_out, adc2_2_out } ),// data input (concatenation of 4 16-bit data with channel 1 first)
 		.trigger_level(trigger_level),	// level of the trigger in 16-bit signed integer
 		.d_out(trigged_out),			// data output 
 		.trigged(trigged)				// indicates that the data is part of packet of trigged signal
@@ -233,7 +234,6 @@ module zeabus_hydrophone #(
 	
 		// Control signals
 		.clk_64MHz(clk_64MHz),			// System clock.
-		.clk_64MHz_90(clk_64MHz_90),	// Identical of system clock with 90-degree phase lag
 		.rst(rst),						// Synchronous reset (active high)
 	
 		// Output data
@@ -250,7 +250,6 @@ module zeabus_hydrophone #(
 	
 		// Control signals
 		.clk_64MHz(clk_64MHz),			// System clock.
-		.clk_64MHz_90(clk_64MHz_90),	// Identical of system clock with 90-degree phase lag
 		.rst(rst),						// Synchronous reset (active high)
 	
 		// Output data
@@ -258,29 +257,13 @@ module zeabus_hydrophone #(
 		.d1_out(adc2_2_out)
 	);
 
-    BUFG sysclk_buf(
-		.I(clk_in),
-		.O(clk_in_buf) 
-    );
- 
-    BUFG clk_64MHz_buf(  		// sometimes it is generated automatically, sometimes not ...
-		.I(clk_64MHz_raw),
-		.O(clk_64MHz) 
-    );
- 
-    BUFG clk_64MHz_90_buf(
-		.I(clk_64MHz_90_raw),
-		.O(clk_64MHz_90) 
-    );
-	
 	clk_pll clk_gen(
 		// Clock out ports
-		.clk_64mhz(clk_64MHz_raw),     	// output clk_64mhz
-		.clk_64mhz_90(clk_64MHz_90_raw),// output clk_64mhz_90
-									// Status and control signals
-		.reset(RST), 				// input reset
-		.locked(pll_locked),       		// output locked
+		.clk_64mhz(clk_64MHz),     		// output clk_64mhz
+								// Status and control signals
+		.reset(RST), 			// input reset
+		.locked(pll_locked),    // output locked
 		// Clock in ports
-		.clk_in(clk_in_buf)     		// input clk_in
+		.clk_in(clk_in)     	// input clk_in
 	);
 endmodule

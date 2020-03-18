@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="fifo_departure_1024x64b_synth_1" LaunchPart="xc7a15tcsg324-1" LaunchTime="1581776924">
+<GenRun Id="fifo_departure_1024x64b_synth_1" LaunchPart="xc7a15tcsg324-1" LaunchTime="1584018633">
   <File Type="PA-TCL" Name="fifo_departure_1024x64b.tcl"/>
   <File Type="REPORTS-TCL" Name="fifo_departure_1024x64b_reports.tcl"/>
   <File Type="RDS-RDS" Name="fifo_departure_1024x64b.vds"/>
@@ -14,6 +14,13 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/ip/fifo_departure_1024x64b.xcix">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="TopModule" Val="fifo_departure_1024x64b"/>
       <Option Name="UseBlackboxStub" Val="1"/>
@@ -21,6 +28,13 @@
   </FileSet>
   <FileSet Name="constrs_in" Type="BlockSrcs" RelSrcDir="$PSRCDIR/fifo_departure_1024x64b">
     <File Path="$PSRCDIR/sources_1/ip/fifo_departure_1024x64b/fifo_departure_1024x64b.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/fifo_departure_1024x64b.xcix">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>

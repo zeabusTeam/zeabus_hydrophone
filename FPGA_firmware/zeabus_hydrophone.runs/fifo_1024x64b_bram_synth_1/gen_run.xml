@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="fifo_1024x64b_bram_synth_1" LaunchPart="xc7a15tcsg324-1" LaunchTime="1581776924">
+<GenRun Id="fifo_1024x64b_bram_synth_1" LaunchPart="xc7a15tcsg324-1" LaunchTime="1584018631">
   <File Type="PA-TCL" Name="fifo_1024x64b_bram.tcl"/>
   <File Type="REPORTS-TCL" Name="fifo_1024x64b_bram_reports.tcl"/>
   <File Type="RDS-RDS" Name="fifo_1024x64b_bram.vds"/>
@@ -14,6 +14,13 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/ip/fifo_1024x64b_bram.xcix">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="TopModule" Val="fifo_1024x64b_bram"/>
       <Option Name="UseBlackboxStub" Val="1"/>
@@ -21,6 +28,13 @@
   </FileSet>
   <FileSet Name="constrs_in" Type="BlockSrcs" RelSrcDir="$PSRCDIR/fifo_1024x64b_bram">
     <File Path="$PSRCDIR/sources_1/ip/fifo_1024x64b_bram/fifo_1024x64b_bram.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/fifo_1024x64b_bram.xcix">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>

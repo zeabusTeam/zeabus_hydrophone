@@ -112,10 +112,13 @@ module packetizer (
 	end
 	
 	// Edge detector and input latch
-	reg in_strb_dd, in_strb_d;
+	// 3-delay stage to avoid race condition.
+	// Data are latched at the frist clock and processed at the second clock.
+	reg in_strb_ddd, in_strb_dd, in_strb_d;
 	reg [63:0] latched_input;
 	always @(posedge clk_64MHz)
 	begin
+		in_strb_ddd <= in_strb_dd;
 		in_strb_dd <= in_strb_d;
 		in_strb_d <= in_strobe;
 		if( in_strb_d == 1 && in_strb_dd == 0 )
@@ -194,7 +197,7 @@ module packetizer (
 						main_state = STATE_IDLE;
 					end
 					else
-						if( in_strb_d == 1 && in_strb_dd == 0 )
+						if( in_strb_dd == 1 && in_strb_ddd == 0 )
 							main_state = STATE_SEND_TAILING;
 				end
 				STATE_SEND_TAILING:

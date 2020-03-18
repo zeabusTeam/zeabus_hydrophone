@@ -61,13 +61,14 @@ module fx3s_interface #(
 	
 	) (
 	// Debug signals
-	output [3:0] state,
-	output TxEmpty, TxFull, RxEmpty, RxFull,
-	output TxWrRstBusy, TxRdRstBusy, RxWrRstBusy, RxRdRstBusy,
-	output TxWrEn, TxRdEn, RxWrEn, RxRdEn,
-	output [15:0] d_data,
-	output d_clk, dd_clk,
-	output sending,
+	// output [3:0] state,
+	// output TxEmpty, TxFull, RxEmpty, RxFull,
+	// output TxWrRstBusy, TxRdRstBusy, RxWrRstBusy, RxRdRstBusy,
+	// output TxWrEn, TxRdEn, RxWrEn, RxRdEn,
+	// output [15:0] d_data,
+	// output d_clk, dd_clk,
+	// output sending,
+	// output [15:0] u_counter,
 	
 	// Device pins
 	output ifclk_out,				// Communication clock from FPGA -> FX3S (FPGA controlled)
@@ -121,23 +122,24 @@ module fx3s_interface #(
 	//************************************************************
 	// Combination logic
 	//************************************************************
-	assign state = master_state;
-	assign TxFull = input_full;
-	assign TxEmpty = tx_empty;
-	assign RxFull = rx_full;
-	assign RxEmpty = rx_empty;
-	assign TxWrRstBusy = tx_wr_rst_busy;
-	assign TxRdRstBusy = tx_rd_rst_busy;
-	assign RxWrRstBusy = rx_wr_rst_busy;
-	assign RxRdRstBusy = rx_rd_rst_busy;
-	assign TxWrEn = tx_wr_en;
-	assign TxRdEn = tx_rd_en;
-	assign RxWrEn = rx_wr_en;
-	assign RxRdEn = rx_rd_en;
-	assign d_data = tx_data;
-	assign d_clk = input_d_clk;
-	assign dd_clk = input_d_clk_d;
-	assign sending = is_sending;
+	// assign state = master_state;
+	// assign TxFull = input_full;
+	// assign TxEmpty = tx_empty;
+	// assign RxFull = rx_full;
+	// assign RxEmpty = rx_empty;
+	// assign TxWrRstBusy = tx_wr_rst_busy;
+	// assign TxRdRstBusy = tx_rd_rst_busy;
+	// assign RxWrRstBusy = rx_wr_rst_busy;
+	// assign RxRdRstBusy = rx_rd_rst_busy;
+	// assign TxWrEn = tx_wr_en;
+	// assign TxRdEn = tx_rd_en;
+	// assign RxWrEn = rx_wr_en;
+	// assign RxRdEn = rx_rd_en;
+	// assign d_data = tx_data;
+	// assign d_clk = input_d_clk;
+	// assign dd_clk = input_d_clk_d;
+	// assign sending = is_sending;
+	// assign u_counter = u16WrCounter;
 
 	assign ifclk_out = clk_64MHz;		// Slave FIFO interface operates at 64 MHz
 
@@ -150,7 +152,7 @@ module fx3s_interface #(
 	assign rx_rd_en = output_d_oe & ~rx_rd_rst_busy;
 
 	// MUX and DEMUX DQ pins with 2 internal sub-systems
-	assign rx_data = (!is_sending) ? DQ : 16'b0;
+	assign rx_data = DQ;
 	assign DQ = (is_sending) ? tx_data : 16'bz;
 
 	//************************************************************
@@ -339,24 +341,25 @@ module fx3s_interface #(
 				// FPGA -> FX3S states
 				state_start_write:
 				begin
-					if( !FLAGB || tx_empty )
+					u16WrCounter = u16WrCounter - 1;
+					if( u16WrCounter == 0 )	/* End of a chunk */
 					begin
 						SLCS <= 1;
 						SLWR <= 1;
 						tx_rd_en <= 0;
-						is_sending <= 0;
-						master_state <= state_idle;
+                        is_sending <= 0;
+						master_state <= state_write_wait1;
 					end
 					else
 					begin
-						u16WrCounter = u16WrCounter - 1;
-						if( u16WrCounter == 0 )	/* End of a chunk */
-						begin
-							SLCS <= 1;
-							SLWR <= 1;
-							tx_rd_en <= 0;
-							master_state <= state_write_wait1;
-						end
+				        if( !FLAGB || tx_empty )
+				        begin
+                            SLCS <= 1;
+                            SLWR <= 1;
+                            tx_rd_en <= 0;
+                            is_sending <= 0;
+                            master_state <= state_idle;
+					   end
 					end
 				end
 
@@ -425,7 +428,7 @@ module fx3s_interface #(
 	fifo_departure_1024x64b fifo_departure (
 		.rst(rst),                  // input wire rst
 		.wr_clk(clk_64MHz),       	// input wire wr_clk
-		.rd_clk(~clk_64MHz),		// input wire rd_clk : Data must be ready on the bus by the next clock posedge
+		.rd_clk(~clk_64MHz),		// input wire rd_clk : Data must be ready on the bus by the next clk_64MHz clock posedge
 		.din(d_in),                 // input wire [63 : 0] din
 		.wr_en(tx_wr_en),    		// input wire wr_en
 		.rd_en(tx_rd_en),    		// input wire rd_en

@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_fx3s_interface/behav/xsim/xsim.dir/fx3_interface_tb_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Mon Jan 27 21:06:08 2020" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Tue Mar  3 14:36:02 2020" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2019.1 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "2552052" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "WIN64" -context "software_version_and_target_device"
@@ -14,7 +14,7 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "a80776d7-71c2-45aa-a635-2efc4b383b3e" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "eaa226c700c643d99c29dd35889e833c" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "61" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "73" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "Windows Server 2016 or Windows 10" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "major release  (build 9200)" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz" -context "user_environment"
@@ -27,7 +27,7 @@ webtalk_add_data -client xsim -key Command -value "xsim" -context "xsim\\command
 webtalk_add_data -client xsim -key trace_waveform -value "true" -context "xsim\\usage"
 webtalk_add_data -client xsim -key runtime -value "10000500 ns" -context "xsim\\usage"
 webtalk_add_data -client xsim -key iteration -value "0" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Time -value "13.40_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Memory -value "16300_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 2282611636 -regid "" -xml C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_fx3s_interface/behav/xsim/xsim.dir/fx3_interface_tb_behav/webtalk/usage_statistics_ext_xsim.xml -html C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_fx3s_interface/behav/xsim/xsim.dir/fx3_interface_tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_fx3s_interface/behav/xsim/xsim.dir/fx3_interface_tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Simulation_Time -value "17.00_sec" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Simulation_Memory -value "16320_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 2818913385 -regid "" -xml C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_fx3s_interface/behav/xsim/xsim.dir/fx3_interface_tb_behav/webtalk/usage_statistics_ext_xsim.xml -html C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_fx3s_interface/behav/xsim/xsim.dir/fx3_interface_tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_fx3s_interface/behav/xsim/xsim.dir/fx3_interface_tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate

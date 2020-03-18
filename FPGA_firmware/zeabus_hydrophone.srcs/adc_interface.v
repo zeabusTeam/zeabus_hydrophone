@@ -40,7 +40,9 @@ module median_filter(
 	output [13:0] d_out	// Data output
 );
 
-	reg [13:0] d, dd, ddd;	// Data propagation register
+	reg [13:0] d;
+	reg [13:0] dd;
+	reg [13:0] ddd;	// Data propagation register
 	wire [2:0] compare_res;	// Result of comparison of each pair
 	
 	// Combination logic
@@ -85,51 +87,47 @@ module median_filter(
 endmodule
 
 //===============================================================
-module adc_frontend(
-	input clk,
-	input overflow,				// Overflow flag
-	input [13:0] d_in,			// Multiplexed data
-	output reg [13:0] d0_out,	// Demultiplexed data channel 0
-	output reg [13:0] d1_out	// Demultiplexed data channel 1
+module avg64_filter(
+	input [13:0] d_in,			// Data input
+	
+	output reg [15:0] d_out,		// Data output in format Q13.2
+	
+	input rst,					// Synchronous reset (active high)
+	input clk_64MHz,			// System 64 MHz clock
+	input clk_1MHz
 );
-	
-	initial
-	begin
-		d0_out <= 0;
-		d1_out <= 0;
-	end
-	
-	// Channel 0
-	always @( posedge clk )
-	begin
-		if( overflow )
-		begin
-			// Overflow
-			if( d_in[13] )
-				d0_out <= 14'h3FFF;
-			else
-				d0_out <= 14'h1FFF;
-		end
-		else
-		begin
-			d0_out <= d_in;
-		end
-	end
 
-	// Channel 1
-	always @( negedge clk )
+	reg [19:0] d_acc;		// Accumulator for channel 0
+	
+	reg [5:0] counter_q;
+		
+	initial 
 	begin
-		if( overflow )
+		counter_q <= 0;
+		d_acc <= 0;
+		d_out <= 0;
+	end
+	
+	// Main operation
+	always @(posedge clk_64MHz)
+	begin
+		if( rst )
 		begin
-			// Overflow
-			if( d_in[13] )
-				d1_out <= 14'h2000;
-			else
-				d1_out <= 14'h1FFF;
+			d_acc <= 0;
+			counter_q <= 0;
 		end
 		else
 		begin
-			d1_out <= d_in;
+			if( counter_q == 0 )
+			begin
+				d_out = d_acc[19:4];
+				d_acc = { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+			end
+			else
+			begin
+				d_acc = d_acc + { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+			end
+			counter_q = counter_q + 1;
 		end
 	end
 endmodule
@@ -146,7 +144,6 @@ module adc_interface(
 	
 	// Control signals
 	input clk_64MHz,		// System clock.
-	input clk_64MHz_90,		// Identical of system clock with 90-degree phase lag
 	input rst,				// Synchronous reset (active high)
 	
 	// Output data
@@ -154,14 +151,29 @@ module adc_interface(
 	output [15:0] d1_out
 );
 
-	wire [13:0] d0, d1, d0_mean, d1_mean;
+	wire [13:0] d0;
+	wire [13:0] d1;
+	wire [13:0] d0_raw;
+	wire [13:0] d1_raw;
+	wire [13:0] d0_mean;
+	wire [13:0] d1_mean;
+	wire OTR_1, OTR_2;
 	
 	// Combination logic
 	assign clk_a = clk_64MHz;
 	assign clk_b = clk_64MHz;
+	assign d0 = (!OTR_1) ? d0_raw : ( (d0_raw[13]) ? 14'h2000 : 14'h1FFF );
+	assign d1 = (!OTR_1) ? d1_raw : ( (d1_raw[13]) ? 14'h2000 : 14'h1FFF );
 
 	// Instantiation
-	adc_frontend adc( .clk(clk_64MHz_90), .overflow(overflow), .d_in(d_in), .d0_out(d0), .d1_out(d1) );
+	ADC_interface adc
+	(
+		.data_in_from_pins( { overflow, d_in } ), 				// input [14:0] data_in_from_pins
+		.data_in_to_device( { OTR_2, d1_raw, OTR_1, d0_raw } ), // output [29:0] data_in_to_device
+		.clk_in( clk_64MHz ), 									// input clk_in                            
+		.io_reset( rst ) 										// input io_reset
+	); 
+
 	median_filter m_filter1( .clk(clk_64MHz), .rst(rst), .d_in(d0), .d_out(d0_mean) );
 	median_filter m_filter2( .clk(clk_64MHz), .rst(rst), .d_in(d1), .d_out(d1_mean) );
 	avg64_filter avg_filter1( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d0_mean), .d_out(d0_out) ); 

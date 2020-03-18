@@ -1,0 +1,7 @@
+verilog xil_defaultlib  \
+"../../../ip/ADC_interface/ADC_interface_selectio_wiz.v" \
+"../../../ip/ADC_interface/ADC_interface.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort

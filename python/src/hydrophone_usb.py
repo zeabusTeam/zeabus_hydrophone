@@ -188,13 +188,13 @@ class hydrophone_usb:
       if f is not None:
         # Start the command
         self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
-          request_cmd, wValue=(fsize & 0xFFFF), wIndex=(fsize >> 16), timeout=1000 )
+          request_cmd, wValue=(fsize & 0xFFFF), wIndex=(fsize >> 16), timeout=5000 )
         
         # Sending data
         while( offset < fsize ):
           print( 'From offset ', offset, ' : ', end='' )
           data = f.read( 4096 )
-          sent_size = self.dev.write( ZEABUS_EP_DATA_OUT, data, 1000 )
+          sent_size = self.dev.write( ZEABUS_EP_DATA_OUT, data, 5000 )
           offset = offset + sent_size
           if sent_size < len(data):
             # We cannot send the whole data. Thus, adjusting the file pointer
@@ -218,12 +218,12 @@ class hydrophone_usb:
       offset = 0
       # Start the command
       self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
-        request_cmd, wValue=(fsize & 0xFFFF), wIndex=(fsize >> 16), timeout=1000 )
+        request_cmd, wValue=(fsize & 0xFFFF), wIndex=(fsize >> 16), timeout=5000 )
         
       # Sending data
       while( offset < fsize ):
         print( 'From offset ', offset, ' : ', end='' )
-        sent_size = self.dev.write( ZEABUS_EP_DATA_OUT, data[offset:], 1000 )
+        sent_size = self.dev.write( ZEABUS_EP_DATA_OUT, data[offset:], 5000 )
         offset = offset + sent_size
         print( 'Sent ', sent_size, ' bytes.' )
     else:

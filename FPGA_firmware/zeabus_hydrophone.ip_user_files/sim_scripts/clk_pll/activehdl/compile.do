@@ -1,22 +1,22 @@
 vlib work
 vlib activehdl
 
-vlib activehdl/xil_defaultlib
 vlib activehdl/xpm
+vlib activehdl/xil_defaultlib
 
-vmap xil_defaultlib activehdl/xil_defaultlib
 vmap xpm activehdl/xpm
+vmap xil_defaultlib activehdl/xil_defaultlib
 
-vlog -work xil_defaultlib  -sv2k12 "+incdir+../../../ipstatic" \
-"C:/Xilinx/Vivado/2019.1/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
-"C:/Xilinx/Vivado/2019.1/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
+vlog -work xpm  -sv2k12 "+incdir+../../../ipstatic" \
+"D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
+"D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
 
 vcom -work xpm -93 \
-"C:/Xilinx/Vivado/2019.1/data/ip/xpm/xpm_VCOMP.vhd" \
+"D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_VCOMP.vhd" \
 
 vlog -work xil_defaultlib  -v2k5 "+incdir+../../../ipstatic" \
-"../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v" \
-"../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll.v" \
+"../../../ip/clk_pll/clk_pll_clk_wiz.v" \
+"../../../ip/clk_pll/clk_pll.v" \
 
 vlog -work xil_defaultlib \
 "glbl.v"

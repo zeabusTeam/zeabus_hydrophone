@@ -248,7 +248,7 @@ module poten_interface #(
 		else
 		begin
 	        if(done | i2c_al)
-				cmd <= 4'b0;    // clear command bits when done or when aribitration lost
+				cmd = 4'b0;    // clear command bits when done or when aribitration lost
 			
 			case( main_state )
 				STATE_IDLE:

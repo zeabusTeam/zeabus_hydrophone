@@ -78,13 +78,14 @@ module fx3_interface_tb;
 	wire [15:0] d_data;
 	wire d_clk, dd_clk;
 	wire is_sending;
+	wire [15:0] u_counter;
 	
 	assign DQ_Out = DQ;
 	assign DQ = (!SLOE)?DQ_In:16'bz;
 
 	// Module under test
 	hydrophone_trigger ht( .rst(rst), .clk(clk_1MHz), .trigger_level(level), .d_out(t_d_out), .d_in(d_in), .trigged(trigged) );
-	fx3s_interface fx3i( .clk_64M(clk_64MHz), .rst(rst), .rdy(if_ready), 
+	fx3s_interface #( .FX3S_DMA_Size(8) ) fx3i( .clk_64MHz(clk_64MHz), .rst(rst), .rdy(if_ready), 
 						.d_in(t_d_out), .input_valid(trigged), .input_d_clk(clk_1MHz), .input_full(if_input_full),
 						.d_out(i_d_out), .output_valid(i_output_valid), .output_d_oe(i_oe), .output_d_clk(clk_64MHz),
 						.ifclk_out(ifclk), .DQ(DQ), .A(A), .SLCS(SLCS), .SLWR(SLWR), .SLRD(SLRD), .SLOE(SLOE), .PKTEND(PKTEND),
@@ -92,7 +93,7 @@ module fx3_interface_tb;
 						.state(state), .TxEmpty(tx_empty), .TxFull(tx_full), .RxEmpty(rx_empty), .RxFull(rx_full),
 						.TxWrRstBusy(tx_wr_rst_busy), .TxRdRstBusy(tx_rd_rst_busy), .RxWrRstBusy(rx_wr_rst_busy), .RxRdRstBusy(rx_rd_rst_busy),
 						.TxWrEn(tx_wr_en), .TxRdEn(tx_rd_en), .RxWrEn(rx_wr_en), .RxRdEn(rx_rd_en), .d_data(d_data), .d_clk(d_clk), .dd_clk(dd_clk),
-						.sending(is_sending)
+						.sending(is_sending), .u_counter(u_counter)
 	);
 
 	initial

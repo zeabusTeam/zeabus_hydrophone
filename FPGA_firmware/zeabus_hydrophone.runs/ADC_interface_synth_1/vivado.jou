@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.2.1 (64-bit)
+# SW Build 2729669 on Thu Dec  5 04:49:17 MST 2019
+# IP Build 2729494 on Thu Dec  5 07:38:25 MST 2019
+# Start of session at: Sun Mar 15 22:03:48 2020
+# Process ID: 1404
+# Current directory: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/ADC_interface_synth_1
+# Command line: vivado.exe -log ADC_interface.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source ADC_interface.tcl
+# Log file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/ADC_interface_synth_1/ADC_interface.vds
+# Journal file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/ADC_interface_synth_1\vivado.jou
+#-----------------------------------------------------------
+source ADC_interface.tcl -notrace
