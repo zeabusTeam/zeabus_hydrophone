@@ -65,7 +65,6 @@ module hydrophone_config_manager #(
 	// Interface to slave fifo output buffer
 	input  [15:0] d_in,				// Data from slave FIFO
 	input  data_valid,				// Indicate that there are some available config data to read
-	output config_d_clk,			// Clocking for data reading
 	output reg config_d_oe,			// Enable read-out data
 	
 	// Control
@@ -83,11 +82,8 @@ module hydrophone_config_manager #(
 
 	// Variables
 	integer state, counter;			// Counter is for the initialization step
-	reg [15:0] config_bit, prefix_in;
-	
-	// combination logic
-	assign config_d_clk = clk_64MHz;
-	
+	reg [15:0] config_bit;
+		
 	// Behavioral part
 	initial
 	begin
@@ -95,7 +91,7 @@ module hydrophone_config_manager #(
 		counter <= 0;
 		config_d_oe <= 0;
 		update_poten <= 0;
-		trigger_level <= 16'd16384;
+		trigger_level <= 16'd8192;
 		poten1_value <= 8'h80;
 		poten2_value <= 8'h80;
 		poten3_value <= 8'h80;
@@ -110,7 +106,7 @@ module hydrophone_config_manager #(
 			counter <= 0;
 			config_d_oe <= 0;
 			update_poten <= 0;
-			trigger_level <= 16'd16384;
+			trigger_level <= 16'd8192;
 			poten1_value <= 8'h80;
 			poten2_value <= 8'h80;
 			poten3_value <= 8'h80;
@@ -133,9 +129,8 @@ module hydrophone_config_manager #(
 					
 					state_read_prefix:	// Reading the prefix and validate with the pre-defined value
 					begin
-						prefix_in = d_in;
 						config_d_oe = 0;
-						if( prefix_in == config_prefix )
+						if( d_in == config_prefix )
 						begin
 							state = state_wait_confbit;
 						end

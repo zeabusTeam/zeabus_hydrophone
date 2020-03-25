@@ -57,7 +57,7 @@ set_property PACKAGE_PIN T14 [get_ports RST]
 set_property src_info {type:XDC file:2 line:67 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN V10 [get_ports PKTEND]
 set_property src_info {type:XDC file:2 line:71 export:INPUT save:INPUT read:READ} [current_design]
-set_property PACKAGE_PIN U14 [get_ports FIR_EN]
+set_property PACKAGE_PIN U14 [get_ports FIR_EN]			 ;# CTL9/GPIO26/FIR_EN (Enable FIR function)
 set_property src_info {type:XDC file:2 line:73 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN T15 [get_ports {A[1]}]
 set_property src_info {type:XDC file:2 line:75 export:INPUT save:INPUT read:READ} [current_design]

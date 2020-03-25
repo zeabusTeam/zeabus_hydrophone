@@ -1,6 +1,9 @@
 # compile verilog/system verilog design source files
-verilog xil_defaultlib  \
+verilog xil_defaultlib  --include "../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll" \
+"../../../../zeabus_hydrophone.ip_user_files/ip/ADC_interface/ADC_interface_selectio_wiz.v" \
+"../../../../zeabus_hydrophone.ip_user_files/ip/ADC_interface/ADC_interface.v" \
 "../../../../zeabus_hydrophone.srcs/adc_interface.v" \
+"../../../../zeabus_hydrophone.srcs/gaussian_filter.v" \
 "../../../../zeabus_hydrophone.srcs/adc_interface_tb.v" \
 
 # compile glbl module

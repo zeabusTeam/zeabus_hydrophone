@@ -55,16 +55,16 @@ module avg_filter_tb;
 	integer outfile, cycle_count;
 
 	// Module under test
-	adc_interface adc( .d_in(D_1), .clk_a(CLKA_1), .clk_b(CLKB_1),
+	adc_interface adc( .d_in(D_1), .clk_a(CLKA_1), .clk_b(CLKB_1), .overflow(0),
 						 .d0_out(d0_out), .d1_out(d1_out),
-						 .clk_64MHz(clk_64MHz), .clk_64MHz_90(clk_64MHz_90), .rst(0) );
+						 .clk_64MHz(clk_64MHz), .rst(0) );
 
 	// Initialization
 	initial
 	begin
 		$readmemh( "hp_data.hex", in_data );
 		outfile = $fopen( "hp_output.hex" ); // open file
-		$fmonitor(outfile, "%X,%04X", clk_64MHz_90, sd0_out);
+		$fmonitor(outfile, "%X,%04X,%04X", clk_64MHz, d0_out, d1_out);
 		clk_64MHz <= 0;
 		clk_64MHz_90 <= 0;
 		cycle_count <= 0;

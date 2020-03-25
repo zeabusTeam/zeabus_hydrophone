@@ -68,7 +68,7 @@ set_property PACKAGE_PIN V10 [get_ports PKTEND]
 set_property IOSTANDARD LVCMOS33 [get_ports PKTEND]
 #set_property PACKAGE_PIN V16 [get_ports {FLAGD}]        ;# CTL8/FLAGD/GPIO25
 #set_property IOSTANDARD LVCMOS33 [get_ports {FLAGD}]
-set_property PACKAGE_PIN U14 [get_ports FIR_EN]
+set_property PACKAGE_PIN U14 [get_ports FIR_EN]			 ;# CTL9/GPIO26/FIR_EN (Enable FIR function)
 set_property IOSTANDARD LVCMOS33 [get_ports FIR_EN]
 set_property PACKAGE_PIN T15 [get_ports {A[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {A[1]}]

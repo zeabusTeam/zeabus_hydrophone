@@ -33,71 +33,90 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------------
 
+module sort(
+	input [13:0] din_0,
+	input [13:0] din_1,
+	output [13:0] dout_0,	// The small
+	output [13:0] dout_1	// The big
+);
+
+	assign dout_0 = ($signed(din_0) > $signed(din_1)) ? din_1 : din_0;
+	assign dout_1 = ($signed(din_0) > $signed(din_1)) ? din_0 : din_1;
+endmodule
+	
+
 module median_filter(
 	input clk,			// System clock (each rising edge indicates new data is ready)
 	input rst,			// Synchronous reset (active high)
 	input [13:0] d_in,	// Input valid at clock rising edge
 	output [13:0] d_out	// Data output
 );
-
-	reg [13:0] d;
-	reg [13:0] dd;
-	reg [13:0] ddd;	// Data propagation register
-	wire [2:0] compare_res;	// Result of comparison of each pair
+	reg [13:0] d[0:4];	// We have 5 backlog
 	
-	// Combination logic
-	assign compare_res[2] = ($signed(d) > $signed(dd))?1:0;
-	assign compare_res[1] = ($signed(dd) > $signed(ddd))?1:0;
-	assign compare_res[0] = ($signed(ddd) > $signed(d))?1:0;
-	
-	// Output assignment
-	/* Median-of-three filter:
-	      !(a > b) and !(b > c) (ignore a and c) => b 	(compare_res = 00x) => b
-		  a <= b and b > c and a > c => a				(compare_res = 010) => a
-		  a <= b and b > c and a <= c => c 				(compare_res = 011) => c
-		  a > b and b <= c and a > c => c				(compare_res = 100) => c
-		  a > b and b <= c and a <= c => a 				(compare_res = 101) => a
-		  a > b and b > c (ignore a and c) => b 		(compare_res = 11x) => b
-	*/
-	assign d_out = ( compare_res[2:1] == 2'b11 || compare_res[2:1] == 3'b00 ) ? dd : ( compare_res == 3'b011 || compare_res == 3'b100 ) ? ddd : d;
-		
 	initial
 	begin
-		d <= 0;
-		dd <= 0;
-		ddd <= 0;
+		d[0] <= 0; d[1] <= 0; d[2] <= 0; d[3] <= 0; d[4] <= 0;
 	end
-	
-	// Data delay
+	// data delay line
 	always @(posedge clk)
 	begin
 		if( rst )
 		begin
-			d <= 0;
-			dd <= 0;
-			ddd <= 0;
+			d[0] <= 0; d[1] <= 0; d[2] <= 0; d[3] <= 0; d[4] <= 0;
 		end
 		else
 		begin
-			ddd <= dd;
-			dd <= d;
-			d <= d_in;
+			d[0] <= #1 d[1];
+			d[1] <= #1 d[2];
+			d[2] <= #1 d[3];
+			d[3] <= #1 d[4];
+			d[4] <= #1 d_in;
 		end
 	end
+
+	// We use bubble-sort stages to find the median.
+	// Since we have 5 items, we need 4 full bubble sort stages plus 1 partial sort
+	wire [13:0] stage1[0:4];
+	wire [13:0] stage2[0:4];
+	wire [13:0] stage3[0:4];
+	wire [13:0] stage4[0:4];
+	
+	// Stage1
+	sort s1_0( d[0], d[1], stage1[0], stage1[1] );
+	sort s1_1( d[2], d[3], stage1[2], stage1[3] );
+	assign stage1[4] = d[4];
+	
+	// Stage2
+	assign stage2[0] = stage1[0];
+	sort s2_0( stage1[1], stage1[2], stage2[1], stage2[2] );
+	sort s2_1( stage1[3], stage1[4], stage2[3], stage2[4] );
+	
+	// Stage3
+	sort s3_0( stage2[0], stage2[1], stage3[0], stage3[1] );
+	sort s3_1( stage2[2], stage2[3], stage3[2], stage3[3] );
+	assign stage3[4] = stage2[4];
+
+	// Stage4
+	assign stage4[0] = stage3[0];
+	sort s4_0( stage3[1], stage3[2], stage4[1], stage4[2] );
+	sort s4_1( stage3[3], stage3[4], stage4[3], stage4[4] );
+	
+	// Finally we got the median
+	wire [13:0] unused;
+	sort s5( stage4[2], stage4[3], d_out, unused );
 endmodule
 
 //===============================================================
 module avg64_filter(
 	input [13:0] d_in,			// Data input
 	
-	output reg [15:0] d_out,		// Data output in format Q13.2
+	output reg [15:0] d_out,	// Data output in format Q13.2
 	
 	input rst,					// Synchronous reset (active high)
-	input clk_64MHz,			// System 64 MHz clock
-	input clk_1MHz
+	input clk_64MHz				// System 64 MHz clock
 );
 
-	reg [19:0] d_acc;		// Accumulator for channel 0
+	reg [19:0] d_acc;		// Accumulator
 	
 	reg [5:0] counter_q;
 		
@@ -120,12 +139,12 @@ module avg64_filter(
 		begin
 			if( counter_q == 0 )
 			begin
-				d_out = d_acc[19:4];
-				d_acc = { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+				d_out = d_acc[19:4] + { 15'b0, d_acc[3:3] };	// Rounding
+				d_acc = { {6{d_in[13]}}, d_in[13:0] };
 			end
 			else
 			begin
-				d_acc = d_acc + { d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13], d_in[13:0] };
+				d_acc = d_acc + { {6{d_in[13]}}, d_in[13:0] };
 			end
 			counter_q = counter_q + 1;
 		end
@@ -151,31 +170,40 @@ module adc_interface(
 	output [15:0] d1_out
 );
 
-	wire [13:0] d0;
-	wire [13:0] d1;
 	wire [13:0] d0_raw;
 	wire [13:0] d1_raw;
+	wire OTR_1, OTR_2;
+
+	wire [13:0] d0;
+	wire [13:0] d1;
+	
 	wire [13:0] d0_mean;
 	wire [13:0] d1_mean;
-	wire OTR_1, OTR_2;
 	
-	// Combination logic
 	assign clk_a = clk_64MHz;
 	assign clk_b = clk_64MHz;
-	assign d0 = (!OTR_1) ? d0_raw : ( (d0_raw[13]) ? 14'h2000 : 14'h1FFF );
-	assign d1 = (!OTR_1) ? d1_raw : ( (d1_raw[13]) ? 14'h2000 : 14'h1FFF );
 
-	// Instantiation
+	// Sequence of signal elements
+	
+	// Input interface and de-multiplexer (Verify the channel order before real implementation!!!)
 	ADC_interface adc
 	(
 		.data_in_from_pins( { overflow, d_in } ), 				// input [14:0] data_in_from_pins
-		.data_in_to_device( { OTR_2, d1_raw, OTR_1, d0_raw } ), // output [29:0] data_in_to_device
+//		.data_in_to_device( { OTR_2, d1_raw, OTR_1, d0_raw } ), // output [29:0] data_in_to_device
+		.data_in_to_device( { OTR_1, d0_raw, OTR_2, d1_raw } ), // output [29:0] data_in_to_device
 		.clk_in( clk_64MHz ), 									// input clk_in                            
 		.io_reset( rst ) 										// input io_reset
 	); 
 
+	// Pre-processing to cover overflow signal
+	assign d0 = (!OTR_1) ? d0_raw : ( (d0_raw[13]) ? 14'h2000 : 14'h1FFF );
+	assign d1 = (!OTR_2) ? d1_raw : ( (d1_raw[13]) ? 14'h2000 : 14'h1FFF );
+
+	// Input filter 64 MS/s.
 	median_filter m_filter1( .clk(clk_64MHz), .rst(rst), .d_in(d0), .d_out(d0_mean) );
 	median_filter m_filter2( .clk(clk_64MHz), .rst(rst), .d_in(d1), .d_out(d1_mean) );
+	
+	// Down sampling 64 MS/s => 1 MS/s. Also increasing the resolution from 14 bits to 16 bits.
 	avg64_filter avg_filter1( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d0_mean), .d_out(d0_out) ); 
 	avg64_filter avg_filter2( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d1_mean), .d_out(d1_out) ); 
 endmodule

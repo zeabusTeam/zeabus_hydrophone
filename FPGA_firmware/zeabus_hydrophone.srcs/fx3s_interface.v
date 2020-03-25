@@ -104,13 +104,13 @@ module fx3s_interface #(
 	// This module use FIFO to store incoming and outgoing data
 	// The FIFO size for arrival data is 32 16-bit words.
 	// The FIFO size for departure data is 1024 64-bit words.
-	wire	tx_wr_rst_busy, tx_rd_rst_busy, rx_wr_rst_busy, rx_rd_rst_busy;
+	wire	tx_wr_rst_busy, tx_rd_rst_busy;
 	wire	[15:0] tx_data;
 	wire	[15:0] rx_data;
 	wire	rx_empty, rx_full, tx_empty;	// Full and empty FIFO flag
-	wire	rx_rd_en;
+	reg		tx_rd_en;
 	wire	tx_wr_en;
-	reg		rx_wr_en, tx_rd_en;		// FIFO write and read enable controlled by state machine
+	reg		rx_wr_en;				// FIFO write enable controlled by state machine
 	reg		is_sending;				// Indicate current data direction: 0 = FX3S -> FPGA, 1 = FPGA -> FX3S
 	reg 	[3:0] master_state;		// State of the interface
 	reg		is_writing;				// Indicate whether the writing process has started
@@ -146,10 +146,9 @@ module fx3s_interface #(
 	// Reset and ready signals
 	assign A[1] = 0;				// A[1] is always 0. We use only A[0] bit
 	assign A[0] = is_sending;		// Data direction bit is designed to be equal to A[0]
-	assign rdy = ~( tx_wr_rst_busy | tx_rd_rst_busy | rx_wr_rst_busy | rx_rd_rst_busy );
+	assign rdy = ~( tx_wr_rst_busy | tx_rd_rst_busy );
 	assign tx_wr_en = input_valid & ~tx_wr_rst_busy & ( ~input_d_clk_d & input_d_clk );
-	assign output_valid = ~rx_empty & ~rx_rd_rst_busy;
-	assign rx_rd_en = output_d_oe & ~rx_rd_rst_busy;
+	assign output_valid = ~rx_empty;
 
 	// MUX and DEMUX DQ pins with 2 internal sub-systems
 	assign rx_data = DQ;
@@ -440,16 +439,13 @@ module fx3s_interface #(
 	);
 
 	fifo_arrival_64x16b fifo_arrival (
-		.rst(rst),                  // input wire rst
-		.wr_clk(clk_64MHz),         // input wire wr_clk
-		.rd_clk(output_d_clk),      // input wire rd_clk
-		.din(rx_buf_dd),         	// input wire [15 : 0] din
-		.wr_en(rx_wr_en),      		// input wire wr_en
-		.rd_en(rx_rd_en),      		// input wire rd_en
-		.dout(d_out),               // output wire [15 : 0] dout
-		.full(rx_full),        		// output wire full
-		.empty(rx_empty),      		// output wire empty
-		.wr_rst_busy(rx_wr_rst_busy), // output wire wr_rst_busy
-		.rd_rst_busy(rx_rd_rst_busy)  // output wire rd_rst_busy
+		.clk(clk_64MHz),      		// input wire clk
+		.srst(rst),    				// input wire srst
+		.din(rx_buf_dd),      		// input wire [15 : 0] din
+		.wr_en(rx_wr_en),  			// input wire wr_en
+		.rd_en(output_d_oe),  		// input wire rd_en
+		.dout(d_out),    			// output wire [15 : 0] dout
+		.full(rx_full),    			// output wire full
+		.empty(rx_empty)  			// output wire empty
 	);
 endmodule

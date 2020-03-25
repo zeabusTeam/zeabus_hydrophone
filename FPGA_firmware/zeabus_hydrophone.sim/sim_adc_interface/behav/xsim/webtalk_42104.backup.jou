@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2019.2.1 (64-bit)
+# SW Build 2729669 on Thu Dec  5 04:49:17 MST 2019
+# IP Build 2729494 on Thu Dec  5 07:38:25 MST 2019
+# Start of session at: Sat Mar 21 20:24:20 2020
+# Process ID: 42104
+# Current directory: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_adc_interface/behav/xsim
+# Command line: wbtcv.exe -mode batch -source C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_adc_interface/behav/xsim/xsim.dir/avg_filter_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_adc_interface/behav/xsim/webtalk.log
+# Journal file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_adc_interface/behav/xsim\webtalk.jou
+#-----------------------------------------------------------
+source C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/sim_adc_interface/behav/xsim/xsim.dir/avg_filter_tb_behav/webtalk/xsim_webtalk.tcl -notrace

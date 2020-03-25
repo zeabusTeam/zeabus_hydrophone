@@ -53,7 +53,6 @@ set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/
 
 read_ip -quiet C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b.xci
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b_clocks.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b_ooc.xdc]
 
 read_ip -quiet C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_departure_1024x64b/fifo_departure_1024x64b.xci

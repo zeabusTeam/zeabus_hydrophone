@@ -34,7 +34,6 @@ set_property ip_output_repo c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_fir
 set_property ip_cache_permissions {read write} [current_project]
 read_ip -quiet C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b.xci
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b.xdc]
-set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b_clocks.xdc]
 set_property used_in_implementation false [get_files -all c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/fifo_arrival_64x16b_ooc.xdc]
 
 # Mark all dcp files as not used in implementation to prevent them from being

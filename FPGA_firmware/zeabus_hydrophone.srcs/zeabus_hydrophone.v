@@ -85,7 +85,6 @@ module zeabus_hydrophone #(
 
 	wire rst;
 	// Wires that connects modules
-	wire clk_64MHz_raw, clk_64MHz_90_raw;		// raw system clocks
 	wire clk_64MHz, clk_in_buf;					// clocks from BUFG that can distributes through out the chip
 	wire pll_locked;							// Output PLL clock is ready
 	wire [15:0] adc1_1_out,  adc1_2_out, adc2_1_out, adc2_2_out;	// Data output from ADC modules
@@ -98,7 +97,7 @@ module zeabus_hydrophone #(
 	wire poten_update_start;					// Rising edge indicates starting of updating poten values
 	wire [7:0] poten0, poten1, poten2, poten3;	// Values of potentiometers (aka. amplifier gain)
 	wire [15:0] rx_data;						// Incoming data from FX3S
-	wire rx_valid, rx_clk, rx_oe;				// Incoming data FIFO controls
+	wire rx_valid, rx_oe;						// Incoming data FIFO controls
 	wire tx_full;
 	
 	// Combination logic
@@ -163,14 +162,12 @@ module zeabus_hydrophone #(
 		// Arrival data (FX3S -> FPGA)
 		.d_out(rx_data),				// Output data
 		.output_valid(rx_valid),		// Indicate that there are some available data to read
-		.output_d_oe(rx_oe),			// Enable read-out data
-		.output_d_clk(rx_clk)			// Clocking for data reading
+		.output_d_oe(rx_oe)			// Enable read-out data
 	);
 	hydrophone_config_manager config_man(
 		// Interface to slave fifo output buffer
 		.d_in(rx_data),					// Data from slave FIFO
 		.data_valid(rx_valid),			// Indicate that there are some available config data to read
-		.config_d_clk(rx_clk),			// Clocking for data reading
 		.config_d_oe(rx_oe),			// Enable read-out data
 	
 		// Control
