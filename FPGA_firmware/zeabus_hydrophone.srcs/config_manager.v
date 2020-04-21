@@ -35,31 +35,33 @@
 
 /* Module to store and manage all settings such as trigger level and poten value.
  * It also parse the configuration setting data from host through FX3S slave FIFO.
- * The configuration packet from host has the format as:
- *    word no. (16-bit word)        value/meaning
- *       1                          16'hDCB0 (prefix)
- *       2                          Bit fileds indicates what config is included
- *										bit 15 : indicates inclusion of trigger level
- *                                      bit 14 : indicates inclusion of potentiometer values
- *                                      bit 13 - 0 : reserved
- *       3                          ADC trigger level (if included)
- *     4 - 5                        Potentiometer values (if included) in the order of 1, 2, 3, and 4. (each is 8 bits)
+ * The input data have the format as
+ *  1 bytes: ID (fixed as 0xDC)
+ *  1 bytes: Configuration fields
+ *      The configuraton fields are Bit-fields indicates which configuration to set.
+ *      This field also indicates what data would follow. Each bit has meaning as:
+ *          bit 7 - 4 - 4 bits of pinger frequency selection from 25kHz to 40kHz
+ *          bit 3: 1 = enable trigger level setting
+ *          bit 2: 1 = enable amplifier gains setting
+ *          bit 1 - bit 0: (Unused)
+ *  2 bytes: New trigger level. (Exists only when the 3rd bit of the prefix is set)
+ *  4 bytes: New amplifier gain for each channel. Each channel can have it gain different
+ *      from others. (Thie field exists only when 2nd bit of the prefix is set)
+ *
  */
 module hydrophone_config_manager #(
 	// constants
-	parameter config_prefix = 16'hDCB0,
+	parameter config_prefix = 8'hDC,
 	parameter rst_delay = 8,			// Total clock cycles to delay the start after reset
 	// State value
 	localparam state_wait_prefix = 0,	// Waiting for the prefix
 	localparam state_read_prefix = 1,	// Reading the prefix and validate with the pre-defined value
-	localparam state_wait_confbit = 3,	// Waiting for the configuration bit fields
-	localparam state_read_confbit = 4,	// Read configuration bit fields from input
-	localparam state_wait_trigger = 5,	// Waiting for trigger level from input
-	localparam state_read_trigger = 6,	// Read trigger level from input
-	localparam state_wait_poten1_2 = 7,	// Waiting for the values of potentiometer 1 and 2 from input
-	localparam state_read_poten1_2 = 8,	// Read values of potentiometer 1 and 2 from input
-	localparam state_wait_poten3_4 = 9, // Waiting for the values of potentiometer 3 and 4 from input
-	localparam state_read_poten3_4 = 10 // Read values of potentiometer 3 and 4 from input
+	localparam state_wait_trigger = 2,	// Waiting for trigger level from input
+	localparam state_read_trigger = 3,	// Read trigger level from input
+	localparam state_wait_poten1_2 = 4,	// Waiting for the values of potentiometer 1 and 2 from input
+	localparam state_read_poten1_2 = 5,	// Read values of potentiometer 1 and 2 from input
+	localparam state_wait_poten3_4 = 6, // Waiting for the values of potentiometer 3 and 4 from input
+	localparam state_read_poten3_4 = 7 // Read values of potentiometer 3 and 4 from input
 	
 	) (
 	// Interface to slave fifo output buffer
@@ -73,6 +75,7 @@ module hydrophone_config_manager #(
 	output reg update_poten,		// Trigger for potentiometer register updating. (rising edge)
 	
 	// Register
+	output reg [3:0] pinger_freq,	// frequency id of the particular pinger
 	output reg [15:0] trigger_level,// hydrophone signal level
 	output reg [7:0] poten1_value,	// Value of potentiometer 1 (defines gain of channel 1)
 	output reg [7:0] poten2_value,	// Value of potentiometer 2 (defines gain of channel 2)
@@ -82,35 +85,37 @@ module hydrophone_config_manager #(
 
 	// Variables
 	integer state, counter;			// Counter is for the initialization step
-	reg [15:0] config_bit;
+	reg [15:0] prefix;
 		
 	// Behavioral part
 	initial
 	begin
-		state <= state_wait_prefix;
-		counter <= 0;
-		config_d_oe <= 0;
-		update_poten <= 0;
-		trigger_level <= 16'd8192;
-		poten1_value <= 8'h80;
-		poten2_value <= 8'h80;
-		poten3_value <= 8'h80;
-		poten4_value <= 8'h80;
+		state <= #1 state_wait_prefix;
+		counter <= #1 0;
+		config_d_oe <= #1 0;
+		update_poten <= #1 0;
+		trigger_level <= #1 16'd16383;
+		poten1_value <= #1 8'h80;
+		poten2_value <= #1 8'h80;
+		poten3_value <= #1 8'h80;
+		poten4_value <= #1 8'h80;
+		pinger_freq <= #1 4'b0;
 	end
 
 	always @( posedge clk_64MHz )
 	begin
 		if( rst )
 		begin
-			state <= state_wait_prefix;
-			counter <= 0;
-			config_d_oe <= 0;
-			update_poten <= 0;
-			trigger_level <= 16'd8192;
-			poten1_value <= 8'h80;
-			poten2_value <= 8'h80;
-			poten3_value <= 8'h80;
-			poten4_value <= 8'h80;
+			state <= #1 state_wait_prefix;
+			counter <= #1 0;
+			config_d_oe <= #1 0;
+			update_poten <= #1 0;
+			trigger_level <= #1 16'd16383;
+			poten1_value <= #1 8'h80;
+			poten2_value <= #1 8'h80;
+			poten3_value <= #1 8'h80;
+			poten4_value <= #1 8'h80;
+			pinger_freq <= #1 4'b0;
 		end
 		else
 		begin
@@ -119,79 +124,64 @@ module hydrophone_config_manager #(
 				case( state )
 					state_wait_prefix:	// Waiting for the prefix
 					begin
-						update_poten = 1;
+						update_poten <= #1 1;
 						if( data_valid )
 						begin
-							config_d_oe = 1;
-							state = state_read_prefix;
+							config_d_oe <= #1 1;
+							state <= #1 state_read_prefix;
 						end
 					end
 					
 					state_read_prefix:	// Reading the prefix and validate with the pre-defined value
 					begin
-						config_d_oe = 0;
-						if( d_in == config_prefix )
+						config_d_oe <= #1 0;
+						if( prefix[15:8] == config_prefix )
 						begin
-							state = state_wait_confbit;
-						end
-						else
-						begin
-							state = state_wait_prefix;
-						end
-					end
-					
-					state_wait_confbit:	// Waiting for the configuration bit fields
-					begin
-						if( data_valid )
-						begin
-							config_d_oe = 1;
-							state = state_read_confbit;
-						end
-					end
-
-					state_read_confbit:	// Read configuration bit fields from input
-					begin
-						config_bit = d_in;
-						config_d_oe = 0;
-						if( config_bit[15] )
-						begin
-							state = state_wait_trigger;
-						end
-						else
-						begin
-							if( config_bit[14] )
+							pinger_freq <= #1 prefix[7:4];
+							if( prefix[3] )
 							begin
-								update_poten = 0;
-								state = state_wait_poten1_2;
+								state <= #1 state_wait_trigger;
 							end
 							else
 							begin
-								state = state_wait_prefix;		// All reserved bits mean doing nothing
+								if( prefix[2] )
+								begin
+									update_poten <= #1 0;
+									state <= #1 state_wait_poten1_2;
+								end
+								else
+								begin
+									state <= #1 state_wait_prefix;		// All reserved bits mean doing nothing
+								end
 							end
 						end
+						else
+						begin
+							state <= #1 state_wait_prefix;
+						end
 					end
-					
+										
 					state_wait_trigger:	// Waiting for trigger level from input
 					begin
 						if( data_valid )
 						begin
-							config_d_oe = 1;
-							state = state_read_trigger;
+							config_d_oe <= #1 1;
+							state <= #1 state_read_trigger;
 						end
 					end
 				
 					state_read_trigger:	// Read trigger level from input
 					begin
-						trigger_level = d_in;
-						config_d_oe = 0;
-						if( config_bit[14] )
+						trigger_level <= #1 d_in;
+						config_d_oe <= #1 0;
+						if( prefix[2] )
 						begin
-							update_poten = 0;
-							state = state_wait_poten1_2;
+							update_poten <= #1 0;
+							state <= #1 state_wait_poten1_2;
 						end
 						else
 						begin
-							state = state_wait_prefix;			// All reserved bits mean doing nothing
+							state <= #1 state_wait_prefix;			// All reserved bits mean doing nothing
 						end
 					end
 					
@@ -199,38 +189,38 @@ module hydrophone_config_manager #(
 					begin
 						if( data_valid )
 						begin
-							config_d_oe = 1;
-							state = state_read_poten1_2;
+							config_d_oe <= #1 1;
+							state <= #1 state_read_poten1_2;
 						end
 					end
 								
 					state_read_poten1_2:	// Read values of potentiometer 1 and 2 from input
 					begin
-						{ poten1_value, poten2_value } = d_in;
-						config_d_oe = 0;
-						state = state_wait_poten3_4;
+						{ poten1_value, poten2_value } <= #1 d_in;
+						config_d_oe <= #1 0;
+						state <= #1 state_wait_poten3_4;
 					end
 					
 					state_wait_poten3_4: // Waiting for the values of potentiometer 3 and 4 from input
 					begin
 						if( data_valid )
 						begin
-							config_d_oe = 1;
-							state = state_read_poten3_4;
+							config_d_oe <= #1 1;
+							state <= #1 state_read_poten3_4;
 						end
 					end
 				
 					state_read_poten3_4: // Read values of potentiometer 3 and 4 from input
 					begin
-						{ poten3_value, poten4_value } = d_in;
-						config_d_oe = 0;
-						state = state_wait_prefix;
+						{ poten3_value, poten4_value } <= #1 d_in;
+						config_d_oe <= #1 0;
+						state <= #1 state_wait_prefix;
 					end				
 				endcase
 			end
 			else
 			begin
-				counter = counter + 1;
+				counter <= #1 counter + 1;
 			end
 		end
 	end

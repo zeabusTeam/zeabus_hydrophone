@@ -2,8 +2,8 @@
 # Vivado v2019.2.1 (64-bit)
 # SW Build 2729669 on Thu Dec  5 04:49:17 MST 2019
 # IP Build 2729494 on Thu Dec  5 07:38:25 MST 2019
-# Start of session at: Wed Mar 25 13:55:42 2020
-# Process ID: 412
+# Start of session at: Sat Apr 18 19:04:59 2020
+# Process ID: 5696
 # Current directory: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1
 # Command line: vivado.exe -log zeabus_hydrophone.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source zeabus_hydrophone.tcl
 # Log file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/zeabus_hydrophone.vds
@@ -16,16 +16,16 @@ Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t'
 INFO: [Device 21-403] Loading part xc7a15tcsg324-1
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 31520 
+INFO: Helper process launched with PID 8488 
 WARNING: [Synth 8-976] clk_8mhz_clk_pll has already been declared [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v:98]
 WARNING: [Synth 8-2654] second declaration of clk_8mhz_clk_pll ignored [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v:98]
 INFO: [Synth 8-994] clk_8mhz_clk_pll is declared here [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v:97]
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 858.820 ; gain = 243.164
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 859.066 ; gain = 243.020
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'zeabus_hydrophone' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:39]
-	Parameter trigger_head bound to: 1000 - type: integer 
-	Parameter trigger_tail bound to: 1000 - type: integer 
+	Parameter trigger_head bound to: 64 - type: integer 
+	Parameter trigger_tail bound to: 64 - type: integer 
 INFO: [Synth 8-6157] synthesizing module 'fx3s_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/fx3s_interface.v:36]
 	Parameter FX3S_DMA_Size bound to: 4096 - type: integer 
 	Parameter addr_write bound to: 1'b1 
@@ -44,27 +44,26 @@ INFO: [Synth 8-6157] synthesizing module 'fx3s_interface' [C:/Users/akrap/Google
 	Parameter state_zlp_wait1 bound to: 4'b1101 
 	Parameter state_zlp_wait2 bound to: 4'b1110 
 	Parameter state_zlp_wait3 bound to: 4'b1111 
-INFO: [Synth 8-6157] synthesizing module 'fifo_departure_1024x64b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_departure_1024x64b' (1#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
-INFO: [Synth 8-6157] synthesizing module 'fifo_arrival_64x16b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_arrival_64x16b' (2#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'fifo_departure_1024x64b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_departure_1024x64b' (1#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/fifo_departure_1024x64b_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'fifo_arrival_64x16b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_arrival_64x16b' (2#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/fifo_arrival_64x16b_stub.v:6]
 INFO: [Synth 8-6155] done synthesizing module 'fx3s_interface' (3#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/fx3s_interface.v:36]
-WARNING: [Synth 8-7023] instance 'slave_fifo' of module 'fx3s_interface' has 21 connections declared, but only 20 given [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:137]
-INFO: [Synth 8-6157] synthesizing module 'hydrophone_config_manager' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:48]
-	Parameter config_prefix bound to: 16'b1101110010110000 
+WARNING: [Synth 8-7023] instance 'slave_fifo' of module 'fx3s_interface' has 21 connections declared, but only 20 given [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:160]
+INFO: [Synth 8-6157] synthesizing module 'hydrophone_config_manager' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:52]
+	Parameter config_prefix bound to: 8'b11011100 
 	Parameter rst_delay bound to: 8 - type: integer 
 	Parameter state_wait_prefix bound to: 0 - type: integer 
 	Parameter state_read_prefix bound to: 1 - type: integer 
-	Parameter state_wait_confbit bound to: 3 - type: integer 
-	Parameter state_read_confbit bound to: 4 - type: integer 
-	Parameter state_wait_trigger bound to: 5 - type: integer 
-	Parameter state_read_trigger bound to: 6 - type: integer 
-	Parameter state_wait_poten1_2 bound to: 7 - type: integer 
-	Parameter state_read_poten1_2 bound to: 8 - type: integer 
-	Parameter state_wait_poten3_4 bound to: 9 - type: integer 
-	Parameter state_read_poten3_4 bound to: 10 - type: integer 
-INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:119]
-INFO: [Synth 8-6155] done synthesizing module 'hydrophone_config_manager' (4#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:48]
+	Parameter state_wait_trigger bound to: 2 - type: integer 
+	Parameter state_read_trigger bound to: 3 - type: integer 
+	Parameter state_wait_poten1_2 bound to: 4 - type: integer 
+	Parameter state_read_poten1_2 bound to: 5 - type: integer 
+	Parameter state_wait_poten3_4 bound to: 6 - type: integer 
+	Parameter state_read_poten3_4 bound to: 7 - type: integer 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:124]
+WARNING: [Synth 8-3848] Net prefix in module/entity hydrophone_config_manager does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:88]
+INFO: [Synth 8-6155] done synthesizing module 'hydrophone_config_manager' (4#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:52]
 INFO: [Synth 8-6157] synthesizing module 'poten_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/poten_interface.v:40]
 	Parameter i2c_address_1 bound to: 8'b01011100 
 	Parameter i2c_address_2 bound to: 8'b01011110 
@@ -134,27 +133,65 @@ INFO: [Synth 8-6157] synthesizing module 'packetizer' [C:/Users/akrap/Google/AUV
 	Parameter STATE_SEND_FIRSTDATA bound to: 3'b010 
 	Parameter STATE_WAIT_STROBE bound to: 3'b011 
 	Parameter STATE_SEND_TAILING bound to: 3'b111 
-INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/packetize.v:172]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/packetize.v:184]
 INFO: [Synth 8-6155] done synthesizing module 'packetizer' (8#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/packetize.v:36]
-INFO: [Synth 8-6157] synthesizing module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:42]
-	Parameter header bound to: 1000 - type: integer 
-	Parameter trigged_tailed bound to: 1000 - type: integer 
-	Parameter total_tail bound to: 2000 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'biquad_lp_filter' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/biquad_lp_filter.v:58]
+	Parameter coef_minus_a1 bound to: 18'b011110100011110110 
+	Parameter coef_minus_a2 bound to: 18'b110001000111101100 
+INFO: [Synth 8-6157] synthesizing module 'mult_30b_18b' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/mult_30b_18b_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'mult_30b_18b' (9#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/mult_30b_18b_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'gain0_005_mult' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/gain0_005_mult_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'gain0_005_mult' (10#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/gain0_005_mult_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'biquad_lp_filter' (11#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/biquad_lp_filter.v:58]
+INFO: [Synth 8-6157] synthesizing module 'IQ_demodulator' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:53]
+INFO: [Synth 8-6157] synthesizing module 'IQ_demod_unit' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:37]
+INFO: [Synth 8-6155] done synthesizing module 'IQ_demod_unit' (12#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:37]
+WARNING: [Synth 8-689] width (1) of port connection 'q_signal' does not match port width (20) of module 'IQ_demod_unit' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:71]
+WARNING: [Synth 8-689] width (1) of port connection 'q_signal' does not match port width (20) of module 'IQ_demod_unit' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:72]
+WARNING: [Synth 8-689] width (1) of port connection 'q_signal' does not match port width (20) of module 'IQ_demod_unit' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:73]
+WARNING: [Synth 8-689] width (1) of port connection 'q_signal' does not match port width (20) of module 'IQ_demod_unit' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:74]
+WARNING: [Synth 8-3848] Net q_dmod4 in module/entity IQ_demodulator does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:69]
+WARNING: [Synth 8-3848] Net q_dmod3 in module/entity IQ_demodulator does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:68]
+WARNING: [Synth 8-3848] Net q_dmod2 in module/entity IQ_demodulator does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:67]
+WARNING: [Synth 8-3848] Net q_dmod1 in module/entity IQ_demodulator does not have driver. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:66]
+INFO: [Synth 8-6155] done synthesizing module 'IQ_demodulator' (13#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/iq_demodulator.v:53]
+INFO: [Synth 8-6157] synthesizing module 'q_wave_gen' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/quadeature_gen.v:44]
+	Parameter counter_25kHz bound to: 6710886 - type: integer 
+	Parameter counter_26kHz bound to: 6979322 - type: integer 
+	Parameter counter_27kHz bound to: 7247757 - type: integer 
+	Parameter counter_28kHz bound to: 7516193 - type: integer 
+	Parameter counter_29kHz bound to: 7784628 - type: integer 
+	Parameter counter_30kHz bound to: 8053064 - type: integer 
+	Parameter counter_31kHz bound to: 8321499 - type: integer 
+	Parameter counter_32kHz bound to: 8589935 - type: integer 
+	Parameter counter_33kHz bound to: 8858370 - type: integer 
+	Parameter counter_34kHz bound to: 9126806 - type: integer 
+	Parameter counter_35kHz bound to: 9395241 - type: integer 
+	Parameter counter_36kHz bound to: 9663676 - type: integer 
+	Parameter counter_37kHz bound to: 9932112 - type: integer 
+	Parameter counter_38kHz bound to: 10200547 - type: integer 
+	Parameter counter_39kHz bound to: 10468983 - type: integer 
+	Parameter counter_40kHz bound to: 10737418 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'q_wave_gen' (14#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/quadeature_gen.v:44]
+INFO: [Synth 8-6157] synthesizing module 'hydrophone_trigger' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:43]
+	Parameter header bound to: 64 - type: integer 
+	Parameter trigged_tailed bound to: 64 - type: integer 
+	Parameter total_tail bound to: 128 - type: integer 
 INFO: [Synth 8-6157] synthesizing module 'absolute' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:37]
-INFO: [Synth 8-6155] done synthesizing module 'absolute' (9#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:37]
-INFO: [Synth 8-6157] synthesizing module 'fifo_1024x64b_bram' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'fifo_1024x64b_bram' (10#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'hydrophone_trigger' (11#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:42]
-INFO: [Synth 8-6157] synthesizing module 'adc_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:158]
-INFO: [Synth 8-6157] synthesizing module 'ADC_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/ADC_interface_stub.v:5]
-INFO: [Synth 8-6155] done synthesizing module 'ADC_interface' (12#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/realtime/ADC_interface_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'absolute' (15#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:37]
+INFO: [Synth 8-6157] synthesizing module 'fifo_1024x64b_bram' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'fifo_1024x64b_bram' (16#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/fifo_1024x64b_bram_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'hydrophone_trigger' (17#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/hydrophone_trigger.v:43]
+INFO: [Synth 8-6157] synthesizing module 'adc_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:161]
+INFO: [Synth 8-6157] synthesizing module 'ADC_interface' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/ADC_interface_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'ADC_interface' (18#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/realtime/ADC_interface_stub.v:5]
 INFO: [Synth 8-6157] synthesizing module 'median_filter' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:48]
 INFO: [Synth 8-6157] synthesizing module 'sort' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:36]
-INFO: [Synth 8-6155] done synthesizing module 'sort' (13#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:36]
-INFO: [Synth 8-6155] done synthesizing module 'median_filter' (14#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:48]
+INFO: [Synth 8-6155] done synthesizing module 'sort' (19#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:36]
+INFO: [Synth 8-6155] done synthesizing module 'median_filter' (20#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:48]
 INFO: [Synth 8-6157] synthesizing module 'avg64_filter' [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:110]
-INFO: [Synth 8-6155] done synthesizing module 'avg64_filter' (15#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:110]
-INFO: [Synth 8-6155] done synthesizing module 'adc_interface' (16#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:158]
+INFO: [Synth 8-6155] done synthesizing module 'avg64_filter' (21#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:110]
+INFO: [Synth 8-6155] done synthesizing module 'adc_interface' (22#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/adc_interface.v:161]
 INFO: [Synth 8-6157] synthesizing module 'clk_pll' [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll.v:70]
 INFO: [Synth 8-6157] synthesizing module 'clk_pll_clk_wiz' [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v:68]
 INFO: [Synth 8-6157] synthesizing module 'IBUF' [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:32937]
@@ -163,7 +200,7 @@ INFO: [Synth 8-6157] synthesizing module 'IBUF' [D:/Xilinx/Vivado/2019.2/scripts
 	Parameter IBUF_LOW_PWR bound to: TRUE - type: string 
 	Parameter IFD_DELAY_VALUE bound to: AUTO - type: string 
 	Parameter IOSTANDARD bound to: DEFAULT - type: string 
-INFO: [Synth 8-6155] done synthesizing module 'IBUF' (17#1) [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:32937]
+INFO: [Synth 8-6155] done synthesizing module 'IBUF' (23#1) [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:32937]
 INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV' [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:61416]
 	Parameter BANDWIDTH bound to: HIGH - type: string 
 	Parameter CLKFBOUT_MULT bound to: 32 - type: integer 
@@ -196,12 +233,12 @@ INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV' [D:/Xilinx/Vivado/2019.2/sc
 	Parameter REF_JITTER1 bound to: 0.010000 - type: double 
 	Parameter REF_JITTER2 bound to: 0.010000 - type: double 
 	Parameter STARTUP_WAIT bound to: FALSE - type: string 
-INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV' (18#1) [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:61416]
+INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV' (24#1) [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:61416]
 INFO: [Synth 8-6157] synthesizing module 'BUFG' [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:1075]
-INFO: [Synth 8-6155] done synthesizing module 'BUFG' (19#1) [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:1075]
-INFO: [Synth 8-6155] done synthesizing module 'clk_pll_clk_wiz' (20#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v:68]
-INFO: [Synth 8-6155] done synthesizing module 'clk_pll' (21#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll.v:70]
-INFO: [Synth 8-6155] done synthesizing module 'zeabus_hydrophone' (22#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:39]
+INFO: [Synth 8-6155] done synthesizing module 'BUFG' (25#1) [D:/Xilinx/Vivado/2019.2/scripts/rt/data/unisim_comp.v:1075]
+INFO: [Synth 8-6155] done synthesizing module 'clk_pll_clk_wiz' (26#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_clk_wiz.v:68]
+INFO: [Synth 8-6155] done synthesizing module 'clk_pll' (27#1) [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll.v:70]
+INFO: [Synth 8-6155] done synthesizing module 'zeabus_hydrophone' (28#1) [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/zeabus_hydrophone.v:39]
 WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_RED_1 driven by constant 0
 WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_YELLOW_1 driven by constant 0
 WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_GREEN_1 driven by constant 0
@@ -209,7 +246,7 @@ WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_RED_2 driven by co
 WARNING: [Synth 8-3331] design fx3s_interface has unconnected port output_d_clk
 WARNING: [Synth 8-3331] design zeabus_hydrophone has unconnected port FIR_EN
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:11 . Memory (MB): peak = 916.223 ; gain = 300.566
+Finished RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 916.660 ; gain = 300.613
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -222,28 +259,76 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 916.223 ; gain = 300.566
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:09 ; elapsed = 00:00:13 . Memory (MB): peak = 916.660 ; gain = 300.613
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 916.223 ; gain = 300.566
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:13 . Memory (MB): peak = 916.660 ; gain = 300.613
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.078 . Memory (MB): peak = 916.223 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.174 . Memory (MB): peak = 916.660 ; gain = 0.000
 INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/fifo_1024x64b_bram/fifo_1024x64b_bram/fifo_1024x64b_bram_in_context.xdc] for cell 'trigger/backlog_fifo'
-Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/fifo_1024x64b_bram/fifo_1024x64b_bram/fifo_1024x64b_bram_in_context.xdc] for cell 'trigger/backlog_fifo'
-Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/fifo_arrival_64x16b/fifo_arrival_64x16b/fifo_arrival_64x16b_in_context.xdc] for cell 'slave_fifo/fifo_arrival'
-Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/fifo_arrival_64x16b/fifo_arrival_64x16b/fifo_arrival_64x16b_in_context.xdc] for cell 'slave_fifo/fifo_arrival'
-Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/fifo_departure_1024x64b/fifo_departure_1024x64b/fifo_departure_1024x64b_in_context.xdc] for cell 'slave_fifo/fifo_departure'
-Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/fifo_departure_1024x64b/fifo_departure_1024x64b/fifo_departure_1024x64b_in_context.xdc] for cell 'slave_fifo/fifo_departure'
-Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc1/adc'
-Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc1/adc'
-Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc2/adc'
-Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc2/adc'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/fifo_1024x64b_bram/fifo_1024x64b_bram/fifo_1024x64b_bram_in_context.xdc] for cell 'trigger/backlog_fifo'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/fifo_1024x64b_bram/fifo_1024x64b_bram/fifo_1024x64b_bram_in_context.xdc] for cell 'trigger/backlog_fifo'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/fifo_arrival_64x16b/fifo_arrival_64x16b/fifo_arrival_64x16b_in_context.xdc] for cell 'slave_fifo/fifo_arrival'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/fifo_arrival_64x16b/fifo_arrival_64x16b/fifo_arrival_64x16b_in_context.xdc] for cell 'slave_fifo/fifo_arrival'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/fifo_departure_1024x64b/fifo_departure_1024x64b/fifo_departure_1024x64b_in_context.xdc] for cell 'slave_fifo/fifo_departure'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/fifo_departure_1024x64b/fifo_departure_1024x64b/fifo_departure_1024x64b_in_context.xdc] for cell 'slave_fifo/fifo_departure'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc1/adc'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc1/adc'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc2/adc'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc] for cell 'adc2/adc'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch1_q/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch1_q/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch1_i/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch1_i/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch2_q/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch2_q/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch2_i/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch2_i/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch3_q/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch3_q/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch3_i/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch3_i/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch4_q/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch4_q/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch4_i/gmult'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/gain0_005_mult/gain0_005_mult/gain0_005_mult_in_context.xdc] for cell 'ch4_i/gmult'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_q/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_q/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_q/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_q/mul_minus_a1'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_i/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_i/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_i/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch1_i/mul_minus_a1'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_q/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_q/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_q/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_q/mul_minus_a1'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_i/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_i/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_i/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch2_i/mul_minus_a1'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_q/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_q/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_q/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_q/mul_minus_a1'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_i/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_i/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_i/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch3_i/mul_minus_a1'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_q/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_q/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_q/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_q/mul_minus_a1'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_i/mul_minus_a2'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_i/mul_minus_a2'
+Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_i/mul_minus_a1'
+Finished Parsing XDC File [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/mult_30b_18b/mult_30b_18b/mult_30b_18b_in_context.xdc] for cell 'ch4_i/mul_minus_a1'
 Parsing XDC File [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_board.xdc] for cell 'clk_gen/inst'
 Finished Parsing XDC File [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll_board.xdc] for cell 'clk_gen/inst'
 Parsing XDC File [c:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/clk_pll/clk_pll.xdc] for cell 'clk_gen/inst'
@@ -261,84 +346,84 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/zeabus_hydrophone_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1038.172 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1044.023 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.056 . Memory (MB): peak = 1038.172 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.058 . Memory (MB): peak = 1044.023 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:21 ; elapsed = 00:00:27 . Memory (MB): peak = 1038.172 ; gain = 422.516
+Finished Constraint Validation : Time (s): cpu = 00:00:21 ; elapsed = 00:00:26 . Memory (MB): peak = 1044.023 ; gain = 427.977
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a15tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:21 ; elapsed = 00:00:27 . Memory (MB): peak = 1038.172 ; gain = 422.516
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:21 ; elapsed = 00:00:26 . Memory (MB): peak = 1044.023 ; gain = 427.977
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 1).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 2).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 3).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 4).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 5).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 6).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 7).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 8).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 9).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 10).
-Applied set_property IO_BUFFER_TYPE = NONE for OTR_1. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 11).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for OTR_1. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 12).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 13).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 14).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 15).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 16).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 17).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 18).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 19).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 20).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 21).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 22).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 23).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 24).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 25).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 26).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 27).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 28).
-Applied set_property IO_BUFFER_TYPE = NONE for D_1[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 29).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 30).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 1).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 2).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 3).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 4).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 5).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 6).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 7).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 8).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 9).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 10).
-Applied set_property IO_BUFFER_TYPE = NONE for OTR_2. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 11).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for OTR_2. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 12).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 13).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 14).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 15).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 16).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 17).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 18).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 19).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 20).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 21).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 22).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 23).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 24).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 25).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 26).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 27).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 28).
-Applied set_property IO_BUFFER_TYPE = NONE for D_2[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 29).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-412-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 30).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 1).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 2).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 3).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 4).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 5).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 6).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 7).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 8).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 9).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 10).
+Applied set_property IO_BUFFER_TYPE = NONE for OTR_1. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 11).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for OTR_1. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 12).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 13).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 14).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 15).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 16).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 17).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 18).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 19).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 20).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 21).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 22).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 23).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 24).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 25).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 26).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 27).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 28).
+Applied set_property IO_BUFFER_TYPE = NONE for D_1[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 29).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_1[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 30).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 1).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[0]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 2).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 3).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[10]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 4).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 5).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[11]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 6).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 7).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[12]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 8).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 9).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[13]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 10).
+Applied set_property IO_BUFFER_TYPE = NONE for OTR_2. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 11).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for OTR_2. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 12).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 13).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[1]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 14).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 15).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[2]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 16).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 17).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[3]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 18).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 19).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[4]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 20).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 21).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[5]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 22).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 23).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[6]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 24).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 25).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[7]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 26).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 27).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[8]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 28).
+Applied set_property IO_BUFFER_TYPE = NONE for D_2[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 29).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for D_2[9]. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/.Xil/Vivado-5696-DESKTOP-MDIICNE/ADC_interface/ADC_interface/ADC_interface_in_context.xdc, line 30).
 Applied set_property DONT_TOUCH = true for clk_gen/inst. (constraint file  C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/dont_touch.xdc, line 10).
 Applied set_property DONT_TOUCH = true for clk_gen. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for trigger/backlog_fifo. (constraint file  auto generated constraint, line ).
@@ -346,25 +431,42 @@ Applied set_property DONT_TOUCH = true for slave_fifo/fifo_arrival. (constraint 
 Applied set_property DONT_TOUCH = true for slave_fifo/fifo_departure. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for adc1/adc. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for adc2/adc. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch1_q/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch1_i/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch2_q/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch2_i/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch3_q/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch3_i/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch4_q/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch4_i/gmult. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch1_q/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch1_i/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch2_q/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch2_i/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch3_q/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch3_i/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch4_q/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch4_i/mul_minus_a1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch1_q/mul_minus_a2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch1_i/mul_minus_a2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch2_q/mul_minus_a2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch2_i/mul_minus_a2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch3_q/mul_minus_a2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch3_i/mul_minus_a2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch4_q/mul_minus_a2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ch4_i/mul_minus_a2. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:21 ; elapsed = 00:00:28 . Memory (MB): peak = 1038.172 ; gain = 422.516
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 1044.023 ; gain = 427.977
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'master_state_reg' in module 'fx3s_interface'
 INFO: [Synth 8-5544] ROM "u16WrCounter" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
-WARNING: [Synth 8-3936] Found unconnected internal register 'config_bit_reg' and it is trimmed from '16' to '15' bits. [C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v:154]
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'hydrophone_config_manager'
-INFO: [Synth 8-5545] ROM "state" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
-INFO: [Synth 8-5545] ROM "trigger_level" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
-INFO: [Synth 8-5545] ROM "poten1_value" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
-INFO: [Synth 8-5545] ROM "poten3_value" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
-INFO: [Synth 8-5545] ROM "config_bit" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
 INFO: [Synth 8-802] inferred FSM for state register 'c_state_reg' in module 'i2c_master_bit_ctrl'
 INFO: [Synth 8-5544] ROM "c_state" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
 INFO: [Synth 8-802] inferred FSM for state register 'c_state_reg' in module 'i2c_master_byte_ctrl'
 INFO: [Synth 8-802] inferred FSM for state register 'sub_state_reg' in module 'poten_interface'
-INFO: [Synth 8-802] inferred FSM for state register 'sub_state_reg' in module 'packetizer'
-INFO: [Synth 8-5544] ROM "main_state" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
-INFO: [Synth 8-802] inferred FSM for state register 'trig_state_reg' in module 'hydrophone_trigger'
+INFO: [Synth 8-802] inferred FSM for state register 'main_state_reg' in module 'packetizer'
+INFO: [Synth 8-5544] ROM "counter_step" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -387,16 +489,14 @@ INFO: [Synth 8-3354] encoded FSM with state register 'master_state_reg' using en
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-       state_wait_prefix |                             0000 | 00000000000000000000000000000000
-       state_read_prefix |                             0001 | 00000000000000000000000000000001
-      state_wait_confbit |                             0010 | 00000000000000000000000000000011
-      state_read_confbit |                             0011 | 00000000000000000000000000000100
-      state_wait_trigger |                             0100 | 00000000000000000000000000000101
-      state_read_trigger |                             0101 | 00000000000000000000000000000110
-     state_wait_poten1_2 |                             0110 | 00000000000000000000000000000111
-     state_read_poten1_2 |                             0111 | 00000000000000000000000000001000
-     state_wait_poten3_4 |                             1000 | 00000000000000000000000000001001
-     state_read_poten3_4 |                             1001 | 00000000000000000000000000001010
+       state_wait_prefix |                              000 | 00000000000000000000000000000000
+       state_read_prefix |                              001 | 00000000000000000000000000000001
+      state_wait_trigger |                              010 | 00000000000000000000000000000010
+      state_read_trigger |                              011 | 00000000000000000000000000000011
+     state_wait_poten1_2 |                              100 | 00000000000000000000000000000100
+     state_read_poten1_2 |                              101 | 00000000000000000000000000000101
+     state_wait_poten3_4 |                              110 | 00000000000000000000000000000110
+     state_read_poten3_4 |                              111 | 00000000000000000000000000000111
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'hydrophone_config_manager'
 ---------------------------------------------------------------------------------------------------
@@ -439,27 +539,21 @@ INFO: [Synth 8-3354] encoded FSM with state register 'c_state_reg' using encodin
 SUBSTATE_SEND_SLAVE_ADDR |                               00 |                               00
 SUBSTATE_SEND_POTEN_ADDR |                               01 |                               01
  SUBSTATE_SEND_POTEN_VAL |                               10 |                               10
+                  iSTATE |                               11 |                               11
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'sub_state_reg' using encoding 'sequential' in module 'poten_interface'
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-      SUBSTATE_SEND_DATA |                             0001 |                               00
-         SUBSTATE_WAIT_1 |                             0010 |                               01
-     SUBSTATE_SET_STROBE |                             0100 |                               10
-         SUBSTATE_WAIT_2 |                             1000 |                               11
+              STATE_IDLE |                              000 |                              000
+       STATE_SEND_HEADER |                              001 |                              001
+    STATE_SEND_FIRSTDATA |                              010 |                              010
+       STATE_WAIT_STROBE |                              011 |                              011
+      STATE_SEND_TAILING |                              100 |                              111
 ---------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'sub_state_reg' using encoding 'one-hot' in module 'packetizer'
----------------------------------------------------------------------------------------------------
-                   State |                     New Encoding |                Previous Encoding 
----------------------------------------------------------------------------------------------------
-                  iSTATE |                               00 |                               00
-                 iSTATE0 |                               01 |                               01
-                 iSTATE1 |                               10 |                               10
----------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'trig_state_reg' using encoding 'sequential' in module 'hydrophone_trigger'
+INFO: [Synth 8-3354] encoded FSM with state register 'main_state_reg' using encoding 'sequential' in module 'packetizer'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:00:30 . Memory (MB): peak = 1038.172 ; gain = 422.516
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:24 ; elapsed = 00:00:29 . Memory (MB): peak = 1044.023 ; gain = 427.977
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -472,56 +566,68 @@ Start RTL Component Statistics
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input     20 Bit       Adders := 4     
-	   2 Input     16 Bit       Adders := 13    
+	   5 Input     48 Bit       Adders := 8     
+	   2 Input     33 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 8     
+	   2 Input     20 Bit       Adders := 13    
+	   2 Input     16 Bit       Adders := 12    
 	   2 Input     14 Bit       Adders := 1     
+	   2 Input      8 Bit       Adders := 2     
+	   2 Input      7 Bit       Adders := 1     
 	   2 Input      6 Bit       Adders := 4     
 	   2 Input      5 Bit       Adders := 2     
 	   2 Input      3 Bit       Adders := 1     
 +---Registers : 
-	               64 Bit    Registers := 2     
-	               20 Bit    Registers := 4     
-	               16 Bit    Registers := 9     
-	               15 Bit    Registers := 1     
+	              128 Bit    Registers := 1     
+	               48 Bit    Registers := 24    
+	               32 Bit    Registers := 1     
+	               30 Bit    Registers := 16    
+	               20 Bit    Registers := 8     
+	               16 Bit    Registers := 6     
 	               14 Bit    Registers := 21    
-	                8 Bit    Registers := 6     
+	                8 Bit    Registers := 7     
+	                7 Bit    Registers := 1     
 	                6 Bit    Registers := 4     
 	                5 Bit    Registers := 1     
-	                4 Bit    Registers := 2     
-	                3 Bit    Registers := 5     
-	                2 Bit    Registers := 2     
-	                1 Bit    Registers := 47    
+	                4 Bit    Registers := 3     
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 54    
 +---Muxes : 
-	   6 Input     64 Bit        Muxes := 1     
-	   2 Input     20 Bit        Muxes := 4     
+	   2 Input    160 Bit        Muxes := 1     
+	   2 Input    128 Bit        Muxes := 1     
+	  17 Input     32 Bit        Muxes := 1     
+	   2 Input     20 Bit        Muxes := 17    
 	  18 Input     18 Bit        Muxes := 1     
-	   2 Input     16 Bit        Muxes := 8     
+	   2 Input     16 Bit        Muxes := 3     
 	  14 Input     16 Bit        Muxes := 2     
-	   3 Input     16 Bit        Muxes := 1     
+	   4 Input     16 Bit        Muxes := 1     
 	   2 Input     14 Bit        Muxes := 74    
 	   3 Input     14 Bit        Muxes := 4     
 	   2 Input      8 Bit        Muxes := 2     
-	   3 Input      8 Bit        Muxes := 4     
+	   4 Input      8 Bit        Muxes := 4     
+	   3 Input      7 Bit        Muxes := 1     
 	  24 Input      5 Bit        Muxes := 1     
 	  14 Input      4 Bit        Muxes := 1     
-	   2 Input      4 Bit        Muxes := 21    
-	  10 Input      4 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 12    
 	   6 Input      4 Bit        Muxes := 2     
-	   3 Input      4 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 7     
+	   4 Input      4 Bit        Muxes := 1     
+	   8 Input      3 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 12    
 	  15 Input      3 Bit        Muxes := 1     
-	   3 Input      3 Bit        Muxes := 3     
-	   4 Input      3 Bit        Muxes := 1     
-	   2 Input      2 Bit        Muxes := 9     
-	   3 Input      2 Bit        Muxes := 5     
-	   4 Input      2 Bit        Muxes := 2     
-	   2 Input      1 Bit        Muxes := 35    
+	   5 Input      3 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 3     
+	   3 Input      2 Bit        Muxes := 1     
+	   4 Input      2 Bit        Muxes := 3     
+	   5 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 37    
 	  14 Input      1 Bit        Muxes := 21    
-	  10 Input      1 Bit        Muxes := 9     
+	   8 Input      1 Bit        Muxes := 9     
 	  18 Input      1 Bit        Muxes := 6     
-	   6 Input      1 Bit        Muxes := 17    
-	   3 Input      1 Bit        Muxes := 7     
-	   4 Input      1 Bit        Muxes := 1     
+	   6 Input      1 Bit        Muxes := 11    
+	   4 Input      1 Bit        Muxes := 10    
+	   5 Input      1 Bit        Muxes := 9     
+	   3 Input      1 Bit        Muxes := 1     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -532,10 +638,12 @@ Hierarchical RTL Component report
 Module zeabus_hydrophone 
 Detailed RTL Component Info : 
 +---Adders : 
+	   2 Input      8 Bit       Adders := 2     
 	   2 Input      5 Bit       Adders := 2     
 +---Registers : 
+	                8 Bit    Registers := 1     
 	                5 Bit    Registers := 1     
-	                1 Bit    Registers := 1     
+	                1 Bit    Registers := 2     
 Module fx3s_interface 
 Detailed RTL Component Info : 
 +---Adders : 
@@ -554,13 +662,14 @@ Module hydrophone_config_manager
 Detailed RTL Component Info : 
 +---Registers : 
 	               16 Bit    Registers := 1     
-	               15 Bit    Registers := 1     
 	                8 Bit    Registers := 4     
+	                4 Bit    Registers := 1     
 	                1 Bit    Registers := 2     
 +---Muxes : 
-	  10 Input      4 Bit        Muxes := 1     
-	   2 Input      4 Bit        Muxes := 9     
-	  10 Input      1 Bit        Muxes := 9     
+	   8 Input      3 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 4     
+	   2 Input      1 Bit        Muxes := 2     
+	   8 Input      1 Bit        Muxes := 9     
 Module i2c_master_bit_ctrl 
 Detailed RTL Component Info : 
 +---Adders : 
@@ -606,50 +715,145 @@ Detailed RTL Component Info :
 	                3 Bit    Registers := 1     
 	                1 Bit    Registers := 4     
 +---Muxes : 
-	   3 Input      8 Bit        Muxes := 4     
+	   4 Input      8 Bit        Muxes := 4     
 	   2 Input      4 Bit        Muxes := 1     
-	   3 Input      4 Bit        Muxes := 1     
+	   4 Input      4 Bit        Muxes := 1     
 	   6 Input      4 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 2     
-	   3 Input      3 Bit        Muxes := 2     
-	   3 Input      2 Bit        Muxes := 4     
-	   2 Input      2 Bit        Muxes := 7     
-	   6 Input      1 Bit        Muxes := 4     
-	   2 Input      1 Bit        Muxes := 3     
-	   3 Input      1 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 1     
+	   3 Input      2 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 1     
+	   6 Input      1 Bit        Muxes := 5     
+	   2 Input      1 Bit        Muxes := 4     
+	   4 Input      1 Bit        Muxes := 4     
 Module packetizer 
 Detailed RTL Component Info : 
 +---Adders : 
 	   2 Input     16 Bit       Adders := 1     
 +---Registers : 
-	               64 Bit    Registers := 2     
-	                3 Bit    Registers := 1     
-	                1 Bit    Registers := 5     
+	              128 Bit    Registers := 1     
+	               16 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 8     
 +---Muxes : 
-	   6 Input     64 Bit        Muxes := 1     
-	   4 Input      3 Bit        Muxes := 1     
-	   3 Input      3 Bit        Muxes := 1     
-	   4 Input      2 Bit        Muxes := 2     
-	   6 Input      1 Bit        Muxes := 7     
+	   2 Input    128 Bit        Muxes := 1     
+	   5 Input      3 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 2     
+	   4 Input      2 Bit        Muxes := 3     
+	   5 Input      2 Bit        Muxes := 1     
+	   4 Input      1 Bit        Muxes := 5     
+	   2 Input      1 Bit        Muxes := 1     
+	   5 Input      1 Bit        Muxes := 9     
+Module biquad_lp_filter__xdcDup__1 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module biquad_lp_filter__xdcDup__2 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module biquad_lp_filter__xdcDup__3 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module biquad_lp_filter__xdcDup__4 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module biquad_lp_filter__xdcDup__5 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module biquad_lp_filter__xdcDup__6 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module biquad_lp_filter__xdcDup__7 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module biquad_lp_filter 
+Detailed RTL Component Info : 
++---Adders : 
+	   5 Input     48 Bit       Adders := 1     
+	   2 Input     30 Bit       Adders := 1     
+	   2 Input     16 Bit       Adders := 1     
++---Registers : 
+	               48 Bit    Registers := 3     
+	               30 Bit    Registers := 2     
+Module IQ_demod_unit 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     20 Bit       Adders := 1     
++---Muxes : 
+	   2 Input     20 Bit        Muxes := 2     
+Module IQ_demodulator 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input    160 Bit        Muxes := 1     
+Module q_wave_gen 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     33 Bit       Adders := 1     
++---Registers : 
+	               32 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	  17 Input     32 Bit        Muxes := 1     
 	   4 Input      1 Bit        Muxes := 1     
 Module absolute 
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input     16 Bit       Adders := 1     
+	   2 Input     20 Bit       Adders := 1     
 +---Muxes : 
-	   2 Input     16 Bit        Muxes := 1     
+	   2 Input     20 Bit        Muxes := 1     
 Module hydrophone_trigger 
 Detailed RTL Component Info : 
 +---Adders : 
 	   2 Input     16 Bit       Adders := 1     
+	   2 Input      7 Bit       Adders := 1     
 +---Registers : 
 	               16 Bit    Registers := 1     
+	                7 Bit    Registers := 1     
 	                1 Bit    Registers := 3     
 +---Muxes : 
-	   3 Input     16 Bit        Muxes := 1     
-	   3 Input      2 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 2     
-	   3 Input      1 Bit        Muxes := 6     
+	   4 Input     16 Bit        Muxes := 1     
+	   3 Input      7 Bit        Muxes := 1     
+	   3 Input      1 Bit        Muxes := 1     
 Module sort 
 Detailed RTL Component Info : 
 +---Muxes : 
@@ -662,11 +866,9 @@ Module avg64_filter
 Detailed RTL Component Info : 
 +---Adders : 
 	   2 Input     20 Bit       Adders := 1     
-	   2 Input     16 Bit       Adders := 1     
 	   2 Input      6 Bit       Adders := 1     
 +---Registers : 
-	               20 Bit    Registers := 1     
-	               16 Bit    Registers := 1     
+	               20 Bit    Registers := 2     
 	                6 Bit    Registers := 1     
 +---Muxes : 
 	   2 Input     20 Bit        Muxes := 1     
@@ -699,11 +901,174 @@ WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_RED_1 driven by co
 WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_YELLOW_1 driven by constant 0
 WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_GREEN_1 driven by constant 0
 WARNING: [Synth 8-3917] design zeabus_hydrophone has port LED_RED_2 driven by constant 0
+WARNING: [Synth 8-3331] design IQ_demodulator has unconnected port q_clk
 WARNING: [Synth 8-3331] design fx3s_interface has unconnected port output_d_clk
 WARNING: [Synth 8-3331] design zeabus_hydrophone has unconnected port FIR_EN
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\pinger_freq_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\pinger_freq_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\pinger_freq_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\pinger_freq_reg[3] )
+INFO: [Synth 8-3886] merging instance 'poten_i2c/main_state_reg[2]' (FDRE) to 'poten_i2c/main_state_reg[1]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (poten_i2c/\main_state_reg[1] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (poten_i2c/\cmd_reg[1] )
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[0]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[32]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[33]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[34]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[35]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[36]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[37]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[38]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[39]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[40]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[41]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[42]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[43]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[44]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[45]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[46]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_i/din_by_minus_2_reg[47]' (FD) to 'ch4_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[0]' (FD) to 'ch4_q/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[39]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[40]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[41]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[42]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[43]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[44]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[45]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch4_q/din_by_minus_2_reg[46]' (FD) to 'ch4_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[0]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[32]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[33]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[34]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[35]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[36]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[37]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[38]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[39]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[40]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[41]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[42]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[43]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[44]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[45]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[46]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_i/din_by_minus_2_reg[47]' (FD) to 'ch3_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[0]' (FD) to 'ch3_q/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[39]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[40]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[41]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[42]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[43]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[44]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[45]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch3_q/din_by_minus_2_reg[46]' (FD) to 'ch3_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[0]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[32]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[33]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[34]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[35]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[36]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[37]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[38]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[39]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[40]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[41]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[42]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[43]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[44]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[45]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[46]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_i/din_by_minus_2_reg[47]' (FD) to 'ch2_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[0]' (FD) to 'ch2_q/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[39]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[40]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[41]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[42]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[43]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[44]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[45]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch2_q/din_by_minus_2_reg[46]' (FD) to 'ch2_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[0]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[32]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[33]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[34]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[35]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[36]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[37]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[38]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[39]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[40]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[41]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[42]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[43]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[44]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[45]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[46]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_i/din_by_minus_2_reg[47]' (FD) to 'ch1_i/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_q/din_by_minus_2_reg[0]' (FD) to 'ch1_q/din_by_minus_2_reg[1]'
+INFO: [Synth 8-3886] merging instance 'ch1_q/din_by_minus_2_reg[39]' (FD) to 'ch1_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch1_q/din_by_minus_2_reg[40]' (FD) to 'ch1_q/din_by_minus_2_reg[47]'
+INFO: [Synth 8-3886] merging instance 'ch1_q/din_by_minus_2_reg[41]' (FD) to 'ch1_q/din_by_minus_2_reg[47]'
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch4_i/\din_by_minus_2_reg[31] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch4_q/\din_by_minus_2_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch3_i/\din_by_minus_2_reg[31] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch3_q/\din_by_minus_2_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch2_i/\din_by_minus_2_reg[31] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch2_q/\din_by_minus_2_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch1_i/\din_by_minus_2_reg[31] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch1_q/\din_by_minus_2_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten3_value_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten2_value_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten3_value_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten2_value_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten3_value_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten2_value_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten3_value_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten2_value_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten3_value_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten2_value_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten3_value_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten2_value_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten3_value_reg[6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (config_man/\poten2_value_reg[6] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\poten3_value_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch4_i/\din_by_minus_2_d_reg[30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch4_q/\din_by_minus_2_d_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch3_i/\din_by_minus_2_d_reg[30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch3_q/\din_by_minus_2_d_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch2_i/\din_by_minus_2_d_reg[30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch2_q/\din_by_minus_2_d_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch1_i/\din_by_minus_2_d_reg[30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch1_q/\din_by_minus_2_d_reg[19] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[0] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[2] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[3] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[4] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[5] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[6] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[7] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[8] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[9] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[10] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[11] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[12] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (config_man/\trigger_level_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (poten_i2c/\txr_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch4_i/\din_by_minus_2_dd_reg[29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch4_q/\din_by_minus_2_dd_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch3_i/\din_by_minus_2_dd_reg[29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch3_q/\din_by_minus_2_dd_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch2_i/\din_by_minus_2_dd_reg[29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch2_q/\din_by_minus_2_dd_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch1_i/\din_by_minus_2_dd_reg[29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (ch1_q/\din_by_minus_2_dd_reg[17] )
+WARNING: [Synth 8-3332] Sequential element (FSM_sequential_state_reg[2]) is unused and will be removed from module hydrophone_config_manager.
+WARNING: [Synth 8-3332] Sequential element (FSM_sequential_state_reg[1]) is unused and will be removed from module hydrophone_config_manager.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:40 ; elapsed = 00:00:50 . Memory (MB): peak = 1038.172 ; gain = 422.516
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:40 ; elapsed = 00:00:46 . Memory (MB): peak = 1044.023 ; gain = 427.977
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -715,13 +1080,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:51 ; elapsed = 00:01:04 . Memory (MB): peak = 1038.172 ; gain = 422.516
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:49 ; elapsed = 00:00:57 . Memory (MB): peak = 1044.023 ; gain = 427.977
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:52 ; elapsed = 00:01:05 . Memory (MB): peak = 1038.172 ; gain = 422.516
+Finished Timing Optimization : Time (s): cpu = 00:00:50 ; elapsed = 00:00:58 . Memory (MB): peak = 1044.023 ; gain = 427.977
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -733,7 +1098,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:54 ; elapsed = 00:01:07 . Memory (MB): peak = 1104.242 ; gain = 488.586
+Finished Technology Mapping : Time (s): cpu = 00:00:53 ; elapsed = 00:01:01 . Memory (MB): peak = 1116.539 ; gain = 500.492
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -757,13 +1122,13 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:59 ; elapsed = 00:01:11 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Finished IO Insertion : Time (s): cpu = 00:00:59 ; elapsed = 00:01:06 . Memory (MB): peak = 1121.328 ; gain = 505.281
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:59 ; elapsed = 00:01:11 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:59 ; elapsed = 00:01:07 . Memory (MB): peak = 1121.328 ; gain = 505.281
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -782,25 +1147,25 @@ Report Check Netlist:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:59 ; elapsed = 00:01:12 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:59 ; elapsed = 00:01:07 . Memory (MB): peak = 1121.328 ; gain = 505.281
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:59 ; elapsed = 00:01:12 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:00 ; elapsed = 00:01:07 . Memory (MB): peak = 1121.328 ; gain = 505.281
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:59 ; elapsed = 00:01:12 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:00 ; elapsed = 00:01:07 . Memory (MB): peak = 1121.328 ; gain = 505.281
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:59 ; elapsed = 00:01:12 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:00 ; elapsed = 00:01:07 . Memory (MB): peak = 1121.328 ; gain = 505.281
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -811,9 +1176,11 @@ Report BlackBoxes:
 |      |BlackBox name           |Instances |
 +------+------------------------+----------+
 |1     |ADC_interface           |         2|
-|2     |fifo_departure_1024x64b |         1|
-|3     |fifo_arrival_64x16b     |         1|
-|4     |fifo_1024x64b_bram      |         1|
+|2     |mult_30b_18b            |        16|
+|3     |gain0_005_mult          |         8|
+|4     |fifo_departure_1024x64b |         1|
+|5     |fifo_arrival_64x16b     |         1|
+|6     |fifo_1024x64b_bram      |         1|
 +------+------------------------+----------+
 
 Report Cell Usage: 
@@ -825,107 +1192,140 @@ Report Cell Usage:
 |3     |fifo_1024x64b_bram      |     1|
 |4     |fifo_arrival_64x16b     |     1|
 |5     |fifo_departure_1024x64b |     1|
-|6     |BUFG                    |     2|
-|7     |CARRY4                  |   196|
-|8     |LUT1                    |   136|
-|9     |LUT2                    |   149|
-|10    |LUT3                    |   407|
-|11    |LUT4                    |   358|
-|12    |LUT5                    |   458|
-|13    |LUT6                    |   884|
-|14    |PLLE2_ADV               |     1|
-|15    |FDRE                    |   886|
-|16    |FDSE                    |    32|
-|17    |IBUF                    |     4|
-|18    |IOBUF                   |    18|
-|19    |OBUF                    |    24|
+|6     |gain0_005_mult          |     1|
+|7     |gain0_005_mult__10      |     1|
+|8     |gain0_005_mult__11      |     1|
+|9     |gain0_005_mult__12      |     1|
+|10    |gain0_005_mult__13      |     1|
+|11    |gain0_005_mult__14      |     1|
+|12    |gain0_005_mult__8       |     1|
+|13    |gain0_005_mult__9       |     1|
+|14    |mult_30b_18b            |     1|
+|15    |mult_30b_18b__10        |     1|
+|16    |mult_30b_18b__11        |     1|
+|17    |mult_30b_18b__12        |     1|
+|18    |mult_30b_18b__13        |     1|
+|19    |mult_30b_18b__14        |     1|
+|20    |mult_30b_18b__15        |     1|
+|21    |mult_30b_18b__16        |     1|
+|22    |mult_30b_18b__17        |     1|
+|23    |mult_30b_18b__18        |     1|
+|24    |mult_30b_18b__19        |     1|
+|25    |mult_30b_18b__20        |     1|
+|26    |mult_30b_18b__21        |     1|
+|27    |mult_30b_18b__22        |     1|
+|28    |mult_30b_18b__8         |     1|
+|29    |mult_30b_18b__9         |     1|
+|30    |BUFG                    |     3|
+|31    |CARRY4                  |   428|
+|32    |LUT1                    |   254|
+|33    |LUT2                    |   511|
+|34    |LUT3                    |   674|
+|35    |LUT4                    |   836|
+|36    |LUT5                    |   493|
+|37    |LUT6                    |   724|
+|38    |PLLE2_ADV               |     1|
+|39    |FDRE                    |  1628|
+|40    |FDSE                    |    17|
+|41    |IBUF                    |     4|
+|42    |IOBUF                   |    18|
+|43    |OBUF                    |    24|
 +------+------------------------+------+
 
 Report Instance Areas: 
-+------+---------------------+--------------------------+------+
-|      |Instance             |Module                    |Cells |
-+------+---------------------+--------------------------+------+
-|1     |top                  |                          |  3719|
-|2     |  clk_gen            |clk_pll                   |     4|
-|3     |    inst             |clk_pll_clk_wiz           |     4|
-|4     |  adc1               |adc_interface__xdcDup__1  |  1289|
-|5     |    avg_filter1      |avg64_filter_19           |   148|
-|6     |    avg_filter2      |avg64_filter_20           |   132|
-|7     |    m_filter1        |median_filter_21          |   476|
-|8     |      s1_0           |sort_32                   |   116|
-|9     |      s1_1           |sort_33                   |   248|
-|10    |      s2_0           |sort_34                   |    30|
-|11    |      s2_1           |sort_35                   |     2|
-|12    |      s3_0           |sort_36                   |     2|
-|13    |      s3_1           |sort_37                   |     2|
-|14    |      s4_0           |sort_38                   |     2|
-|15    |      s4_1           |sort_39                   |     2|
-|16    |      s5             |sort_40                   |     2|
-|17    |    m_filter2        |median_filter_22          |   477|
-|18    |      s1_0           |sort_23                   |   116|
-|19    |      s1_1           |sort_24                   |   248|
-|20    |      s2_0           |sort_25                   |    30|
-|21    |      s2_1           |sort_26                   |     2|
-|22    |      s3_0           |sort_27                   |     2|
-|23    |      s3_1           |sort_28                   |     2|
-|24    |      s4_0           |sort_29                   |     2|
-|25    |      s4_1           |sort_30                   |     2|
-|26    |      s5             |sort_31                   |     2|
-|27    |  adc2               |adc_interface             |  1286|
-|28    |    avg_filter1      |avg64_filter              |   146|
-|29    |    avg_filter2      |avg64_filter_0            |   132|
-|30    |    m_filter1        |median_filter             |   476|
-|31    |      s1_0           |sort_10                   |   116|
-|32    |      s1_1           |sort_11                   |   248|
-|33    |      s2_0           |sort_12                   |    30|
-|34    |      s2_1           |sort_13                   |     2|
-|35    |      s3_0           |sort_14                   |     2|
-|36    |      s3_1           |sort_15                   |     2|
-|37    |      s4_0           |sort_16                   |     2|
-|38    |      s4_1           |sort_17                   |     2|
-|39    |      s5             |sort_18                   |     2|
-|40    |    m_filter2        |median_filter_1           |   476|
-|41    |      s1_0           |sort                      |   116|
-|42    |      s1_1           |sort_2                    |   248|
-|43    |      s2_0           |sort_3                    |    30|
-|44    |      s2_1           |sort_4                    |     2|
-|45    |      s3_0           |sort_5                    |     2|
-|46    |      s3_1           |sort_6                    |     2|
-|47    |      s4_0           |sort_7                    |     2|
-|48    |      s4_1           |sort_8                    |     2|
-|49    |      s5             |sort_9                    |     2|
-|50    |  config_man         |hydrophone_config_manager |   191|
-|51    |  packetizer_inst    |packetizer                |   296|
-|52    |  poten_i2c          |poten_interface           |   260|
-|53    |    byte_controller  |i2c_master_byte_ctrl      |   207|
-|54    |      bit_controller |i2c_master_bit_ctrl       |   172|
-|55    |  slave_fifo         |fx3s_interface            |   212|
-|56    |  trigger            |hydrophone_trigger        |   123|
-+------+---------------------+--------------------------+------+
++------+---------------------+----------------------------+------+
+|      |Instance             |Module                      |Cells |
++------+---------------------+----------------------------+------+
+|1     |top                  |                            |  6939|
+|2     |  clk_gen            |clk_pll                     |     4|
+|3     |    inst             |clk_pll_clk_wiz             |     4|
+|4     |  adc1               |adc_interface__xdcDup__1    |  1245|
+|5     |    avg_filter1      |avg64_filter_19             |   126|
+|6     |    avg_filter2      |avg64_filter_20             |   111|
+|7     |    m_filter1        |median_filter_21            |   476|
+|8     |      s1_0           |sort_32                     |   116|
+|9     |      s1_1           |sort_33                     |   248|
+|10    |      s2_0           |sort_34                     |    30|
+|11    |      s2_1           |sort_35                     |     2|
+|12    |      s3_0           |sort_36                     |     2|
+|13    |      s3_1           |sort_37                     |     2|
+|14    |      s4_0           |sort_38                     |     2|
+|15    |      s4_1           |sort_39                     |     2|
+|16    |      s5             |sort_40                     |     2|
+|17    |    m_filter2        |median_filter_22            |   476|
+|18    |      s1_0           |sort_23                     |   116|
+|19    |      s1_1           |sort_24                     |   248|
+|20    |      s2_0           |sort_25                     |    30|
+|21    |      s2_1           |sort_26                     |     2|
+|22    |      s3_0           |sort_27                     |     2|
+|23    |      s3_1           |sort_28                     |     2|
+|24    |      s4_0           |sort_29                     |     2|
+|25    |      s4_1           |sort_30                     |     2|
+|26    |      s5             |sort_31                     |     2|
+|27    |  adc2               |adc_interface               |  1243|
+|28    |    avg_filter1      |avg64_filter                |   124|
+|29    |    avg_filter2      |avg64_filter_0              |   110|
+|30    |    m_filter1        |median_filter               |   476|
+|31    |      s1_0           |sort_10                     |   116|
+|32    |      s1_1           |sort_11                     |   248|
+|33    |      s2_0           |sort_12                     |    30|
+|34    |      s2_1           |sort_13                     |     2|
+|35    |      s3_0           |sort_14                     |     2|
+|36    |      s3_1           |sort_15                     |     2|
+|37    |      s4_0           |sort_16                     |     2|
+|38    |      s4_1           |sort_17                     |     2|
+|39    |      s5             |sort_18                     |     2|
+|40    |    m_filter2        |median_filter_1             |   477|
+|41    |      s1_0           |sort                        |   116|
+|42    |      s1_1           |sort_2                      |   248|
+|43    |      s2_0           |sort_3                      |    30|
+|44    |      s2_1           |sort_4                      |     2|
+|45    |      s3_0           |sort_5                      |     2|
+|46    |      s3_1           |sort_6                      |     2|
+|47    |      s4_0           |sort_7                      |     2|
+|48    |      s4_1           |sort_8                      |     2|
+|49    |      s5             |sort_9                      |     2|
+|50    |  ch1_i              |biquad_lp_filter__xdcDup__2 |   323|
+|51    |  ch1_q              |biquad_lp_filter__xdcDup__1 |   447|
+|52    |  ch2_i              |biquad_lp_filter__xdcDup__4 |   323|
+|53    |  ch2_q              |biquad_lp_filter__xdcDup__3 |   447|
+|54    |  ch3_i              |biquad_lp_filter__xdcDup__6 |   323|
+|55    |  ch3_q              |biquad_lp_filter__xdcDup__5 |   447|
+|56    |  ch4_i              |biquad_lp_filter            |   323|
+|57    |  ch4_q              |biquad_lp_filter__xdcDup__7 |   447|
+|58    |  config_man         |hydrophone_config_manager   |    84|
+|59    |  packetizer_inst    |packetizer                  |   373|
+|60    |  poten_i2c          |poten_interface             |   239|
+|61    |    byte_controller  |i2c_master_byte_ctrl        |   218|
+|62    |      bit_controller |i2c_master_bit_ctrl         |   181|
+|63    |  q_clk_gen          |q_wave_gen                  |    56|
+|64    |  slave_fifo         |fx3s_interface              |   206|
+|65    |  trigger            |hydrophone_trigger          |   322|
++------+---------------------+----------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:59 ; elapsed = 00:01:12 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:00 ; elapsed = 00:01:07 . Memory (MB): peak = 1121.328 ; gain = 505.281
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 7 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:45 ; elapsed = 00:01:05 . Memory (MB): peak = 1108.695 ; gain = 371.090
-Synthesis Optimization Complete : Time (s): cpu = 00:00:59 ; elapsed = 00:01:12 . Memory (MB): peak = 1108.695 ; gain = 493.039
+Synthesis finished with 0 errors, 0 critical warnings and 9 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:45 ; elapsed = 00:01:01 . Memory (MB): peak = 1121.328 ; gain = 377.918
+Synthesis Optimization Complete : Time (s): cpu = 00:01:00 ; elapsed = 00:01:08 . Memory (MB): peak = 1121.328 ; gain = 505.281
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.106 . Memory (MB): peak = 1108.695 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 215 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.143 . Memory (MB): peak = 1129.379 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 447 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1108.695 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1129.418 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 18 instances were transformed.
   IOBUF => IOBUF (IBUF, OBUFT): 18 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-98 Infos, 19 Warnings, 0 Critical Warnings and 0 Errors encountered.
+263 Infos, 30 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:08 ; elapsed = 00:01:24 . Memory (MB): peak = 1108.695 ; gain = 769.383
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1108.695 ; gain = 0.000
+synth_design: Time (s): cpu = 00:01:08 ; elapsed = 00:01:18 . Memory (MB): peak = 1129.418 ; gain = 790.563
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1129.418 ; gain = 0.000
 WARNING: [Constraints 18-5210] No constraints selected for write.
 Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
 INFO: [Common 17-1381] The checkpoint 'C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/synth_1/zeabus_hydrophone.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file zeabus_hydrophone_utilization_synth.rpt -pb zeabus_hydrophone_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Wed Mar 25 13:57:17 2020...
+INFO: [Common 17-206] Exiting Vivado at Sat Apr 18 19:06:26 2020...

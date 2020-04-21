@@ -110,7 +110,7 @@ endmodule
 module avg64_filter(
 	input [13:0] d_in,			// Data input
 	
-	output reg [15:0] d_out,	// Data output in format Q13.2
+	output reg [19:0] d_out,	// Data output in format Q13.6
 	
 	input rst,					// Synchronous reset (active high)
 	input clk_64MHz				// System 64 MHz clock
@@ -122,9 +122,9 @@ module avg64_filter(
 		
 	initial 
 	begin
-		counter_q <= 0;
-		d_acc <= 0;
-		d_out <= 0;
+		counter_q <= #1 0;
+		d_acc <= #1 0;
+		d_out <= #1 0;
 	end
 	
 	// Main operation
@@ -132,21 +132,21 @@ module avg64_filter(
 	begin
 		if( rst )
 		begin
-			d_acc <= 0;
-			counter_q <= 0;
+			d_acc <= #1 0;
+			counter_q <= #1 0;
 		end
 		else
 		begin
 			if( counter_q == 0 )
 			begin
-				d_out = d_acc[19:4] + { 15'b0, d_acc[3:3] };	// Rounding
-				d_acc = { {6{d_in[13]}}, d_in[13:0] };
+				d_out = #1 d_acc;
+				d_acc = #1 { {6{d_in[13]}}, d_in[13:0] };
 			end
 			else
 			begin
-				d_acc = d_acc + { {6{d_in[13]}}, d_in[13:0] };
+				d_acc = #1 d_acc + { {6{d_in[13]}}, d_in[13:0] };
 			end
-			counter_q = counter_q + 1;
+			counter_q = #1 counter_q + 1;
 		end
 	end
 endmodule
@@ -155,6 +155,9 @@ endmodule
 // Abstract module for 1 ADC chip. We need 2 instances for each chip.
 // Because each chip connects to different FPGA block, separating 
 // interface instances allows synthesizer to plce each in corresponding block.
+//
+// 3 stages pipeline
+//
 module adc_interface(
 	// Interface to hardware
 	input [13:0] d_in,		// Data channel from ADC chip
@@ -166,8 +169,8 @@ module adc_interface(
 	input rst,				// Synchronous reset (active high)
 	
 	// Output data
-	output [15:0] d0_out,	// Output from each ADC channel
-	output [15:0] d1_out
+	output [19:0] d0_out,	// Output from each ADC channel in Q13.6
+	output [19:0] d1_out
 );
 
 	wire [13:0] d0_raw;

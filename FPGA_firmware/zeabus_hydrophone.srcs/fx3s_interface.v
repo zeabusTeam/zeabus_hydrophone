@@ -89,7 +89,7 @@ module fx3s_interface #(
 	output rdy,						// Indicate that the system is ready for data
 
 	// Data to send out (FPGA -> FX3S)
-	input [63:0] d_in,				// Input data to send to FX3S
+	input [127:0] d_in,				// Input data to send to FX3S
 	input input_valid,				// Indicates that the d_in value is valid
 	input input_d_clk,				// Clocking for data input (data valid at posedge)
 	output input_full,				// Flag to indicate that the buffer for departure data is full
@@ -424,7 +424,7 @@ module fx3s_interface #(
 	//************************************************************
 	// IP Instances
 	//************************************************************
-	fifo_departure_1024x64b fifo_departure (
+	fifo_departure_1024x64b fifo_departure ( // Actually it becomes 1024x128b
 		.rst(rst),                  // input wire rst
 		.wr_clk(clk_64MHz),       	// input wire wr_clk
 		.rd_clk(~clk_64MHz),		// input wire rd_clk : Data must be ready on the bus by the next clk_64MHz clock posedge

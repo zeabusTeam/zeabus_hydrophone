@@ -1,7 +1,7 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2.1 (win64) Build 2729669 Thu Dec  5 04:49:17 MST 2019
-// Date        : Thu Mar 12 20:14:03 2020
+// Date        : Thu Apr 16 15:23:46 2020
 // Host        : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
 //               C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/fifo_1024x64b_bram_synth_1/fifo_1024x64b_bram_stub.v
@@ -15,13 +15,13 @@
 // Please paste the declaration into a Verilog source file or add the file as an additional source.
 (* x_core_info = "fifo_generator_v13_2_5,Vivado 2019.2.1" *)
 module fifo_1024x64b_bram(clk, srst, din, wr_en, rd_en, dout, full, empty)
-/* synthesis syn_black_box black_box_pad_pin="clk,srst,din[63:0],wr_en,rd_en,dout[63:0],full,empty" */;
+/* synthesis syn_black_box black_box_pad_pin="clk,srst,din[79:0],wr_en,rd_en,dout[79:0],full,empty" */;
   input clk;
   input srst;
-  input [63:0]din;
+  input [79:0]din;
   input wr_en;
   input rd_en;
-  output [63:0]dout;
+  output [79:0]dout;
   output full;
   output empty;
 endmodule

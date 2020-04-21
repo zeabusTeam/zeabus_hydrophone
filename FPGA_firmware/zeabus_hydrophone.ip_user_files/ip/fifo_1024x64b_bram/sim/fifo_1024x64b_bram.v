@@ -69,13 +69,13 @@ module fifo_1024x64b_bram (
 input wire clk;
 input wire srst;
 (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE WR_DATA" *)
-input wire [63 : 0] din;
+input wire [79 : 0] din;
 (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE WR_EN" *)
 input wire wr_en;
 (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_read:1.0 FIFO_READ RD_EN" *)
 input wire rd_en;
 (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_read:1.0 FIFO_READ RD_DATA" *)
-output wire [63 : 0] dout;
+output wire [79 : 0] dout;
 (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE FULL" *)
 output wire full;
 (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_read:1.0 FIFO_READ EMPTY" *)
@@ -85,11 +85,11 @@ output wire empty;
     .C_COMMON_CLOCK(1),
     .C_SELECT_XPM(0),
     .C_COUNT_TYPE(0),
-    .C_DATA_COUNT_WIDTH(10),
+    .C_DATA_COUNT_WIDTH(11),
     .C_DEFAULT_VALUE("BlankString"),
-    .C_DIN_WIDTH(64),
+    .C_DIN_WIDTH(80),
     .C_DOUT_RST_VAL("0"),
-    .C_DOUT_WIDTH(64),
+    .C_DOUT_WIDTH(80),
     .C_ENABLE_RLOCS(0),
     .C_FAMILY("artix7"),
     .C_FULL_FLAGS_RST_VAL(0),
@@ -115,16 +115,16 @@ output wire empty;
     .C_MIF_FILE_NAME("BlankString"),
     .C_OPTIMIZATION_MODE(0),
     .C_OVERFLOW_LOW(0),
-    .C_PRELOAD_LATENCY(1),
-    .C_PRELOAD_REGS(0),
+    .C_PRELOAD_LATENCY(0),
+    .C_PRELOAD_REGS(1),
     .C_PRIM_FIFO_TYPE("1kx36"),
-    .C_PROG_EMPTY_THRESH_ASSERT_VAL(2),
-    .C_PROG_EMPTY_THRESH_NEGATE_VAL(3),
+    .C_PROG_EMPTY_THRESH_ASSERT_VAL(4),
+    .C_PROG_EMPTY_THRESH_NEGATE_VAL(5),
     .C_PROG_EMPTY_TYPE(0),
-    .C_PROG_FULL_THRESH_ASSERT_VAL(1022),
-    .C_PROG_FULL_THRESH_NEGATE_VAL(1021),
+    .C_PROG_FULL_THRESH_ASSERT_VAL(1023),
+    .C_PROG_FULL_THRESH_NEGATE_VAL(1022),
     .C_PROG_FULL_TYPE(0),
-    .C_RD_DATA_COUNT_WIDTH(10),
+    .C_RD_DATA_COUNT_WIDTH(11),
     .C_RD_DEPTH(1024),
     .C_RD_FREQ(1),
     .C_RD_PNTR_WIDTH(10),
@@ -135,10 +135,10 @@ output wire empty;
     .C_USE_PIPELINE_REG(0),
     .C_POWER_SAVING_MODE(0),
     .C_USE_FIFO16_FLAGS(0),
-    .C_USE_FWFT_DATA_COUNT(0),
+    .C_USE_FWFT_DATA_COUNT(1),
     .C_VALID_LOW(0),
     .C_WR_ACK_LOW(0),
-    .C_WR_DATA_COUNT_WIDTH(10),
+    .C_WR_DATA_COUNT_WIDTH(11),
     .C_WR_DEPTH(1024),
     .C_WR_FREQ(1),
     .C_WR_PNTR_WIDTH(10),

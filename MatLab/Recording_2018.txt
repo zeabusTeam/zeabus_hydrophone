@@ -1,0 +1,15 @@
+200 kHz sample rate
+
+Location:
+TRANSDEC
+
+Source:
+frequency - 25kHz
+Teledyne Benthos (most likely)
+JW Fishers
+
+Hyrophones:
+TR225
+Aquarian Audio H2c
+
+http://www.aquarianaudio.com/h2c-hydrophone.html

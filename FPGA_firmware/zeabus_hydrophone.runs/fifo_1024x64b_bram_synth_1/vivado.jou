@@ -2,8 +2,8 @@
 # Vivado v2019.2.1 (64-bit)
 # SW Build 2729669 on Thu Dec  5 04:49:17 MST 2019
 # IP Build 2729494 on Thu Dec  5 07:38:25 MST 2019
-# Start of session at: Thu Mar 12 20:10:43 2020
-# Process ID: 3224
+# Start of session at: Thu Apr 16 15:21:59 2020
+# Process ID: 3032
 # Current directory: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/fifo_1024x64b_bram_synth_1
 # Command line: vivado.exe -log fifo_1024x64b_bram.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fifo_1024x64b_bram.tcl
 # Log file: C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.runs/fifo_1024x64b_bram_synth_1/fifo_1024x64b_bram.vds

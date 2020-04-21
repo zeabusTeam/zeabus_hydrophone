@@ -35,14 +35,14 @@
 
 module packetizer (
 	// Input ports
-	input [63:0] d_in,		// Data input in 4x Q13.2 format
+	input [127:0] d_in,		// Data input in 8x Q.15 format
 	input in_valid,			// Data valid signal
 	input in_strobe,		// Clock to latch the input data (at each posedge)
 	
 	// Output ports
-	output reg [63:0] d_out,	// Output data
-	output reg out_valid,		// Output data is valid
-	output reg out_strobe,		// Clock to latch the output data (at each posedge)
+	output [127:0] d_out,	// Output data
+	output reg out_valid,	// Output data is valid
+	output reg out_strobe,	// Clock to latch the output data (at each posedge)
 	
 	// Control ports
 	input rst,				// System reset (active high)
@@ -79,51 +79,62 @@ module packetizer (
 	reg [31:0] timer;
 	reg [15:0] seq_cnt;
 	reg [15:0] id;
-	wire [63:0] pkt_header;
+	reg out_sel;							// Select whether d_out is data(1) or header(0)
+	wire [127:0] pkt_header;
 	
-	assign pkt_header = { id, seq_cnt, timer };
-	
+	assign pkt_header = { id, seq_cnt, timer, 64'b0 };
+
 	initial
 	begin
-		id <= 16'hDCB0;
-		d_out <= 0;
-		seq_cnt <= 0;
-		timer <= 0;
-		out_valid <= 0;
-		out_strobe <= 0;
-		sub_state <= SUBSTATE_SEND_DATA;
-		main_state <= STATE_IDLE;
+		id <= #1 16'hDCB0;
+		out_sel <= #1 0;
+		seq_cnt <= #1 16'b0;
+		timer <= #1 32'b0;
+		out_valid <= #1 0;
+		out_strobe <= #1 0;
+		sub_state <= #1 SUBSTATE_SEND_DATA;
+		main_state <= #1 STATE_IDLE;
 	end
 	
 	// Time counter
 	reg [15:0] time_cnt;
 	initial
 	begin
-		time_cnt <= 0;
+		time_cnt <= #1 16'b0;
 	end
 	always @(posedge clk_64MHz)
 	begin
-		time_cnt = time_cnt + 1;
+		time_cnt <= #1 time_cnt + 1;
 		if( time_cnt == 16'd64000 )
 		begin
-			time_cnt = 0;
-			timer = timer + 1;
+			time_cnt <= #1 16'b0;
+			timer <= #1 timer + 32'b1;
 		end
 	end
 	
 	// Edge detector and input latch
-	// 3-delay stage to avoid race condition.
-	// Data are latched at the frist clock and processed at the second clock.
-	reg in_strb_ddd, in_strb_dd, in_strb_d;
-	reg [63:0] latched_input;
+	// 5-delay stage to avoid race condition.
+	reg in_strb_ddddd, in_strb_dddd, in_strb_ddd, in_strb_dd, in_strb_d;
 	always @(posedge clk_64MHz)
 	begin
-		in_strb_ddd <= in_strb_dd;
-		in_strb_dd <= in_strb_d;
-		in_strb_d <= in_strobe;
-		if( in_strb_d == 1 && in_strb_dd == 0 )
-			latched_input = d_in;
+		in_strb_ddddd <= #1 in_strb_dddd;
+		in_strb_dddd <= #1 in_strb_ddd;
+		in_strb_ddd <= #1 in_strb_dd;
+		in_strb_dd <= #1 in_strb_d;
+		in_strb_d <= #1 in_strobe;
 	end
+
+	// Data are latched at the third clock and processed at the fourth clock.
+	// This delay allow all combinational circuits in Biquad filter to stabilized.
+	reg [127:0] latched_input;
+	always @(posedge clk_64MHz)
+	begin
+		if( in_strb_ddd == 1 && in_strb_dddd == 0 )
+			latched_input <= #1 d_in;
+	end
+
+	// Select the output
+	assign d_out = (out_sel) ? latched_input : pkt_header;
 
 	/*
 	 * Sending data to SlaveFIFO requires 4 steps for each datum.
@@ -133,27 +144,27 @@ module packetizer (
 	 * 4. wait for 1 clock
 	 * All steps are impements into a macro below
 	 */ 
-	`define sending(next_state, data) \
+	`define sending(next_state, is_data) \
 		case( sub_state ) \
 			SUBSTATE_SEND_DATA: \
 			begin \
-				d_out = data; \
-				out_strobe = 0; \
-				sub_state = SUBSTATE_WAIT_1; \
+				out_sel <= #1 is_data; \
+				out_strobe <= #1 0; \
+				sub_state <= #1 SUBSTATE_WAIT_1; \
 			end \
 			SUBSTATE_WAIT_1: \
 			begin \
-				sub_state = SUBSTATE_SET_STROBE; \
+				sub_state <= #1 SUBSTATE_SET_STROBE; \
 			end \
 			SUBSTATE_SET_STROBE: \
 			begin \
-				out_strobe = 1; \
-				sub_state = SUBSTATE_WAIT_2; \
+				out_strobe <= #1 1; \
+				sub_state = #1 SUBSTATE_WAIT_2; \
 			end \
 			SUBSTATE_WAIT_2: \
 			begin \
-				main_state = next_state; \
-				sub_state = SUBSTATE_SEND_DATA; \
+				main_state <= #1 next_state; \
+				sub_state <= #1 SUBSTATE_SEND_DATA; \
 			end \
 		endcase
 	
@@ -162,10 +173,11 @@ module packetizer (
 	begin
 		if( rst )
 		begin
-			out_valid <= 0;
-			out_strobe <= 0;
-			sub_state <= SUBSTATE_SEND_DATA;
-			main_state <= STATE_IDLE;
+			out_sel <= #1 0;
+			out_valid <= #1 0;
+			out_strobe <= #1 0;
+			sub_state <= #1 SUBSTATE_SEND_DATA;
+			main_state <= #1 STATE_IDLE;
 		end
 		else
 		begin
@@ -174,35 +186,36 @@ module packetizer (
 				begin
 					if( in_valid && in_strb_dd == 0 && in_strb_d == 1 )
 					begin
-						seq_cnt = seq_cnt + 1;
-						out_valid = 1;
-						main_state = STATE_SEND_HEADER;
+						seq_cnt <= #1 seq_cnt + 1;
+						out_valid <= #1 1;
+						main_state <= #1 STATE_SEND_HEADER;
 					end
 				end
 				// Slave FIFO has clock speed at 64MHz which is much faster than data sending rate.
 				// Therefore, we only save 1 backlog for header sending.
+				// Each sub-state macro requires 4 clk_64MHz.
 				STATE_SEND_HEADER:
 				begin
-					`sending( STATE_SEND_FIRSTDATA, pkt_header )
+					`sending( STATE_SEND_FIRSTDATA, 0 )
 				end
 				STATE_SEND_FIRSTDATA:
 				begin
-					`sending( STATE_WAIT_STROBE, latched_input )
+					`sending( STATE_WAIT_STROBE, 1 )
 				end
 				STATE_WAIT_STROBE:
 				begin
 					if( !in_valid )
 					begin
-						out_valid = 0;
-						main_state = STATE_IDLE;
+						out_valid <= #1 0;
+						main_state <= #1 STATE_IDLE;
 					end
 					else
-						if( in_strb_dd == 1 && in_strb_ddd == 0 )
-							main_state = STATE_SEND_TAILING;
+						if( in_strb_dddd == 1 && in_strb_ddddd == 0 )
+							main_state <= #1 STATE_SEND_TAILING;
 				end
 				STATE_SEND_TAILING:
 				begin
-					`sending( STATE_WAIT_STROBE, latched_input )
+					`sending( STATE_WAIT_STROBE, 1 )
 				end
 			endcase
 		end

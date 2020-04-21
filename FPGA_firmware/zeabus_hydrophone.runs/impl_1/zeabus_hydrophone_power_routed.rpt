@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2019.2.1 (win64) Build 2729669 Thu Dec  5 04:49:17 MST 2019
-| Date             : Wed Mar 25 14:00:04 2020
+| Date             : Sat Apr 18 19:11:04 2020
 | Host             : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 | Command          : report_power -file zeabus_hydrophone_power_routed.rpt -pb zeabus_hydrophone_power_summary_routed.pb -rpx zeabus_hydrophone_power_routed.rpx
 | Design           : zeabus_hydrophone
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.234        |
+| Total On-Chip Power (W)  | 0.237        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.162        |
+| Dynamic (W)              | 0.164        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 4.8          |
 | Max Ambient (C)          | 83.9         |
@@ -52,19 +52,19 @@ Table of Contents
 +-------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.005 |        6 |       --- |             --- |
-| Slice Logic             |     0.008 |     4084 |       --- |             --- |
-|   LUT as Logic          |     0.007 |     2243 |     10400 |           21.57 |
-|   CARRY4                |    <0.001 |      215 |      8150 |            2.64 |
-|   Register              |    <0.001 |     1170 |     20800 |            5.63 |
-|   Others                |     0.000 |      140 |       --- |             --- |
-|   LUT as Shift Register |     0.000 |        2 |      9600 |            0.02 |
-| Signals                 |     0.010 |     3204 |       --- |             --- |
-| Block RAM               |    <0.001 |      4.5 |        25 |           18.00 |
+| Clocks                  |     0.007 |        7 |       --- |             --- |
+| Slice Logic             |     0.008 |    15698 |       --- |             --- |
+|   LUT as Logic          |     0.007 |     8932 |     10400 |           85.88 |
+|   CARRY4                |    <0.001 |     2672 |      8150 |           32.79 |
+|   Register              |    <0.001 |     1962 |     20800 |            9.43 |
+|   Others                |     0.000 |     1219 |       --- |             --- |
+|   LUT as Shift Register |     0.000 |        3 |      9600 |            0.03 |
+| Signals                 |     0.009 |    16022 |       --- |             --- |
+| Block RAM               |     0.001 |      6.5 |        25 |           26.00 |
 | PLL                     |     0.098 |        1 |         5 |           20.00 |
 | I/O                     |     0.041 |       76 |       210 |           36.19 |
 | Static Power            |     0.072 |          |           |                 |
-| Total                   |     0.234 |          |           |                 |
+| Total                   |     0.237 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -74,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+------------+
-| Vccint    |       1.000 |     0.043 |       0.033 |      0.010 | Unspecified | NA         |
+| Vccint    |       1.000 |     0.045 |       0.035 |      0.010 | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.064 |       0.051 |      0.013 | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.012 |       0.011 |      0.001 | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 | Unspecified | NA         |
@@ -134,6 +134,7 @@ Table of Contents
 | clk_64mhz_clk_pll | clk_gen/inst/clk_64mhz_clk_pll |            15.6 |
 | clk_in            | clk_in                         |            38.5 |
 | clkfbout_clk_pll  | clk_gen/inst/clkfbout_clk_pll  |            38.5 |
+| out_clk           | out_clk                        |          5000.1 |
 +-------------------+--------------------------------+-----------------+
 
 
@@ -146,20 +147,21 @@ Table of Contents
 +--------------------+-----------+
 | Name               | Power (W) |
 +--------------------+-----------+
-| zeabus_hydrophone  |     0.162 |
+| zeabus_hydrophone  |     0.164 |
 |   adc1             |     0.009 |
 |     m_filter1      |     0.004 |
 |       s1_1         |     0.002 |
 |     m_filter2      |     0.004 |
 |       s1_1         |     0.002 |
 |   adc2             |     0.009 |
-|     m_filter1      |     0.003 |
+|     m_filter1      |     0.004 |
 |       s1_1         |     0.002 |
 |     m_filter2      |     0.004 |
 |       s1_1         |     0.002 |
 |   clk_gen          |     0.098 |
 |     inst           |     0.098 |
-|   slave_fifo       |     0.003 |
+|   packetizer_inst  |     0.002 |
+|   slave_fifo       |     0.004 |
 |     fifo_departure |     0.002 |
 |       U0           |     0.002 |
 +--------------------+-----------+

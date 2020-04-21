@@ -532,8 +532,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports SDA]
 # All other derived clocks
 # Also the output of PLL module (clk_64mhz_clk_pll), it is automatically derived by the tool
 create_generated_clock -name adc_d_clk -source [get_pins clk_gen/inst/plle2_adv_inst/CLKOUT0] -divide_by 64 [get_pins adc_d_clk_reg/Q]
-#create_generated_clock -name adc_d_clk -source [get_pins clk_gen/inst/plle2_adv_inst/CLKOUT1] -divide_by 8 [get_pins adc_d_clk_reg/Q]
-#create_generated_clock -name adc_d_temp_reg_n_0 -source [get_pins clk_gen/inst/plle2_adv_inst/CLKOUT1] -divide_by 8 [get_pins adc_d_temp_reg/Q]
+create_generated_clock -name out_clk -source [get_pins clk_gen/inst/plle2_adv_inst/CLKOUT0] -divide_by 320 [get_pins out_clk_reg/Q]
 
 ## Input delays
 # ADCs

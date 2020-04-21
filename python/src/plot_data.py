@@ -23,6 +23,9 @@ if __name__ == '__main__':
     sig3 = raw[2::4]
     sig4 = raw[3::4]
 
+    #allsig = np.array(( sig1, sig2, sig3, sig4 ))
+
+    print( allsig )
     print( len(sig1) )
     print( hex(sig1[0]), ' ' , hex(sig2[0]))
 

@@ -203,15 +203,15 @@ module poten_interface #(
 	`define activate_i2c(next_state, command) \
 		if( !cmd_phase ) \
 		begin \
-			cmd = command; \
-			cmd_phase = 1; \
+			cmd <= #1 command; \
+			cmd_phase <= #1 1; \
 		end \
 		else \
 		begin \
 			if( !inprogress ) \
 			begin \
-				cmd_phase = 0; \
-				sub_state = next_state; \
+				cmd_phase <= #1 0; \
+				sub_state <= #1 next_state; \
 			end \
 		end
 	
@@ -219,20 +219,20 @@ module poten_interface #(
 		case( sub_state ) \
 			SUBSTATE_SEND_SLAVE_ADDR: \
 			begin \
-				txr = s_addr; \
+				txr <= #1 s_addr; \
 				`activate_i2c( SUBSTATE_SEND_POTEN_ADDR, (CMD_GEN_START | CMD_WRITE) ) \
 			end \
 			SUBSTATE_SEND_POTEN_ADDR: \
 			begin \
-				txr = p_addr; \
+				txr <= #1 p_addr; \
 				`activate_i2c( SUBSTATE_SEND_POTEN_VAL, CMD_WRITE ) \
 			end \
 			SUBSTATE_SEND_POTEN_VAL: \
 			begin \
-				txr = p_value; \
+				txr <= #1 p_value; \
 				`activate_i2c( SUBSTATE_SEND_SLAVE_ADDR, (CMD_GEN_STOP | CMD_WRITE) ) \
 				if( sub_state == SUBSTATE_SEND_SLAVE_ADDR ) \
-					main_state = next_state; \
+					main_state <= #1 next_state; \
 			end \
 		endcase
 	
@@ -240,21 +240,21 @@ module poten_interface #(
 	begin
 		if( rst )
 		begin
-			cmd_phase <= 0;
-			sub_state <= SUBSTATE_SEND_SLAVE_ADDR;
-			main_state <= STATE_IDLE;
-			cmd <= 4'b0;
+			cmd_phase <= #1 0;
+			sub_state <= #1 SUBSTATE_SEND_SLAVE_ADDR;
+			main_state <= #1 STATE_IDLE;
+			cmd <= #1 4'b0;
 		end
 		else
 		begin
 	        if(done | i2c_al)
-				cmd = 4'b0;    // clear command bits when done or when aribitration lost
+				cmd <= #1 4'b0;    // clear command bits when done or when aribitration lost
 			
 			case( main_state )
 				STATE_IDLE:
 				begin
 					if( !start_dd && start_d )	// rising edge
-						main_state = STATE_SET_POTEN1;
+						main_state <= #1 STATE_SET_POTEN1;
 				end
 				
 				STATE_SET_POTEN1: /* Update poten 1 channel 1 */

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a15tcsg324-1" LaunchTime="1585119336">
+<GenRun Id="synth_1" LaunchPart="xc7a15tcsg324-1" LaunchTime="1587211495">
   <File Type="PA-TCL" Name="zeabus_hydrophone.tcl"/>
   <File Type="RDS-PROPCONSTRS" Name="zeabus_hydrophone_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="zeabus_hydrophone_reports.tcl"/>
@@ -19,6 +19,13 @@
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/adc_interface.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/biquad_lp_filter.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -67,6 +74,13 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/iq_demodulator.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/packetize.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -75,6 +89,13 @@
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/poten_interface.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/quadeature_gen.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -127,5 +148,7 @@
   <BlockFileSet Type="BlockSrcs" Name="fifo_departure_1024x64b"/>
   <BlockFileSet Type="BlockSrcs" Name="fifo_1024x64b_bram"/>
   <BlockFileSet Type="BlockSrcs" Name="fifo_arrival_64x16b"/>
+  <BlockFileSet Type="BlockSrcs" Name="mult_30b_18b"/>
   <BlockFileSet Type="BlockSrcs" Name="ADC_interface"/>
+  <BlockFileSet Type="BlockSrcs" Name="gain0_005_mult"/>
 </GenRun>

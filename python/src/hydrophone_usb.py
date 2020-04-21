@@ -1,6 +1,7 @@
 import usb.core
 import usb.util
 import numpy as np
+import struct
 import os
 import sys
 
@@ -72,16 +73,18 @@ Communication packet formats are defined as:
         overflow!!!)
     n * 4 bytes: stream of "n" sampled data that satisfied the trigger
 
-- Trigger and gain setting (Control):
-    2 bytes: ID (fixed as 0xDCB0)
-    2 bytes: Bit-fields indicates which configuration to set. This field also indicates
-        what data would follow. Each bit has meaning as:
-            bit 15: 1 = enable trigger level setting
-            bit 14: 1 = enable amplifier gains setting
-            bit 13 - bit 0: (Unused)
-    2 bytes: New trigger level. (Exists only when 15th bit of the bit-field is set)
+- Trigger, pinger frequency, and gain setting (Control):
+    1 byte: ID + Configuration bits (fixed as 0xDC)
+    1 byte: Configuration bit fields 
+        The configuraton bits are Bit-fields indicates which configuration to set.
+        This field also indicates what data would follow. Each bit has meaning as:
+            bit 7 - bit 4: pinger frequency (0 = 25kHz -> 15 = 40kHz in 1kHz steps)
+            bit 3: 1 = enable trigger level setting
+            bit 2: 1 = enable amplifier gains setting
+            bit 1 - bit 0: (Unused)
+    2 bytes: New trigger level. (Exists only when 3rd bit of the prefix is set)
     4 bytes: New amplifier gain for each channel. Each channel can have it gain different
-        from others. (Thie field exists only when 14th bit of the bit-field is set)
+        from others. (Thie field exists only when 2nd bit of the prefix is set)
 
 - Module control (USB EP0): (This end-point is accessed by control_transfer function)
 
@@ -133,12 +136,8 @@ class hydrophone_usb:
     # Activate the only configuration available
     self.dev.set_configuration()
 
-  def get_pulse_data( self, timeout = 900000 ): # Reading with default timeout = 15 minutes
-    buffer = self.dev.read( ZEABUS_EP_FPGA_IN, 8192, timeout )
-    return buffer
-  
   #
-  # Extra functions
+  # Low-level API functions
   #
   def is_ready( self ):
     if self.dev is None:
@@ -174,6 +173,17 @@ class hydrophone_usb:
       None,                                       # data or length
       None                                        # timeout
     )
+
+  def invalidate_fpga_image( self ):
+    # was it found?
+    if self.dev is None:
+      raise ValueError('Device not found')
+
+    blank = np.zeros( 8, dtype=np.uint8 )
+    # Start the command
+    self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
+      ZEABUS_USB_REQ_WRITE_EEPROM, wValue=0x0870, wIndex=0, timeout=1000 )
+    self.dev.write( ZEABUS_EP_DATA_OUT, blank, 1000 )
 
   def __send_file( self, request_cmd, filepath ):
     # was it found?
@@ -227,7 +237,7 @@ class hydrophone_usb:
         offset = offset + sent_size
         print( 'Sent ', sent_size, ' bytes.' )
     else:
-      raise ValueError( 'Unable to get file size' )
+      raise ValueError( 'Stream length must be greater than 0' )
   
   def program_fpga( self, filepath ):
     self.__send_file( ZEABUS_USB_REQ_PROG_FPGA, filepath )
@@ -238,7 +248,7 @@ class hydrophone_usb:
   def write_fpga_to_flash( self, filepath ):
     self.__send_file( ZEABUS_USB_REQ_PROG_BITSTREAM, filepath )
   
-  def send_data_to_fpga( self, data ):
+  def send_control_to_fpga( self, data ):
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
@@ -248,17 +258,75 @@ class hydrophone_usb:
       ZEABUS_USB_REQ_SEND_FPGA_DATA, wValue=(size & 0xFFFF), wIndex=(size >> 16), 
       data_or_wLength=data, timeout=1000 )
 
-  def invalidate_fpga_image( self ):
-    # was it found?
-    if self.dev is None:
-      raise ValueError('Device not found')
+  def get_stream_data( self, timeout = 900000 ): # Reading with default timeout = 15 minutes
+    buffer = self.dev.read( ZEABUS_EP_FPGA_IN, 8192, timeout )
+    return buffer
+  
+  #
+  # Main API functions
+  #
 
-    blank = np.zeros( 8, dtype=np.uint8 )
-    # Start the command
-    self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
-      ZEABUS_USB_REQ_WRITE_EEPROM, wValue=0x0870, wIndex=0, timeout=1000 )
-    self.dev.write( ZEABUS_EP_DATA_OUT, blank, 1000 )
+  # Set module parameters.
+  # frequency = pinger frequency in hertz (25000 - 40000)
+  # threshold = signal threshold level (Max = 1 means 100%)
+  # LNA_Gain = amplifier gain (Max = 1 means maximum)
+  def sent_dsp_param( self, frequency, threshold = 0, LNA_Gain = 0 ):
+    buf_size = 2
+    if( threshold > 0 ):
+      buf_size = buf_size + 2
+    if( LNA_Gain > 0 ):
+      buf_size = buf_size + 4
+    buffer = np.empty( buf_size, dtype='uint8' )
+    
+    # Set ID
+    buffer[0] = 0xDC
 
+    #set bit-fields
+    if( frequency < 25000 ):
+      frequency = 25000
+    elif( frequency > 40000 ):
+      frequency = 40000
+    buffer[1] = np.uint8( (frequency - 25000) / 1000 ) << 4
+
+    # Set threshold (if exists)
+    if( threshold > 0 ):
+      buffer[1] = buffer[1] | 0b00001000
+      if( threshold > 1 ):
+        threshold = 1
+      thres_value = np.uint16( threshold * 32767 )
+      buffer[2] = np.uint8( thres_value >> 8 )
+      buffer[3] = np.uint8( thres_value & 0xFF )
+
+    # Set Gain (if exists)
+    if( LNA_Gain > 0 ):
+      buffer[1] = buffer[1] | 0b00000100
+      if( LNA_Gain > 1 ):
+        LNA_Gain = 1
+      buffer[4] = np.uint8( 255 * LNA_Gain )
+      buffer[5] = buffer[4]
+      buffer[6] = buffer[4]
+      buffer[7] = buffer[4]
+
+    # Send the buffer to FPGA through control endpoint
+    self.send_control_to_fpga( buffer )
+
+  def get_pulse_data( self, timeout ):
+    # Loop for 10 times reading
+    _err_count = 0
+    while( _err_count < 10 ):
+      buffer = self.get_stream_data( timeout )
+      if( buffer[0] == 0xDC and buffer[1] == 0xB0 ):
+        seq = struct.unpack( '>H', buffer[2:3] )
+        timestamp = struct.unpack( '>L', buffer[4:7] )
+        raw = struct.unpack( '>i', buffer[8:] )   # Remove the preemble
+        return seq, timestamp, np.array( ( raw[0::4], raw[1::4], raw[2::4], raw[3::4] ) )
+      else:
+        _err_count = _err_count + 1
+    
+    # If reach here, the error count have reached 10
+    raise IOError( 'Too much error data from ADC' )
+
+  
 # Main part
 if __name__ == '__main__':
   # Check argument

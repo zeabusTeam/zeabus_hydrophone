@@ -1,0 +1,53 @@
+CC     = "C:\Program Files\MATLAB\R2019b\sys\lcc64\lcc64\bin\lcc64.exe"
+LD     = "C:\Program Files\MATLAB\R2019b\sys\lcc64\lcc64\bin\lcclnk64.exe"
+LIBCMD = "C:\Program Files\MATLAB\R2019b\sys\lcc64\lcc64\bin\lcclib64.exe"
+CFLAGS = -dll -noregistrylookup  -c -Zp8 -DLCC_WIN64 -DMATLAB_MEX_FILE -nodeclspec 
+LDFLAGS = -s -dll -L"C:\Program Files\MATLAB\R2019b\sys\lcc64\lcc64\lib64" -entry LibMain -map sfun.map 
+LIBFLAGS = 
+
+OBJECTS = \
+	"zeabus_hydrophone_concrete_sfun.obj"\
+	"c10_zeabus_hydrophone_concrete.obj"\
+	"c11_zeabus_hydrophone_concrete.obj"\
+	"c12_zeabus_hydrophone_concrete.obj"\
+	"c13_zeabus_hydrophone_concrete.obj"\
+	"c14_zeabus_hydrophone_concrete.obj"\
+	"c15_zeabus_hydrophone_concrete.obj"\
+	"c16_zeabus_hydrophone_concrete.obj"\
+	"c17_zeabus_hydrophone_concrete.obj"\
+	"c18_zeabus_hydrophone_concrete.obj"\
+	"zeabus_hydrophone_concrete_sfun_registry.obj"\
+	"lccstub.obj"\
+	"c_mexapi_version.obj"\
+
+INCLUDE_PATH= -I"C:\Program Files\MATLAB\R2019b\extern\include"  -I"C:\Program Files\MATLAB\R2019b\simulink\include"  -I"C:\Program Files\MATLAB\R2019b\simulink\include\sf_runtime"  -I"C:\Program Files\MATLAB\R2019b\stateflow\c\mex\include"  -I"C:\Program Files\MATLAB\R2019b\rtw\c\src"  -I"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src"  -I"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab"  -I"C:\Program Files\MATLAB\R2019b\sys\lcc64\lcc64\include64" 
+ 
+
+zeabus_hydrophone_concrete_sfun.mexw64 : $(MAKEFILE) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o zeabus_hydrophone_concrete_sfun.mexw64 @zeabus_hydrophone_concrete_sfun.lmko
+zeabus_hydrophone_concrete_sfun.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\zeabus_hydrophone_concrete_sfun.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\zeabus_hydrophone_concrete_sfun.c"
+c10_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c10_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c10_zeabus_hydrophone_concrete.c"
+c11_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c11_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c11_zeabus_hydrophone_concrete.c"
+c12_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c12_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c12_zeabus_hydrophone_concrete.c"
+c13_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c13_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c13_zeabus_hydrophone_concrete.c"
+c14_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c14_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c14_zeabus_hydrophone_concrete.c"
+c15_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c15_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c15_zeabus_hydrophone_concrete.c"
+c16_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c16_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c16_zeabus_hydrophone_concrete.c"
+c17_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c17_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c17_zeabus_hydrophone_concrete.c"
+c18_zeabus_hydrophone_concrete.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c18_zeabus_hydrophone_concrete.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\c18_zeabus_hydrophone_concrete.c"
+zeabus_hydrophone_concrete_sfun_registry.obj :	"C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\zeabus_hydrophone_concrete_sfun_registry.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Users\akrap\Google\AUV\zeabus_hydrophone\MatLab\slprj\_sfprj\zeabus_hydrophone_concrete\_self\sfun\src\zeabus_hydrophone_concrete_sfun_registry.c"
+lccstub.obj :	"C:\Program Files\MATLAB\R2019b\sys\lcc64\lcc64\mex\lccstub.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Program Files\MATLAB\R2019b\sys\lcc64\lcc64\mex\lccstub.c"
+c_mexapi_version.obj :	"C:\Program Files\MATLAB\R2019b\extern\version\c_mexapi_version.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "C:\Program Files\MATLAB\R2019b\extern\version\c_mexapi_version.c"

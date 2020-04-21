@@ -34,75 +34,50 @@
 // --------------------------------------------------------------------------------
 
 // Helper module to get absolute value
-module absolute( input [15:0] in, output [15:0] out );
-	assign out = in[15] ? -in : in;
+module absolute( input [19:0] in, output [19:0] out );
+	assign out = in[19] ? -in : in;
 endmodule
 
 // Main trigger module
+// Outut data is valid at the rising edge of the next clock after the "trigged" signal
 module hydrophone_trigger
 	#(
-	parameter header = 1000,		// Number of d_in samples preceded of the trigged points
-	parameter trigged_tailed = 1000,	// Number of d_in samples include in a valid data packet after the trigger level is not satisfied
+	parameter header = 64,		// Number of d_in samples preceded of the trigged points
+	parameter trigged_tailed = 64,	// Number of d_in samples include in a valid data packet after the trigger level is not satisfied
 	
 	localparam total_tail = (header+trigged_tailed)	// Total tailling is the deisred tail plus the backlog in the buffer.
 	) (
 	input rst,					// system reset (active high)
 	input clk,					// signal clock (1 MHz)
-	input [63:0] d_in,			// data input (concatenation of 4 16-bit data)
-	input [15:0] trigger_level,	// level of the trigger in 16-bit signed integer
-	output [63:0] d_out,		// data output 
+	input [79:0] d_in,			// data input (concatenation of 4 16-bit data) all in format Q13.6
+	input [15:0] trigger_level,	// level of the trigger in 16-bit signed integer in format Q13.2
+	output [79:0] d_out,		// data output  all in format Q13.6
 	output reg trigged			// indicates that the data is part of packet of trigged signal
 );
 
 	// Variables
-	reg [15:0] counter;			// Arbitary counter used in many states
-	reg [1:0] trig_state;		// State of the trigger
+	reg [15:0] h_counter;		// Fifo backlog data counter
+	reg [15:0] t_counter;		// Counter for packet tailing
 	reg rd_en, wr_en;			// FIFO read and write enables
 	
-	wire [63:0] abs_d_in;		// Magnetude (aka. absolute) values of d_in
-	wire [15:0] abs_trigger;	// Magnetude of trigger level
+	wire [79:0] abs_d_in;		// Magnetude (aka. absolute) values of d_in
+	wire [19:0] abs_trigger;	// Magnetude of trigger level
 	
 	// Absolute implementation
-	absolute abs1( .in(d_in[15:0]), .out(abs_d_in[15:0]) );
-	absolute abs2( .in(d_in[31:16]), .out(abs_d_in[31:16]) );
-	absolute abs3( .in(d_in[47:32]), .out(abs_d_in[47:32]) );
-	absolute abs4( .in(d_in[63:48]), .out(abs_d_in[63:48]) );
-	absolute abs5( .in(trigger_level), .out(abs_trigger) );
-	
-	// Helper function to compare trigger level with the signal
-	function [0:0] trigger_compare( input [63:0] signal, input [15:0] trigger );
-		if( trigger[15] )
-		begin
-			// trigger_level is negative
-			if( ( $signed(signal[15:0]) <= $signed(trigger) ) ||
-				( $signed(signal[31:16]) <= $signed(trigger) ) ||
-				( $signed(signal[47:32]) <= $signed(trigger) ) ||
-				( $signed(signal[63:48]) <= $signed(trigger) ) )
-				trigger_compare = 1;
-			else
-				trigger_compare = 0;
-		end
-		else
-		begin
-			// trigger_level is positive
-			if( ( signal[15:0] >= trigger ) ||
-				( signal[31:16] >= trigger ) ||
-				( signal[47:32] >= trigger ) ||
-				( signal[63:48] >= trigger ) )
-				trigger_compare = 1;
-			else
-				trigger_compare = 0;
-		end
-	endfunction
+	absolute abs1( .in(d_in[19:0]), .out(abs_d_in[19:0]) );
+	absolute abs2( .in(d_in[39:20]), .out(abs_d_in[39:20]) );
+	absolute abs3( .in(d_in[59:40]), .out(abs_d_in[59:40]) );
+	absolute abs4( .in(d_in[79:60]), .out(abs_d_in[79:60]) );
+	absolute abs5( .in( { trigger_level, 4'b0 } ), .out(abs_trigger) );
 	
 	// Initial block
 	initial
 	begin
-		counter <= 16'b0;
-		trig_state <= 2'b0;
-		trigged <= 0;
-		rd_en <= 0;
-		wr_en <= 0;
+		h_counter <= #1 16'b0;
+		t_counter <= #1 16'b0;
+		trigged <= #1 0;
+		rd_en <= #1 0;
+		wr_en <= #1 0;
 	end
 	
 	// Main state machine
@@ -111,57 +86,49 @@ module hydrophone_trigger
 		if( rst )
 		begin
 			// Reset signal asserted. Just initialize state
-			counter <= 16'b0;
-			trig_state <= 2'b0;
-			trigged <= 0;
-			wr_en <= 0;
-			rd_en <= 0;
+			h_counter <= #1 16'b0;
+			t_counter <= #1 16'b0;
+			trigged <= #1 0;
+			wr_en <= #1 0;
+			rd_en <= #1 0;
 		end
 		else
 		begin
-		    wr_en = 1;
-			case (trig_state)
-				2'b00:	// Fill the FIFO for "header" samples without reading out.
+		    wr_en = #1 1;
+			
+			// For FIFO-thread safety we need to fill it with some data first
+			// FIFO is configured in First-Word-Fall-Through mode which has 1-clock delay latency
+			// The input data at the very beginning after reset should not be used though
+			if( h_counter < header )
+			begin
+				h_counter <= #1 h_counter + 1;
+			end
+			else
+			begin
+				rd_en <= #1 1;
+				if( ( abs_d_in[19:0] >= abs_trigger ) ||
+					( abs_d_in[39:20] >= abs_trigger ) ||
+					( abs_d_in[59:40] >= abs_trigger ) ||
+					( abs_d_in[79:60] >= abs_trigger ) )
 				begin
-					counter = counter + 1;
-					if( counter > header )
-					begin
-						rd_en <= 1'b1;
-						trig_state <= 2'b01;
-					end
+					// Trigged
+					trigged <= #1 1;
+					rd_en <= #1 1;
+					t_counter <= trigged_tailed;
 				end
-				2'b01:	// Waiting for trigger level.
+				else
 				begin
-					if( trigger_compare( abs_d_in, abs_trigger ) == 1 )
+					if( t_counter == 0 )
 					begin
-						trig_state <= 2'b10;	// Trigger found
-						trigged <= 1;
-						counter <= 16'b0;
-					end
-				end
-				2'b10:	// Trigger found. gives the output
-				begin
-					if( trigger_compare( abs_d_in, abs_trigger ) == 1 )
-					begin
-						counter <= 16'b0;
+						trigged <= #1 0;
 					end
 					else
 					begin
-						// If trigger level is no longer satisfied, count for packet tailing.
-						counter = counter + 1;
-						if( counter > total_tail )
-						begin
-							trig_state <= 2'b01;	// Back to trigger level waiting
-							trigged <= 0;
-						end
+						// Still retain the "trigged" condition
+						t_counter <= #1 t_counter - 1;
 					end
 				end
-				2'b11:	// Error!!! We should not be here
-				begin
-					trigged <= 0;
-					trig_state <= 2'b01;	// Go back to find trigger again
-				end
-			endcase
+			end
 		end
 	end
 
@@ -169,10 +136,10 @@ module hydrophone_trigger
 	fifo_1024x64b_bram backlog_fifo (
 		.srst(rst),		// input wire rst
 		.clk(clk),  	// input wire clk
-		.din(d_in),     // input wire [63 : 0] din
+		.din(d_in),     // input wire [79 : 0] din
 		.wr_en(wr_en),  // input wire wr_en
 		.rd_en(rd_en),  // input wire rd_en
-		.dout(d_out),   // output wire [63 : 0] dout
+		.dout(d_out),   // output wire [79 : 0] dout
 		.full(),    	// output wire full
 		.empty()   		// output wire empty
 	);

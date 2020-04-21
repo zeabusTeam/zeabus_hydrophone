@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../ip/gain0_005_mult/sim/gain0_005_mult.vhd" \
+
+nosort

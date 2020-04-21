@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../ip/mult_30b_18b/sim/mult_30b_18b.vhd" \
+
+nosort

@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.2.1 (win64) Build 2729669 Thu Dec  5 04:49:17 MST 2019
-| Date         : Wed Mar 25 13:57:17 2020
+| Date         : Sat Apr 18 19:06:26 2020
 | Host         : DESKTOP-MDIICNE running 64-bit major release  (build 9200)
 | Command      : report_utilization -file zeabus_hydrophone_utilization_synth.rpt -pb zeabus_hydrophone_utilization_synth.pb
 | Design       : zeabus_hydrophone
@@ -30,11 +30,11 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             | 1848 |     0 |     10400 | 17.77 |
-|   LUT as Logic          | 1848 |     0 |     10400 | 17.77 |
+| Slice LUTs*             | 2404 |     0 |     10400 | 23.12 |
+|   LUT as Logic          | 2404 |     0 |     10400 | 23.12 |
 |   LUT as Memory         |    0 |     0 |      9600 |  0.00 |
-| Slice Registers         |  918 |     0 |     20800 |  4.41 |
-|   Register as Flip Flop |  918 |     0 |     20800 |  4.41 |
+| Slice Registers         | 1645 |     0 |     20800 |  7.91 |
+|   Register as Flip Flop | 1645 |     0 |     20800 |  7.91 |
 |   Register as Latch     |    0 |     0 |     20800 |  0.00 |
 | F7 Muxes                |    0 |     0 |     16300 |  0.00 |
 | F8 Muxes                |    0 |     0 |      8150 |  0.00 |
@@ -56,8 +56,8 @@ Table of Contents
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
-| 32    |          Yes |         Set |            - |
-| 886   |          Yes |       Reset |            - |
+| 17    |          Yes |         Set |            - |
+| 1628  |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -112,7 +112,7 @@ Table of Contents
 +------------+------+-------+-----------+-------+
 |  Site Type | Used | Fixed | Available | Util% |
 +------------+------+-------+-----------+-------+
-| BUFGCTRL   |    2 |     0 |        32 |  6.25 |
+| BUFGCTRL   |    3 |     0 |        32 |  9.38 |
 | BUFIO      |    0 |     0 |        20 |  0.00 |
 | MMCME2_ADV |    0 |     0 |         5 |  0.00 |
 | PLLE2_ADV  |    1 |     0 |         5 | 20.00 |
@@ -146,19 +146,19 @@ Table of Contents
 +-----------+------+---------------------+
 |  Ref Name | Used | Functional Category |
 +-----------+------+---------------------+
-| FDRE      |  886 |        Flop & Latch |
-| LUT6      |  884 |                 LUT |
-| LUT5      |  458 |                 LUT |
-| LUT3      |  407 |                 LUT |
-| LUT4      |  358 |                 LUT |
-| CARRY4    |  196 |          CarryLogic |
-| LUT2      |  149 |                 LUT |
-| LUT1      |  136 |                 LUT |
-| FDSE      |   32 |        Flop & Latch |
+| FDRE      | 1628 |        Flop & Latch |
+| LUT4      |  836 |                 LUT |
+| LUT6      |  724 |                 LUT |
+| LUT3      |  674 |                 LUT |
+| LUT2      |  511 |                 LUT |
+| LUT5      |  493 |                 LUT |
+| CARRY4    |  428 |          CarryLogic |
+| LUT1      |  254 |                 LUT |
 | OBUF      |   24 |                  IO |
 | IBUF      |   22 |                  IO |
 | OBUFT     |   18 |                  IO |
-| BUFG      |    2 |               Clock |
+| FDSE      |   17 |        Flop & Latch |
+| BUFG      |    3 |               Clock |
 | PLLE2_ADV |    1 |               Clock |
 +-----------+------+---------------------+
 
@@ -169,6 +169,8 @@ Table of Contents
 +-------------------------+------+
 |         Ref Name        | Used |
 +-------------------------+------+
+| mult_30b_18b            |   16 |
+| gain0_005_mult          |    8 |
 | ADC_interface           |    2 |
 | fifo_departure_1024x64b |    1 |
 | fifo_arrival_64x16b     |    1 |

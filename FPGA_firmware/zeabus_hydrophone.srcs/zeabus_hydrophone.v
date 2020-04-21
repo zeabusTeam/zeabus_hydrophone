@@ -37,8 +37,8 @@
 // https://forums.xilinx.com/t5/Implementation/Drc-23-20-Rule-violation-REQP-1712-Input-clock-driver/td-p/586641
 
 module zeabus_hydrophone #(
-	parameter trigger_head = 1000,	// Number of sampling preceded of the trigged points
-	parameter trigger_tail = 1000	// Number of sampling include in a valid data packet after the trigger level is not satisfied
+	parameter trigger_head = 64,	// Number of sampling preceded of the trigged points
+	parameter trigger_tail = 64	// Number of sampling include in a valid data packet after the trigger level is not satisfied
 	)(
 	/* Device pins */
 	// ADC-1 pins
@@ -87,11 +87,12 @@ module zeabus_hydrophone #(
 	// Wires that connects modules
 	wire clk_64MHz, clk_in_buf;					// clocks from BUFG that can distributes through out the chip
 	wire pll_locked;							// Output PLL clock is ready
-	wire [15:0] adc1_1_out,  adc1_2_out, adc2_1_out, adc2_2_out;	// Data output from ADC modules
-	wire [15:0] trigger_level;					// Defined trigger level
-	wire [63:0] trigged_out;					// Data-out from trigger circuit
+	wire [19:0] adc1_1_out,  adc1_2_out, adc2_1_out, adc2_2_out;	// Data output from ADC modules in Q13.6 format
+	wire [15:0] trigger_level;					// Defined trigger level Q13.2
+	wire [79:0] trigged_out;					// Data-out from trigger circuit Q13.6
+	wire [127:0] filter_out;					// Data-out from Biquad filter Q.15 (each channel consists of 2 phases)
 	wire trigged;								// Trigger signal (active high)
-	wire [63:0] packetize_out;					// Data-out from packetize circuit
+	wire [127:0] packetize_out;					// Data-out from packetize circuit
 	wire p_data_valid;							// Trigger signale (active high) from packetizer
 	wire p_data_clk;							// Output strobe clock from packetizer
 	wire poten_update_start;					// Rising edge indicates starting of updating poten values
@@ -99,6 +100,9 @@ module zeabus_hydrophone #(
 	wire [15:0] rx_data;						// Incoming data from FX3S
 	wire rx_valid, rx_oe;						// Incoming data FIFO controls
 	wire tx_full;
+	wire [3:0] pinger_freq_id;					// Pinger frequency id: 0 = 25kHz , 15 = 40kHz in 5 kHz step size
+	wire i_clk, q_clk;							// Quadrature clocks
+	wire [159:0] demod_out;						// Output from IQ de-modulation
 	
 	// Combination logic
 	assign LED_BLUE = p_data_valid;
@@ -117,7 +121,8 @@ module zeabus_hydrophone #(
 	
 	assign #(0,308) rst = ( RST | ~pll_locked );
 	
-	// ADC output clock  (1MHz) generator
+	// Low-speed clock generators
+	// ADC output clock (1MHz) generator
 	reg adc_d_clk;
 	reg [4:0] adc_clk_cnt;
 	initial
@@ -128,9 +133,27 @@ module zeabus_hydrophone #(
 	always @(posedge clk_64MHz)
 	begin
 		adc_clk_cnt = adc_clk_cnt + 1;
-		if( adc_clk_cnt == 5'd10)	// Add phase delay to avoid race condition between avg64 and trigger
+		if( adc_clk_cnt == 5'b0 )
 			// Toggle every counter wrapping
 			adc_d_clk = ~adc_d_clk;
+	end
+	
+	// Output data clock (200kHz) generator
+	reg out_clk;
+	reg [7:0] out_clk_cnt;
+	initial
+	begin
+		out_clk <= 0;
+		out_clk_cnt <= 0;
+	end
+	always @(posedge clk_64MHz)
+	begin
+		out_clk_cnt = out_clk_cnt + 1;
+		if( out_clk_cnt >= 8'd160 )
+		begin
+			out_clk_cnt = 0;
+			out_clk = ~out_clk;
+		end
 	end
 
 	// Instances
@@ -176,6 +199,7 @@ module zeabus_hydrophone #(
 		.update_poten(poten_update_start), // Trigger for potentiometer register updating. (rising edge)
 	
 		// Register
+		.pinger_freq(pinger_freq_id),	// Pinger frequency ID. 0 = 25kHz, 15 = 40kHz in 5kHz step size
 		.trigger_level(trigger_level),	// hydrophone signal level
 		.poten1_value(poten0),			// Value of potentiometer 1 (defines gain of channel 1)
 		.poten2_value(poten1),			// Value of potentiometer 2 (defines gain of channel 2)
@@ -204,15 +228,78 @@ module zeabus_hydrophone #(
 		.rst(rst),						// System reset (active high)
 		.clk_64MHz(clk_64MHz),			// Master clock
 		
-		.d_in(trigged_out),				// Data from trigger
+		.d_in(filter_out),				// Data from Biquad filter
 		.in_valid(trigged),				// Data-valid signal from trigger
-		.in_strobe(adc_d_clk),			// Input data clock (latch at posedge)
+		.in_strobe(out_clk),			// Input data clock (latch at posedge)
 		
 		.d_out(packetize_out),			// Output data
 		.out_valid(p_data_valid),		// Data-valid signal to FX3 interface
-		.out_strobe(p_data_clk)		// Output data clock (latch at posedge)
+		.out_strobe(p_data_clk)			// Output data clock (latch at posedge)
 	);
 	
+	// Biquad Low-pass filter + 1:5 Down sampling + Rounding to Q.15 
+	// All IP modules here are combinational implementation. Therefore, the final result
+	// runs directly from the computaion stage to the next stage without any pipeline.
+	// Therefore, further synchronization should be performed in the packetizer module.
+	// We have 1 filter per phase per channel. Hence, total 8 filters are needed.
+	biquad_lp_filter ch1_q(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[159:140]),		// Data in Q.19
+		.dout(filter_out[127:112])		// Data out Q.15
+	);
+	biquad_lp_filter ch1_i(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[139:120]),		// Data in Q.19
+		.dout(filter_out[111:96])		// Data out Q.15
+	);
+	biquad_lp_filter ch2_q(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[119:100]),		// Data in Q.19
+		.dout(filter_out[95:80])		// Data out Q.15
+	);
+	biquad_lp_filter ch2_i(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[99:80]),			// Data in Q.19
+		.dout(filter_out[79:64])		// Data out Q.15
+	);
+	biquad_lp_filter ch3_q(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[79:60]),			// Data in Q.19
+		.dout(filter_out[63:48])		// Data out Q.15
+	);
+	biquad_lp_filter ch3_i(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[59:40]),			// Data in Q.19
+		.dout(filter_out[47:32])		// Data out Q.15
+	);
+	biquad_lp_filter ch4_q(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[39:20]),			// Data in Q.19
+		.dout(filter_out[31:16])		// Data out Q.15
+	);
+	biquad_lp_filter ch4_i(
+		.clk_200kHz(out_clk),			// 200kHz down-sampling clock
+		.din(demod_out[19:0]),			// Data in Q.19
+		.dout(filter_out[15:0])			// Data out Q.15
+	);
+	
+	// IQ demod. It operates fully by combinational logic. Hnece, no clock delay here
+	IQ_demodulator iq_mod(
+		.din(trigged_out),				// Raw input data (80-bit long, 20 bits per channel)
+		.dout(demod_out),				// Demodulation output (160-bit long, 40 bits per channel)
+		.i_clk(i_clk),					// In-phase clock
+		.q_clk(q_clk),					// Quadrature clock
+		.trigged(trigged)				// Indicate data validity. If data is not valid (un-trigged) the output is 0
+	);
+	
+	q_wave_gen q_clk_gen(
+		.freq_select(pinger_freq_id),	// Frequency select (0 = 25kHz -> 15 = 40kHz in 5kHz step)
+		.clk_64MHz(clk_64MHz),			// Master clock
+		.i_clk(i_clk),					// Output of In-phase and Quadrature clocks
+		.q_clk(q_clk)
+	);
+	
+	// 1 clk_1MHz period latency. After a trigger is detected, the first data is ready on the next clk_1MHz rising edge
 	hydrophone_trigger #( .header(trigger_head), .trigged_tailed(trigger_tail) ) trigger(
 		.rst(rst),						// system reset (active high)
 		.clk(adc_d_clk),				// signal clock (1 MHz)
@@ -222,6 +309,9 @@ module zeabus_hydrophone #(
 		.trigged(trigged)				// indicates that the data is part of packet of trigged signal
 	);
 
+	//
+	// 3 stages pipeline
+	//
 	adc_interface adc1(
 		// Interface to hardware
 		.d_in(D_1),						// Data channel from ADC chip
@@ -238,6 +328,9 @@ module zeabus_hydrophone #(
 		.d1_out(adc1_2_out)
 	);
 
+	//
+	// 3 stages pipeline
+	//
 	adc_interface adc2(
 		// Interface to hardware
 		.d_in(D_2),						// Data channel from ADC chip

@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 h_lp = np.array([
   0.005150987130580312,
@@ -333,3 +334,25 @@ h_lp = np.array([
   0.00032201977331465005,
   0.005150987130580312]
 )
+
+# Main part
+if __name__ == '__main__':
+    fig, ax = plt.subplots()
+
+    plt.subplot(2,1,1)
+    data1, = plt.plot(h_lp)
+    plt.title('Raw signal')
+    plt.xlabel('Sample')
+    plt.ylabel('Magneture')
+    plt.grid(True)
+
+    sp = np.fft.rfft( h_lp )
+    plt.subplot(2,1,2)
+    data2, = plt.plot( sp.real[:20] )
+    #data3, = plt.plot( sp.imag )
+    plt.title('FFT')
+    plt.grid(True)
+
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.22)
+    plt.show()
