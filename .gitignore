@@ -1,6 +1,6 @@
 *.swp
 *.pyc
-
+*.log
 circuit/zeabus_hydrophone-cache.lib
 *.sch-bak
 circuit/fp-info-cache

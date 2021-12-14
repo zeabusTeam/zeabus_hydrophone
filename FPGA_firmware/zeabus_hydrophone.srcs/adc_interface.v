@@ -107,7 +107,7 @@ module median_filter(
 endmodule
 
 //===============================================================
-module avg64_filter(
+module avg64_binning(
 	input [13:0] d_in,			// Data input
 	
 	output reg [19:0] d_out,	// Data output in format Q13.6
@@ -139,14 +139,14 @@ module avg64_filter(
 		begin
 			if( counter_q == 0 )
 			begin
-				d_out = #1 d_acc;
-				d_acc = #1 { {6{d_in[13]}}, d_in[13:0] };
+				d_out <= #1 d_acc;
+				d_acc <= #1 { {6{d_in[13]}}, d_in[13:0] };
 			end
 			else
 			begin
-				d_acc = #1 d_acc + { {6{d_in[13]}}, d_in[13:0] };
+				d_acc <= #1 d_acc + { {6{d_in[13]}}, d_in[13:0] };
 			end
-			counter_q = #1 counter_q + 1;
+			counter_q <= #1 counter_q + 1;
 		end
 	end
 endmodule
@@ -207,6 +207,6 @@ module adc_interface(
 	median_filter m_filter2( .clk(clk_64MHz), .rst(rst), .d_in(d1), .d_out(d1_mean) );
 	
 	// Down sampling 64 MS/s => 1 MS/s. Also increasing the resolution from 14 bits to 16 bits.
-	avg64_filter avg_filter1( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d0_mean), .d_out(d0_out) ); 
-	avg64_filter avg_filter2( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d1_mean), .d_out(d1_out) ); 
+	avg64_binning avg_binning1( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d0_mean), .d_out(d0_out) ); 
+	avg64_binning avg_binning2( .clk_64MHz(clk_64MHz), .rst(rst), .d_in(d1_mean), .d_out(d1_out) ); 
 endmodule
