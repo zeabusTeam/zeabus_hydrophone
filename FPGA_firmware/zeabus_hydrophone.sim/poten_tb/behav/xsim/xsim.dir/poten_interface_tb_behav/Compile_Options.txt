@@ -1,1 +1,0 @@
--wto "eaa226c700c643d99c29dd35889e833c" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "xpm" --snapshot "poten_interface_tb_behav" "xil_defaultlib.poten_interface_tb" "xil_defaultlib.glbl" -log "elaborate.log" 

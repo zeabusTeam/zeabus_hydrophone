@@ -1,2 +1,0 @@
-fifo_arrival_64x16b.v,verilog,xil_defaultlib,../../../ip/fifo_arrival_64x16b/sim/fifo_arrival_64x16b.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

@@ -26,11 +26,9 @@ if __name__ == '__main__':
     # Check whether a file name is provided
     if len( sys.argv ) == 2:
         # Then write that file to FPGA
-        hp.program_fpga( sys.argv[1] )
-    else:
-        print( 'Usage: python hydrophone_usb_app.py filename.brv' )
-        sys.exit()
-    
+        hp.program_fpga( sys.argv[1] )       
+    hp.arm_soft_reset()
+
     # Start logging thread
     #_thread.start_new_thread( logging_thread, (0,) )
 

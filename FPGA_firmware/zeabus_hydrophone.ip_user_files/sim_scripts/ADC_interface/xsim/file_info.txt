@@ -1,3 +1,0 @@
-ADC_interface_selectio_wiz.v,verilog,xil_defaultlib,../../../ip/ADC_interface/ADC_interface_selectio_wiz.v,
-ADC_interface.v,verilog,xil_defaultlib,../../../ip/ADC_interface/ADC_interface.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

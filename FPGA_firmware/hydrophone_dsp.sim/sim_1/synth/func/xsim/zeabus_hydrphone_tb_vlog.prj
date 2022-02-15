@@ -1,0 +1,7 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"zeabus_hydrphone_tb_func_synth.v" \
+"../../../../../sources/zeabus_hydrophone_tb.v" \
+
+# Do not sort compile order
+nosort

@@ -1,8 +1,0 @@
-0.6
-2019.1
-May 24 2019
-15:06:07
-C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.sim/config_mgr_tb/behav/xsim/glbl.v,1558713910,verilog,,,,glbl,,,,,,,,
-C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v,1581776841,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager_tb.v,,hydrophone_config_manager,,,../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll,,,,,
-C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager_tb.v,1581238657,verilog,,,,hydrophone_config_manager_tb,,,../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll,,,,,
-C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/sources_1/ip/fifo_arrival_64x16b/sim/fifo_arrival_64x16b.v,1577888117,verilog,,C:/Users/akrap/Google/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.srcs/config_manager.v,,fifo_arrival_64x16b,,,../../../../zeabus_hydrophone.srcs/sources_1/ip/clk_pll,,,,,

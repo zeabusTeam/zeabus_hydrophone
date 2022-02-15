@@ -1,7 +1,0 @@
-# compile vhdl design source files
-vhdl xil_defaultlib  \
-"../../../../zeabus_hydrophone.ip_user_files/ip/gain0_005_mult/sim/gain0_005_mult.vhd" \
-"../../../../zeabus_hydrophone.ip_user_files/ip/mult_30b_18b/sim/mult_30b_18b.vhd" \
-
-# Do not sort compile order
-nosort

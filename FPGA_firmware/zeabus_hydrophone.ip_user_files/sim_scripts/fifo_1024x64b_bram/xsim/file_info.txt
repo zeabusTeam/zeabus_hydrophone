@@ -1,2 +1,0 @@
-fifo_1024x64b_bram.v,verilog,xil_defaultlib,../../../ip/fifo_1024x64b_bram/sim/fifo_1024x64b_bram.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

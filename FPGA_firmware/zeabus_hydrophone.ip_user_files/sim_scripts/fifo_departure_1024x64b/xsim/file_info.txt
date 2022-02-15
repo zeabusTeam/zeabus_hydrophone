@@ -1,2 +1,0 @@
-fifo_departure_1024x64b.v,verilog,xil_defaultlib,../../../ip/fifo_departure_1024x64b/sim/fifo_departure_1024x64b.v,
-glbl.v,Verilog,xil_defaultlib,glbl.v

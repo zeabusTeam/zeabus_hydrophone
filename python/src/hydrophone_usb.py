@@ -1,12 +1,14 @@
-import usb.core
+import usb.core     # Requires PyUSB package
 import usb.util
 import numpy as np
 import struct
 import os
 import sys
 
+# This file is the core library to communicate with the hydrophone DSP board.
+
 """
-Zeabus hydrophone main module is composed of Cypress FX3S USB interface and 
+Zeabus hydrophone main module is composed of Cypress FX3S USB interface and
 Xilinx Artix7 FPGA chip. The analog module has two AD9248 ADC chips and two
 MAX5387 digitally controled potentiometers. The system supports 4 hydrophones
 with final sampling rate 1 MS/s. Each hydrophone input is buffered and amplified
@@ -15,25 +17,25 @@ of a MAX5387 channel. The gain could be chosen from 1 to 11 with 256 steps
 resolution. Output from the amplifier should be configured to be within 2 Vp-p.
 The amplified signal is then converted into 14-bit 2'complement digital values
 by the ADC chip. The ADC is set to sample data at the fixed rate of 64 MS/s.
-The data, then, enter the FPGA chip and pass through an averaging filter, 
-which provides the effective conversion rate at 1 MS/s. The filter also 
-extends the resolution of data from 14-bit 2'complement values to 16-bit 
-Q13.2 fixed-point values. Optional further filterings could be applied at
-this step before passing to trigger-detection module. However, currently, 
-there is none. The data stream from averaging filter is just delivered 
-for detecting the value (aka. signal strength) that greater than a specified
-level. If the trigger condition is met, the stream data that satisfied 
-the trigger is send out of FPGA to FX3S along with the 1000 sampled data
+The data, then, enter the FPGA chip and pass through an averaging filter,
+which provides the effective conversion rate at 1 MS/s. The filter also
+extends the resolution of data from 14-bit 2'complement values to 16-bit
+Q13.2 fixed-point values. Optional filterings could be applied at
+this step before passing to trigger-detection module. However, currently,
+there is none. The data stream from averaging filter is just delivered
+for detecting the trigger (aka. signal strength) that is greater than a specified
+level. If the trigger condition is met, the stream data that satisfied
+the trigger is send out of FPGA to FX3S along with the 64 sampled data
 prior to the point that trig. FX3S just relays the data to host computer
 via USB3 connection. Each hydrophone has its own hardware for the above
-steps. Moreover, all hydrophone functional units operate by a common
+steps. All hydrophone functional units operate by a common
 clock generator. Therefore, each sampling gives out a 64-bit datum composing
-of 4 16-bit data from each channel. The only common to all flows is 
-the trigger level, which is a 16-bit Q13.2 value.
+of 4 16-bit data from each channel. The trigger threshold is common for
+all 4 channels, which is a 16-bit Q13.2 value.
 
 Setting the common trigger level as well as the amplifier gain of each
 channel is done by host computer sending a specific pattern of data
-to FX3S, which relays the configuration data to FPGA. 
+to FX3S, which relays the configuration data to FPGA.
 
 The USB3 interface to FX3S is configured to have VENDOR_ID = 0x1209 and
 PRODUCT_ID = 0xDCB0. The connection has 4 interfaces with the end-points
@@ -50,22 +52,22 @@ and configuration as:
    appear as a /dev/usb.modem device under Linux
 
  Interface 2: This is the main data communication between host computer
-   and the module. There are 2 end-points. They are bulk-mode data channels 
+   and the module. There are 2 end-points. They are bulk-mode data channels
    configured as:
-     EP3 -  Bi-directional (EP3 BULK-IN and EP3 BULK-OUT). It is used 
-       to transfer data to FX3S sub-system. All configurations and 
-       bulky configuration data to the hydrophone module are communicated 
+     EP3 -  Bi-directional (EP3 BULK-IN and EP3 BULK-OUT). It is used
+       to transfer data to FX3S sub-system. All configurations and
+       bulky configuration data to the hydrophone module are communicated
        through this end-point
-     EP4 - Unidirectional (EP4 BULK-IN). It conveys only the ADC sampling 
+     EP4 - Unidirectional (EP4 BULK-IN). It conveys only the ADC sampling
        streams to host computer.
 
 When plugged in to the host computer. The module automatically appears to
 the host as a communication device (/dev/usb.modem). However, the main
-functions require interface 3, which can only be used from low-level 
+functions require interface 3, which can only be used from low-level
 directly manipulation. It can be done through either libusb-1 or PyUsb module.
 
 Communication packet formats are defined as:
-- ADC stream (USB EP4): 
+- ADC stream (USB EP4):
     2 bytes: ID (fixed as 0xDCB0)
     2 bytes sequence: packet counter value. Maximum value is wrapped to 0 when counted.
     4 bytes time stamp: time since the system starts in milli-second. The maximum
@@ -75,7 +77,7 @@ Communication packet formats are defined as:
 
 - Trigger, pinger frequency, and gain setting (Control):
     1 byte: ID + Configuration bits (fixed as 0xDC)
-    1 byte: Configuration bit fields 
+    1 byte: Configuration bit fields
         The configuraton bits are Bit-fields indicates which configuration to set.
         This field also indicates what data would follow. Each bit has meaning as:
             bit 7 - bit 4: pinger frequency (0 = 25kHz -> 15 = 40kHz in 1kHz steps)
@@ -107,8 +109,8 @@ ZEABUS_USB_REQ_READ_FLASH = (0xA4)      # Request for raw data from SPI flash
 ZEABUS_USB_REQ_WRITE_FLASH = (0xA5)     # Write raw data to SPI flash
 ZEABUS_USB_REQ_READ_EEPROM = (0xA6)     # Request for raw data from EEPROM (wValue = (bLen << 8) + bAddr)
 ZEABUS_USB_REQ_WRITE_EEPROM = (0xA7)    # Write raw data to EEPROM (wValue = (bLen << 8) + bAddr)
-ZEABUS_USB_REQ_ARM_SOFT_RESET = (0xA8)  # Arm FPGA soft reset
-ZEABUS_USB_REQ_REL_SOFT_RESET = (0xA9)  # Release FPGA soft reset
+ZEABUS_USB_REQ_SET_SOFT_RESET = (0xA8)  # Arm FPGA soft reset
+ZEABUS_USB_REQ_RES_SOFT_RESET = (0xA9)  # Release FPGA soft reset
 ZEABUS_USB_REQ_SEND_FPGA_DATA = (0xAA)  # Send data to FPGA through slave FIFO
 
 # Endpoints
@@ -116,10 +118,143 @@ ZEABUS_EP_DATA_IN = (usb.util.ENDPOINT_IN | 3)
 ZEABUS_EP_DATA_OUT = (usb.util.ENDPOINT_OUT | 3)
 ZEABUS_EP_FPGA_IN = (usb.util.ENDPOINT_IN | 4)
 
-# For bReqType in control_transfer, 
+# For bReqType in control_transfer,
 #   bits 0:4 determine recipient as either DEVICE, INTERFACE, ENDPOINT, or OTHER.
 #   bits 5:6 determine type as either STANDARD, CLASS, VENDOR, or RESERVED.
 #   bit 7 determine data transfer direction: 0 = Host -> Dev, 1 = Dev -> Host.
+
+class bit_brv_conv:
+  """
+  Class to conver .bit file into brv stream
+  """
+
+  def __reverse_bit( self, in_dat ):
+    dat = int( in_dat[0] )
+    rev = dat
+    count = 7
+    dat >>= 1
+    while dat != 0:
+      rev <<= 1
+      rev |= dat & 1
+      dat >>= 1
+      count -= 1
+    rev <<= count
+    rev &= 0xFF
+
+    return bytes( [rev] )
+
+  def __skip_a_header( self, in_file ):
+    raw = in_file.read( 2 )     # Reading header size
+    if raw:
+      len = int( raw[0] )
+      len <<= 8
+      len += int( raw[1] )
+      print( 'Skip header with size ', len )
+      raw = in_file.read( len )
+
+  def is_bit_file( src_name ):
+    in_file = open( src_name, 'rb' )
+    if in_file is None:
+      return False
+
+    # Verify the input file
+    # Field 1
+    self.__skip_a_header( in_file )
+    # Field 2
+    self.__skip_a_header( in_file )
+    # Field 3
+    self.__skip_a_header( in_file )
+    # Field 4
+    sig = in_file.read( 1 )
+    if( sig != b'b' ):
+      in_file.close()
+      return False
+    self.__skip_a_header( in_file )
+    # Field 5
+    sig = in_file.read( 1 )
+    if( sig != b'c' ):
+      in_file.close()
+      return False
+    self.__skip_a_header( in_file )
+    # Field 6
+    sig = in_file.read( 1 )
+    if( sig != b'd' ):
+      in_file.close()
+      return False
+    self.__skip_a_header( in_file )
+    # Field 7
+    sig = in_file.read( 1 )
+    in_file.close()
+    if( sig != b'e' ):
+      return False
+
+    return True
+
+  def get_brv_stream( src_name ):
+    out_stream = bytes([])      # Generate an empty byte stream
+
+    in_file = open( src_name, 'rb' )
+    if in_file is None:
+      raise ValueError( 'Unable to open input file' )
+
+    # Verify the input file
+    # Field 1
+    self.__skip_a_header( in_file )
+    # Field 2
+    self.__skip_a_header( in_file )
+    # Field 3
+    self.__skip_a_header( in_file )
+    # Field 4
+    sig = in_file.read( 1 )
+    if( sig != b'b' ):
+      in_file.close()
+      raise ValueError( 'Invalid file format signature "b" becomes ', chr(sig) )
+    self.__skip_a_header( in_file )
+    # Field 5
+    sig = in_file.read( 1 )
+    if( sig != b'c' ):
+      in_file.close()
+      raise ValueError( 'Invalid file format signature "c" becomes ', chr(sig) )
+    self.__skip_a_header( in_file )
+    # Field 6
+    sig = in_file.read( 1 )
+    if( sig != b'd' ):
+      in_file.close()
+      raise ValueError( 'Invalid file format signature "d" becomes ', chr(sig) )
+    self.__skip_a_header( in_file )
+    # Field 7
+    sig = in_file.read( 1 )
+    if( sig != b'e' ):
+      in_file.close()
+      raise ValueError( 'Invalid file format signature "e" becomes ', chr(sig) )
+
+    # Processing the data
+    raw = in_file.read( 4 )
+    bitlen = int( raw[0] )
+    bitlen <<= 8
+    bitlen += int( raw[1] )
+    bitlen <<= 8
+    bitlen += int( raw[2] )
+    bitlen <<= 8
+    bitlen += int( raw[3] )
+
+    # Processing data
+    print( 'The input bitstream length = ' , bitlen )
+    extra = 0
+    byte = in_file.read( 1 )
+    while byte:
+      rev = self.__reverse_bit( byte )
+      out_stream += rev
+      byte = in_file.read( 1 )
+      if bitlen > 0:
+        bitlen -= 1
+      else:
+        extra += 1
+    in_file.close()
+
+    # Print final report
+    print( 'Length value remaining ', bitlen, ' bytes and extra length ', extra, ' bytes' )
+    return( out_stream )
 
 class hydrophone_usb:
   """
@@ -132,7 +267,7 @@ class hydrophone_usb:
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-        
+
     # Activate the only configuration available
     self.dev.set_configuration()
 
@@ -150,10 +285,10 @@ class hydrophone_usb:
     if self.dev is None:
       raise ValueError('Device not found')
 
-    # Full function call with prototype for future reference.    
-    self.dev.ctrl_transfer( 
+    # Full function call with prototype for future reference.
+    self.dev.ctrl_transfer(
       bmRequestType = (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ), # bmRequestType
-      bRequest = ZEABUS_USB_REQ_ARM_SOFT_RESET,                   # bRequest
+      bRequest = ZEABUS_USB_REQ_SET_SOFT_RESET,                   # bRequest, set the RST to 1
       wValue = 0,                                                 # wValue
       wIndex = 0,                                                 # wIndex
       data_or_wLength = None,                                     # data or length
@@ -164,10 +299,10 @@ class hydrophone_usb:
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-        
-    self.dev.ctrl_transfer( 
+
+    self.dev.ctrl_transfer(
       (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ), # bmRequestType
-      ZEABUS_USB_REQ_REL_SOFT_RESET,              # bRequest
+      ZEABUS_USB_REQ_RES_SOFT_RESET,              # bRequest, reset the RST to 0
       0,                                          # wValue
       0,                                          # wIndex
       None,                                       # data or length
@@ -185,11 +320,29 @@ class hydrophone_usb:
       ZEABUS_USB_REQ_WRITE_EEPROM, wValue=0x0870, wIndex=0, timeout=1000 )
     self.dev.write( ZEABUS_EP_DATA_OUT, blank, 1000 )
 
+  def verify_filename( self, src_name ):
+    f = open( src_name, 'rb' )
+    if f is not None:
+      f.close()
+      return src_name
+
+    f = open( src_name + '.brv', 'rb' )
+    if f is not None:
+      f.close()
+      return src_name + '.brv'
+
+    f = open( src_name + '.bit', 'rb' )
+    if f is not None:
+      f.close()
+      return src_name + '.bit'
+
+    return None
+
   def __send_file( self, request_cmd, filepath ):
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-        
+
     fsize = os.path.getsize( filepath )
     print( 'Sending file ', filepath, ' with size ', fsize, ' byte' )
     if fsize > 0:
@@ -199,7 +352,7 @@ class hydrophone_usb:
         # Start the command
         self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
           request_cmd, wValue=(fsize & 0xFFFF), wIndex=(fsize >> 16), timeout=5000 )
-        
+
         # Sending data
         while( offset < fsize ):
           print( 'From offset ', offset, ' : ', end='' )
@@ -210,18 +363,18 @@ class hydrophone_usb:
             # We cannot send the whole data. Thus, adjusting the file pointer
             f.seek( offset )
           print( 'Sent ', sent_size, ' bytes.' )
-        
+
         f.close()
       else:
-          raise ValueError( 'Unable to open file' )
+        raise ValueError( 'Unable to open file' )
     else:
       raise ValueError( 'Unable to get file size' )
-  
+
   def __send_stream( self, request_cmd, data ):
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-        
+
     fsize = len(data)
     print( 'Sending stream with size ', fsize, ' byte' )
     if fsize > 0:
@@ -229,7 +382,7 @@ class hydrophone_usb:
       # Start the command
       self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
         request_cmd, wValue=(fsize & 0xFFFF), wIndex=(fsize >> 16), timeout=5000 )
-        
+
       # Sending data
       while( offset < fsize ):
         print( 'From offset ', offset, ' : ', end='' )
@@ -238,16 +391,22 @@ class hydrophone_usb:
         print( 'Sent ', sent_size, ' bytes.' )
     else:
       raise ValueError( 'Stream length must be greater than 0' )
-  
-  def program_fpga( self, filepath ):
+
+  def program_file_fpga( self, filepath ):
     self.__send_file( ZEABUS_USB_REQ_PROG_FPGA, filepath )
-  
+
+  def program_stream_fpga( self, data ):
+    self.__send_stream( ZEABUS_USB_REQ_PROG_FPGA, data )
+
   def write_firmware_to_flash( self, filepath ):
     self.__send_file( ZEABUS_USB_REQ_PROG_FIRMWARE, filepath )
-  
-  def write_fpga_to_flash( self, filepath ):
+
+  def write_file_fpga_to_flash( self, filepath ):
     self.__send_file( ZEABUS_USB_REQ_PROG_BITSTREAM, filepath )
-  
+
+  def write_stream_fpga_to_flash( self, data ):
+    self.__send_stream( ZEABUS_USB_REQ_PROG_BITSTREAM, data )
+
   def send_control_to_fpga( self, data ):
     # was it found?
     if self.dev is None:
@@ -255,38 +414,36 @@ class hydrophone_usb:
     # Issue the command
     size = data.size
     self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
-      ZEABUS_USB_REQ_SEND_FPGA_DATA, wValue=(size & 0xFFFF), wIndex=(size >> 16), 
+      ZEABUS_USB_REQ_SEND_FPGA_DATA, wValue=(size & 0xFFFF), wIndex=(size >> 16),
       data_or_wLength=data, timeout=1000 )
 
   def get_stream_data( self, timeout = 900000 ): # Reading with default timeout = 15 minutes
     buffer = self.dev.read( ZEABUS_EP_FPGA_IN, 8192, timeout )
     return buffer
-  
+
   #
   # Main API functions
   #
 
   # Set module parameters.
-  # frequency = pinger frequency in hertz (25000 - 40000)
   # threshold = signal threshold level (Max = 1 means 100%)
-  # LNA_Gain = amplifier gain (Max = 1 means maximum)
-  def sent_dsp_param( self, frequency, threshold = 0, LNA_Gain = 0 ):
+  # LNA_Gain_1 = amplifier gain for channel 1 (Max = 1 means maximum)
+  # LNA_Gain_2 to LNA_Gain_4 = amplifier gain for channel 2 - 4. The basic conditions are same as channel 1
+  #     except that if any of these gain has negative value, gain of the corresponding channel is set to
+  #     the same value of channel 1
+  def sent_dsp_param( self, threshold = 0, LNA_Gain_1 = 0, LNA_Gain_2 = -1, LNA_Gain_3 = -1, LNA_Gain_4 = -1 ):
     buf_size = 2
     if( threshold > 0 ):
       buf_size = buf_size + 2
     if( LNA_Gain > 0 ):
       buf_size = buf_size + 4
     buffer = np.empty( buf_size, dtype='uint8' )
-    
+
     # Set ID
     buffer[0] = 0xDC
 
-    #set bit-fields
-    if( frequency < 25000 ):
-      frequency = 25000
-    elif( frequency > 40000 ):
-      frequency = 40000
-    buffer[1] = np.uint8( (frequency - 25000) / 1000 ) << 4
+    # Initialize bit-field
+    buffer[1] = 0
 
     # Set threshold (if exists)
     if( threshold > 0 ):
@@ -298,14 +455,28 @@ class hydrophone_usb:
       buffer[3] = np.uint8( thres_value & 0xFF )
 
     # Set Gain (if exists)
-    if( LNA_Gain > 0 ):
+    if( LNA_Gain_1 > 1 ):
+      LNA_Gain_1 = 1
+    if( LNA_Gain_1 < 0 ):
+      LNA_Gain_1 = 0
+    if( LNA_Gain_1 > 0 ):
       buffer[1] = buffer[1] | 0b00000100
-      if( LNA_Gain > 1 ):
-        LNA_Gain = 1
-      buffer[4] = np.uint8( 255 * LNA_Gain )
-      buffer[5] = buffer[4]
-      buffer[6] = buffer[4]
-      buffer[7] = buffer[4]
+
+      buffer[4] = np.uint8( 255 * LNA_Gain_1 )
+      if( LNA_Gain_2 >= 0):
+        buffer[5] = np.uint8( 255 * LNA_Gain_2 )
+      else:
+        buffer[5] = buffer[4]
+
+      if( LNA_Gain_3 >= 0):
+        buffer[6] = np.uint8( 255 * LNA_Gain_3 )
+      else:
+        buffer[6] = buffer[4]
+
+      if( LNA_Gain_4 >= 0):
+        buffer[7] = np.uint8( 255 * LNA_Gain_4 )
+      else:
+        buffer[7] = buffer[4]
 
     # Send the buffer to FPGA through control endpoint
     self.send_control_to_fpga( buffer )
@@ -322,21 +493,73 @@ class hydrophone_usb:
         return seq, timestamp, np.array( ( raw[0::4], raw[1::4], raw[2::4], raw[3::4] ) )
       else:
         _err_count = _err_count + 1
-    
+
     # If reach here, the error count have reached 10
     raise IOError( 'Too much error data from ADC' )
 
-  
+
 # Main part
 if __name__ == '__main__':
   # Check argument
-  if len( sys.argv ) != 2:
+  if len( sys.argv ) != 2 and len( sys.argv ) != 3:
     print( 'ERROR!!! This module should not run as standalone without argument' )
-    print( '  Usage: python3 hydrophone_usb.py filename[.brv]' )
+    print( '  Usage: python3 hydrophone_usb.py CMD' )
+    print( '     CMD    command to DSP board' )
+    print( '        fx3s filename[.bin]        Write FX3S firmware to firmware ROM' )
+    print( '        prog filename[.bit/.brv]   Write an FPGA image directly to the FPGA chip' )
+    print( '        burn filename[.bit/.brv]   Write an FPGA image to firmware ROM' )
+    print( '        inval                      Invalidate FGPA image in firmware ROM' )
+    print( '        reset                      Issue a reset pulse to FPGA' )
+    print( '        setrst                     Set reset signal to FPGA' )
+    print( '        resrst                     Clear reset signal to FPGA' )
     sys.exit()
   hp = hydrophone_usb()
   if not hp.is_ready():
     print( 'Unable to open hydrophone device' )
     sys.exit()
-  # Then write that file to FPGA
-  hp.program_fpga( sys.argv[1] )
+
+  # Action selection
+  if len( sys.argv ) == 2:      # Only command provided
+    if sys.argv[1] == 'inval':
+      hp.invalidate_fpga_image()
+    elif sys.argv[1] == 'reset':
+      hp.arm_soft_reset()
+      hp.release_soft_reset()
+    elif sys.argv[1] == 'setrst':
+      hp.arm_soft_reset()
+    elif sys.argv[1] == 'resrst':
+      hp.release_soft_reset()
+    else:
+      print( 'Unknown command ' + sys.argv[1] )
+  else:
+    if sys.argv[1] == 'prog':
+      src_name = hp.verify_filename( sys.argv[2] )
+      if src_name is None:
+        print( 'File name ' + sys.argv[2] + ' does not exist' )
+        sys.exit()
+
+      bbconv = bit_brv_conv()
+      if bbconv.is_bit_file( src_name ):
+        bstream = get_brv_stream( src_name )
+        hp.program_stream_fpga( bstream )
+      else:
+        hp.program_file_fpga( src_name )
+      hp.arm_soft_reset()
+      hp.release_soft_reset()
+    elif sys.argv[1] == 'burn':
+      src_name = hp.verify_filename( sys.argv[2] )
+      if src_name is None:
+        print( 'File name ' + sys.argv[2] + ' does not exist' )
+        sys.exit()
+
+      bbconv = bit_brv_conv()
+      if bbconv.is_bit_file( src_name ):
+        bstream = get_brv_stream( src_name )
+        hp.write_stream_fpga_to_flash( bstream )
+      else:
+        hp.write_file_fpga_to_flash( src_name )
+    elif sys.argv[1] == 'fx3s':
+      hp.write_firmware_to_flash( sys.argv[2] )
+    else:
+      print( 'Unknown command ' + sys.argv[1] )
+
