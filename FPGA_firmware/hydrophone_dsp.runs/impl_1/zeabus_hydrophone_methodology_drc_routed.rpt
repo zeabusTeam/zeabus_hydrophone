@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Mon Feb 14 15:19:50 2022
+| Date         : Fri Feb 18 11:44:23 2022
 | Host         : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file zeabus_hydrophone_methodology_drc_routed.rpt -pb zeabus_hydrophone_methodology_drc_routed.pb -rpx zeabus_hydrophone_methodology_drc_routed.rpx
 | Design       : zeabus_hydrophone
@@ -23,12 +23,12 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 31
+             Violations found: 15
 +-----------+----------+------------------------------+------------+
 | Rule      | Severity | Description                  | Violations |
 +-----------+----------+------------------------------+------------+
 | LUTAR-1   | Warning  | LUT drives async reset alert | 2          |
-| TIMING-16 | Warning  | Large setup violation        | 29         |
+| TIMING-16 | Warning  | Large setup violation        | 13         |
 +-----------+----------+------------------------------+------------+
 
 2. REPORT DETAILS
@@ -45,147 +45,67 @@ Related violations: <none>
 
 TIMING-16#1 Warning
 Large setup violation  
-There is a large setup violation of -1.031 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[1]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.003 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[12]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#2 Warning
 Large setup violation  
-There is a large setup violation of -1.058 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[11]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.014 ns between adc2/filter1/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[18]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#3 Warning
 Large setup violation  
-There is a large setup violation of -1.066 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[9]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.019 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[14]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#4 Warning
 Large setup violation  
-There is a large setup violation of -1.079 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[12]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.046 ns between adc1/filter2/m_filter1/d_reg[1][10]/C (clocked by ifclk_out_OBUF) and adc1/filter2/avg_binning1/d_acc_reg[19]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#5 Warning
 Large setup violation  
-There is a large setup violation of -1.099 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[14]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.067 ns between adc1/filter2/m_filter1/d_reg[1][10]/C (clocked by ifclk_out_OBUF) and adc1/filter2/avg_binning1/d_acc_reg[17]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#6 Warning
 Large setup violation  
-There is a large setup violation of -1.175 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[15]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.088 ns between adc2/filter1/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[19]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#7 Warning
 Large setup violation  
-There is a large setup violation of -1.178 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[2]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.093 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[15]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#8 Warning
 Large setup violation  
-There is a large setup violation of -1.183 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[13]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.109 ns between adc2/filter1/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[17]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#9 Warning
 Large setup violation  
-There is a large setup violation of -1.243 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[3]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.114 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[13]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#10 Warning
 Large setup violation  
-There is a large setup violation of -1.278 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[16]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.118 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[16]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#11 Warning
 Large setup violation  
-There is a large setup violation of -1.298 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[18]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.134 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[18]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#12 Warning
 Large setup violation  
-There is a large setup violation of -1.352 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[4]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.208 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[19]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#13 Warning
 Large setup violation  
-There is a large setup violation of -1.372 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[6]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#14 Warning
-Large setup violation  
-There is a large setup violation of -1.374 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[19]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#15 Warning
-Large setup violation  
-There is a large setup violation of -1.382 ns between adc2/filter2/m_filter1/d_reg[2][0]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[17]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#16 Warning
-Large setup violation  
-There is a large setup violation of -1.448 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[7]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#17 Warning
-Large setup violation  
-There is a large setup violation of -1.456 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[5]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#18 Warning
-Large setup violation  
-There is a large setup violation of -1.470 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[8]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#19 Warning
-Large setup violation  
-There is a large setup violation of -1.490 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[10]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#20 Warning
-Large setup violation  
-There is a large setup violation of -1.566 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[11]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#21 Warning
-Large setup violation  
-There is a large setup violation of -1.574 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[9]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#22 Warning
-Large setup violation  
-There is a large setup violation of -1.588 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[12]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#23 Warning
-Large setup violation  
-There is a large setup violation of -1.608 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[14]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#24 Warning
-Large setup violation  
-There is a large setup violation of -1.684 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[15]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#25 Warning
-Large setup violation  
-There is a large setup violation of -1.692 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[13]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#26 Warning
-Large setup violation  
-There is a large setup violation of -1.706 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[16]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#27 Warning
-Large setup violation  
-There is a large setup violation of -1.726 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[18]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#28 Warning
-Large setup violation  
-There is a large setup violation of -1.802 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[19]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
-Related violations: <none>
-
-TIMING-16#29 Warning
-Large setup violation  
-There is a large setup violation of -1.810 ns between adc2/filter1/m_filter1/d_reg[3][7]/C (clocked by ifclk_out_OBUF) and adc2/filter1/avg_binning1/d_acc_reg[17]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.229 ns between adc2/filter2/m_filter1/d_reg[3][3]/C (clocked by ifclk_out_OBUF) and adc2/filter2/avg_binning1/d_acc_reg[17]/D (clocked by ifclk_out_OBUF). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 

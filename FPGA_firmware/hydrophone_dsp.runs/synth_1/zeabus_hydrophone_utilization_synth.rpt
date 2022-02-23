@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Mon Feb 14 15:16:52 2022
+| Date         : Fri Feb 18 11:41:33 2022
 | Host         : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file zeabus_hydrophone_utilization_synth.rpt -pb zeabus_hydrophone_utilization_synth.pb
 | Design       : zeabus_hydrophone
@@ -151,11 +151,11 @@ Table of Contents
 | FDRE      |  854 |        Flop & Latch |
 | LUT6      |  828 |                 LUT |
 | LUT5      |  476 |                 LUT |
-| LUT3      |  393 |                 LUT |
+| LUT3      |  389 |                 LUT |
 | LUT4      |  376 |                 LUT |
 | CARRY4    |  188 |          CarryLogic |
 | LUT1      |  159 |                 LUT |
-| LUT2      |  141 |                 LUT |
+| LUT2      |  145 |                 LUT |
 | IBUF      |   52 |                  IO |
 | FDSE      |   43 |        Flop & Latch |
 | IDDR      |   30 |                  IO |

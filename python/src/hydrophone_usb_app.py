@@ -1,7 +1,7 @@
 import numpy as np
 import _thread
 import sys
-from hydrophone_usb import hydrophone_usb
+from hydrophone_usb import hydrophone_usb, bit_brv_conv
 
 def logging_thread( id ):
     # Open log files
@@ -26,7 +26,18 @@ if __name__ == '__main__':
     # Check whether a file name is provided
     if len( sys.argv ) == 2:
         # Then write that file to FPGA
-        hp.program_fpga( sys.argv[1] )       
+        src_name = hp.verify_filename( sys.argv[1] )
+        if src_name is None:
+            print( 'File name ' + sys.argv[1] + ' does not exist' )
+            sys.exit()
+
+        bbconv = bit_brv_conv()
+        if bbconv.is_bit_file( src_name ):
+            bstream = bbconv.get_brv_stream( src_name )
+            hp.program_stream_fpga( bstream )
+        else:
+            hp.program_file_fpga( src_name )
+
     hp.arm_soft_reset()
 
     # Start logging thread
@@ -40,14 +51,18 @@ if __name__ == '__main__':
     hp.release_soft_reset()
     while( True ):
         try:
-            sig = hp.get_pulse_data( 5000 )
+            seq, timestamp, sig = hp.get_pulse_data( 5000 )
             if reccount < MaxRec:
-                f.write( sig )
+                for item in sig:
+                    f.write( item.to_bytes( 2, 'little' ) )
                 f.flush()
                 reccount = reccount + 1
         except KeyboardInterrupt:
             hp.arm_soft_reset()
             f.close()
             sys.exit()
-        except:
-            print( 'Missing a pulse for 5 seconds now' )
+        except BaseException as err:
+            hp.arm_soft_reset()
+            print( f'Unexpected {err=}, {type(err)=}' )
+            sys.exit()
+            #print( 'Missing a pulse for 5 seconds now' )

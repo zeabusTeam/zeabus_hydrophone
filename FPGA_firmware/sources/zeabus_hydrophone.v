@@ -45,7 +45,7 @@ module zeabus_hydrophone #(
     //output [63:0] abs_data,
     //output [15:0] abs_trig,
     //output [15:0] conf_read_din,
-    
+
     /* Device pins */
     // ADC-1 pins
     input OTR_1,            // Overflow
@@ -116,7 +116,7 @@ module zeabus_hydrophone #(
     wire [15:0] abs_trig;
     //assign trigger_level_set = trigger_level;
     //assign conf_read_din = rx_data;
-    
+
     // Combination logic
     assign LED_BLUE = p_data_strobe;
     assign LED_GREEN = ~rst;
@@ -170,6 +170,7 @@ module zeabus_hydrophone #(
         .d_in(packetize_out),           // Input data to send to FX3S
         .input_strobe(p_data_strobe),   // Rising edge indicates that the d_in value is valid
         .input_full(tx_full),           // Flag to indicate that the buffer for departure data is full
+        .sending(trigged),              // Signal is still in the middle of sending mode
 
         // Arrival data (FX3S -> FPGA)
         .d_out(rx_data),                // Output data
@@ -332,7 +333,7 @@ module zeabus_hydrophone #(
         // Feedback Clocks: 1-bit (each) output: Clock feedback ports
         .CLKFBOUT(pll_fb),              // 1-bit output: Feedback clock
         .LOCKED(pll_locked),            // 1-bit output: LOCK
-        .CLKIN1(clk_in_buf),                // 1-bit input: Input clock
+        .CLKIN1(clk_in_buf),            // 1-bit input: Input clock
         // Control Ports: 1-bit (each) input: PLL control ports
         .PWRDWN(1'b0),                  // 1-bit input: Power-down
         .RST(RST),                      // 1-bit input: Reset

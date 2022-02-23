@@ -141,7 +141,7 @@ class bit_brv_conv:
     rev <<= count
     rev &= 0xFF
 
-    return bytes( [rev] )
+    return rev
 
   def __skip_a_header( self, in_file ):
     raw = in_file.read( 2 )     # Reading header size
@@ -152,7 +152,7 @@ class bit_brv_conv:
       print( 'Skip header with size ', len )
       raw = in_file.read( len )
 
-  def is_bit_file( src_name ):
+  def is_bit_file( self, src_name ):
     in_file = open( src_name, 'rb' )
     if in_file is None:
       return False
@@ -190,9 +190,7 @@ class bit_brv_conv:
 
     return True
 
-  def get_brv_stream( src_name ):
-    out_stream = bytes([])      # Generate an empty byte stream
-
+  def get_brv_stream( self, src_name ):
     in_file = open( src_name, 'rb' )
     if in_file is None:
       raise ValueError( 'Unable to open input file' )
@@ -240,20 +238,18 @@ class bit_brv_conv:
 
     # Processing data
     print( 'The input bitstream length = ' , bitlen )
-    extra = 0
+    out_stream = bytearray(bitlen)      # Generate an empty byte stream
+    idx = 0
     byte = in_file.read( 1 )
-    while byte:
+    while byte and idx < bitlen:
       rev = self.__reverse_bit( byte )
-      out_stream += rev
+      out_stream[idx] = rev
+      idx = idx + 1
       byte = in_file.read( 1 )
-      if bitlen > 0:
-        bitlen -= 1
-      else:
-        extra += 1
     in_file.close()
+    print( 'Finish convert ' + str(idx) + ' bytes' )
 
     # Print final report
-    print( 'Length value remaining ', bitlen, ' bytes and extra length ', extra, ' bytes' )
     return( out_stream )
 
 class hydrophone_usb:
@@ -321,20 +317,29 @@ class hydrophone_usb:
     self.dev.write( ZEABUS_EP_DATA_OUT, blank, 1000 )
 
   def verify_filename( self, src_name ):
-    f = open( src_name, 'rb' )
-    if f is not None:
-      f.close()
-      return src_name
+    try:
+      f = open( src_name, 'rb' )
+      if f is not None:
+        f.close()
+        return src_name
+    except:
+      pass
 
-    f = open( src_name + '.brv', 'rb' )
-    if f is not None:
-      f.close()
-      return src_name + '.brv'
+    try:
+      f = open( src_name + '.brv', 'rb' )
+      if f is not None:
+        f.close()
+        return src_name + '.brv'
+    except:
+      pass
 
-    f = open( src_name + '.bit', 'rb' )
-    if f is not None:
-      f.close()
-      return src_name + '.bit'
+    try:
+      f = open( src_name + '.bit', 'rb' )
+      if f is not None:
+        f.close()
+        return src_name + '.bit'
+    except:
+      pass
 
     return None
 
@@ -393,18 +398,23 @@ class hydrophone_usb:
       raise ValueError( 'Stream length must be greater than 0' )
 
   def program_file_fpga( self, filepath ):
+    print( 'Write FPGA file ' + filepath + ' to FPGA' );
     self.__send_file( ZEABUS_USB_REQ_PROG_FPGA, filepath )
 
   def program_stream_fpga( self, data ):
+    print( 'Write firmware strem to FPGA' )
     self.__send_stream( ZEABUS_USB_REQ_PROG_FPGA, data )
 
   def write_firmware_to_flash( self, filepath ):
+    print( 'Write FPGA file ' + filepath + ' to firmware flash' );
     self.__send_file( ZEABUS_USB_REQ_PROG_FIRMWARE, filepath )
 
   def write_file_fpga_to_flash( self, filepath ):
+    print( 'Write firmware file ' + filepath + ' to flash' );
     self.__send_file( ZEABUS_USB_REQ_PROG_BITSTREAM, filepath )
 
   def write_stream_fpga_to_flash( self, data ):
+    print( 'Write FPGA strem to flash' )
     self.__send_stream( ZEABUS_USB_REQ_PROG_BITSTREAM, data )
 
   def send_control_to_fpga( self, data ):
@@ -487,10 +497,11 @@ class hydrophone_usb:
     while( _err_count < 10 ):
       buffer = self.get_stream_data( timeout )
       if( buffer[0] == 0xDC and buffer[1] == 0xB0 ):
-        seq = struct.unpack( '>H', buffer[2:3] )
-        timestamp = struct.unpack( '>L', buffer[4:7] )
-        raw = struct.unpack( '>i', buffer[8:] )   # Remove the preemble
-        return seq, timestamp, np.array( ( raw[0::4], raw[1::4], raw[2::4], raw[3::4] ) )
+        seq = int( struct.unpack( '>H', buffer[2:4] )[0] )        # Slicing includes the start index but excludes the end index
+        timestamp = int( struct.unpack( '>L', buffer[4:8] )[0] )
+        payload_len = int( len( buffer[8:] ) / 2 )
+        raw = struct.unpack( f'>{payload_len}H', buffer[8:] )     # Remove the preemble
+        return seq, timestamp, raw
       else:
         _err_count = _err_count + 1
 
@@ -540,12 +551,12 @@ if __name__ == '__main__':
 
       bbconv = bit_brv_conv()
       if bbconv.is_bit_file( src_name ):
-        bstream = get_brv_stream( src_name )
+        bstream = bbconv.get_brv_stream( src_name )
         hp.program_stream_fpga( bstream )
       else:
         hp.program_file_fpga( src_name )
       hp.arm_soft_reset()
-      hp.release_soft_reset()
+      #hp.release_soft_reset()
     elif sys.argv[1] == 'burn':
       src_name = hp.verify_filename( sys.argv[2] )
       if src_name is None:
@@ -554,7 +565,7 @@ if __name__ == '__main__':
 
       bbconv = bit_brv_conv()
       if bbconv.is_bit_file( src_name ):
-        bstream = get_brv_stream( src_name )
+        bstream = bbconv.get_brv_stream( src_name )
         hp.write_stream_fpga_to_flash( bstream )
       else:
         hp.write_file_fpga_to_flash( src_name )

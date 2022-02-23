@@ -198,7 +198,7 @@ module adc_filter(
 
 
     // Pre-processing to cover overflow signal
-    assign data = (!d_in[14]) ? d_in[13:0] : ( (d_in[13]) ? 14'h2000 : 14'h1FFF );
+    assign data = (!d_in[14]) ? d_in[13:0] : ( (d_in[13]) ? 14'h2001 : 14'h1FFF );
 
     // Rounding output to 16 bits with round-to-even algorithm
     assign d_round = (d_bin + 20'b0000_0000_0000_0000_1000);
