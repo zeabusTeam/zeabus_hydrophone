@@ -94,10 +94,10 @@ module hydrophone_config_manager #(
 		config_d_oe <= 1'b0;
 		update_poten <= 1'b0;
 		trigger_level <= 16'd16383;
-		poten1_value <= 8'h80;
-		poten2_value <= 8'h80;
-		poten3_value <= 8'h80;
-		poten4_value <= 8'h80;
+		poten1_value <= 8'd25;
+		poten2_value <= 8'd25;
+		poten3_value <= 8'd25;
+		poten4_value <= 8'd25;
 	end
 
 	always @( negedge clk )
@@ -109,10 +109,10 @@ module hydrophone_config_manager #(
 			config_d_oe <= 1'b0;
 			update_poten <= 1'b0;
 			trigger_level <= 16'd16383;
-			poten1_value <= 8'h80;
-			poten2_value <= 8'h80;
-			poten3_value <= 8'h80;
-			poten4_value <= 8'h80;
+			poten1_value <= 8'd25;
+			poten2_value <= 8'd25;
+			poten3_value <= 8'd25;
+			poten4_value <= 8'd25;
 		end
 		else
 		begin

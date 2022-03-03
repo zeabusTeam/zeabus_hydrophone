@@ -2,15 +2,14 @@
 # Vivado v2020.2 (64-bit)
 # SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
 # IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Fri Feb 18 11:39:54 2022
-# Process ID: 6296
+# Start of session at: Thu Mar  3 11:24:43 2022
+# Process ID: 2536
 # Current directory: C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1
 # Command line: vivado.exe -log zeabus_hydrophone.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source zeabus_hydrophone.tcl
 # Log file: C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1/zeabus_hydrophone.vds
 # Journal file: C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
 source zeabus_hydrophone.tcl -notrace
-create_project: Time (s): cpu = 00:00:04 ; elapsed = 00:00:10 . Memory (MB): peak = 1094.574 ; gain = 0.000
 Command: synth_design -top zeabus_hydrophone -part xc7a15tcsg324-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
@@ -18,9 +17,9 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t
 INFO: [Device 21-403] Loading part xc7a15tcsg324-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 4904
+INFO: [Synth 8-7075] Helper process launched with PID 5348
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 1136.199 ; gain = 41.625
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:08 . Memory (MB): peak = 1138.887 ; gain = 12.398
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'zeabus_hydrophone' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/zeabus_hydrophone.v:39]
 	Parameter trigger_head bound to: 64 - type: integer 
@@ -249,52 +248,52 @@ INFO: [Synth 8-6157] synthesizing module 'PLLE2_BASE' [D:/Xilinx/Vivado/2020.2/s
 INFO: [Synth 8-6155] done synthesizing module 'PLLE2_BASE' (18#1) [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:61605]
 INFO: [Synth 8-6155] done synthesizing module 'zeabus_hydrophone' (19#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/zeabus_hydrophone.v:39]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:11 . Memory (MB): peak = 1201.898 ; gain = 107.324
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:11 . Memory (MB): peak = 1202.715 ; gain = 76.227
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:12 . Memory (MB): peak = 1201.898 ; gain = 107.324
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:13 . Memory (MB): peak = 1202.715 ; gain = 76.227
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:12 . Memory (MB): peak = 1201.898 ; gain = 107.324
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:13 . Memory (MB): peak = 1202.715 ; gain = 76.227
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.060 . Memory (MB): peak = 1201.898 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.063 . Memory (MB): peak = 1202.715 ; gain = 0.000
 INFO: [Netlist 29-17] Analyzing 34 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.xdc]
-Finished Parsing XDC File [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/zeabus_hydrophone_propImpl.xdc].
+Parsing XDC File [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc]
+Finished Parsing XDC File [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/zeabus_hydrophone_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/zeabus_hydrophone_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 INFO: [Timing 38-2] Deriving generated clocks
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1328.496 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1326.387 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 1 instances were transformed.
   PLLE2_BASE => PLLE2_ADV: 1 instance 
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.078 . Memory (MB): peak = 1328.496 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.041 . Memory (MB): peak = 1326.387 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:16 ; elapsed = 00:00:21 . Memory (MB): peak = 1328.496 ; gain = 233.922
+Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:23 . Memory (MB): peak = 1326.387 ; gain = 199.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a15tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:16 ; elapsed = 00:00:22 . Memory (MB): peak = 1328.496 ; gain = 233.922
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:23 . Memory (MB): peak = 1326.387 ; gain = 199.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:17 ; elapsed = 00:00:22 . Memory (MB): peak = 1328.496 ; gain = 233.922
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:23 . Memory (MB): peak = 1326.387 ; gain = 199.898
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'master_state_reg' in module 'fx3s_interface'
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'hydrophone_config_manager'
@@ -402,7 +401,7 @@ STATE_SEND_FIRSTDATA_CH4 |                   00000100000000 |                   
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'main_state_reg' using encoding 'one-hot' in module 'packetizer'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:18 ; elapsed = 00:00:24 . Memory (MB): peak = 1328.496 ; gain = 233.922
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:17 ; elapsed = 00:00:25 . Memory (MB): peak = 1326.387 ; gain = 199.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -471,25 +470,25 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:31 ; elapsed = 00:00:38 . Memory (MB): peak = 1328.496 ; gain = 233.922
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:30 ; elapsed = 00:00:40 . Memory (MB): peak = 1326.387 ; gain = 199.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:38 ; elapsed = 00:00:45 . Memory (MB): peak = 1328.496 ; gain = 233.922
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:37 ; elapsed = 00:00:47 . Memory (MB): peak = 1326.387 ; gain = 199.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:39 ; elapsed = 00:00:47 . Memory (MB): peak = 1339.426 ; gain = 244.852
+Finished Timing Optimization : Time (s): cpu = 00:00:38 ; elapsed = 00:00:49 . Memory (MB): peak = 1338.219 ; gain = 211.730
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:41 ; elapsed = 00:00:49 . Memory (MB): peak = 1392.496 ; gain = 297.922
+Finished Technology Mapping : Time (s): cpu = 00:00:41 ; elapsed = 00:00:51 . Memory (MB): peak = 1391.594 ; gain = 265.105
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -507,37 +506,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Finished IO Insertion : Time (s): cpu = 00:00:45 ; elapsed = 00:00:55 . Memory (MB): peak = 1404.398 ; gain = 277.910
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:45 ; elapsed = 00:00:55 . Memory (MB): peak = 1404.398 ; gain = 277.910
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:45 ; elapsed = 00:00:56 . Memory (MB): peak = 1404.398 ; gain = 277.910
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:45 ; elapsed = 00:00:56 . Memory (MB): peak = 1404.398 ; gain = 277.910
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:45 ; elapsed = 00:00:56 . Memory (MB): peak = 1404.398 ; gain = 277.910
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:45 ; elapsed = 00:00:56 . Memory (MB): peak = 1404.398 ; gain = 277.910
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -565,25 +564,25 @@ Report Cell Usage:
 |11    |LUT6       |   828|
 |12    |MUXF7      |    16|
 |13    |PLLE2_BASE |     1|
-|14    |FDRE       |   854|
-|15    |FDSE       |    43|
+|14    |FDRE       |   852|
+|15    |FDSE       |    45|
 |16    |IBUF       |    34|
 |17    |IOBUF      |    18|
 |18    |OBUF       |    24|
 +------+-----------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:45 ; elapsed = 00:00:56 . Memory (MB): peak = 1404.398 ; gain = 277.910
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:34 ; elapsed = 00:00:50 . Memory (MB): peak = 1405.273 ; gain = 184.102
-Synthesis Optimization Complete : Time (s): cpu = 00:00:46 ; elapsed = 00:00:54 . Memory (MB): peak = 1405.273 ; gain = 310.699
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:34 ; elapsed = 00:00:50 . Memory (MB): peak = 1404.398 ; gain = 154.238
+Synthesis Optimization Complete : Time (s): cpu = 00:00:45 ; elapsed = 00:00:56 . Memory (MB): peak = 1404.398 ; gain = 277.910
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.101 . Memory (MB): peak = 1405.273 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.099 . Memory (MB): peak = 1412.445 ; gain = 0.000
 INFO: [Netlist 29-17] Analyzing 256 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 1 inverter(s) to 1 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 1415.379 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.012 . Memory (MB): peak = 1412.480 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 19 instances were transformed.
   IOBUF => IOBUF (IBUF, OBUFT): 18 instances
@@ -592,7 +591,7 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 INFO: [Common 17-83] Releasing license: Synthesis
 92 Infos, 2 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:55 ; elapsed = 00:01:09 . Memory (MB): peak = 1415.379 ; gain = 320.805
+synth_design: Time (s): cpu = 00:00:54 ; elapsed = 00:01:23 . Memory (MB): peak = 1412.480 ; gain = 285.992
 INFO: [Common 17-1381] The checkpoint 'C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1/zeabus_hydrophone.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file zeabus_hydrophone_utilization_synth.rpt -pb zeabus_hydrophone_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Fri Feb 18 11:41:33 2022...
+INFO: [Common 17-206] Exiting Vivado at Thu Mar  3 11:26:13 2022...

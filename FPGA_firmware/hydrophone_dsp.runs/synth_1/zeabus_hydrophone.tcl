@@ -70,7 +70,6 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param chipscope.maxJobs 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a15tcsg324-1
 
@@ -106,8 +105,8 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc {{C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.xdc}}
-set_property used_in_implementation false [get_files {{C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/zeabus_hydrophone.xdc}}]
+read_xdc {{C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc}}
+set_property used_in_implementation false [get_files {{C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc}}]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

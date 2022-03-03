@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date             : Fri Feb 18 11:44:25 2022
+| Date             : Thu Mar  3 11:30:21 2022
 | Host             : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
 | Command          : report_power -file zeabus_hydrophone_power_routed.rpt -pb zeabus_hydrophone_power_summary_routed.pb -rpx zeabus_hydrophone_power_routed.rpx
 | Design           : zeabus_hydrophone
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.212        |
+| Total On-Chip Power (W)  | 0.213        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.140        |
+| Dynamic (W)              | 0.141        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 4.8          |
 | Max Ambient (C)          | 84.0         |
@@ -59,12 +59,12 @@ Table of Contents
 |   Register     |    <0.001 |      897 |     20800 |            4.31 |
 |   F7/F8 Muxes  |    <0.001 |       16 |     32600 |            0.05 |
 |   Others       |     0.000 |       84 |       --- |             --- |
-| Signals        |    <0.001 |     2994 |       --- |             --- |
+| Signals        |    <0.001 |     2987 |       --- |             --- |
 | Block RAM      |     0.000 |        3 |        25 |           12.00 |
 | PLL            |     0.096 |        1 |         5 |           20.00 |
 | I/O            |     0.040 |       76 |       210 |           36.19 |
 | Static Power   |     0.072 |          |           |                 |
-| Total          |     0.212 |          |           |                 |
+| Total          |     0.213 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -74,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.023 |       0.013 |      0.010 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.023 |       0.014 |      0.010 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.063 |       0.050 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.012 |       0.011 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -146,7 +146,7 @@ Table of Contents
 +-------------------+-----------+
 | Name              | Power (W) |
 +-------------------+-----------+
-| zeabus_hydrophone |     0.140 |
+| zeabus_hydrophone |     0.141 |
 |   adc1            |     0.001 |
 |   adc2            |     0.001 |
 +-------------------+-----------+
