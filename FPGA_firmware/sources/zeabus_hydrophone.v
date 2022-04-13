@@ -67,6 +67,7 @@ module zeabus_hydrophone #(
     output [1:0]A,          // Slave FIFO address bus
     input FLAGA, FLAGB,     // Socket flags
     input RST,              // Soft-reset from FX3S
+	input FUNC_EN,			// Soft enable of a particular function
 
     // Status LEDs
     output LED_BLUE,        // Packetizer strobe (A packet is sending)
@@ -111,6 +112,7 @@ module zeabus_hydrophone #(
     wire tx_full;
     wire trigger_fifo_rdy, trigger_rdy;         // Ready signals from trigger module
     wire adc_strb_1, adc_strb_2, adc_strb_3, adc_strb_4;    // Strobe signal from ADC interfaces
+	wire slave_fifo_rdy;						// Ready signal from FX3S slave FIFO module
 
     wire [63:0] abs_data;
     wire [15:0] abs_trig;
@@ -123,15 +125,17 @@ module zeabus_hydrophone #(
     assign LED_RED_n = ~tx_full;
 
     // Debug LED
-    assign LED_RED_3 = poten_update_start;
-    assign LED_YELLOW_3 = trigger_fifo_rdy;
-    assign LED_GREEN_3 = trigger_rdy;
+    assign LED_RED_1 = RST;
+    assign LED_YELLOW_1 = trigged;
+    assign LED_GREEN_1 = slave_fifo_rdy;
+	
     assign LED_RED_2 = rx_oe;
     assign LED_YELLOW_2 = p_sending;
     assign LED_GREEN_2 = rx_valid;
-    assign LED_RED_1 = RST;
-    assign LED_YELLOW_1 = trigged;
-    // assign LED_GREEN_1 = 0;      // Defined in fx3s instance
+	
+    assign LED_RED_3 = poten_update_start;
+    assign LED_YELLOW_3 = trigger_fifo_rdy;
+    assign LED_GREEN_3 = FUNC_EN;
 
     // Clock distribution
     assign CLKA_1 = adc_clk;
@@ -164,7 +168,7 @@ module zeabus_hydrophone #(
         // Control signal
         .clk(sys_clk),                  // Master clock for this module (64 MHz)
         .rst(rst),                      // Synchronous reset (active high)
-        .rdy(LED_GREEN_1),              // Indicate that the system is ready for data (unused)
+        .rdy(slave_fifo_rdy),           // Indicate that the system is ready for data (unused)
 
         // Data to send out (FPGA -> FX3S)
         .d_in(packetize_out),           // Input data to send to FX3S
@@ -224,12 +228,13 @@ module zeabus_hydrophone #(
 
         .d_out(packetize_out),          // Output data
         .out_strobe(p_data_strobe),     // Data-valid signal to FX3 interface
-        .sending(p_sending)         // Output data clock (latch at posedge)
+        .sending(p_sending)         
     );
 
     hydrophone_trigger #( .header(trigger_head), .trigged_tailed(trigger_tail) ) trigger(
         .rst(rst),                      // system reset (active high)
         .clk(sys_clk),                  // Master clock
+		.enable(FUNC_EN),				// Enable trigger module
 
         .rdy(trigger_rdy),              // Debug signal
         .fifo_rdy(trigger_fifo_rdy),    // Debug signal
@@ -312,7 +317,7 @@ module zeabus_hydrophone #(
         .CLKOUT4_DUTY_CYCLE(0.5),
         .CLKOUT5_DUTY_CYCLE(0.5),
         // CLKOUT0_PHASE - CLKOUT5_PHASE: Phase offset for each CLKOUT (-360.000-360.000).
-        .CLKOUT0_PHASE(-90.0),          // ADC clock is 90 degree leading
+        .CLKOUT0_PHASE(-140.0),          // ADC clock is 140 degree leading to compensate 6ns(max) ADC output transition time
         .CLKOUT1_PHASE(0.0),
         .CLKOUT2_PHASE(0.0),
         .CLKOUT3_PHASE(0.0),

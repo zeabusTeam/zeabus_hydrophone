@@ -1,5 +1,6 @@
 import usb.core     # Requires PyUSB package
 import usb.util
+#from usb.core import USBTimeoutError, USBError
 import numpy as np
 import struct
 import os
@@ -112,6 +113,8 @@ ZEABUS_USB_REQ_WRITE_EEPROM = (0xA7)    # Write raw data to EEPROM (wValue = (bL
 ZEABUS_USB_REQ_SET_SOFT_RESET = (0xA8)  # Arm FPGA soft reset
 ZEABUS_USB_REQ_RES_SOFT_RESET = (0xA9)  # Release FPGA soft reset
 ZEABUS_USB_REQ_SEND_FPGA_DATA = (0xAA)  # Send data to FPGA through slave FIFO
+ZEABUS_USB_REQ_FUNC_EN_SET = (0xAB)     # Set function-enable pin
+ZEABUS_USB_REQ_FUNC_EN_RES = (0xAC)     # Reset function-enable pin
 
 # Endpoints
 ZEABUS_EP_DATA_IN = (usb.util.ENDPOINT_IN | 3)
@@ -305,6 +308,33 @@ class hydrophone_usb:
       None                                        # timeout
     )
 
+  def set_function_enable_pin( self ):
+    # was it found?
+    if self.dev is None:
+      raise ValueError('Device not found')
+
+    self.dev.ctrl_transfer(
+      (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ), ZEABUS_USB_REQ_FUNC_EN_SET,
+      0, 0, None, None )
+ 
+  def reset_function_enable_pin( self ):
+    # was it found?
+    if self.dev is None:
+      raise ValueError('Device not found')
+
+    self.dev.ctrl_transfer(
+      (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ), ZEABUS_USB_REQ_FUNC_EN_RES,
+      0, 0, None, None )
+
+  def fx3s_reset( self ):
+    # was it found?
+    if self.dev is None:
+      raise ValueError('Device not found')
+
+    self.dev.ctrl_transfer(
+      (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ), ZEABUS_USB_REQ_SYSTEM_RESET,
+      0, 0, None, None )
+
   def invalidate_fpga_image( self ):
     # was it found?
     if self.dev is None:
@@ -347,7 +377,7 @@ class hydrophone_usb:
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-
+    
     fsize = os.path.getsize( filepath )
     print( 'Sending file ', filepath, ' with size ', fsize, ' byte' )
     if fsize > 0:
@@ -379,7 +409,7 @@ class hydrophone_usb:
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-
+    
     fsize = len(data)
     print( 'Sending stream with size ', fsize, ' byte' )
     if fsize > 0:
@@ -398,19 +428,27 @@ class hydrophone_usb:
       raise ValueError( 'Stream length must be greater than 0' )
 
   def program_file_fpga( self, filepath ):
+    # Disable all current functions
+    self.arm_soft_reset()
+    self.reset_function_enable_pin()
+
     print( 'Write FPGA file ' + filepath + ' to FPGA' );
     self.__send_file( ZEABUS_USB_REQ_PROG_FPGA, filepath )
 
   def program_stream_fpga( self, data ):
+    # Disable all current functions
+    self.arm_soft_reset()
+    self.reset_function_enable_pin()
+
     print( 'Write firmware strem to FPGA' )
     self.__send_stream( ZEABUS_USB_REQ_PROG_FPGA, data )
 
   def write_firmware_to_flash( self, filepath ):
-    print( 'Write FPGA file ' + filepath + ' to firmware flash' );
+    print( 'Write firmware file ' + filepath + ' to firmware flash' );
     self.__send_file( ZEABUS_USB_REQ_PROG_FIRMWARE, filepath )
 
   def write_file_fpga_to_flash( self, filepath ):
-    print( 'Write firmware file ' + filepath + ' to flash' );
+    print( 'Write FPGA file ' + filepath + ' to flash' );
     self.__send_file( ZEABUS_USB_REQ_PROG_BITSTREAM, filepath )
 
   def write_stream_fpga_to_flash( self, data ):
@@ -496,14 +534,15 @@ class hydrophone_usb:
     _err_count = 0
     while( _err_count < 10 ):
       buffer = self.get_stream_data( timeout )
-      if( buffer[0] == 0xDC and buffer[1] == 0xB0 ):
-        seq = int( struct.unpack( '>H', buffer[2:4] )[0] )        # Slicing includes the start index but excludes the end index
-        timestamp = int( struct.unpack( '>L', buffer[4:8] )[0] )
-        payload_len = int( len( buffer[8:] ) / 2 )
-        raw = struct.unpack( f'>{payload_len}H', buffer[8:] )     # Remove the preemble
-        return seq, timestamp, raw
-      else:
-        _err_count = _err_count + 1
+      if( len(buffer) > 0 ):
+        if( buffer[0] == 0xDC and buffer[1] == 0xB0 ):
+          seq = int( struct.unpack( '>H', buffer[2:4] )[0] )        # Slicing includes the start index but excludes the end index
+          timestamp = int( struct.unpack( '>L', buffer[4:8] )[0] )
+          payload_len = int( len( buffer[8:] ) / 2 )
+          raw = struct.unpack( f'>{payload_len}H', buffer[8:] )     # Remove the preemble
+          return seq, timestamp, raw
+          
+      _err_count = _err_count + 1   # Reaching here means the packet is invalid
 
     # If reach here, the error count have reached 10
     raise IOError( 'Too much error data from ADC' )
@@ -555,8 +594,6 @@ if __name__ == '__main__':
         hp.program_stream_fpga( bstream )
       else:
         hp.program_file_fpga( src_name )
-      hp.arm_soft_reset()
-      #hp.release_soft_reset()
     elif sys.argv[1] == 'burn':
       src_name = hp.verify_filename( sys.argv[2] )
       if src_name is None:

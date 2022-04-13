@@ -2,6 +2,7 @@ import numpy as np
 import _thread
 import sys
 from hydrophone_usb import hydrophone_usb, bit_brv_conv
+import usb.core
 
 def logging_thread( id ):
     # Open log files
@@ -34,11 +35,10 @@ if __name__ == '__main__':
         bbconv = bit_brv_conv()
         if bbconv.is_bit_file( src_name ):
             bstream = bbconv.get_brv_stream( src_name )
+            print(len(bstream))
             hp.program_stream_fpga( bstream )
         else:
             hp.program_file_fpga( src_name )
-
-    hp.arm_soft_reset()
 
     # Start logging thread
     #_thread.start_new_thread( logging_thread, (0,) )
@@ -47,16 +47,24 @@ if __name__ == '__main__':
     # We record only the first MaxRec trigs packet to the file
     MaxRec = 1
     reccount = 0
+    print( 'Start acquisition' )
     f = open( 'data.bin', 'wb' )
     hp.release_soft_reset()
+    hp.set_function_enable_pin()
     while( True ):
         try:
             seq, timestamp, sig = hp.get_pulse_data( 5000 )
-            if reccount < MaxRec:
-                for item in sig:
-                    f.write( item.to_bytes( 2, 'little' ) )
-                f.flush()
-                reccount = reccount + 1
+            if( len(sig) == 0):
+                print( 'Missing a pulse for 5 seconds now' )
+            else:
+                print( f'Got sequence {seq} with time {timestamp} and data length {len(sig)}' )
+                if reccount < MaxRec:
+                    for item in sig:
+                        f.write( item.to_bytes( 2, 'little' ) )
+                    f.flush()
+                    reccount = reccount + 1
+        except usb.core.USBTimeoutError:
+            print( 'Missing a pulse for 5 seconds now' )
         except KeyboardInterrupt:
             hp.arm_soft_reset()
             f.close()
@@ -65,4 +73,4 @@ if __name__ == '__main__':
             hp.arm_soft_reset()
             print( f'Unexpected {err=}, {type(err)=}' )
             sys.exit()
-            #print( 'Missing a pulse for 5 seconds now' )
+            #

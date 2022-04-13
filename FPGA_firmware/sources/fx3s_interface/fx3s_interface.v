@@ -153,6 +153,32 @@ module fx3s_interface #(
     assign rx_data = DQ;
     assign DQ = (is_sending) ? tx_data : 16'bz;
 
+    //-- Modified on 23 March 2022 to use Xilinx primitive IOBUF
+
+    // IOBUF: Single-ended Bi-directional Buffer
+//    genvar k;
+//    generate
+//        for( k = 0;k <= 15;k = k + 1 )
+//        begin
+
+//            // All devices
+//            // Xilinx HDL Language Template, version 2020.1_versal_lib
+//            IOBUF #(
+//                .DRIVE(12),                 // Specify the output drive strength
+//                .IBUF_LOW_PWR("TRUE"),      // Low Power - "TRUE", High Performance = "FALSE"
+//                .IOSTANDARD("LVCMOS33"),    // Specify the I/O standard
+//                .SLEW("SLOW")               // Specify the output slew rate
+//            ) IOBUF_inst (
+//                .O(rx_data[k]),             // Buffer output
+//                .IO(DQ[k]),                 // Buffer inout port (connect directly to top-level port)
+//                .I(tx_data[k]),             // Buffer input
+//                .T(is_sending)              // 3-state enable input, high=input, low=output
+//            );
+//            // End of IOBUF_inst instantiation
+
+//        end
+//    endgenerate
+
     //************************************************************
     // Initialization
     //************************************************************

@@ -43,19 +43,21 @@ module reset_subs(
 	input pll_locked, 	// Flag indicates that PLL module for clock gen is locked
 	
 	// Ouput
-	output reg rst_out
+	output rst_out
 );
 
 	localparam reset_hold_time = 16;
 	
 	reg [7:0] hold_counter;
 	wire is_ready;
+	reg rst;
 	
 	assign is_ready = pll_locked & ~rst_in;	// 0 = System is not ready (rst_out must be active)
+	assign rst_out = rst | ~is_ready;
 	
 	initial begin
 		hold_counter <= reset_hold_time;
-		rst_out <= 1;
+		rst <= 1;
 	end
 
 	// Main sequencer
@@ -64,18 +66,18 @@ module reset_subs(
 		if( !is_ready )
 		begin
 			hold_counter <= reset_hold_time;
-			rst_out <= 1;
+			rst <= 1;
 		end
 		else
 		begin
 			if( hold_counter > 0 )
 			begin
 				hold_counter <= hold_counter - 1;
-				rst_out <= 1;
+				rst <= 1;
 			end
 			else
 			begin
-				rst_out <= 0;
+				rst <= 0;
 			end
 		end
 	end

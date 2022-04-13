@@ -52,6 +52,7 @@ module hydrophone_trigger
 
 	input rst,					// system reset (active high)
 	input clk,					// signal clock (64 MHz)
+	input enable,				// enable trigger funtion (aka. start of the capture function)
 	input [63:0] d_in,			// data input (concatenation of 4 16-bit data) all in format Q13.6
 	input [15:0] trigger_level,	// level of the trigger in 16-bit signed integer in format Q13.2
 	input strb_ch1, strb_ch2, strb_ch3, strb_ch4,	// Strobe signal from each channel
@@ -170,10 +171,11 @@ module hydrophone_trigger
 				else
 				begin
 					rd_en <= 1;		// Enable FIFO reading after having enough backlog
-					if( ( abs_d_in[15:0] >= abs_trigger ) ||
+					if( enable && ( ( abs_d_in[15:0] >= abs_trigger ) ||
 						( abs_d_in[31:16] >= abs_trigger ) ||
 						( abs_d_in[47:32] >= abs_trigger ) ||
 						( abs_d_in[63:48] >= abs_trigger ) )
+					  )
 				    begin
 					   // Trigged
 					   trigged <= 1;

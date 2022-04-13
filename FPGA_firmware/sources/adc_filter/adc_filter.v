@@ -50,12 +50,10 @@ module median_filter(
     output [13:0] d_out // Data output
 );
     reg [13:0] d[0:4];  // We have 5 backlog
-    reg [2:0] pointer;  // Pointer to next backlog to be replacecd
 
     initial
     begin
         d[0] <= 0; d[1] <= 0; d[2] <= 0; d[3] <= 0; d[4] <= 0;
-        pointer <= 3'b0;
     end
     // data delay line
     always @(posedge clk)
@@ -63,21 +61,14 @@ module median_filter(
         if( rst )
         begin
             d[0] <= 0; d[1] <= 0; d[2] <= 0; d[3] <= 0; d[4] <= 0;
-            pointer <= 3'b0;
         end
         else
         begin
-            // d[0] <= #1 d[1];
-            // d[1] <= #1 d[2];
-            // d[2] <= #1 d[3];
-            // d[3] <= #1 d[4];
-            // d[4] <= #1 d_in;
-
-            // New algorithm emulating ring buffer
-            d[pointer] <= d_in;
-            pointer <= pointer + 1;
-            if( pointer > 3'd4 )
-                pointer <= 3'b0;
+            d[0] <= d[1];
+            d[1] <= d[2];
+            d[2] <= d[3];
+            d[3] <= d[4];
+            d[4] <= d_in;
         end
     end
 
@@ -87,6 +78,9 @@ module median_filter(
     wire [13:0] stage2[0:4];
     wire [13:0] stage3[0:4];
     wire [13:0] stage4[0:4];
+	
+	// Pipeline FF to divide the whole stages into 2 pipeline-stages
+	reg [13:0] pipeline1[0:4];
 
     // Stage1
     sort s1_0( d[0], d[1], stage1[0], stage1[1] );
@@ -97,11 +91,29 @@ module median_filter(
     assign stage2[0] = stage1[0];
     sort s2_0( stage1[1], stage1[2], stage2[1], stage2[2] );
     sort s2_1( stage1[3], stage1[4], stage2[3], stage2[4] );
+	
+	// Add pipeline stage here
+	initial
+	begin
+		pipeline1[0] <= 14'b0;
+		pipeline1[1] <= 14'b0;
+		pipeline1[2] <= 14'b0;
+		pipeline1[3] <= 14'b0;
+		pipeline1[4] <= 14'b0;
+	end
+	always @(posedge clk)
+	begin
+		pipeline1[0] <= stage2[0];
+		pipeline1[1] <= stage2[1];
+		pipeline1[2] <= stage2[2];
+		pipeline1[3] <= stage2[3];
+		pipeline1[4] <= stage2[4];
+	end
 
     // Stage3
-    sort s3_0( stage2[0], stage2[1], stage3[0], stage3[1] );
-    sort s3_1( stage2[2], stage2[3], stage3[2], stage3[3] );
-    assign stage3[4] = stage2[4];
+    sort s3_0( pipeline1[0], pipeline1[1], stage3[0], stage3[1] );
+    sort s3_1( pipeline1[2], pipeline1[3], stage3[2], stage3[3] );
+    assign stage3[4] = pipeline1[4];
 
     // Stage4
     assign stage4[0] = stage3[0];
@@ -237,6 +249,25 @@ module adc_interface(
 
     wire [14:0] d0_raw;
     wire [14:0] d1_raw;
+	
+	// Extend rst signal 3 clocks to wait for IDDR data
+	reg rst_1d, rst_2d, rst_3d;
+	wire filter_rst;
+	
+	assign filter_rst = rst | rst_1d | rst_2d | rst_3d;
+	initial
+	begin
+		rst_1d <= 1'b1;
+		rst_2d <= 1'b1;
+		rst_3d <= 1'b1;
+	end
+	
+	always @(posedge clk)
+	begin
+		rst_3d <= rst_2d;
+		rst_2d <= rst_1d;
+		rst_1d <= rst;
+	end
 
     // Sequence of signal elements
 
@@ -246,7 +277,7 @@ module adc_interface(
     // 7 Series
     // Xilinx HDL Language Template, version 2020.1_versal_lib
     IDDR #(
-        .DDR_CLK_EDGE("OPPOSITE_EDGE"), // "OPPOSITE_EDGE", "SAME_EDGE"
+        .DDR_CLK_EDGE("SAME_EDGE_PIPELINED"), // "OPPOSITE_EDGE", "SAME_EDGE"
         // or "SAME_EDGE_PIPELINED"
         .INIT_Q1(1'b0),     // Initial value of Q1: 1'b0 or 1'b1
         .INIT_Q2(1'b0),     // Initial value of Q2: 1'b0 or 1'b1
@@ -266,13 +297,13 @@ module adc_interface(
     generate
         for( k = 0;k <= 13;k = k + 1 )
         begin
-            IDDR #(.DDR_CLK_EDGE("OPPOSITE_EDGE"), .INIT_Q1(1'b0), .INIT_Q2(1'b0), .SRTYPE("SYNC"))
+            IDDR #(.DDR_CLK_EDGE("SAME_EDGE_PIPELINED"), .INIT_Q1(1'b0), .INIT_Q2(1'b0), .SRTYPE("SYNC"))
                 adc_data_inst( .C(clk), .CE(1'b1), .R(rst), .S(1'b0), .Q1(d0_raw[k]), .Q2(d1_raw[k]), .D(d_in[k]) );
         end
     endgenerate
     // End of IDDR_inst instantiation
 
     // Filtering
-    adc_filter filter1( .d_in( d0_raw ), .clk( clk ), .rst( rst ), .d_out( d0_out ), .strobe( strobe_0 ) );
-    adc_filter filter2( .d_in( d1_raw ), .clk( clk ), .rst( rst ), .d_out( d1_out ), .strobe( strobe_1 ) );
+    adc_filter filter1( .d_in( d0_raw ), .clk( clk ), .rst( filter_rst ), .d_out( d0_out ), .strobe( strobe_0 ) );
+    adc_filter filter2( .d_in( d1_raw ), .clk( clk ), .rst( filter_rst ), .d_out( d1_out ), .strobe( strobe_1 ) );
 endmodule

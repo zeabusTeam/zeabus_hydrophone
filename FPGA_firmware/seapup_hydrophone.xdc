@@ -68,8 +68,8 @@ set_property PACKAGE_PIN V10 [get_ports PKTEND]
 set_property IOSTANDARD LVCMOS33 [get_ports PKTEND]
 #set_property PACKAGE_PIN V16 [get_ports {FLAGD}]        ;# CTL8/FLAGD/GPIO25
 #set_property IOSTANDARD LVCMOS33 [get_ports {FLAGD}]
-#set_property PACKAGE_PIN U14 [get_ports FIR_EN]			 ;# CTL9/GPIO26/FIR_EN (Enable FIR function)
-#set_property IOSTANDARD LVCMOS33 [get_ports FIR_EN]
+set_property PACKAGE_PIN U14 [get_ports FUNC_EN]        ;# CTL9/GPIO26/SOFT_EN (The pin to enable some functions)
+set_property IOSTANDARD LVCMOS33 [get_ports FUNC_EN]
 set_property PACKAGE_PIN T15 [get_ports {A[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {A[1]}]
 set_property PACKAGE_PIN U16 [get_ports {A[0]}]
@@ -109,9 +109,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {A[0]}]
 ##################################################################################################
 set_property PACKAGE_PIN T11 [get_ports LED_RED_n]
 set_property IOSTANDARD LVCMOS33 [get_ports LED_RED_n]
-set_property PACKAGE_PIN E17 [get_ports LED_GREEN]
+set_property PACKAGE_PIN U3 [get_ports LED_GREEN]
 set_property IOSTANDARD LVCMOS33 [get_ports LED_GREEN]
-set_property PACKAGE_PIN D17 [get_ports LED_BLUE]
+set_property PACKAGE_PIN V1 [get_ports LED_BLUE]
 set_property IOSTANDARD LVCMOS33 [get_ports LED_BLUE]
 
 ##################################################################################################
@@ -514,7 +514,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports SCL]
 
 ##################################################################################################
 ##
-## Clocks
+## Clocks (Time unit is nanosecond (ns))
 ##
 ##################################################################################################
 # CLK : Master clock of 26MHz
@@ -525,38 +525,35 @@ create_clock -name clk_in -period 38.462 [get_ports clk_in]
 #create_generated_clock -name adc_clk -source [get_pins PLLE2_BASE_inst/CLKOUT0] -divide_by 64 [get_pins adc_clk_reg/Q]
 #create_generated_clock -name sys_clk -source [get_pins PLLE2_BASE_inst/CLKOUT1] -divide_by 320 [get_pins out_clk_reg/Q]
 
+# Rename the PLL output clock (All clocks has frequency as 64MHz (peroid = 15.625ns)) adc_clk is 90 degrees leading
+create_generated_clock -name adc_clk [get_pins PLLE2_BASE_inst/CLKOUT0]
+create_generated_clock -name sys_clk [get_pins PLLE2_BASE_inst/CLKOUT1]
+
 ## Input delays
 # ADCs
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -min -add_delay 2.000 [get_ports {D_1[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -max -add_delay 6.000 [get_ports {D_1[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 2.000 [get_ports {D_1[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 6.000 [get_ports {D_1[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -min -add_delay 2.000 [get_ports {D_2[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -max -add_delay 6.000 [get_ports {D_2[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 2.000 [get_ports {D_2[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 6.000 [get_ports {D_2[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -min -add_delay 2.000 [get_ports OTR_1]
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -max -add_delay 6.000 [get_ports OTR_1]
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 2.000 [get_ports OTR_1]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 6.000 [get_ports OTR_1]
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -min -add_delay 2.000 [get_ports OTR_2]
-#set_input_delay -clock [get_clocks sys_clk] -clock_fall -max -add_delay 6.000 [get_ports OTR_2]
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 2.000 [get_ports OTR_2]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 6.000 [get_ports OTR_2]
+set_input_delay -clock [get_clocks adc_clk] -clock_fall -min -add_delay 2.000 [get_ports {D_*}]
+set_input_delay -clock [get_clocks adc_clk] -clock_fall -max -add_delay 6.000 [get_ports {D_*}]
+set_input_delay -clock [get_clocks adc_clk] -min -add_delay 2.000 [get_ports {D_*}]
+set_input_delay -clock [get_clocks adc_clk] -max -add_delay 6.000 [get_ports {D_*}]
+set_input_delay -clock [get_clocks adc_clk] -clock_fall -min -add_delay 2.000 [get_ports OTR_*]
+set_input_delay -clock [get_clocks adc_clk] -clock_fall -max -add_delay 6.000 [get_ports OTR_*]
+set_input_delay -clock [get_clocks adc_clk] -min -add_delay 2.000 [get_ports OTR_*]
+set_input_delay -clock [get_clocks adc_clk] -max -add_delay 6.000 [get_ports OTR_*]
+
 
 ## Slave FIFO
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports {DQ[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports {DQ[*]}]
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports FLAGA]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports FLAGA]
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports FLAGB]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports FLAGB]
+set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports {DQ[*]}]
+set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports {DQ[*]}]
+set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports FLAGA]
+set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports FLAGA]
+set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports FLAGB]
+set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports FLAGB]
 
 ## Poten
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SCL]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SCL]
-#set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SDA]
-#set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SDA]
+set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SCL]
+set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SCL]
+set_input_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SDA]
+set_input_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SDA]
 
 ## Soft Reset (Manually controlled via FX3S)
 #set_input_delay -clock [get_clocks sys_clk] -clock_fall -min -add_delay 0.500 [get_ports RST]
@@ -566,26 +563,26 @@ create_clock -name clk_in -period 38.462 [get_ports clk_in]
 
 ### Output delays
 ## Slave FIFO
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports {A[*]}]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports {A[*]}]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports {A[*]}]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports {A[*]}]
 #set_output_delay -clock [get_clocks sys_clk] -clock_fall -min -add_delay -0.500 [get_ports {DQ[*]}]
-#set_output_delay -clock [get_clocks sys_clk] -clock_fall -max -add_delay 0.000 [get_ports {DQ[*]}]
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLCS]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLCS]
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLOE]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLOE]
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLRD]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLRD]
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLWR]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLWR]
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports PKTEND]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports PKTEND]
+#set_output_delay -clock [get_clocks sys_clk] -clock_fall -max -add_delay 2.000 [get_ports {DQ[*]}]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLCS]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLCS]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLOE]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLOE]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLRD]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLRD]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SLWR]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SLWR]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports PKTEND]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports PKTEND]
 
 ## Poten
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SCL]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SCL]
-#set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SDA]
-#set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SDA]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SCL]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SCL]
+set_output_delay -clock [get_clocks sys_clk] -min -add_delay 0.500 [get_ports SDA]
+set_output_delay -clock [get_clocks sys_clk] -max -add_delay 2.000 [get_ports SDA]
 
 set_false_path -from [get_ports RST]
 
