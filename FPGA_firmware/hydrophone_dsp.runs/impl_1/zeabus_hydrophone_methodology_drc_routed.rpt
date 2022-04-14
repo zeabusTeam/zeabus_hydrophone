@@ -1,0 +1,45 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
+| Date         : Thu Apr 14 09:10:51 2022
+| Host         : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
+| Command      : report_methodology -file zeabus_hydrophone_methodology_drc_routed.rpt -pb zeabus_hydrophone_methodology_drc_routed.pb -rpx zeabus_hydrophone_methodology_drc_routed.rpx
+| Design       : zeabus_hydrophone
+| Device       : xc7a15tcsg324-1
+| Speed File   : -1
+| Design State : Fully Routed
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Methodology
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+             Max violations: <unlimited>
+             Violations found: 2
++---------+----------+------------------------------+------------+
+| Rule    | Severity | Description                  | Violations |
++---------+----------+------------------------------+------------+
+| LUTAR-1 | Warning  | LUT drives async reset alert | 2          |
++---------+----------+------------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+LUTAR-1#1 Warning
+LUT drives async reset alert  
+LUT cell trigger/FIFO36E1_inst_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) trigger/FIFO36E1_inst/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+LUTAR-1#2 Warning
+LUT drives async reset alert  
+LUT cell trigger/fifo_departure_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) slave_fifo/fifo_arrival/RST, slave_fifo/fifo_departure/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+

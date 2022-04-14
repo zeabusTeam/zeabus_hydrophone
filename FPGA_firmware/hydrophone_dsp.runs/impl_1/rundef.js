@@ -22,8 +22,12 @@ var ISEJScriptLib = RDScrDir + "/ISEWrap.js";
 eval( EAInclude(ISEJScriptLib) );
 
 
+// pre-commands:
+ISETouchFile( "write_bitstream", "begin" );
 ISEStep( "vivado",
-         "-log zeabus_hydrophone.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source zeabus_hydrophone.tcl" );
+         "-log zeabus_hydrophone.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source zeabus_hydrophone.tcl -notrace" );
+
+
 
 
 

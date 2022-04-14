@@ -24,7 +24,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1'
+HD_PWD='C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -40,4 +40,8 @@ EAStep()
      fi
 }
 
-EAStep vivado -log zeabus_hydrophone.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source zeabus_hydrophone.tcl
+# pre-commands:
+/bin/touch .write_bitstream.begin.rst
+EAStep vivado -log zeabus_hydrophone.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source zeabus_hydrophone.tcl -notrace
+
+

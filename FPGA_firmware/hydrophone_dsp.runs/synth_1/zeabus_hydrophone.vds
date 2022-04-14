@@ -1,0 +1,600 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Thu Apr 14 09:07:01 2022
+# Process ID: 3456
+# Current directory: C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1
+# Command line: vivado.exe -log zeabus_hydrophone.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source zeabus_hydrophone.tcl
+# Log file: C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1/zeabus_hydrophone.vds
+# Journal file: C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source zeabus_hydrophone.tcl -notrace
+Command: synth_design -top zeabus_hydrophone -part xc7a15tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a15t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a15t'
+INFO: [Device 21-403] Loading part xc7a15tcsg324-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 8024
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:09 . Memory (MB): peak = 1139.863 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'zeabus_hydrophone' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/zeabus_hydrophone.v:39]
+	Parameter trigger_head bound to: 64 - type: integer 
+	Parameter trigger_tail bound to: 64 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'reset_subs' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/reset_subs/reset_subs.v:39]
+	Parameter reset_hold_time bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'reset_subs' (1#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/reset_subs/reset_subs.v:39]
+INFO: [Synth 8-6157] synthesizing module 'fx3s_interface' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/fx3s_interface/fx3s_interface.v:36]
+	Parameter FX3S_DMA_Size bound to: 4096 - type: integer 
+	Parameter addr_write bound to: 1'b1 
+	Parameter addr_read bound to: 1'b0 
+	Parameter state_idle bound to: 4'b0000 
+	Parameter state_start_read bound to: 4'b0001 
+	Parameter state_read_pre1 bound to: 4'b0010 
+	Parameter state_read_pre2 bound to: 4'b0011 
+	Parameter state_read_pre3 bound to: 4'b0100 
+	Parameter state_read_loop bound to: 4'b0101 
+	Parameter state_start_write bound to: 4'b1000 
+	Parameter state_write_wait1 bound to: 4'b1001 
+	Parameter state_write_wait2 bound to: 4'b1010 
+	Parameter state_write_wait3 bound to: 4'b1011 
+	Parameter state_zlp bound to: 4'b1100 
+	Parameter state_zlp_wait1 bound to: 4'b1101 
+	Parameter state_zlp_wait2 bound to: 4'b1110 
+	Parameter state_zlp_wait3 bound to: 4'b1111 
+INFO: [Synth 8-6157] synthesizing module 'FIFO36E1' [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:14374]
+	Parameter ALMOST_EMPTY_OFFSET bound to: 13'b0000010000000 
+	Parameter ALMOST_FULL_OFFSET bound to: 13'b0011111010000 
+	Parameter DATA_WIDTH bound to: 18 - type: integer 
+	Parameter DO_REG bound to: 1 - type: integer 
+	Parameter EN_ECC_READ bound to: FALSE - type: string 
+	Parameter EN_ECC_WRITE bound to: FALSE - type: string 
+	Parameter EN_SYN bound to: FALSE - type: string 
+	Parameter FIFO_MODE bound to: FIFO36 - type: string 
+	Parameter FIRST_WORD_FALL_THROUGH bound to: TRUE - type: string 
+	Parameter INIT bound to: 72'b000000000000000000000000000000000000000000000000000000000000000000000000 
+	Parameter IS_RDCLK_INVERTED bound to: 1'b0 
+	Parameter IS_RDEN_INVERTED bound to: 1'b0 
+	Parameter IS_RSTREG_INVERTED bound to: 1'b0 
+	Parameter IS_RST_INVERTED bound to: 1'b0 
+	Parameter IS_WRCLK_INVERTED bound to: 1'b0 
+	Parameter IS_WREN_INVERTED bound to: 1'b0 
+	Parameter SIM_DEVICE bound to: 7SERIES - type: string 
+	Parameter SRVAL bound to: 72'b000000000000000000000000000000000000000000000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'FIFO36E1' (2#1) [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:14374]
+WARNING: [Synth 8-689] width (16) of port connection 'DO' does not match port width (64) of module 'FIFO36E1' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/fx3s_interface/fx3s_interface.v:493]
+WARNING: [Synth 8-689] width (16) of port connection 'DO' does not match port width (64) of module 'FIFO36E1' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/fx3s_interface/fx3s_interface.v:547]
+INFO: [Synth 8-6155] done synthesizing module 'fx3s_interface' (3#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/fx3s_interface/fx3s_interface.v:36]
+INFO: [Synth 8-6157] synthesizing module 'hydrophone_config_manager' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/cofig_manager/config_manager.v:52]
+	Parameter config_prefix bound to: 8'b11011100 
+	Parameter rst_delay bound to: 8 - type: integer 
+	Parameter state_wait_prefix bound to: 0 - type: integer 
+	Parameter state_read_prefix bound to: 1 - type: integer 
+	Parameter state_wait_trigger bound to: 2 - type: integer 
+	Parameter state_read_trigger bound to: 3 - type: integer 
+	Parameter state_wait_poten1_2 bound to: 4 - type: integer 
+	Parameter state_read_poten1_2 bound to: 5 - type: integer 
+	Parameter state_wait_poten3_4 bound to: 6 - type: integer 
+	Parameter state_read_poten3_4 bound to: 7 - type: integer 
+INFO: [Synth 8-251] Config : Start config [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/cofig_manager/config_manager.v:128]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/cofig_manager/config_manager.v:121]
+INFO: [Synth 8-6155] done synthesizing module 'hydrophone_config_manager' (4#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/cofig_manager/config_manager.v:52]
+INFO: [Synth 8-6157] synthesizing module 'poten_interface' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v:40]
+	Parameter i2c_address_1 bound to: 8'b01011100 
+	Parameter i2c_address_2 bound to: 8'b01011110 
+	Parameter i2c_clk_prescaler bound to: 16'b0000000000111111 
+	Parameter CMD_GEN_START bound to: 4'b1000 
+	Parameter CMD_GEN_STOP bound to: 4'b0100 
+	Parameter CMD_READ bound to: 4'b0010 
+	Parameter CMD_WRITE bound to: 4'b0001 
+	Parameter SUBSTATE_SEND_SLAVE_ADDR bound to: 2'b00 
+	Parameter SUBSTATE_SEND_POTEN_ADDR bound to: 2'b01 
+	Parameter SUBSTATE_SEND_POTEN_VAL bound to: 2'b10 
+	Parameter STATE_IDLE bound to: 3'b000 
+	Parameter STATE_SET_POTEN1 bound to: 3'b001 
+	Parameter STATE_SET_POTEN2 bound to: 3'b010 
+	Parameter STATE_SET_POTEN3 bound to: 3'b011 
+	Parameter STATE_SET_POTEN4 bound to: 3'b100 
+INFO: [Synth 8-6157] synthesizing module 'i2c_master_byte_ctrl' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_byte_ctrl.v:73]
+	Parameter ST_IDLE bound to: 5'b00000 
+	Parameter ST_START bound to: 5'b00001 
+	Parameter ST_READ bound to: 5'b00010 
+	Parameter ST_WRITE bound to: 5'b00100 
+	Parameter ST_ACK bound to: 5'b01000 
+	Parameter ST_STOP bound to: 5'b10000 
+INFO: [Synth 8-6157] synthesizing module 'i2c_master_bit_ctrl' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_bit_ctrl.v:142]
+	Parameter idle bound to: 18'b000000000000000000 
+	Parameter start_a bound to: 18'b000000000000000001 
+	Parameter start_b bound to: 18'b000000000000000010 
+	Parameter start_c bound to: 18'b000000000000000100 
+	Parameter start_d bound to: 18'b000000000000001000 
+	Parameter start_e bound to: 18'b000000000000010000 
+	Parameter stop_a bound to: 18'b000000000000100000 
+	Parameter stop_b bound to: 18'b000000000001000000 
+	Parameter stop_c bound to: 18'b000000000010000000 
+	Parameter stop_d bound to: 18'b000000000100000000 
+	Parameter rd_a bound to: 18'b000000001000000000 
+	Parameter rd_b bound to: 18'b000000010000000000 
+	Parameter rd_c bound to: 18'b000000100000000000 
+	Parameter rd_d bound to: 18'b000001000000000000 
+	Parameter wr_a bound to: 18'b000010000000000000 
+	Parameter wr_b bound to: 18'b000100000000000000 
+	Parameter wr_c bound to: 18'b001000000000000000 
+	Parameter wr_d bound to: 18'b010000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'i2c_master_bit_ctrl' (5#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_bit_ctrl.v:142]
+INFO: [Synth 8-6155] done synthesizing module 'i2c_master_byte_ctrl' (6#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_byte_ctrl.v:73]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v:262]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v:267]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v:272]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v:277]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v:253]
+INFO: [Synth 8-6155] done synthesizing module 'poten_interface' (7#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v:40]
+INFO: [Synth 8-6157] synthesizing module 'packetizer' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:36]
+	Parameter SUBSTATE_SEND_DATA bound to: 2'b00 
+	Parameter SUBSTATE_SET_STROBE bound to: 2'b01 
+	Parameter SUBSTATE_WAIT bound to: 2'b10 
+	Parameter SUBSTATE_RES_STROBE bound to: 2'b11 
+	Parameter STATE_IDLE bound to: 4'b0000 
+	Parameter STATE_SEND_HEADER_ID bound to: 4'b0001 
+	Parameter STATE_SEND_HEADER_SEQ bound to: 4'b0010 
+	Parameter STATE_SEND_HEADER_TIME_L bound to: 4'b0011 
+	Parameter STATE_SEND_HEADER_TIME_H bound to: 4'b0100 
+	Parameter STATE_SEND_FIRSTDATA_CH1 bound to: 4'b0101 
+	Parameter STATE_SEND_FIRSTDATA_CH2 bound to: 4'b0110 
+	Parameter STATE_SEND_FIRSTDATA_CH3 bound to: 4'b0111 
+	Parameter STATE_SEND_FIRSTDATA_CH4 bound to: 4'b1000 
+	Parameter STATE_WAIT_STROBE bound to: 4'b1001 
+	Parameter STATE_SEND_DATA_CH1 bound to: 4'b1010 
+	Parameter STATE_SEND_DATA_CH2 bound to: 4'b1011 
+	Parameter STATE_SEND_DATA_CH3 bound to: 4'b1100 
+	Parameter STATE_SEND_DATA_CH4 bound to: 4'b1101 
+	Parameter OUT_ID bound to: 3'b000 
+	Parameter OUT_SEQ bound to: 3'b001 
+	Parameter OUT_TIME_L bound to: 3'b010 
+	Parameter OUT_TIME_H bound to: 3'b011 
+	Parameter OUT_CH1 bound to: 3'b100 
+	Parameter OUT_CH2 bound to: 3'b101 
+	Parameter OUT_CH3 bound to: 3'b110 
+	Parameter OUT_CH4 bound to: 3'b111 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:261]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:265]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:269]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:273]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:277]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:281]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:285]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:289]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:305]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:309]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:313]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:317]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:242]
+INFO: [Synth 8-6155] done synthesizing module 'packetizer' (8#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v:36]
+INFO: [Synth 8-6157] synthesizing module 'hydrophone_trigger' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v:43]
+	Parameter header bound to: 64 - type: integer 
+	Parameter trigged_tailed bound to: 64 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'absolute' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v:37]
+INFO: [Synth 8-6155] done synthesizing module 'absolute' (9#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v:37]
+INFO: [Synth 8-6157] synthesizing module 'FIFO36E1__parameterized0' [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:14374]
+	Parameter ALMOST_EMPTY_OFFSET bound to: 13'b0000010000000 
+	Parameter ALMOST_FULL_OFFSET bound to: 13'b0000111110100 
+	Parameter DATA_WIDTH bound to: 72 - type: integer 
+	Parameter DO_REG bound to: 1 - type: integer 
+	Parameter EN_ECC_READ bound to: FALSE - type: string 
+	Parameter EN_ECC_WRITE bound to: FALSE - type: string 
+	Parameter EN_SYN bound to: FALSE - type: string 
+	Parameter FIFO_MODE bound to: FIFO36_72 - type: string 
+	Parameter FIRST_WORD_FALL_THROUGH bound to: TRUE - type: string 
+	Parameter INIT bound to: 72'b000000000000000000000000000000000000000000000000000000000000000000000000 
+	Parameter IS_RDCLK_INVERTED bound to: 1'b0 
+	Parameter IS_RDEN_INVERTED bound to: 1'b0 
+	Parameter IS_RSTREG_INVERTED bound to: 1'b0 
+	Parameter IS_RST_INVERTED bound to: 1'b0 
+	Parameter IS_WRCLK_INVERTED bound to: 1'b0 
+	Parameter IS_WREN_INVERTED bound to: 1'b0 
+	Parameter SIM_DEVICE bound to: 7SERIES - type: string 
+	Parameter SRVAL bound to: 72'b000000000000000000000000000000000000000000000000000000000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'FIFO36E1__parameterized0' (9#1) [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:14374]
+INFO: [Synth 8-6155] done synthesizing module 'hydrophone_trigger' (10#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v:43]
+INFO: [Synth 8-6157] synthesizing module 'adc_interface' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:234]
+INFO: [Synth 8-6157] synthesizing module 'IDDR' [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:34938]
+	Parameter DDR_CLK_EDGE bound to: SAME_EDGE_PIPELINED - type: string 
+	Parameter INIT_Q1 bound to: 1'b0 
+	Parameter INIT_Q2 bound to: 1'b0 
+	Parameter IS_C_INVERTED bound to: 1'b0 
+	Parameter IS_D_INVERTED bound to: 1'b0 
+	Parameter SRTYPE bound to: SYNC - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'IDDR' (11#1) [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:34938]
+INFO: [Synth 8-6157] synthesizing module 'adc_filter' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:193]
+INFO: [Synth 8-6157] synthesizing module 'median_filter' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:46]
+INFO: [Synth 8-6157] synthesizing module 'sort' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'sort' (12#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:34]
+INFO: [Synth 8-6155] done synthesizing module 'median_filter' (13#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:46]
+INFO: [Synth 8-6157] synthesizing module 'avg64_binning' [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:129]
+INFO: [Synth 8-6155] done synthesizing module 'avg64_binning' (14#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:129]
+INFO: [Synth 8-6155] done synthesizing module 'adc_filter' (15#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:193]
+INFO: [Synth 8-6155] done synthesizing module 'adc_interface' (16#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v:234]
+INFO: [Synth 8-6157] synthesizing module 'BUFG' [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:1083]
+INFO: [Synth 8-6155] done synthesizing module 'BUFG' (17#1) [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:1083]
+INFO: [Synth 8-6157] synthesizing module 'PLLE2_BASE' [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:61605]
+	Parameter BANDWIDTH bound to: OPTIMIZED - type: string 
+	Parameter CLKFBOUT_MULT bound to: 32 - type: integer 
+	Parameter CLKFBOUT_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKIN1_PERIOD bound to: 38.462000 - type: double 
+	Parameter CLKOUT0_DIVIDE bound to: 13 - type: integer 
+	Parameter CLKOUT0_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT0_PHASE bound to: -140.000000 - type: double 
+	Parameter CLKOUT1_DIVIDE bound to: 13 - type: integer 
+	Parameter CLKOUT1_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT1_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT2_DIVIDE bound to: 1 - type: integer 
+	Parameter CLKOUT2_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT2_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT3_DIVIDE bound to: 1 - type: integer 
+	Parameter CLKOUT3_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT3_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT4_DIVIDE bound to: 1 - type: integer 
+	Parameter CLKOUT4_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT4_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT5_DIVIDE bound to: 1 - type: integer 
+	Parameter CLKOUT5_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT5_PHASE bound to: 0.000000 - type: double 
+	Parameter DIVCLK_DIVIDE bound to: 1 - type: integer 
+	Parameter REF_JITTER1 bound to: 0.000000 - type: double 
+	Parameter STARTUP_WAIT bound to: FALSE - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'PLLE2_BASE' (18#1) [D:/Xilinx/Vivado/2020.2/scripts/rt/data/unisim_comp.v:61605]
+INFO: [Synth 8-6155] done synthesizing module 'zeabus_hydrophone' (19#1) [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/zeabus_hydrophone.v:39]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:12 . Memory (MB): peak = 1203.137 ; gain = 63.273
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:14 . Memory (MB): peak = 1226.969 ; gain = 87.105
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:14 . Memory (MB): peak = 1226.969 ; gain = 87.105
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.081 . Memory (MB): peak = 1234.707 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 34 Unisim elements for replacement
+CRITICAL WARNING: [Netlist 29-346] The CLKOUT0_PHASE for PLLE2_ADV (PLLE2_BASE_inst) is being adjusted from -140.0 to -141.9. The CLKOUT0_PHASE value needs to be in increments of 1/56 the FVCO and/or increments depending on CLKOUT_DIVIDE. Refer to the Clocking Resources User Guide of the device family for details.
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc]
+INFO: [Timing 38-2] Deriving generated clocks [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc:529]
+Finished Parsing XDC File [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/zeabus_hydrophone_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/zeabus_hydrophone_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1347.180 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1 instances were transformed.
+  PLLE2_BASE => PLLE2_ADV: 1 instance 
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.053 . Memory (MB): peak = 1347.180 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:16 ; elapsed = 00:00:26 . Memory (MB): peak = 1347.180 ; gain = 207.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a15tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:16 ; elapsed = 00:00:26 . Memory (MB): peak = 1347.180 ; gain = 207.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:26 . Memory (MB): peak = 1347.180 ; gain = 207.316
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'master_state_reg' in module 'fx3s_interface'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'hydrophone_config_manager'
+INFO: [Synth 8-802] inferred FSM for state register 'c_state_reg' in module 'i2c_master_bit_ctrl'
+INFO: [Synth 8-802] inferred FSM for state register 'c_state_reg' in module 'i2c_master_byte_ctrl'
+INFO: [Synth 8-802] inferred FSM for state register 'sub_state_reg' in module 'poten_interface'
+INFO: [Synth 8-802] inferred FSM for state register 'sub_state_reg' in module 'packetizer'
+INFO: [Synth 8-802] inferred FSM for state register 'main_state_reg' in module 'packetizer'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              state_idle |                             0000 |                             0000
+       state_start_write |                             0001 |                             1000
+       state_write_wait1 |                             0010 |                             1001
+       state_write_wait2 |                             0011 |                             1010
+       state_write_wait3 |                             0100 |                             1011
+        state_start_read |                             0101 |                             0001
+         state_read_pre1 |                             0110 |                             0010
+         state_read_pre2 |                             0111 |                             0011
+         state_read_pre3 |                             1000 |                             0100
+         state_read_loop |                             1001 |                             0101
+               state_zlp |                             1010 |                             1100
+         state_zlp_wait1 |                             1011 |                             1101
+         state_zlp_wait2 |                             1100 |                             1110
+         state_zlp_wait3 |                             1101 |                             1111
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'master_state_reg' using encoding 'sequential' in module 'fx3s_interface'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+       state_wait_prefix |                             0001 | 00000000000000000000000000000000
+      state_read_trigger |                             0010 | 00000000000000000000000000000011
+     state_read_poten1_2 |                             0100 | 00000000000000000000000000000101
+                  iSTATE |                             1000 | 00000000000000000000000000000110
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'hydrophone_config_manager'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |               000000000000000001 |               000000000000000000
+                 start_a |               000000000000000010 |               000000000000000001
+                 start_b |               000000000000000100 |               000000000000000010
+                 start_c |               000000000000001000 |               000000000000000100
+                 start_d |               000000000000010000 |               000000000000001000
+                 start_e |               000000000000100000 |               000000000000010000
+                  stop_a |               000000000001000000 |               000000000000100000
+                  stop_b |               000000000010000000 |               000000000001000000
+                  stop_c |               000000000100000000 |               000000000010000000
+                  stop_d |               000000001000000000 |               000000000100000000
+                    wr_a |               000000010000000000 |               000010000000000000
+                    wr_b |               000000100000000000 |               000100000000000000
+                    wr_c |               000001000000000000 |               001000000000000000
+                    wr_d |               000010000000000000 |               010000000000000000
+                    rd_a |               000100000000000000 |               000000001000000000
+                    rd_b |               001000000000000000 |               000000010000000000
+                    rd_c |               010000000000000000 |               000000100000000000
+                    rd_d |               100000000000000000 |               000001000000000000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'c_state_reg' using encoding 'one-hot' in module 'i2c_master_bit_ctrl'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 ST_IDLE |                              000 |                            00000
+                ST_START |                              001 |                            00001
+                 ST_READ |                              010 |                            00010
+                ST_WRITE |                              011 |                            00100
+                  ST_ACK |                              100 |                            01000
+                 ST_STOP |                              101 |                            10000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'c_state_reg' using encoding 'sequential' in module 'i2c_master_byte_ctrl'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+SUBSTATE_SEND_SLAVE_ADDR |                               00 |                               00
+SUBSTATE_SEND_POTEN_ADDR |                               01 |                               01
+ SUBSTATE_SEND_POTEN_VAL |                               10 |                               10
+                  iSTATE |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'sub_state_reg' using encoding 'sequential' in module 'poten_interface'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+      SUBSTATE_SEND_DATA |                              001 |                               00
+     SUBSTATE_SET_STROBE |                              010 |                               01
+     SUBSTATE_RES_STROBE |                              100 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'sub_state_reg' using encoding 'one-hot' in module 'packetizer'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              STATE_IDLE |                   00000000000001 |                             0000
+    STATE_SEND_HEADER_ID |                   00000000000010 |                             0001
+   STATE_SEND_HEADER_SEQ |                   00000000000100 |                             0010
+STATE_SEND_HEADER_TIME_L |                   00000000001000 |                             0011
+STATE_SEND_HEADER_TIME_H |                   00000000010000 |                             0100
+STATE_SEND_FIRSTDATA_CH1 |                   00000000100000 |                             0101
+STATE_SEND_FIRSTDATA_CH2 |                   00000001000000 |                             0110
+STATE_SEND_FIRSTDATA_CH3 |                   00000010000000 |                             0111
+STATE_SEND_FIRSTDATA_CH4 |                   00000100000000 |                             1000
+       STATE_WAIT_STROBE |                   00001000000000 |                             1001
+     STATE_SEND_DATA_CH1 |                   00010000000000 |                             1010
+     STATE_SEND_DATA_CH2 |                   00100000000000 |                             1011
+     STATE_SEND_DATA_CH3 |                   01000000000000 |                             1100
+     STATE_SEND_DATA_CH4 |                   10000000000000 |                             1101
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'main_state_reg' using encoding 'one-hot' in module 'packetizer'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:18 ; elapsed = 00:00:28 . Memory (MB): peak = 1347.180 ; gain = 207.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   20 Bit       Adders := 8     
+	   2 Input   16 Bit       Adders := 9     
+	   2 Input   14 Bit       Adders := 1     
+	   2 Input    8 Bit       Adders := 1     
+	   2 Input    7 Bit       Adders := 1     
+	   2 Input    6 Bit       Adders := 4     
+	   2 Input    3 Bit       Adders := 1     
++---Registers : 
+	               64 Bit    Registers := 1     
+	               20 Bit    Registers := 8     
+	               16 Bit    Registers := 8     
+	               14 Bit    Registers := 41    
+	                8 Bit    Registers := 7     
+	                7 Bit    Registers := 1     
+	                6 Bit    Registers := 4     
+	                4 Bit    Registers := 2     
+	                3 Bit    Registers := 5     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 72    
++---Muxes : 
+	   2 Input   20 Bit        Muxes := 4     
+	  24 Input   18 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 9     
+	  14 Input   16 Bit        Muxes := 2     
+	   5 Input   16 Bit        Muxes := 1     
+	   2 Input   14 Bit        Muxes := 83    
+	  14 Input   14 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 2     
+	   4 Input    8 Bit        Muxes := 4     
+	   4 Input    7 Bit        Muxes := 1     
+	  14 Input    4 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 14    
+	   3 Input    4 Bit        Muxes := 1     
+	   6 Input    4 Bit        Muxes := 2     
+	   4 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 6     
+	  15 Input    3 Bit        Muxes := 1     
+	  14 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 3     
+	   3 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 42    
+	  14 Input    1 Bit        Muxes := 26    
+	   4 Input    1 Bit        Muxes := 11    
+	  18 Input    1 Bit        Muxes := 5     
+	   6 Input    1 Bit        Muxes := 11    
+	   3 Input    1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 45 (col length:60)
+BRAMs: 50 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:39 . Memory (MB): peak = 1347.180 ; gain = 207.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:35 ; elapsed = 00:00:47 . Memory (MB): peak = 1347.180 ; gain = 207.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:37 ; elapsed = 00:00:48 . Memory (MB): peak = 1347.180 ; gain = 207.316
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:38 ; elapsed = 00:00:50 . Memory (MB): peak = 1360.410 ; gain = 220.547
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:43 ; elapsed = 00:00:55 . Memory (MB): peak = 1375.184 ; gain = 235.320
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:43 ; elapsed = 00:00:55 . Memory (MB): peak = 1375.184 ; gain = 235.320
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:43 ; elapsed = 00:00:55 . Memory (MB): peak = 1375.184 ; gain = 235.320
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:43 ; elapsed = 00:00:55 . Memory (MB): peak = 1375.184 ; gain = 235.320
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:43 ; elapsed = 00:00:55 . Memory (MB): peak = 1375.184 ; gain = 235.320
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:43 ; elapsed = 00:00:55 . Memory (MB): peak = 1375.184 ; gain = 235.320
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-----------+------+
+|      |Cell       |Count |
++------+-----------+------+
+|1     |BUFG       |     2|
+|2     |CARRY4     |   184|
+|3     |FIFO36E1   |     3|
+|5     |IDDR       |    30|
+|6     |LUT1       |   159|
+|7     |LUT2       |   146|
+|8     |LUT3       |   488|
+|9     |LUT4       |   376|
+|10    |LUT5       |   431|
+|11    |LUT6       |   554|
+|12    |MUXF7      |    16|
+|13    |PLLE2_BASE |     1|
+|14    |FDRE       |  1120|
+|15    |FDSE       |    45|
+|16    |IBUF       |    35|
+|17    |IOBUF      |    18|
+|18    |OBUF       |    24|
++------+-----------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:43 ; elapsed = 00:00:55 . Memory (MB): peak = 1375.184 ; gain = 235.320
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:31 ; elapsed = 00:00:48 . Memory (MB): peak = 1375.184 ; gain = 115.109
+Synthesis Optimization Complete : Time (s): cpu = 00:00:43 ; elapsed = 00:00:56 . Memory (MB): peak = 1375.184 ; gain = 235.320
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.092 . Memory (MB): peak = 1383.230 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 252 Unisim elements for replacement
+CRITICAL WARNING: [Netlist 29-346] The CLKOUT0_PHASE for PLLE2_ADV (PLLE2_BASE_inst) is being adjusted from -140.0 to -141.9. The CLKOUT0_PHASE value needs to be in increments of 1/56 the FVCO and/or increments depending on CLKOUT_DIVIDE. Refer to the Clocking Resources User Guide of the device family for details.
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 1 inverter(s) to 1 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.007 . Memory (MB): peak = 1383.258 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 19 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 18 instances
+  PLLE2_BASE => PLLE2_ADV: 1 instance 
+
+INFO: [Common 17-83] Releasing license: Synthesis
+92 Infos, 2 Warnings, 2 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:52 ; elapsed = 00:01:24 . Memory (MB): peak = 1383.258 ; gain = 243.395
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+INFO: [Common 17-1381] The checkpoint 'C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1/zeabus_hydrophone.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file zeabus_hydrophone_utilization_synth.rpt -pb zeabus_hydrophone_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Apr 14 09:08:34 2022...
