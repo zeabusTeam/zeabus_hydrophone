@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date             : Thu Apr 14 09:10:53 2022
+| Date             : Tue Apr 26 14:14:43 2022
 | Host             : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
 | Command          : report_power -file zeabus_hydrophone_power_routed.rpt -pb zeabus_hydrophone_power_summary_routed.pb -rpx zeabus_hydrophone_power_routed.rpx
 | Design           : zeabus_hydrophone
@@ -52,14 +52,14 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |     0.006 |        6 |       --- |             --- |
-| Slice Logic    |    <0.001 |     3602 |       --- |             --- |
-|   LUT as Logic |    <0.001 |     1555 |     10400 |           14.95 |
-|   CARRY4       |    <0.001 |      184 |      8150 |            2.26 |
-|   Register     |    <0.001 |     1165 |     20800 |            5.60 |
+| Clocks         |     0.005 |        6 |       --- |             --- |
+| Slice Logic    |    <0.001 |     3633 |       --- |             --- |
+|   LUT as Logic |    <0.001 |     1567 |     10400 |           15.07 |
+|   CARRY4       |    <0.001 |      188 |      8150 |            2.31 |
+|   Register     |    <0.001 |     1172 |     20800 |            5.63 |
 |   F7/F8 Muxes  |    <0.001 |       16 |     32600 |            0.05 |
 |   Others       |     0.000 |       84 |       --- |             --- |
-| Signals        |    <0.001 |     2797 |       --- |             --- |
+| Signals        |    <0.001 |     2830 |       --- |             --- |
 | Block RAM      |     0.000 |        3 |        25 |           12.00 |
 | PLL            |     0.096 |        1 |         5 |           20.00 |
 | I/O            |     0.040 |       77 |       210 |           36.67 |
@@ -74,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.025 |       0.015 |      0.010 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.024 |       0.014 |      0.010 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.063 |       0.051 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.012 |       0.011 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -147,8 +147,8 @@ Table of Contents
 | Name              | Power (W) |
 +-------------------+-----------+
 | zeabus_hydrophone |     0.142 |
-|   adc1            |     0.002 |
-|   adc2            |     0.002 |
+|   adc1            |     0.001 |
+|   adc2            |     0.001 |
 +-------------------+-----------+
 
 

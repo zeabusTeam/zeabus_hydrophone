@@ -33,7 +33,9 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------------
 
-module packetizer (
+module packetizer #(
+    parameter   MAX_PKT_SIZE = 4080    // Maximum size of a packet
+    ) (
 	// Debug output
 	//output [1:0] debug_sub_state,
 	//output [3:0] debug_main_state,
@@ -72,20 +74,24 @@ module packetizer (
 	localparam SUBSTATE_RES_STROBE = 2'b11;
 
 	// Main state
-	localparam STATE_IDLE = 4'b0000;				// Waiting for trigged and posedge in_strobe
-	localparam STATE_SEND_HEADER_ID = 4'b0001; 		// Sending header data (ID)
-	localparam STATE_SEND_HEADER_SEQ = 4'b0010; 	// Sending header data (Sequence)
-	localparam STATE_SEND_HEADER_TIME_L = 4'b0011; 	// Sending header data (Timestamp LSB)
-	localparam STATE_SEND_HEADER_TIME_H = 4'b0100; 	// Sending header data (Timestamp MSB)
-	localparam STATE_SEND_FIRSTDATA_CH1 = 4'b0101; 	// Sending the first block of data (Channel 1)
-	localparam STATE_SEND_FIRSTDATA_CH2 = 4'b0110; 	// Sending the first block of data (Channel 2)
-	localparam STATE_SEND_FIRSTDATA_CH3 = 4'b0111; 	// Sending the first block of data (Channel 3)
-	localparam STATE_SEND_FIRSTDATA_CH4 = 4'b1000; 	// Sending the first block of data (Channel 4)
-	localparam STATE_WAIT_STROBE = 4'b1001;			// Waiting for input strobe signal
-	localparam STATE_SEND_DATA_CH1 = 4'b1010; 		// Sending the following data (Channel 1)
-	localparam STATE_SEND_DATA_CH2 = 4'b1011; 		// Sending the following data (Channel 2)
-	localparam STATE_SEND_DATA_CH3 = 4'b1100; 		// Sending the following data (Channel 3)
-	localparam STATE_SEND_DATA_CH4 = 4'b1101; 		// Sending the following data (Channel 4)
+	localparam STATE_IDLE = 5'b00000;				// Waiting for trigged and posedge in_strobe
+	localparam STATE_SEND_HEADER_ID = 5'b00001; 	// Sending header data (ID)
+	localparam STATE_SEND_HEADER_SEQ = 5'b00010; 	// Sending header data (Sequence)
+	localparam STATE_SEND_HEADER_TIME_L = 5'b00011; // Sending header data (Timestamp LSB)
+	localparam STATE_SEND_HEADER_TIME_H = 5'b00100; // Sending header data (Timestamp MSB)
+	localparam STATE_SEND_FIRSTDATA_CH1 = 5'b00101; // Sending the first block of data (Channel 1)
+	localparam STATE_SEND_FIRSTDATA_CH2 = 5'b00110; // Sending the first block of data (Channel 2)
+	localparam STATE_SEND_FIRSTDATA_CH3 = 5'b00111; // Sending the first block of data (Channel 3)
+	localparam STATE_SEND_FIRSTDATA_CH4 = 5'b01000; // Sending the first block of data (Channel 4)
+	localparam STATE_WAIT_STROBE = 5'b01001;		// Waiting for input strobe signal
+	localparam STATE_SEND_DATA_CH1 = 5'b01010; 		// Sending the following data (Channel 1)
+	localparam STATE_SEND_DATA_CH2 = 5'b01011; 		// Sending the following data (Channel 2)
+	localparam STATE_SEND_DATA_CH3 = 5'b01100; 		// Sending the following data (Channel 3)
+	localparam STATE_SEND_DATA_CH4 = 5'b01101; 		// Sending the following data (Channel 4)
+	localparam STATE_CHK_PKT_SIZE = 5'b01110;		// Cheking whether the length of current packet reach max.
+	localparam STATE_WAIT_PKT_RST_1 = 5'b01111;		// Closing current packet and wait for 3 clocks
+	localparam STATE_WAIT_PKT_RST_2 = 5'b10000;		// Closing current packet and wait for 3 clocks
+	localparam STATE_WAIT_PKT_RST_3 = 5'b10001;		// Closing current packet and wait for 3 clocks
 
 	// Output data selection
 	localparam OUT_ID = 3'b000;				// d_out contains signature ID (0xDCB0)
@@ -99,13 +105,15 @@ module packetizer (
 
 
 	reg [1:0] sub_state;
-	reg [3:0] main_state;
+	reg [4:0] main_state;
 
 	reg [31:0] timer;
 	reg [15:0] seq_cnt;
 
 	reg [2:0] out_sel;     	// Output data selection
 	reg in_strb_d;
+	
+	reg [15:0] current_pkt_size;	// size of current packet
 	
 	//assign debug_main_state = main_state;
 	//assign debug_sub_state = sub_state;
@@ -209,6 +217,7 @@ module packetizer (
 		case( sub_state ) \
 			SUBSTATE_SEND_DATA: \
 			begin \
+				current_pkt_size <= current_pkt_size + 1; \
 				out_sel <= data_sel; \
 				out_strobe <= 0; \
 				sub_state <= SUBSTATE_SET_STROBE; \
@@ -242,6 +251,7 @@ module packetizer (
 			case( main_state )
 				STATE_IDLE:
 				begin
+					current_pkt_size <= 16'b0;
 					if( trigged && in_strb_d == 0 && in_strobe == 1 )
 					begin
 						sending <= 1;
@@ -314,7 +324,33 @@ module packetizer (
 				end
 				STATE_SEND_DATA_CH4:
 				begin
-					`send( STATE_WAIT_STROBE, OUT_CH4 )
+					`send( STATE_CHK_PKT_SIZE, OUT_CH4 )
+				end
+				STATE_CHK_PKT_SIZE:
+				begin
+					if( trigged && current_pkt_size >= MAX_PKT_SIZE )
+					begin
+						// Still have data but packet size reached max.
+						// Close current packet and start new packet
+						sending <= 0;
+						main_state <= STATE_WAIT_PKT_RST_1;
+					end
+					else
+					begin
+						main_state <= STATE_WAIT_STROBE;
+					end
+				end
+				STATE_WAIT_PKT_RST_1:
+				begin
+					main_state <= STATE_WAIT_PKT_RST_2;
+				end
+				STATE_WAIT_PKT_RST_2:
+				begin
+					main_state <= STATE_WAIT_PKT_RST_3;
+				end
+				STATE_WAIT_PKT_RST_3:
+				begin
+					main_state <= STATE_IDLE;
 				end
 			endcase
 		end
