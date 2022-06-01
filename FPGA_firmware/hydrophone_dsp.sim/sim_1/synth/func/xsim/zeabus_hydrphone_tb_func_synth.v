@@ -6885,12 +6885,12 @@ module fx3s_interface
   wire SLWR_i_3_n_0;
   wire fifo_rst_internal;
   wire ifclk_out_OBUF_BUFG;
-  wire is_sending;
-  wire is_sending_i_1_n_0;
-  wire is_sending_i_2_n_0;
-  wire is_sending_i_4_n_0;
-  wire is_sending_i_5_n_0;
-  wire is_sending_i_6_n_0;
+  wire is_outgoing;
+  wire is_outgoing_i_1_n_0;
+  wire is_outgoing_i_2_n_0;
+  wire is_outgoing_i_4_n_0;
+  wire is_outgoing_i_5_n_0;
+  wire is_outgoing_i_6_n_0;
   wire is_writing_i_1_n_0;
   wire is_writing_reg_n_0;
   wire [3:0]master_state__0;
@@ -7517,60 +7517,60 @@ module fx3s_interface
         .WRERR(NLW_fifo_departure_WRERR_UNCONNECTED));
   LUT1 #(
     .INIT(2'h1)) 
-    is_sending_i_1
-       (.I0(is_sending_i_2_n_0),
-        .O(is_sending_i_1_n_0));
+    is_outgoing_i_1
+       (.I0(is_outgoing_i_2_n_0),
+        .O(is_outgoing_i_1_n_0));
   LUT6 #(
     .INIT(64'hAAABBBBBAAA88888)) 
-    is_sending_i_2
-       (.I0(is_sending),
-        .I1(is_sending_i_4_n_0),
+    is_outgoing_i_2
+       (.I0(is_outgoing),
+        .I1(is_outgoing_i_4_n_0),
         .I2(SLWR_i_2_n_0),
-        .I3(is_sending_i_5_n_0),
-        .I4(is_sending_i_6_n_0),
+        .I3(is_outgoing_i_5_n_0),
+        .I4(is_outgoing_i_6_n_0),
         .I5(A_OBUF),
-        .O(is_sending_i_2_n_0));
+        .O(is_outgoing_i_2_n_0));
   LUT6 #(
     .INIT(64'h0010001011110010)) 
-    is_sending_i_3
+    is_outgoing_i_3
        (.I0(master_state__0[3]),
         .I1(master_state__0[0]),
         .I2(FLAGB_IBUF),
         .I3(tx_empty),
         .I4(PKTEND_i_2_n_0),
         .I5(SLCS12_out),
-        .O(is_sending));
+        .O(is_outgoing));
   (* SOFT_HLUTNM = "soft_lutpair373" *) 
   LUT5 #(
     .INIT(32'h00010000)) 
-    is_sending_i_4
+    is_outgoing_i_4
        (.I0(master_state__0[0]),
         .I1(master_state__0[2]),
         .I2(master_state__0[1]),
         .I3(master_state__0[3]),
         .I4(SLCS_i_7_n_0),
-        .O(is_sending_i_4_n_0));
+        .O(is_outgoing_i_4_n_0));
   (* SOFT_HLUTNM = "soft_lutpair382" *) 
   LUT2 #(
     .INIT(4'h8)) 
-    is_sending_i_5
+    is_outgoing_i_5
        (.I0(master_state__0[0]),
         .I1(master_state__0[2]),
-        .O(is_sending_i_5_n_0));
+        .O(is_outgoing_i_5_n_0));
   (* SOFT_HLUTNM = "soft_lutpair381" *) 
   LUT3 #(
     .INIT(8'h41)) 
-    is_sending_i_6
+    is_outgoing_i_6
        (.I0(master_state__0[1]),
         .I1(master_state__0[3]),
         .I2(master_state__0[2]),
-        .O(is_sending_i_6_n_0));
+        .O(is_outgoing_i_6_n_0));
   FDSE #(
     .INIT(1'b1)) 
-    is_sending_reg
+    is_outgoing_reg
        (.C(ifclk_out_OBUF_BUFG),
         .CE(1'b1),
-        .D(is_sending_i_1_n_0),
+        .D(is_outgoing_i_1_n_0),
         .Q(\DQ_TRI[0] ),
         .S(rst_internal));
   LUT6 #(

@@ -1225,20 +1225,20 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
             case ZEABUS_USB_REQ_WRITE_EEPROM:
                 CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_WRITE_EEPROM, CYU3P_EVENT_OR );
                 break;
-            case ZEABUS_USB_REQ_ARM_SOFT_RESET:
-                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_ARM_SOFT_RES, CYU3P_EVENT_OR );
+            case ZEABUS_USB_REQ_SET_SOFT_RESET:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_SET_SOFT_RES, CYU3P_EVENT_OR );
                 break;
-            case ZEABUS_USB_REQ_REL_SOFT_RESET:
-                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_REL_SOFT_RES, CYU3P_EVENT_OR );
+            case ZEABUS_USB_REQ_RES_SOFT_RESET:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_RES_SOFT_RES, CYU3P_EVENT_OR );
                 break;
             case ZEABUS_USB_REQ_SEND_FPGA_DATA:
                 CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_SEND_FPGA_DATA, CYU3P_EVENT_OR );
                 break;
-            case ZEABUS_USB_REQ_FIR_EN:
-                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_FIR_EN, CYU3P_EVENT_OR );
+            case ZEABUS_USB_REQ_FUNC_EN:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_FUNC_EN, CYU3P_EVENT_OR );
                 break;
-            case ZEABUS_USB_REQ_FIR_DIS:
-                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_FIR_DIS, CYU3P_EVENT_OR );
+            case ZEABUS_USB_REQ_FUNC_DIS:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_FUNC_DIS, CYU3P_EVENT_OR );
                 break;
 
             default:

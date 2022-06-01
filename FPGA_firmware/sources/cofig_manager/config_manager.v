@@ -69,7 +69,9 @@ module hydrophone_config_manager #(
 	output reg [7:0] poten1_value,	// Value of potentiometer 1 (defines gain of channel 1)
 	output reg [7:0] poten2_value,	// Value of potentiometer 2 (defines gain of channel 2)
 	output reg [7:0] poten3_value,	// Value of potentiometer 3 (defines gain of channel 3)
-	output reg [7:0] poten4_value	// Value of potentiometer 4 (defines gain of channel 4)
+	output reg [7:0] poten4_value,	// Value of potentiometer 4 (defines gain of channel 4)
+	
+	output reg [8:0]dbg
 );
 
 	// State value
@@ -85,7 +87,7 @@ module hydrophone_config_manager #(
 	// Variables
 	integer state, counter;			// Counter is for the initialization step
 	reg [15:0] prefix;
-		
+
 	// Behavioral part
 	initial
 	begin
@@ -113,6 +115,7 @@ module hydrophone_config_manager #(
 			poten2_value <= 8'd25;
 			poten3_value <= 8'd25;
 			poten4_value <= 8'd25;
+			dbg <= 9'b0;
 		end
 		else
 		begin
@@ -123,8 +126,10 @@ module hydrophone_config_manager #(
 					begin
 						update_poten <= 1'b1;
 						prefix <= d_in;		// FIFO is in first-word-fall-through. The prefix is in sent out immediately 
+						dbg[7:0] <= prefix[15:8];
 						if( data_valid && prefix[15:8] == config_prefix )
 						begin
+						    dbg[8] <= 1'b1;
 							$display("Config : Start config");
 							config_d_oe <= 1'b1;		// Read next value
 							if( prefix[3] )

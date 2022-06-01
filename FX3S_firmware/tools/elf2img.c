@@ -1,7 +1,7 @@
 /*
 ## ===========================
 ##
-##  Copyright Cypress Semiconductor Corporation, 2010-2011,
+##  Copyright Cypress Semiconductor Corporation, 2016-2017,
 ##  All Rights Reserved
 ##  UNPUBLISHED, LICENSED SOFTWARE.
 ##

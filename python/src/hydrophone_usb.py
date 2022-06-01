@@ -5,6 +5,7 @@ import numpy as np
 import struct
 import os
 import sys
+import time
 
 # This file is the core library to communicate with the hydrophone DSP board.
 
@@ -266,9 +267,13 @@ class hydrophone_usb:
     # was it found?
     if self.dev is None:
       raise ValueError('Device not found')
-
-    # Activate the only configuration available
-    self.dev.set_configuration()
+    
+    # Detach kernel driver from interface 2 (the custom interface)
+    if self.dev.is_kernel_driver_active(2):
+      try:
+        self.dev.detach_kernel_driver(2)
+      except usb.core.USBError as e:
+        sys.exit("Could not detatch kernel driver from interface({0}): {1}".format(i, str(e)))
 
   #
   # Low-level API functions
@@ -461,6 +466,7 @@ class hydrophone_usb:
       raise ValueError('Device not found')
     # Issue the command
     size = data.size
+    print( 'sending control with size ', size, 'wValue=', (size & 0xFFFF), 'wIndex=', (size >> 16))
     self.dev.ctrl_transfer( (ZEABUS_USB_REQ_TYPE | usb.util.CTRL_OUT ),
       ZEABUS_USB_REQ_SEND_FPGA_DATA, wValue=(size & 0xFFFF), wIndex=(size >> 16),
       data_or_wLength=data, timeout=1000 )
@@ -479,11 +485,11 @@ class hydrophone_usb:
   # LNA_Gain_2 to LNA_Gain_4 = amplifier gain for channel 2 - 4. The basic conditions are same as channel 1
   #     except that if any of these gain has negative value, gain of the corresponding channel is set to
   #     the same value of channel 1
-  def sent_dsp_param( self, threshold = 0, LNA_Gain_1 = 0, LNA_Gain_2 = -1, LNA_Gain_3 = -1, LNA_Gain_4 = -1 ):
+  def sent_dsp_param( self, threshold = 0, LNA_Gain_1 = -1, LNA_Gain_2 = -1, LNA_Gain_3 = -1, LNA_Gain_4 = -1 ):
     buf_size = 2
     if( threshold > 0 ):
       buf_size = buf_size + 2
-    if( LNA_Gain > 0 ):
+    if( LNA_Gain_1 >= 0 ):
       buf_size = buf_size + 4
     buffer = np.empty( buf_size, dtype='uint8' )
 
@@ -505,12 +511,18 @@ class hydrophone_usb:
     # Set Gain (if exists)
     if( LNA_Gain_1 > 1 ):
       LNA_Gain_1 = 1
-    if( LNA_Gain_1 < 0 ):
-      LNA_Gain_1 = 0
-    if( LNA_Gain_1 > 0 ):
+    if( LNA_Gain_2 > 1 ):
+      LNA_Gain_2 = 1
+    if( LNA_Gain_3 > 1 ):
+      LNA_Gain_3 = 1
+    if( LNA_Gain_4 > 1 ):
+      LNA_Gain_4 = 1
+    
+    if( LNA_Gain_1 >= 0 ):
       buffer[1] = buffer[1] | 0b00000100
 
       buffer[4] = np.uint8( 255 * LNA_Gain_1 )
+      
       if( LNA_Gain_2 >= 0):
         buffer[5] = np.uint8( 255 * LNA_Gain_2 )
       else:
@@ -529,10 +541,13 @@ class hydrophone_usb:
     # Send the buffer to FPGA through control endpoint
     self.send_control_to_fpga( buffer )
 
+    # Delay a bit for FX3S to process the request
+    time.sleep(0.005)
+
   def get_pulse_data( self, timeout ):
     # Loop for 10 times reading
     _err_count = 0
-    while( _err_count < 10 ):
+    while( _err_count < 100 ):
       buffer = self.get_stream_data( timeout )
       if( len(buffer) > 0 ):
         if( buffer[0] == 0xDC and buffer[1] == 0xB0 ):
@@ -544,8 +559,10 @@ class hydrophone_usb:
           
       _err_count = _err_count + 1   # Reaching here means the packet is invalid
 
-    # If reach here, the error count have reached 10
-    raise IOError( 'Too much error data from ADC' )
+    # If reach here, the error count have reached 100
+    # We return empty signal with sequence number and time stamp equal to 0
+    #raise IOError( 'Too much error data from ADC' )
+    return 0, 0, tuple()
 
 
 # Main part

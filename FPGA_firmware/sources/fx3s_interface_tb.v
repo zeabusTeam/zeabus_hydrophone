@@ -83,7 +83,7 @@ module fx3_interface_tb;
 	wire tx_wr_en, tx_rd_en, rx_wr_en, rx_rd_en;
 	wire [15:0] d_data;
 	wire d_clk, dd_clk;
-	wire is_sending;
+	wire is_outgoing;
 	wire [15:0] u_counter;
 	
 	assign DQ_Out = DQ;
@@ -124,7 +124,7 @@ module fx3_interface_tb;
 						// Debug signals
 						//.state(state), .TxEmpty(tx_empty), .TxFull(tx_full), .RxEmpty(rx_empty), .RxFull(rx_full),
 						//.TxWrEn(tx_wr_en), .TxRdEn(tx_rd_en), .RxWrEn(rx_wr_en), .RxRdEn(rx_rd_en), .d_data(d_data),
-						//.sending(is_sending), .u_counter(u_counter)
+						//.sending(is_outgoing), .u_counter(u_counter)
 	);
 
 	initial

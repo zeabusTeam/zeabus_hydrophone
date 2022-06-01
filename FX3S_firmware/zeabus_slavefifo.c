@@ -134,7 +134,7 @@ bool zeabus_slavefifo_start( void )
         // create dma channel for FX3S to FPGA
         CyU3PMemSet ((uint8_t *)&dmaConfig, 0, sizeof(dmaConfig));
         dmaConfig.size           = 1024;
-        dmaConfig.count          = 2;
+        dmaConfig.count          = 0;
         dmaConfig.prodAvailCount = 0;
         dmaConfig.dmaMode        = CY_U3P_DMA_MODE_BYTE;
         dmaConfig.prodHeader     = 0;
@@ -200,16 +200,8 @@ bool zeabus_slavefifo_start( void )
             return false;
         }
 
-		/* Set DMA Channel transfer size and start DMA engine. (DMA transfer size = 0 means infinite) */
-		if( CyU3PDmaChannelSetXfer(&xDMAFIFOToFPGA, 0) != CY_U3P_SUCCESS )
-		{
-			_log( "Unable to start FX3S->FPGA DMA\r\n" );
-            CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
-            CyU3PDmaChannelDestroy( &xDMAFIFOFromFPGA );
-            return false;
-		}
-
- 		if( CyU3PDmaChannelSetXfer(&xDMAFIFOFromFPGA, 0) != CY_U3P_SUCCESS )
+		/* Set DMA Channel transfer size and start auto-mode DMA engine. (DMA transfer size = 0 means infinite) */
+		if( CyU3PDmaChannelSetXfer(&xDMAFIFOFromFPGA, 0) != CY_U3P_SUCCESS )
 		{
 			_log( "Unable to start FPGA->FX3S DMA\r\n" );
             CyU3PDmaChannelDestroy( &xDMAFIFOToFPGA );
@@ -256,7 +248,7 @@ bool zeabus_slavefifo_send( uint8_t* buf, uint32_t size )
 
     if( CyU3PDmaChannelSetupSendBuffer( &xDMAFIFOToFPGA, &buf_p ) != CY_U3P_SUCCESS )
 	{
-		_log( "Unable to allocate DMA buffer for sending data to FPGA\r\n" );
+		_log( "Unable to allocate DMA buffer with size %u for sending %u bytes to FPGA\r\n", buf_p.size, size );
         return false;
 	}
 

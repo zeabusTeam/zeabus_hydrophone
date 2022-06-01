@@ -457,4 +457,17 @@ typedef struct
    Active LOW reset signal for all logic in the block.  Note that reset is
    active on all flops in the block when either system reset is asserted
    (RESET# pin or SYSTEM_POWER.RESETN is asserted) or this signal is active.
-   After setting this bit to 1, firmware shall poll and wait for the 
+   After setting this bit to 1, firmware shall poll and wait for the ‘active’
+   bit to assert.  Reading ‘1’ from ‘resetn’ does not indicate the block
+   is out of reset – this may take some time depending on initialization
+   tasks and clock frequencies.
+   This bit must be asserted ('0') for at least 10us for effective reset.
+ */
+#define CY_U3P_LPP_GPIO_RESETN                              (1u << 31) /* <31:31> R:RW:0:No */
+
+
+
+#endif /* _INCLUDED_GPIO_REGS_H_ */
+
+/*[]*/
+

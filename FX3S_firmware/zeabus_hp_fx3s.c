@@ -314,8 +314,8 @@ void zeabus_ledblinking( uint32_t input )
 #define __MAIN_EVENTS   (ZEABUS_EVENT_REQ_USB_PROG_FPGA | ZEABUS_EVENT_REQ_SAVE_FPGA | ZEABUS_EVENT_REQ_SAVE_FIRMWARE \
                         | ZEABUS_EVENT_REQ_READ_FLASH | ZEABUS_EVENT_REQ_WRITE_FLASH | ZEABUS_EVENT_REQ_READ_EEPROM \
                         | ZEABUS_EVENT_REQ_WRITE_EEPROM | ZEABUS_EVENT_REQ_SEND_FPGA_DATA \
-                        | ZEABUS_EVENT_REQ_ARM_SOFT_RES | ZEABUS_EVENT_REQ_REL_SOFT_RES \
-                        | ZEABUS_EVENT_REQ_FIR_EN | ZEABUS_EVENT_REQ_FIR_DIS )
+                        | ZEABUS_EVENT_REQ_SET_SOFT_RES | ZEABUS_EVENT_REQ_RES_SOFT_RES \
+                        | ZEABUS_EVENT_REQ_FUNC_EN | ZEABUS_EVENT_REQ_FUNC_DIS )
 void zeabus_main( uint32_t input )
 {
     void *ptr;
@@ -422,25 +422,25 @@ void zeabus_main( uint32_t input )
                 }
             }
 
-            if( ( eventFlag & ZEABUS_EVENT_REQ_ARM_SOFT_RES ) != 0 )
-            {
-                _log( "Arm soft reset signal\r\n" );
-                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, true );    // Arm soft reset
-            }
-
-            if( ( eventFlag & ZEABUS_EVENT_REQ_REL_SOFT_RES ) != 0 )
-            {
-                _log( "Release soft reset signal\r\n" );
-                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, false );    // Release soft reset
-            }
-
             if( ( eventFlag & ZEABUS_EVENT_REQ_SEND_FPGA_DATA ) != 0 )
             {
                 len = zeabus_usb_ep0_dwdata();
                 ep0_data = zeabus_usb_ep0_buffer();
-                _log( "Sending data to FPGA through slave FIFO\r\n" );
+                _log( "Sending data with length %u to FPGA through slave FIFO\r\n", len );
                 if( !( zeabus_slavefifo_send( ep0_data, len ) ) )
                     _log( "Failed to send data to FPGA.\r\n");
+            }
+
+            if( ( eventFlag & ZEABUS_EVENT_REQ_SET_SOFT_RES ) != 0 )
+            {
+                _log( "Set soft-reset signal\r\n" );
+                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, true );    // Arm soft reset
+            }
+
+            if( ( eventFlag & ZEABUS_EVENT_REQ_RES_SOFT_RES ) != 0 )
+            {
+                _log( "Reset soft-reset signal\r\n" );
+                zeabus_gpiowrite( ZEABUS_GPIO_FPGA_SRES, false );    // Release soft reset
             }
 
             if( ( eventFlag & ZEABUS_EVENT_REQ_SAVE_FPGA ) != 0 )
@@ -533,16 +533,16 @@ void zeabus_main( uint32_t input )
             }
 
             // Enable FIR filter
-            if( ( eventFlag & ZEABUS_EVENT_REQ_FIR_EN ) != 0 )
+            if( ( eventFlag & ZEABUS_EVENT_REQ_FUNC_EN ) != 0 )
             {
-                _log( "Enable FIR filter\r\n" );
+                _log( "Enable functional module\r\n" );
                 zeabus_gpiowrite( ZEABUS_GPIO_FPGA_FIR_EN, true );
             }
 
             // Disable FIR filter
-            if( ( eventFlag & ZEABUS_EVENT_REQ_FIR_DIS ) != 0 )
+            if( ( eventFlag & ZEABUS_EVENT_REQ_FUNC_DIS ) != 0 )
             {
-                _log( "Disable FIR filter\r\n" );
+                _log( "Disable functional module\r\n" );
                 zeabus_gpiowrite( ZEABUS_GPIO_FPGA_FIR_EN, false );
             }
         }

@@ -49,10 +49,10 @@
 #define ZEABUS_USB_REQ_WRITE_FLASH      (0xA5)          // Write raw data to SPI flash
 #define ZEABUS_USB_REQ_READ_EEPROM      (0xA6)          // Request for raw data from EEPROM
 #define ZEABUS_USB_REQ_WRITE_EEPROM     (0xA7)          // Write raw data to EEPROM
-#define ZEABUS_USB_REQ_ARM_SOFT_RESET   (0xA8)          // Arm FPGA soft reset
-#define ZEABUS_USB_REQ_REL_SOFT_RESET   (0xA9)          // Release FPGA soft reset
+#define ZEABUS_USB_REQ_SET_SOFT_RESET   (0xA8)          // Set FPGA soft reset
+#define ZEABUS_USB_REQ_RES_SOFT_RESET   (0xA9)          // Reset FPGA soft reset
 #define ZEABUS_USB_REQ_SEND_FPGA_DATA   (0xAA)          // Send data to FPGA through slave FIFO
-#define ZEABUS_USB_REQ_FIR_EN           (0xAB)          // Enable FIR filter
-#define ZEABUS_USB_REQ_FIR_DIS          (0xAC)          // Disable FIR filter
+#define ZEABUS_USB_REQ_FUNC_EN          (0xAB)          // Enable functioonal module
+#define ZEABUS_USB_REQ_FUNC_DIS         (0xAC)          // Disable functional module
 
 #endif // __ZEABUS_USB_CMD_H

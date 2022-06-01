@@ -19,12 +19,12 @@ USER_CFLAGS = -Os
 USER_LDFLAGS =
 #LINKING_DESC = ./lib/zeabus.ld
 LINKING_DESC = ./lib/fx3_512k.ld
-ARMGCC_VERSION = 9.2.1
+ARMGCC_VERSION = 11.2.1
 ifeq ($(OS),Windows_NT)
 	InstallDir = "C:/Program Files (x86)/GNU Tools Arm Embedded/9 2019-q4-major"
 	Remove_cmd = del
 else
-	InstallDir = /usr/local
+	InstallDir = /home/stp/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi
 	Remove_cmd = rm -f
 endif
 

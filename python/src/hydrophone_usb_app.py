@@ -3,6 +3,7 @@ import _thread
 import sys
 from hydrophone_usb import hydrophone_usb, bit_brv_conv
 import usb.core
+import time
 
 def logging_thread( id ):
     # Open log files
@@ -50,12 +51,13 @@ if __name__ == '__main__':
     print( 'Start acquisition' )
     f = open( 'data.bin', 'wb' )
     hp.release_soft_reset()
+    hp.sent_dsp_param( 0.001, 1)
     hp.set_function_enable_pin()
     while( True ):
         try:
             seq, timestamp, sig = hp.get_pulse_data( 5000 )
             if( len(sig) == 0):
-                print( 'Missing a pulse for 5 seconds now' )
+                print( 'Unable to get valid data for a while' )
             else:
                 print( f'Got sequence {seq} with time {timestamp} and data length {len(sig)}' )
                 if reccount < MaxRec:
