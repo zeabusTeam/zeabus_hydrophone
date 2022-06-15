@@ -54,5 +54,6 @@
 #define ZEABUS_USB_REQ_SEND_FPGA_DATA   (0xAA)          // Send data to FPGA through slave FIFO
 #define ZEABUS_USB_REQ_FUNC_EN          (0xAB)          // Enable functioonal module
 #define ZEABUS_USB_REQ_FUNC_DIS         (0xAC)          // Disable functional module
+#define ZEABUS_USB_RESTART_FIFO         (0xAD)          // Restart SlaveFIFO engine
 
 #endif // __ZEABUS_USB_CMD_H

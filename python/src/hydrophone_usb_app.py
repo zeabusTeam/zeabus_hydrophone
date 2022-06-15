@@ -4,6 +4,7 @@ import sys
 from hydrophone_usb import hydrophone_usb, bit_brv_conv
 import usb.core
 import time
+import ctypes
 
 def logging_thread( id ):
     # Open log files
@@ -51,7 +52,7 @@ if __name__ == '__main__':
     print( 'Start acquisition' )
     f = open( 'data.bin', 'wb' )
     hp.release_soft_reset()
-    hp.sent_dsp_param( 0.001, 1)
+    hp.sent_dsp_param( 0.0001, 0.1)
     hp.set_function_enable_pin()
     while( True ):
         try:
@@ -62,7 +63,7 @@ if __name__ == '__main__':
                 print( f'Got sequence {seq} with time {timestamp} and data length {len(sig)}' )
                 if reccount < MaxRec:
                     for item in sig:
-                        f.write( item.to_bytes( 2, 'little' ) )
+                        f.write( ctypes.c_ushort(item) )
                     f.flush()
                     reccount = reccount + 1
         except usb.core.USBTimeoutError:

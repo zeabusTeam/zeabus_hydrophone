@@ -545,6 +545,18 @@ void zeabus_main( uint32_t input )
                 _log( "Disable functional module\r\n" );
                 zeabus_gpiowrite( ZEABUS_GPIO_FPGA_FIR_EN, false );
             }
+
+            // Restart Slave FIFO engine
+            if( ( eventFlag & ZEABUS_EVENT_REQ_RESTART_FIFO ) != 0 )
+            {
+                _log( "Restart Slave FIFO Engine\r\n" );
+                if( zeabus_slavefifo_is_started() )
+                {
+                    zeabus_slavefifo_stop();
+                    zeabus_slavefifo_start();
+                }
+
+            }
         }
     }
 }

@@ -1,8 +1,8 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Tue Apr 26 14:12:00 2022
-| Host         : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
+| Tool Version : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
+| Date         : Wed Jun 15 12:44:01 2022
+| Host         : Seapup-dell running 64-bit Ubuntu 20.04.4 LTS
 | Command      : report_utilization -file zeabus_hydrophone_utilization_synth.rpt -pb zeabus_hydrophone_utilization_synth.pb
 | Design       : zeabus_hydrophone
 | Device       : 7a15tcsg324-1
@@ -30,11 +30,11 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             | 1612 |     0 |     10400 | 15.50 |
-|   LUT as Logic          | 1612 |     0 |     10400 | 15.50 |
+| Slice LUTs*             | 1576 |     0 |     10400 | 15.15 |
+|   LUT as Logic          | 1576 |     0 |     10400 | 15.15 |
 |   LUT as Memory         |    0 |     0 |      9600 |  0.00 |
-| Slice Registers         | 1172 |     0 |     20800 |  5.63 |
-|   Register as Flip Flop | 1172 |     0 |     20800 |  5.63 |
+| Slice Registers         | 1141 |     0 |     20800 |  5.49 |
+|   Register as Flip Flop | 1141 |     0 |     20800 |  5.49 |
 |   Register as Latch     |    0 |     0 |     20800 |  0.00 |
 | F7 Muxes                |   16 |     0 |     16300 |  0.10 |
 | F8 Muxes                |    0 |     0 |      8150 |  0.00 |
@@ -56,8 +56,8 @@ Table of Contents
 | 0     |          Yes |           - |            - |
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
-| 44    |          Yes |         Set |            - |
-| 1128  |          Yes |       Reset |            - |
+| 45    |          Yes |         Set |            - |
+| 1096  |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -67,9 +67,9 @@ Table of Contents
 +-------------------+------+-------+-----------+-------+
 |     Site Type     | Used | Fixed | Available | Util% |
 +-------------------+------+-------+-----------+-------+
-| Block RAM Tile    |    3 |     0 |        25 | 12.00 |
-|   RAMB36/FIFO*    |    3 |     0 |        25 | 12.00 |
-|     FIFO36E1 only |    3 |       |           |       |
+| Block RAM Tile    |    6 |     0 |        25 | 24.00 |
+|   RAMB36/FIFO*    |    6 |     0 |        25 | 24.00 |
+|     FIFO36E1 only |    6 |       |           |       |
 |   RAMB18          |    0 |     0 |        50 |  0.00 |
 +-------------------+------+-------+-----------+-------+
 * Note: Each Block RAM Tile only has one FIFO logic available and therefore can accommodate only one FIFO36E1 or one FIFO18E1. However, if a FIFO18E1 occupies a Block RAM Tile, that tile can still accommodate a RAMB18E1
@@ -148,21 +148,21 @@ Table of Contents
 +-----------+------+---------------------+
 |  Ref Name | Used | Functional Category |
 +-----------+------+---------------------+
-| FDRE      | 1128 |        Flop & Latch |
-| LUT6      |  564 |                 LUT |
-| LUT3      |  488 |                 LUT |
-| LUT5      |  434 |                 LUT |
+| FDRE      | 1096 |        Flop & Latch |
+| LUT6      |  533 |                 LUT |
+| LUT3      |  470 |                 LUT |
+| LUT5      |  437 |                 LUT |
 | LUT4      |  380 |                 LUT |
 | CARRY4    |  188 |          CarryLogic |
-| LUT1      |  159 |                 LUT |
-| LUT2      |  148 |                 LUT |
+| LUT1      |  157 |                 LUT |
+| LUT2      |  142 |                 LUT |
 | IBUF      |   53 |                  IO |
-| FDSE      |   44 |        Flop & Latch |
+| FDSE      |   45 |        Flop & Latch |
 | IDDR      |   30 |                  IO |
 | OBUF      |   24 |                  IO |
 | OBUFT     |   18 |                  IO |
 | MUXF7     |   16 |               MuxFx |
-| FIFO36E1  |    3 |        Block Memory |
+| FIFO36E1  |    6 |        Block Memory |
 | BUFG      |    2 |               Clock |
 | PLLE2_ADV |    1 |               Clock |
 +-----------+------+---------------------+

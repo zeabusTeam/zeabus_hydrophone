@@ -491,6 +491,9 @@ class hydrophone_usb:
       buf_size = buf_size + 2
     if( LNA_Gain_1 >= 0 ):
       buf_size = buf_size + 4
+    if( buf_size == 2 ):
+      # Nothig to send
+      return
     buffer = np.empty( buf_size, dtype='uint8' )
 
     # Set ID
@@ -504,9 +507,15 @@ class hydrophone_usb:
       buffer[1] = buffer[1] | 0b00001000
       if( threshold > 1 ):
         threshold = 1
+      #threshold = threshold & 0xFFFF
+      #thres_value = np.uint16( threshold )
       thres_value = np.uint16( threshold * 32767 )
       buffer[2] = np.uint8( thres_value >> 8 )
       buffer[3] = np.uint8( thres_value & 0xFF )
+      print(f'Threshold {thres_value} with msb = {buffer[2]:X}, lsb = {buffer[3]:X}')
+      gain_index = 4
+    else:
+      gain_index = 2
 
     # Set Gain (if exists)
     if( LNA_Gain_1 > 1 ):
@@ -521,22 +530,25 @@ class hydrophone_usb:
     if( LNA_Gain_1 >= 0 ):
       buffer[1] = buffer[1] | 0b00000100
 
-      buffer[4] = np.uint8( 255 * LNA_Gain_1 )
-      
+      buffer[gain_index] = np.uint8( 255 * LNA_Gain_1 )
+
+      gain_index = gain_index + 1
       if( LNA_Gain_2 >= 0):
-        buffer[5] = np.uint8( 255 * LNA_Gain_2 )
+        buffer[gain_index] = np.uint8( 255 * LNA_Gain_2 )
       else:
-        buffer[5] = buffer[4]
+        buffer[gain_index] = buffer[4]
 
+      gain_index = gain_index + 1
       if( LNA_Gain_3 >= 0):
-        buffer[6] = np.uint8( 255 * LNA_Gain_3 )
+        buffer[gain_index] = np.uint8( 255 * LNA_Gain_3 )
       else:
-        buffer[6] = buffer[4]
+        buffer[gain_index] = buffer[4]
 
+      gain_index = gain_index + 1
       if( LNA_Gain_4 >= 0):
-        buffer[7] = np.uint8( 255 * LNA_Gain_4 )
+        buffer[gain_index] = np.uint8( 255 * LNA_Gain_4 )
       else:
-        buffer[7] = buffer[4]
+        buffer[gain_index] = buffer[4]
 
     # Send the buffer to FPGA through control endpoint
     self.send_control_to_fpga( buffer )
@@ -554,10 +566,14 @@ class hydrophone_usb:
           seq = int( struct.unpack( '>H', buffer[2:4] )[0] )        # Slicing includes the start index but excludes the end index
           timestamp = int( struct.unpack( '>L', buffer[4:8] )[0] )
           payload_len = int( len( buffer[8:] ) / 2 )
-          raw = struct.unpack( f'>{payload_len}H', buffer[8:] )     # Remove the preemble
+          raw = struct.unpack( f'>{payload_len}h', buffer[8:] )     # Remove the preemble
           return seq, timestamp, raw
           
       _err_count = _err_count + 1   # Reaching here means the packet is invalid
+      if(len(buffer) == 0):
+        print('Got an empty packet')
+      else:
+        print(f'Got an incorrect packet with id {buffer[0]:X}, and {buffer[1]:X}')
 
     # If reach here, the error count have reached 100
     # We return empty signal with sequence number and time stamp equal to 0

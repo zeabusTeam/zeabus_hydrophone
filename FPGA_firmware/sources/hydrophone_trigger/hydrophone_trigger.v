@@ -60,6 +60,8 @@ module hydrophone_trigger
 	output output_strobe,		// Combined strobe signal from all channels plus edge detected
 	output reg trigged			// indicates that the data is part of packet of trigged signal
 );
+	// Constants
+	localparam total_tail = (header + trigged_tailed);
 
 	// Variables
 	reg [15:0] h_counter;		// Fifo backlog data counter
@@ -67,7 +69,7 @@ module hydrophone_trigger
 	reg rd_en;					// backlog read enable according to states
 	reg strb_d, strb_dd;		// Delay line of strobe signal to detect rising edge
 	reg rst_d, rst_dd, rst_3d, rst_4d, rst_5d, rst_6d, rst_7d, rst_8d;	// Delay line for reset signal to make the internal reset time greater than 5 clk
-	
+
 	wire strb_all;				// Combined strobe from all channels
 	wire rst_internal;			// Internal reset signal
 	wire fifo_rst_internal;		// Internal reset for fifo module
@@ -83,13 +85,12 @@ module hydrophone_trigger
 	assign rst_internal = fifo_rst_internal | rst_6d | rst_7d | rst_8d;
 	assign strb_all = strb_ch1 & strb_ch2 & strb_ch3 & strb_ch4;
 	assign output_strobe = strb_d & ~strb_dd & ~rst_internal;
-	assign fifo_wr_en = output_strobe & ~rst_internal;
+	assign fifo_wr_en = output_strobe;
 	assign fifo_rd_en = (rd_en | almost_full) & output_strobe & ~rst_internal ;		// Enable read when FIFO almost full too.
 	
 	assign rdy = ~rst_internal;
 	assign fifo_rdy = rd_en;
-	//assign abs_data = abs_d_in;
-	assign abs_data = d_in;
+	assign abs_data = abs_d_in;
 	assign abs_trig = abs_trigger;
 	
 	// Absolute implementation
@@ -102,8 +103,8 @@ module hydrophone_trigger
 	// Initial block
 	initial
 	begin
-		h_counter <= 16'b0;
-		t_counter <= 16'b0;
+		h_counter <= header;
+		t_counter <= total_tail;
 		trigged <= 0;
 		rd_en <= 0;
 		strb_d <= 0;
@@ -152,8 +153,8 @@ module hydrophone_trigger
 		if( rst_internal )
 		begin
 			// Reset signal asserted. Just initialize state
-			h_counter <= 16'b0;
-			t_counter <= 16'b0;
+			h_counter <= header;
+			t_counter <= total_tail;
 			trigged <= 0;
 			rd_en <= 0;
 		end
@@ -164,9 +165,10 @@ module hydrophone_trigger
 				// For FIFO-thread safety we need to fill it with some data first
 				// FIFO is configured in First-Word-Fall-Through mode which has 1-clock delay latency
 				// The input data at the very beginning after reset should not be used though
-				if( h_counter < header )
+				if( h_counter != 0 )
 				begin
-					h_counter <= h_counter + 1;
+				    rd_en <= 0;
+					h_counter <= h_counter - 1;
 				end
 				else
 				begin
@@ -179,7 +181,7 @@ module hydrophone_trigger
 				    begin
 					   // Trigged
 					   trigged <= 1;
-					   t_counter <= trigged_tailed;
+					   t_counter <= total_tail;
 					end
 					else
 					begin
@@ -204,7 +206,7 @@ module hydrophone_trigger
 
 	FIFO36E1 #(
 		.ALMOST_EMPTY_OFFSET(13'h0080),    // Sets the almost empty threshold
-		.ALMOST_FULL_OFFSET(13'h01F4),     // Sets almost full threshold to 500 entries
+		.ALMOST_FULL_OFFSET(13'd10),       // Sets almost full threshold to 10 available entries
 		.DATA_WIDTH(72),                   // Sets data width to 4-72
 		.DO_REG(1),                        // Enable output register (1-0) Must be 1 if EN_SYN = FALSE
 		.EN_ECC_READ("FALSE"),             // Enable ECC decoder, FALSE, TRUE

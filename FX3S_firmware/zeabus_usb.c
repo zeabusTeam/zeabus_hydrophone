@@ -871,7 +871,7 @@ static void ZeabusUSBAppStart( void )
         dmaCfg.size *= 4;
 
     /* Number of DMA buffers to be used. More buffers can give better throughput. */
-    dmaCfg.count = 4;
+    dmaCfg.count = 32;
 
     dmaCfg.prodSckId = ZEABUS_DMA_EP_USB_DATA_PRODUCER_SOCKET;
     dmaCfg.consSckId = CY_U3P_CPU_SOCKET_CONS;
@@ -1239,6 +1239,9 @@ static CyBool_t ZeabusUSBAppUSBControlCB(
                 break;
             case ZEABUS_USB_REQ_FUNC_DIS:
                 CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_FUNC_DIS, CYU3P_EVENT_OR );
+                break;
+            case ZEABUS_USB_RESTART_FIFO:
+                CyU3PEventSet( &xZeabusEvent, ZEABUS_EVENT_REQ_RESTART_FIFO, CYU3P_EVENT_OR );
                 break;
 
             default:

@@ -1,4 +1,4 @@
-set_property SRC_FILE_INFO {cfile:{C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc} rfile:../../../seapup_hydrophone.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc rfile:../../../seapup_hydrophone.xdc id:1} [current_design]
 set_property src_info {type:XDC file:1 line:10 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN P15 [get_ports clk_in]
 set_property src_info {type:XDC file:1 line:14 export:INPUT save:INPUT read:READ} [current_design]

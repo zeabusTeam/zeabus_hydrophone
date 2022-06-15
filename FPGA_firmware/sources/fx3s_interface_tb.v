@@ -34,9 +34,9 @@
 // --------------------------------------------------------------------------------
 
 module fx3_interface_tb;
-	localparam	FX3S_DMA_Size = 4096;	// Size of FX3S receiving DMA buffer (in 16-bit words)
+	localparam	FX3S_DMA_Size = 20;	// Size of FX3S receiving DMA buffer (in 16-bit words)
 	localparam	total_data = 10000;
-	localparam  clk_per_strobe = 64;
+	localparam  clk_per_strobe = 4; // Actual must be 64
 	
 	integer out_file, cycle_count = 0, counter_64MHz = 0, conf_index = 0, DMA_Counter = 0, DMA_Wait = 0, strobe_count = 0;
 
@@ -47,7 +47,7 @@ module fx3_interface_tb;
 	// Trigger signals
 	reg [63:0] d_in;		// Input data
 	wire [63:0] t_d_out;	// Trigger Output data
-	reg [15:0] level;		// Trigger level
+	wire [15:0] level;		// Trigger level
 	reg strobe;				// Input data strobe
 	wire output_strb;		// Trigger data srobe
 	reg rst;				// Reset (active high)
@@ -56,15 +56,32 @@ module fx3_interface_tb;
 	// Packetize signals
 	wire [15:0] p_d_out;	// Data output from packetizer
 	wire packetize_strobe;	// Data strobe
-	wire packet_sending;	// Packetizer is sending data
+	wire packet_ending;	   // Packetizer is ending sending
+	wire [3:0] pkt_main_state;
+	wire pkt_strb_d;
+	wire [15:0] current_pkt_size;
+	wire pkt_sending;		// Packetizer is sending data
 	
-	// Interface signals
+	// FX3S Interface signals
 	wire if_ready;			// Interface engine is ready
 	wire if_input_full;		// Interface input is full
 	wire [15:0] i_d_out;	// Incoming data output
 	wire i_output_valid;	// Incoming data available
-	reg	 i_oe;				// Enable incoming-data fetch
+	wire i_oe;				// Enable incoming-data fetch
+	wire fx3s_pkt_end;
+    // Debug signals
+	wire [3:0] fx3s_state;
+	wire [2:0] fx3s_decision;
+	wire tx_empty, tx_full, rx_empty, rx_full;
+	wire tx_wr_en, tx_rd_en, rx_wr_en, rx_rd_en;
+	wire is_outgoing, sending, fx3s_fifo_rst;
 	
+	// Config manager signals
+	wire [7:0] poten_1;
+	wire [7:0] poten_2;
+	wire [7:0] poten_3;
+	wire [7:0] poten_4;
+
 	// Pin signal
 	wire ifclk;				// Interface clock to FX3S
 	wire [15:0] DQ;			// Data bus
@@ -78,26 +95,20 @@ module fx3_interface_tb;
 	wire [15:0] DQ_Out;
 	reg  [15:0] DQ_In;
 	
-	wire [3:0] state;
-	wire tx_empty, tx_full, rx_empty, rx_full;
-	wire tx_wr_en, tx_rd_en, rx_wr_en, rx_rd_en;
-	wire [15:0] d_data;
-	wire d_clk, dd_clk;
-	wire is_outgoing;
-	wire [15:0] u_counter;
-	
+
 	assign DQ_Out = DQ;
 	assign DQ = (!SLOE)?DQ_In:16'bz;
 
 	// Module under test
 	hydrophone_trigger ht( .rst(rst), .clk(clk_64MHz), .trigger_level(level), .d_out(t_d_out), .d_in(d_in), .trigged(trigged), 
-		.strb_ch1(strobe), .strb_ch2(strobe), .strb_ch3(strobe), .strb_ch4(strobe), .output_strobe(output_strb) );
+		.strb_ch1(strobe), .strb_ch2(strobe), .strb_ch3(strobe), .strb_ch4(strobe), .output_strobe(output_strb), .enable(1'b1) );
 		
-	packetizer pt(
+	packetizer #( .SAMPLING_PER_PACKET(4) ) pt(
 	// Debug ports
-	//.debug_main_state(debug_main_state),
-	//.debug_sub_state( debug_sub_state),
-	//.debug_strb_d( debug_strobe_d),
+	.debug_main_state(pkt_main_state),
+	.debug_strb_d(pkt_strobe_d),
+	.pkt_size_counter(current_pkt_size),
+	.sending(pkt_sending),
 	// Input ports
 	.d_in( t_d_out),			// Data input from each channel
 	.trigged(trigged),			// Indicates that the system can detect valid data
@@ -105,7 +116,7 @@ module fx3_interface_tb;
 	
 	// Output ports
 	.d_out(p_d_out),	// Output data
-	.sending(packet_sending),		// 0 = idle, 1 = sending a packet
+	.pkt_end(packet_ending),		// 0 = idle, 1 = ending a packet
 	.out_strobe(packetize_strobe),	// Clock to latch the output data (at each posedge)
 	
 	// Control ports
@@ -113,27 +124,52 @@ module fx3_interface_tb;
 	.clk(clk_64MHz)			// System clock
 );
 
-	fx3s_interface #( .FX3S_DMA_Size(8) ) fx3i( 
-						// System signals
-						.clk(clk_64MHz), .rst(rst), .rdy(if_ready), 
-						.d_in(p_d_out), .input_strobe(packetize_strobe), .input_full(if_input_full),
-						.d_out(i_d_out), .output_rdy(i_output_valid), .output_strobe(i_oe),						
-						// FX3S Interface
-						.ifclk_out(ifclk), .DQ(DQ), .A(A), .SLCS(SLCS), .SLWR(SLWR), .SLRD(SLRD), .SLOE(SLOE), .PKTEND(PKTEND),
-						.FLAGA(FLAGA), .FLAGB(FLAGB) 
-						// Debug signals
-						//.state(state), .TxEmpty(tx_empty), .TxFull(tx_full), .RxEmpty(rx_empty), .RxFull(rx_full),
-						//.TxWrEn(tx_wr_en), .TxRdEn(tx_rd_en), .RxWrEn(rx_wr_en), .RxRdEn(rx_rd_en), .d_data(d_data),
-						//.sending(is_outgoing), .u_counter(u_counter)
+	fx3s_interface fx3i( 
+		// Debug signals
+		.state(fx3s_state), .TxEmpty(tx_empty), .TxFull(tx_full), .RxEmpty(rx_empty), .RxFull(rx_full),
+		.TxWrEn(tx_wr_en), .TxRdEn(tx_rd_en), .RxWrEn(rx_wr_en), .RxRdEn(rx_rd_en),	.outgoing(is_outgoing),
+		.decision(fx3s_decision), .pkt_end_out(fx3s_pkt_end), .is_sending(sending), .fifo_rst(fx3s_fifo_rst),
+		// System signals
+		.clk(clk_64MHz), .rst(rst), .rdy(if_ready), 
+		.d_in(p_d_out), .input_strobe(packetize_strobe), .input_full(if_input_full), .trigged(trigged),
+		.d_out(i_d_out), .output_rdy(i_output_valid), .output_strobe(i_oe),	.pkt_end_in(packet_ending),			
+		// FX3S Interface
+		.ifclk_out(ifclk), .DQ(DQ), .A(A), .SLCS(SLCS), .SLWR(SLWR), .SLRD(SLRD), .SLOE(SLOE), .PKTEND(PKTEND),
+		.FLAGA(FLAGA), .FLAGB(FLAGB)
+	);
+
+	wire start_update;	// Starting poten update steps
+	wire [8:0] cfg_debug;	// Debug info from config manager
+	wire [2:0] cfg_state;
+
+	hydrophone_config_manager cfg(
+		.dbg(cfg_debug),
+		.current_state(cfg_state),
+
+	// Interface to slave fifo output buffer
+		.d_in(i_d_out),				// Data from slave FIFO
+		.data_valid(i_output_valid),	// Indicate that there are some available config data to read
+		.config_d_oe(i_oe),			// Enable read-out data
+	
+	// Control
+		.clk(clk_64MHz), .rst(rst),
+		.update_poten(start_update),		// Trigger for potentiometer register updating. (rising edge)
+	
+	// Register
+		.trigger_level(level),// hydrophone signal level
+		.poten1_value(poten_1),	// Value of potentiometer 1 (defines gain of channel 1)
+		.poten2_value(poten_2),	// Value of potentiometer 2 (defines gain of channel 2)
+		.poten3_value(poten_3),	// Value of potentiometer 3 (defines gain of channel 3)
+		.poten4_value(poten_4)	// Value of potentiometer 4 (defines gain of channel 4)
 	);
 
 	initial
 	begin
 		$readmemh( "data.hex", in_data );
-		conf_data[0] = 16'h4A43;
-		conf_data[1] = 16'd2000;
-		conf_data[2] = 16'h0001;
-		conf_data[3] = 16'h0002;
+		conf_data[0] = 16'hDC0C;  // Enable Trigger and Poten settings
+		conf_data[1] = 16'h0100;  // Trigger level (Signed integer)
+		conf_data[2] = 16'h2040;  // Poten 1 and 2
+		conf_data[3] = 16'h3050;  // Poten 3 and 4
 		conf_data[4] = 16'h0003;
 		conf_data[5] = 16'h0004;
 		conf_data[6] = 16'h0005;
@@ -152,10 +188,8 @@ module fx3_interface_tb;
 		clk_64MHz = 0;
 		counter_64MHz = 0;
 		conf_index = 0;
-		level = 16'd2000; // 0x07D0
 		FLAGA = 0;
 		FLAGB = 0;
-		i_oe = 0;
 		rst = 1; #8 rst = 0;
 	end
 	
@@ -208,12 +242,27 @@ module fx3_interface_tb;
 		d_in = in_data[cycle_count];
 	end
 	
+	reg [1:0] post_rd;
+	reg [1:0] pre_rd;
+	initial
+	begin
+	   post_rd <= 2'b0;
+	   pre_rd <= 2'b0;
+	end
+
+	// Setup data every posedge clk
+	always @(posedge ifclk)
+	begin
+		DQ_In = conf_data[conf_index];
+	end
+	
 	// FX3S behavior
 	always @(posedge ifclk)
 	begin
 		if(counter_64MHz == 20)
 			FLAGB = 1;		// Enable FPGA->FX3S (Buffer not full)
-		if(counter_64MHz == 32'h3ebca)
+		//if(counter_64MHz == 32'h3ebca)
+		if(counter_64MHz == 48)
 			FLAGA = 1;		// Enable FX3S->FPGA (Buffer not empty)
 		
 		if( DMA_Wait > 0 && counter_64MHz > 20)
@@ -232,29 +281,35 @@ module fx3_interface_tb;
 			end
 		end
 		
-		if( FLAGA && !SLOE && !SLRD )
+		if( !SLCS && FLAGA )
 		begin
-			if(conf_index > 15)
-				if(conf_index > 17 )
-					FLAGA = 0;
-				else
-					conf_index = conf_index + 1;
-			else
-			begin
-				DQ_In = conf_data[conf_index];
-				conf_index = conf_index + 1;
-			end
+		  if( !SLRD )
+		  begin
+		      post_rd = 2'b0;
+		      if( pre_rd == 2'd2 )
+		      begin
+
+		          conf_index = conf_index + 1;
+		      end
+		      else
+		          pre_rd = pre_rd + 1;
+		  end
+		  else
+		  begin
+		      pre_rd = 2'b0;
+		      if(post_rd >= 2'd1)
+		      begin
+		          if(conf_index > 3)
+		              FLAGA = 0;
+		      end
+		      else
+		          post_rd = post_rd + 1;
+		  end
+		end
+		else
+		begin
+		  pre_rd = 2'b0;
+		  post_rd = 2'b0;
 		end
 	end
-	
-	// FPGA config logic
-	always @(posedge clk_64MHz)
-	begin
-		if( i_output_valid )
-			i_oe = 1;
-		else
-			i_oe = 0;
-	end
-	
-
 endmodule

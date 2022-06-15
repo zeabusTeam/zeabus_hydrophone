@@ -34,13 +34,13 @@
 // --------------------------------------------------------------------------------
 
 module avg_filter_tb;
-	localparam	total_data = 6400;
+	localparam	total_data = 10000;
 
-	reg [15:0] in_data[0:total_data-1];		// Sampling data
+	reg [63:0] in_data[0:total_data-1];		// Sampling data
 
 	// Device pins
 	reg [13:0] D_1;	// Data channel 0+1 from ADC 1
-	wire CLKA_1, CLKB_1;	// ADC Clocks all are identical
+	wire CLKA_1;	// ADC Clocks all are identical
 	reg OTR_1;	// Data overflow flags from ADC 1 and ADC 2
 	
 	// Control signals
@@ -50,20 +50,22 @@ module avg_filter_tb;
 	// Output data
 	wire [15:0] d0_out;
 	wire [15:0] d1_out;
+	wire strobe_0, strobe_1;
 	
 	// Additional variables
 	integer outfile, cycle_count;
 
 	// Module under test
-	adc_interface adc( .d_in(D_1), .clk_a(CLKA_1), .clk_b(CLKB_1), .overflow(0),
+	adc_interface adc( .d_in(D_1), .overflow(0),
 						 .d0_out(d0_out), .d1_out(d1_out),
-						 .clk_64MHz(clk_64MHz), .rst(0) );
+						 .strobe_0(strobe_0), .strobe_1(strobe_1),
+						 .clk(clk_64MHz), .rst(0) );
 
 	// Initialization
 	initial
 	begin
-		$readmemh( "hp_data.hex", in_data );
-		outfile = $fopen( "hp_output.hex" ); // open file
+		$readmemh( "data.hex", in_data );
+		outfile = $fopen( "output.hex" ); // open file
 		$fmonitor(outfile, "%X,%04X,%04X", clk_64MHz, d0_out, d1_out);
 		clk_64MHz <= 0;
 		clk_64MHz_90 <= 0;
@@ -97,13 +99,13 @@ module avg_filter_tb;
 	end
 	
 	// Main event
-	always @(posedge CLKA_1)
+	always @(posedge clk_64MHz)
 	begin
-		D_1 = in_data[cycle_count];
+		D_1 = in_data[cycle_count][15:2];
 	end
-	always @(negedge CLKA_1)
+	always @(negedge clk_64MHz)
 	begin
-		D_1 = in_data[cycle_count];
+		D_1 = in_data[cycle_count][15:2];
 		cycle_count = cycle_count + 1;
 	end
 	

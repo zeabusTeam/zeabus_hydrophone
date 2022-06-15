@@ -126,7 +126,10 @@ module median_filter(
 endmodule
 
 //===============================================================
-module avg64_binning(
+module avg64_binning #(
+    parameter is_dummy = 0,
+    parameter dummy_max = 16400
+) (
     input [13:0] d_in,          // Data input
 
     output reg [19:0] d_out,    // Data output in format Q13.6
@@ -140,8 +143,11 @@ module avg64_binning(
 
     reg [5:0] counter_q;
 
+    reg [15:0] dummy_counter;
+
     initial
     begin
+        dummy_counter <= 0;
         counter_q <= 0;
         d_acc <= 0;
         d_out <= 0;
@@ -153,6 +159,7 @@ module avg64_binning(
     begin
         if( rst )
         begin
+            dummy_counter <= 0;
             d_acc <= 0;
             counter_q <= 0;
             strb <= 0;
@@ -161,7 +168,17 @@ module avg64_binning(
         begin
             if( counter_q == 0 )
             begin
-                d_out <= d_acc;
+                if( is_dummy )
+                begin
+                    d_out <= {dummy_counter, 4'b0000};
+                    dummy_counter <= dummy_counter + 1;
+                    if( dummy_counter >= dummy_max )
+                        dummy_counter <= 0;
+                end
+                else
+                begin
+                    d_out <= d_acc;
+                end
                 d_acc <= { {6{d_in[13]}}, d_in[13:0] };
             end
             else
@@ -190,7 +207,10 @@ endmodule
 //
 // 3 stages pipeline
 //
-module adc_filter(
+module adc_filter #(
+    parameter is_dummy = 0,
+    parameter dummy_max = 16400
+) (
     // Interface to hardware
     input [14:0] d_in,      // Data channel from ADC chip (13 bits plus overflow bit)
 
@@ -220,7 +240,8 @@ module adc_filter(
     median_filter m_filter1( .clk(clk), .rst(rst), .d_in(data), .d_out(d_mean) );
 
     // Down sampling 64 MS/s => 1 MS/s. Also increasing the resolution from 14 bits to 16 bits.
-    avg64_binning avg_binning1( .clk(clk), .rst(rst), .strb(strobe), .d_in(d_mean), .d_out(d_bin) );
+    avg64_binning  #( .is_dummy(is_dummy), .dummy_max(dummy_max) ) avg_binning1
+            ( .clk(clk), .rst(rst), .strb(strobe), .d_in(d_mean), .d_out(d_bin) );
 
 endmodule
 
@@ -304,6 +325,8 @@ module adc_interface(
     // End of IDDR_inst instantiation
 
     // Filtering
-    adc_filter filter1( .d_in( d0_raw ), .clk( clk ), .rst( filter_rst ), .d_out( d0_out ), .strobe( strobe_0 ) );
-    adc_filter filter2( .d_in( d1_raw ), .clk( clk ), .rst( filter_rst ), .d_out( d1_out ), .strobe( strobe_1 ) );
+    adc_filter  #(.is_dummy(0), .dummy_max(680) ) filter1
+        ( .d_in( d0_raw ), .clk( clk ), .rst( filter_rst ), .d_out( d0_out ), .strobe( strobe_0 ) );
+    adc_filter   #(.is_dummy(0), .dummy_max(100) ) filter2
+        ( .d_in( d1_raw ), .clk( clk ), .rst( filter_rst ), .d_out( d1_out ), .strobe( strobe_1 ) );
 endmodule

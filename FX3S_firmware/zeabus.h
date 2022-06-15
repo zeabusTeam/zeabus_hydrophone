@@ -112,5 +112,6 @@ extern CyU3PEvent   xZeabusEvent;              /* Event ID of USB event group */
 #define ZEABUS_EVENT_REQ_SEND_FPGA_DATA (1 << 9)        // Send data to FPGA through slave FIFO
 #define ZEABUS_EVENT_REQ_FUNC_EN        (1 << 10)       // Enable functional module
 #define ZEABUS_EVENT_REQ_FUNC_DIS       (1 << 11)       // Disable functional module
+#define ZEABUS_EVENT_REQ_RESTART_FIFO   (1 << 12)       // Restart SlaveFifo engine
 
 #endif // __ZEABUS_H

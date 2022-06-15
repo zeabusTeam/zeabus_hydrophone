@@ -6,14 +6,10 @@
 # Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 # 
 
-echo "This script was generated under a different operating system."
-echo "Please update the PATH and LD_LIBRARY_PATH variables below, before executing this script"
-exit
-
 if [ -z "$PATH" ]; then
-  PATH=D:/Xilinx/Vitis/2020.2/bin;D:/Xilinx/Vivado/2020.2/ids_lite/ISE/bin/nt64;D:/Xilinx/Vivado/2020.2/ids_lite/ISE/lib/nt64:D:/Xilinx/Vivado/2020.2/bin
+  PATH=/home/stp/asset/xilinx/Vitis/2020.2/bin:/home/stp/asset/xilinx/Vivado/2020.2/ids_lite/ISE/bin/lin64:/home/stp/asset/xilinx/Vivado/2020.2/bin
 else
-  PATH=D:/Xilinx/Vitis/2020.2/bin;D:/Xilinx/Vivado/2020.2/ids_lite/ISE/bin/nt64;D:/Xilinx/Vivado/2020.2/ids_lite/ISE/lib/nt64:D:/Xilinx/Vivado/2020.2/bin:$PATH
+  PATH=/home/stp/asset/xilinx/Vitis/2020.2/bin:/home/stp/asset/xilinx/Vivado/2020.2/ids_lite/ISE/bin/lin64:/home/stp/asset/xilinx/Vivado/2020.2/bin:$PATH
 fi
 export PATH
 
@@ -24,7 +20,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1'
+HD_PWD='/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

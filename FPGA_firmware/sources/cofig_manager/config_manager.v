@@ -54,6 +54,10 @@ module hydrophone_config_manager #(
 	parameter config_prefix = 8'hDC,
 	parameter rst_delay = 8			// Total clock cycles to delay the start after reset
 	) (
+	// Degug signals
+	// output [8:0]dbg,
+	// output [2:0] current_state,
+
 	// Interface to slave fifo output buffer
 	input  [15:0] d_in,				// Data from slave FIFO
 	input  data_valid,				// Indicate that there are some available config data to read
@@ -69,24 +73,28 @@ module hydrophone_config_manager #(
 	output reg [7:0] poten1_value,	// Value of potentiometer 1 (defines gain of channel 1)
 	output reg [7:0] poten2_value,	// Value of potentiometer 2 (defines gain of channel 2)
 	output reg [7:0] poten3_value,	// Value of potentiometer 3 (defines gain of channel 3)
-	output reg [7:0] poten4_value,	// Value of potentiometer 4 (defines gain of channel 4)
-	
-	output reg [8:0]dbg
+	output reg [7:0] poten4_value	// Value of potentiometer 4 (defines gain of channel 4)
 );
 
 	// State value
-	localparam state_wait_prefix = 0;	// Waiting for the prefix
-	localparam state_read_prefix = 1;	// Reading the prefix and validate with the pre-defined value
-	localparam state_wait_trigger = 2;	// Waiting for trigger level from input
-	localparam state_read_trigger = 3;	// Read trigger level from input
-	localparam state_wait_poten1_2 = 4;	// Waiting for the values of potentiometer 1 and 2 from input
-	localparam state_read_poten1_2 = 5;	// Read values of potentiometer 1 and 2 from input
-	localparam state_wait_poten3_4 = 6; // Waiting for the values of potentiometer 3 and 4 from input
-	localparam state_read_poten3_4 = 7; // Read values of potentiometer 3 and 4 from input
+	localparam state_wait_prefix = 3'd0;	// Waiting for the prefix
+	localparam state_read_prefix = 3'd1;	// Reading the prefix and validate with the pre-defined value
+	localparam state_wait_trigger = 3'd2;	// Waiting for trigger level from input
+	localparam state_read_trigger = 3'd3;	// Read trigger level from input
+	localparam state_wait_poten1_2 = 3'd4;	// Waiting for the values of potentiometer 1 and 2 from input
+	localparam state_read_poten1_2 = 3'd5;	// Read values of potentiometer 1 and 2 from input
+	localparam state_wait_poten3_4 = 3'd6; // Waiting for the values of potentiometer 3 and 4 from input
+	localparam state_read_poten3_4 = 3'd7; // Read values of potentiometer 3 and 4 from input
 	
 	// Variables
-	integer state, counter;			// Counter is for the initialization step
+	reg [2:0] state;
+	integer counter;			// Counter is for the initialization step
 	reg [15:0] prefix;
+
+	// Combination logic
+	// assign current_state = state;
+	// assign dbg[7:0] = trigger_level[15:8];
+	// assign dbg[8] = data_valid;
 
 	// Behavioral part
 	initial
@@ -115,34 +123,39 @@ module hydrophone_config_manager #(
 			poten2_value <= 8'd25;
 			poten3_value <= 8'd25;
 			poten4_value <= 8'd25;
-			dbg <= 9'b0;
 		end
 		else
 		begin
 			if( counter >= rst_delay )
 			begin
 				case( state )
-					state_wait_prefix:	// Waiting for the prefix
+					state_wait_prefix:
 					begin
 						update_poten <= 1'b1;
-						prefix <= d_in;		// FIFO is in first-word-fall-through. The prefix is in sent out immediately 
-						dbg[7:0] <= prefix[15:8];
-						if( data_valid && prefix[15:8] == config_prefix )
+						if( data_valid )
 						begin
-						    dbg[8] <= 1'b1;
-							$display("Config : Start config");
-							config_d_oe <= 1'b1;		// Read next value
-							if( prefix[3] )
+							config_d_oe <= 1;
+							prefix <= d_in;		// FIFO is in first-word-fall-through. The prefix is in sent out immediately 
+							if( prefix[15:8] == config_prefix )
 							begin
-								state <= state_read_trigger;
+								$display("Config : Start config");
+								if( prefix[3] )
+								begin
+									state <= state_read_trigger;
+								end
+								else
+								begin
+									if( prefix[2] )
+									begin
+										update_poten <= 1'b0;
+										state <= state_read_poten1_2;
+									end
+								end
 							end
 							else
 							begin
-								if( prefix[2] )
-								begin
-									update_poten <= 1'b0;
-									state <= state_read_poten1_2;
-								end
+								config_d_oe <= 1'b0;
+								state <= state_wait_prefix;
 							end
 						end
 					end
@@ -170,7 +183,7 @@ module hydrophone_config_manager #(
 						if( data_valid )
 						begin
 							{ poten1_value, poten2_value } <= d_in;
-							state <= state_wait_poten3_4;
+							state <= state_read_poten3_4;
 						end
 					end
 					

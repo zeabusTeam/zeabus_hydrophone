@@ -39,6 +39,7 @@
 #include "zeabus_fpgaconf.h"
 #include "zeabus_gpio.h"
 #include "zeabus_usb.h"
+#include "zeabus_slavefifo.h"
 
 #define ZEABUS_FPGACONF_SOCKET_ID   CY_U3P_PIB_SOCKET_1
 
@@ -269,6 +270,12 @@ static void zeabus_fpga_reset()
 bool zeabus_fpgaconf_start( void )
 {
     int i;
+
+    /* Slave FIFO cut-out */
+    if( zeabus_slavefifo_is_started() )
+    {
+        zeabus_slavefifo_stop();
+    }
 
     i = 0;
     do

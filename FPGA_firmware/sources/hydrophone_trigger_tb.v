@@ -34,7 +34,7 @@
 // --------------------------------------------------------------------------------
 
 module hydrophone_trigger_tb;
-	localparam	total_data = 10000, clk_toggle_period = 5, clk_per_strobe = 5;
+	localparam	total_data = 680, clk_toggle_period = 1, str_strobe = 2, end_strobe = 5;
 
 	reg [63:0] in_data[0:total_data-1];		// Sampling data
 	reg [63:0] d_in;		// Input data
@@ -46,12 +46,21 @@ module hydrophone_trigger_tb;
 	reg strobe;				// Strobe signal for all channels
 	wire output_strb;		// Strobe output
 	integer strobe_count;
+
+	wire trigger_rdy, trigger_fifo_rdy, trigger_strobe, trigger_full;
+	wire [12:0] backlog_size;
+	wire [63:0] abs_data;
+	wire [15:0] abs_trig;
 	
-	integer out_file, cycle_count = 0;
+	integer out_file = 0;
+	reg [63:0] cycle_count;
 	
 	// Module under test
-	hydrophone_trigger ht( .rst(rst), .clk(clk), .trigger_level(level), .d_out(d_out), .d_in(d_in), .trigged(trigged), 
-		.strb_ch1(strobe), .strb_ch2(strobe), .strb_ch3(strobe), .strb_ch4(strobe), .output_strobe(output_strb) );
+	hydrophone_trigger #( .header(32), .trigged_tailed(32) ) ht( .rst(rst), .clk(clk), .trigger_level(level), .d_out(d_out), .d_in(d_in), .trigged(trigged), 
+		.strb_ch1(strobe), .strb_ch2(strobe), .strb_ch3(strobe), .strb_ch4(strobe), .output_strobe(output_strb), .enable(1),
+		.rdy(trigger_rdy), .fifo_rdy(trigger_fifo_rdy), .abs_data(abs_data), .abs_trig(abs_trig),
+		.backlog_size(backlog_size), .strobe(trigger_strobe), .fifo_full(trigger_full)	// Debug signals
+	);
 	
 	initial
 	begin
@@ -59,9 +68,10 @@ module hydrophone_trigger_tb;
 		out_file = $fopen("output.hex"); // open file
 		$fmonitor(out_file, "%d : %016X,%b,%b,%b", cycle_count, d_out, output_strb, trigged, rst);
 		//$monitor("%d : %016X,%b,%b", d_out, trigged, rst);
-		level = 16'd2000; // 0x07D0
+		level = 16'd655;
 		strobe = 0;
 		strobe_count = 0;
+		cycle_count = 0;
 		rst = 1; 
 		#clk_toggle_period rst = 1;
 		#clk_toggle_period rst = 1;
@@ -78,19 +88,19 @@ module hydrophone_trigger_tb;
 	end
 	
 	// Clk gen
+	initial
+	begin
+	   clk = 0;
+	end
 	always
 	begin
-		clk = 1'b1; 
-		#clk_toggle_period; // high for clk_toggle_period
-
-		clk = 1'b0;
-		#clk_toggle_period; // low for clk_toggle_period
+        #clk_toggle_period clk = ~clk;
 	end
 	
 	// Apply sample data every clock edge
 	always @(negedge clk)
 	begin
-		d_in = in_data[cycle_count];
+		d_in = cycle_count;
 	end
 
 	// stop the simulation total_data and close the file
@@ -112,15 +122,19 @@ module hydrophone_trigger_tb;
 			else
 			begin
 				strobe_count = strobe_count + 1;
-				if( strobe_count == clk_per_strobe )
+				if(strobe_count > 8)
 				begin
-					strobe = 1;
 					strobe_count = 0;
 					cycle_count = cycle_count + 1;
 				end
+
+				if( strobe_count >= str_strobe && strobe_count <= end_strobe )
+				begin
+					strobe = 1;
+				end
 				else
 				begin
-					strobe = 0;
+				    strobe = 0;
 				end
 			end
 		end

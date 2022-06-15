@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1/zeabus_hydrophone.tcl"
+  variable script "/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/synth_1/zeabus_hydrophone.tcl"
   variable category "vivado_synth"
 }
 
@@ -76,25 +76,25 @@ create_project -in_memory -part xc7a15tcsg324-1
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.cache/wt} [current_project]
-set_property parent.project_path {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.xpr} [current_project]
+set_property webtalk.parent_dir /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.cache/wt [current_project]
+set_property parent.project_path /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property ip_output_repo {c:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.cache/ip} [current_project]
+set_property ip_output_repo /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/cofig_manager/config_manager.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/fx3s_interface/fx3s_interface.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_bit_ctrl.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_byte_ctrl.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/reset_subs/reset_subs.v}
-  {C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/sources/zeabus_hydrophone.v}
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/cofig_manager/config_manager.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/fx3s_interface/fx3s_interface.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_bit_ctrl.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/i2c_master_byte_ctrl.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/packetizer/packetize.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/poten_interface/poten_interface.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/reset_subs/reset_subs.v
+  /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/zeabus_hydrophone.v
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -105,8 +105,8 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc {{C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc}}
-set_property used_in_implementation false [get_files {{C:/OneDrive/OneDrive - KASETSART UNIVERSITY/akp/AUV/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc}}]
+read_xdc /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc
+set_property used_in_implementation false [get_files /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/seapup_hydrophone.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

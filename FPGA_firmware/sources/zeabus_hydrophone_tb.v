@@ -428,13 +428,21 @@ module zeabus_hydrphone_tb;
 		OTR_2 = 0;
 	end
 
+	reg [1:0] post_rd;
+	reg [1:0] pre_rd;
+	initial
+	begin
+	   post_rd <= 2'b0;
+	   pre_rd <= 2'b0;
+	end
+
 	always @(posedge ifclk_out)
 	begin
 		counter_ifclk = counter_ifclk + 1;
 		if(counter_ifclk == 20)
 			FLAGB = 1;		// Enable FPGA->FX3S (Buffer not full)
-		if(counter_ifclk == 32)
-			FLAGA = 1;		// Enable FX3S->FPGA (Buffer not empty)
+		//if(counter_ifclk == 32)
+		//	FLAGA = 1;		// Enable FX3S->FPGA (Buffer not empty)
 		
 		if( DMA_Wait > 0 && counter_ifclk > 20)
 			DMA_Wait = DMA_Wait - 1;
@@ -452,19 +460,37 @@ module zeabus_hydrphone_tb;
 			end
 		end
 		
-		if( FLAGA && !SLOE && !SLRD )
+		if( FLAGA )
 		begin
-			if(conf_index > 3)
-				if(conf_index > 5 )
-					FLAGA = 0;
-				else
-					conf_index = conf_index + 1;
-			else
-			begin
-				DQ_In = conf_data[conf_index];
-				conf_index = conf_index + 1;
-			end
+		  if( !SLRD )
+		  begin
+		      post_rd = 2'b0;
+		      if( pre_rd == 2'd1 )
+		      begin
+		          DQ_In = conf_data[conf_index];
+		          conf_index = conf_index + 1;
+		      end
+		      else
+		          pre_rd = pre_rd + 1;
+		  end
+		  else
+		  begin
+		      pre_rd = 2'b0;
+		      if(post_rd >= 2'd1)
+		      begin
+		          if(conf_index > 5)
+		              FLAGA = 0;
+		      end
+		      else
+		          post_rd = post_rd + 1;
+		  end
 		end
+		else
+		begin
+		  pre_rd = 2'b0;
+		  post_rd = 2'b0;
+		end
+
 	end
 			
 	// ADC event
@@ -476,20 +502,20 @@ module zeabus_hydrphone_tb;
 			$stop;
 		end
 	
-		D_1 = in_data[cycle_count][13:0];
+		D_1 = in_data[cycle_count][15:2];
 	end
 	always @(negedge CLKA_1)
 	begin
-		D_1 = in_data[cycle_count][29:16];
+		D_1 = in_data[cycle_count][31:18];
 		cycle_count = cycle_count + 1;
 	end
 	always @(posedge CLKA_2)
 	begin
-		D_2 = in_data[cycle_count][45:32];
+		D_2 = in_data[cycle_count][47:34];
 	end
 	always @(negedge CLKA_2)
 	begin
-		D_2 = in_data[cycle_count][61:48];
+		D_2 = in_data[cycle_count][63:50];
 	end
 
 	// System clock generator (26MHz)

@@ -1,8 +1,8 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Tue Apr 26 14:14:41 2022
-| Host         : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
+| Tool Version : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
+| Date         : Wed Jun 15 12:45:48 2022
+| Host         : Seapup-dell running 64-bit Ubuntu 20.04.4 LTS
 | Command      : report_methodology -file zeabus_hydrophone_methodology_drc_routed.rpt -pb zeabus_hydrophone_methodology_drc_routed.pb -rpx zeabus_hydrophone_methodology_drc_routed.rpx
 | Design       : zeabus_hydrophone
 | Device       : xc7a15tcsg324-1
@@ -23,23 +23,58 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 2
-+---------+----------+------------------------------+------------+
-| Rule    | Severity | Description                  | Violations |
-+---------+----------+------------------------------+------------+
-| LUTAR-1 | Warning  | LUT drives async reset alert | 2          |
-+---------+----------+------------------------------+------------+
+             Violations found: 8
++-----------+----------+------------------------------+------------+
+| Rule      | Severity | Description                  | Violations |
++-----------+----------+------------------------------+------------+
+| LUTAR-1   | Warning  | LUT drives async reset alert | 2          |
+| TIMING-16 | Warning  | Large setup violation        | 6          |
++-----------+----------+------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
 LUTAR-1#1 Warning
 LUT drives async reset alert  
-LUT cell trigger/FIFO36E1_inst_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) trigger/FIFO36E1_inst/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+LUT cell slave_fifo/fifo_departure/genblk1[0].fifo_departure_inst_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) slave_fifo/fifo_arrival/RST,
+slave_fifo/fifo_departure/genblk1[0].fifo_departure_inst/RST,
+slave_fifo/fifo_departure/genblk1[1].fifo_departure_inst/RST,
+slave_fifo/fifo_departure/genblk1[2].fifo_departure_inst/RST
+slave_fifo/fifo_departure/genblk1[3].fifo_departure_inst/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
 Related violations: <none>
 
 LUTAR-1#2 Warning
 LUT drives async reset alert  
-LUT cell trigger/fifo_departure_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) slave_fifo/fifo_arrival/RST, slave_fifo/fifo_departure/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+LUT cell trigger/FIFO36E1_inst_i_2, with 2 or more inputs, drives asynchronous preset/clear pin(s) trigger/FIFO36E1_inst/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+TIMING-16#1 Warning
+Large setup violation  
+There is a large setup violation of -3.136 ns between slave_fifo/SLWR_reg/C (clocked by sys_clk) and SLWR (clocked by sys_clk). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#2 Warning
+Large setup violation  
+There is a large setup violation of -3.140 ns between slave_fifo/SLOE_reg/C (clocked by sys_clk) and SLOE (clocked by sys_clk). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#3 Warning
+Large setup violation  
+There is a large setup violation of -3.168 ns between slave_fifo/SLRD_reg/C (clocked by sys_clk) and SLRD (clocked by sys_clk). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#4 Warning
+Large setup violation  
+There is a large setup violation of -3.171 ns between slave_fifo/SLCS_reg/C (clocked by sys_clk) and SLCS (clocked by sys_clk). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#5 Warning
+Large setup violation  
+There is a large setup violation of -3.271 ns between slave_fifo/A0_reg/C (clocked by sys_clk) and A[0] (clocked by sys_clk). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+Related violations: <none>
+
+TIMING-16#6 Warning
+Large setup violation  
+There is a large setup violation of -3.297 ns between slave_fifo/PKTEND_reg/C (clocked by sys_clk) and PKTEND (clocked by sys_clk). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 

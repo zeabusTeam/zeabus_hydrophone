@@ -104,7 +104,7 @@ module zeabus_hydrophone #(
     wire trigger_strobe;                        // Strobe signal to read a datum from trigger FIFO
     wire [15:0] packetize_out;                  // Data-out from packetize circuit
     wire p_data_strobe;                         // Strobe signal (active high) from packetizer
-    wire p_sending;                             // Packetizer is sending data to FX3S
+    wire pkt_end;                               // Next data word from packetizer is the last word of current packet
     wire poten_update_start;                    // Rising edge indicates starting of updating poten values
     wire [7:0] poten0, poten1, poten2, poten3;  // Values of potentiometers (aka. amplifier gain)
     wire [15:0] rx_data;                        // Incoming data from FX3S
@@ -120,35 +120,37 @@ module zeabus_hydrophone #(
     //assign trigger_level_set = trigger_level;
     //assign conf_read_din = rx_data;
 
+    assign dbg = abs_trig[7:0];
+
     // Combination logic
     assign LED_BLUE = p_data_strobe;
     assign LED_GREEN = ~rst;
     assign LED_RED_n = ~tx_full;
 
     // Debug LED
-    assign LED_RED_1 = dbg[0];
-    assign LED_YELLOW_1 = dbg[1];
-    assign LED_GREEN_1 = dbg[2];
+    //assign LED_RED_1 = dbg[0];
+    //assign LED_YELLOW_1 = dbg[1];
+    //assign LED_GREEN_1 = dbg[2];
 	
-    assign LED_RED_2 = dbg[3];
-    assign LED_YELLOW_2 = dbg[4];
-    assign LED_GREEN_2 = dbg[5];
+    //assign LED_RED_2 = dbg[3];
+    //assign LED_YELLOW_2 = dbg[4];
+    //assign LED_GREEN_2 = dbg[5];
 	
-    assign LED_RED_3 = dbg[6];
-    assign LED_YELLOW_3 = dbg[7];
-	assign LED_GREEN_3 = FLAGA;
+    //assign LED_RED_3 = dbg[6];
+    //assign LED_YELLOW_3 = dbg[7];
+	//assign LED_GREEN_3 = trigged;
 	
-    // assign LED_RED_1 = RST;
-    // assign LED_YELLOW_1 = trigged;
-    // assign LED_GREEN_1 = slave_fifo_rdy;
+    assign LED_RED_1 = RST;
+    assign LED_YELLOW_1 = trigged;
+    assign LED_GREEN_1 = slave_fifo_rdy;
 	
-    // assign LED_RED_2 = rx_oe;
-    // assign LED_YELLOW_2 = p_sending;
-    // assign LED_GREEN_2 = rx_valid;
+    assign LED_RED_2 = rx_oe;
+    assign LED_YELLOW_2 = pkt_end;
+    assign LED_GREEN_2 = rx_valid;
 	
-    // assign LED_RED_3 = poten_update_start;
-    // assign LED_YELLOW_3 = trigger_fifo_rdy;
-    // assign LED_GREEN_3 = FUNC_EN;
+    assign LED_RED_3 = poten_update_start;
+    assign LED_YELLOW_3 = trigger_fifo_rdy;
+    assign LED_GREEN_3 = FUNC_EN;
 
     // Clock distribution
     assign CLKA_1 = adc_clk;
@@ -181,14 +183,14 @@ module zeabus_hydrophone #(
         // Control signal
         .clk(sys_clk),                  // Master clock for this module (64 MHz)
         .rst(rst),                      // Synchronous reset (active high)
-        //.rdy(slave_fifo_rdy),           // Indicate that the system is ready for data (unused)
-        .dbg(slave_fifo_rdy),           // Indicate that the system is ready for data (unused)
+        .rdy(slave_fifo_rdy),           // Indicate that the system is ready for data (unused)
 
         // Data to send out (FPGA -> FX3S)
         .d_in(packetize_out),           // Input data to send to FX3S
         .input_strobe(p_data_strobe),   // Rising edge indicates that the d_in value is valid
         .input_full(tx_full),           // Flag to indicate that the buffer for departure data is full
-        .sending(trigged),              // Signal is still in the middle of sending mode
+        .pkt_end_in(pkt_end),           // Current data word is the last word of current packet
+        .trigged(trigged),              // Signal is still in the middle of sending mode
 
         // Arrival data (FX3S -> FPGA)
         .d_out(rx_data),                // Output data
@@ -212,9 +214,7 @@ module zeabus_hydrophone #(
         .poten1_value(poten0),          // Value of potentiometer 1 (defines gain of channel 1)
         .poten2_value(poten1),          // Value of potentiometer 2 (defines gain of channel 2)
         .poten3_value(poten2),          // Value of potentiometer 3 (defines gain of channel 3)
-        .poten4_value(poten3),           // Value of potentiometer 4 (defines gain of channel 4)
-		
-		.dbg(dbg)
+        .poten4_value(poten3)           // Value of potentiometer 4 (defines gain of channel 4)
     );
 
     poten_interface poten_i2c(
@@ -244,7 +244,8 @@ module zeabus_hydrophone #(
 
         .d_out(packetize_out),          // Output data
         .out_strobe(p_data_strobe),     // Data-valid signal to FX3 interface
-        .sending(p_sending)         
+        .out_full(tx_full),             // Buffer is almost full
+        .pkt_end(pkt_end)               // Current data word is the end of current packet
     );
 
     hydrophone_trigger #( .header(trigger_head), .trigged_tailed(trigger_tail) ) trigger(
@@ -257,7 +258,7 @@ module zeabus_hydrophone #(
         .abs_data(abs_data),            // Debug signal
         .abs_trig(abs_trig),            // Debug signal
 
-        .d_in( { adc1_1_out, adc1_2_out, adc2_1_out, adc2_2_out } ),// data input (concatenation of 4 16-bit data with channel 1 first)
+        .d_in( { adc2_2_out, adc2_1_out, adc1_2_out, adc1_1_out } ),// data input (concatenation of 4 16-bit data with channel 1 first)
         .trigger_level(trigger_level),  // level of the trigger in 16-bit signed integer
         .strb_ch1(adc_strb_1), .strb_ch2(adc_strb_2), .strb_ch3(adc_strb_3), .strb_ch4(adc_strb_4), // Strobe from ADC
 

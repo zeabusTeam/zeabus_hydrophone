@@ -1,8 +1,8 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version     : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date             : Tue Apr 26 14:14:43 2022
-| Host             : DESKTOP-NT56GQ3 running 64-bit major release  (build 9200)
+| Tool Version     : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
+| Date             : Wed Jun 15 12:45:49 2022
+| Host             : Seapup-dell running 64-bit Ubuntu 20.04.4 LTS
 | Command          : report_power -file zeabus_hydrophone_power_routed.rpt -pb zeabus_hydrophone_power_summary_routed.pb -rpx zeabus_hydrophone_power_routed.rpx
 | Design           : zeabus_hydrophone
 | Device           : xc7a15tcsg324-1
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.214        |
+| Total On-Chip Power (W)  | 0.217        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.142        |
+| Dynamic (W)              | 0.145        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 4.8          |
 | Max Ambient (C)          | 84.0         |
@@ -53,18 +53,18 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |     0.005 |        6 |       --- |             --- |
-| Slice Logic    |    <0.001 |     3633 |       --- |             --- |
-|   LUT as Logic |    <0.001 |     1567 |     10400 |           15.07 |
+| Slice Logic    |    <0.001 |     3551 |       --- |             --- |
+|   LUT as Logic |    <0.001 |     1528 |     10400 |           14.69 |
 |   CARRY4       |    <0.001 |      188 |      8150 |            2.31 |
-|   Register     |    <0.001 |     1172 |     20800 |            5.63 |
+|   Register     |    <0.001 |     1141 |     20800 |            5.49 |
 |   F7/F8 Muxes  |    <0.001 |       16 |     32600 |            0.05 |
-|   Others       |     0.000 |       84 |       --- |             --- |
-| Signals        |    <0.001 |     2830 |       --- |             --- |
-| Block RAM      |     0.000 |        3 |        25 |           12.00 |
+|   Others       |     0.000 |       89 |       --- |             --- |
+| Signals        |    <0.001 |     2807 |       --- |             --- |
+| Block RAM      |     0.002 |        6 |        25 |           24.00 |
 | PLL            |     0.096 |        1 |         5 |           20.00 |
 | I/O            |     0.040 |       77 |       210 |           36.67 |
 | Static Power   |     0.072 |          |           |                 |
-| Total          |     0.214 |          |           |                 |
+| Total          |     0.217 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -74,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.024 |       0.014 |      0.010 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.027 |       0.017 |      0.010 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.063 |       0.051 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.012 |       0.011 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -143,12 +143,14 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+-------------------+-----------+
-| Name              | Power (W) |
-+-------------------+-----------+
-| zeabus_hydrophone |     0.142 |
-|   adc1            |     0.001 |
-|   adc2            |     0.001 |
-+-------------------+-----------+
++--------------------+-----------+
+| Name               | Power (W) |
++--------------------+-----------+
+| zeabus_hydrophone  |     0.145 |
+|   adc1             |     0.002 |
+|   adc2             |     0.002 |
+|   slave_fifo       |     0.002 |
+|     fifo_departure |     0.002 |
++--------------------+-----------+
 
 
