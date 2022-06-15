@@ -1,0 +1,12 @@
+
+{ 
+    crc :  13953601997854493498  , 
+    ccp_crc :  0  , 
+    cmdline : " -wto ec079b6cd65744dc85c8b52c13f319ce --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L secureip --snapshot avg_filter_tb_func_synth xil_defaultlib.avg_filter_tb xil_defaultlib.glbl" , 
+    buildDate : "Nov 18 2020" , 
+    buildTime : "09:20:35" , 
+    linkCmd : "/usr/bin/gcc -Wa,-W  -O -fPIC  -m64  -Wl,--no-as-needed  -Wl,--unresolved-symbols=ignore-all  -o \"xsim.dir/avg_filter_tb_func_synth/xsimk\"   \"xsim.dir/avg_filter_tb_func_synth/obj/xsim_0.lnx64.o\" \"xsim.dir/avg_filter_tb_func_synth/obj/xsim_1.lnx64.o\" -L\"/home/stp/asset/xilinx/Vivado/2020.2/lib/lnx64.o\" -lrdi_simulator_kernel   -lrdi_simbridge_kernel" , 
+    aggregate_nets : 
+    [ 
+    ] 
+} 

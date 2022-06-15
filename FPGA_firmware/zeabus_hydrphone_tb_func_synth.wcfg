@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="zeabus_hydrphone_tb_func_synth.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="zeabus_hydrphone_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="156060475fs"></ZoomStartTime>
+      <ZoomEndTime time="156632976fs"></ZoomEndTime>
+      <Cursor1Time time="156310475fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="276"></NameColumnWidth>
+      <ValueColumnWidth column_width="76"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="47" />
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/cycle_count">
+      <obj_property name="ElementShortName">cycle_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycle_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/counter_ifclk">
+      <obj_property name="ElementShortName">counter_ifclk[31:0]</obj_property>
+      <obj_property name="ObjectShortName">counter_ifclk[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/conf_index">
+      <obj_property name="ElementShortName">conf_index[31:0]</obj_property>
+      <obj_property name="ObjectShortName">conf_index[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/DMA_Counter">
+      <obj_property name="ElementShortName">DMA_Counter[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DMA_Counter[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/DMA_Wait">
+      <obj_property name="ElementShortName">DMA_Wait[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DMA_Wait[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/conf_data">
+      <obj_property name="ElementShortName">conf_data[0:15][15:0]</obj_property>
+      <obj_property name="ObjectShortName">conf_data[0:15][15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/OTR_1">
+      <obj_property name="ElementShortName">OTR_1</obj_property>
+      <obj_property name="ObjectShortName">OTR_1</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/D_1">
+      <obj_property name="ElementShortName">D_1[13:0]</obj_property>
+      <obj_property name="ObjectShortName">D_1[13:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/CLKA_1">
+      <obj_property name="ElementShortName">CLKA_1</obj_property>
+      <obj_property name="ObjectShortName">CLKA_1</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/CLKB_1">
+      <obj_property name="ElementShortName">CLKB_1</obj_property>
+      <obj_property name="ObjectShortName">CLKB_1</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/OTR_2">
+      <obj_property name="ElementShortName">OTR_2</obj_property>
+      <obj_property name="ObjectShortName">OTR_2</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/D_2">
+      <obj_property name="ElementShortName">D_2[13:0]</obj_property>
+      <obj_property name="ObjectShortName">D_2[13:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/CLKA_2">
+      <obj_property name="ElementShortName">CLKA_2</obj_property>
+      <obj_property name="ObjectShortName">CLKA_2</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/CLKB_2">
+      <obj_property name="ElementShortName">CLKB_2</obj_property>
+      <obj_property name="ObjectShortName">CLKB_2</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/SCL">
+      <obj_property name="ElementShortName">SCL</obj_property>
+      <obj_property name="ObjectShortName">SCL</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/SDA">
+      <obj_property name="ElementShortName">SDA</obj_property>
+      <obj_property name="ObjectShortName">SDA</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/LED_RED_n">
+      <obj_property name="ElementShortName">LED_RED_n[0:0]</obj_property>
+      <obj_property name="ObjectShortName">LED_RED_n[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/LED_GREEN">
+      <obj_property name="ElementShortName">LED_GREEN[0:0]</obj_property>
+      <obj_property name="ObjectShortName">LED_GREEN[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/LED_BLUE">
+      <obj_property name="ElementShortName">LED_BLUE</obj_property>
+      <obj_property name="ObjectShortName">LED_BLUE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/LED_GREEN_1">
+      <obj_property name="ElementShortName">LED_GREEN_1</obj_property>
+      <obj_property name="ObjectShortName">LED_GREEN_1</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/LED_GREEN_2">
+      <obj_property name="ElementShortName">LED_GREEN_2[0:0]</obj_property>
+      <obj_property name="ObjectShortName">LED_GREEN_2[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/LED_GREEN_3">
+      <obj_property name="ElementShortName">LED_GREEN_3[0:0]</obj_property>
+      <obj_property name="ObjectShortName">LED_GREEN_3[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/LED_RED_1">
+      <obj_property name="ElementShortName">LED_RED_1</obj_property>
+      <obj_property name="ObjectShortName">LED_RED_1</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/LED_RED_2">
+      <obj_property name="ElementShortName">LED_RED_2[0:0]</obj_property>
+      <obj_property name="ObjectShortName">LED_RED_2[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/LED_RED_3">
+      <obj_property name="ElementShortName">LED_RED_3[0:0]</obj_property>
+      <obj_property name="ObjectShortName">LED_RED_3[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/LED_YELLOW_1">
+      <obj_property name="ElementShortName">LED_YELLOW_1</obj_property>
+      <obj_property name="ObjectShortName">LED_YELLOW_1</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/LED_YELLOW_2">
+      <obj_property name="ElementShortName">LED_YELLOW_2</obj_property>
+      <obj_property name="ObjectShortName">LED_YELLOW_2</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/LED_YELLOW_3">
+      <obj_property name="ElementShortName">LED_YELLOW_3[0:0]</obj_property>
+      <obj_property name="ObjectShortName">LED_YELLOW_3[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/Config_data">
+      <obj_property name="ElementShortName">Config_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">Config_data[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/clk_in">
+      <obj_property name="ElementShortName">clk_in</obj_property>
+      <obj_property name="ObjectShortName">clk_in</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/ifclk_out">
+      <obj_property name="ElementShortName">ifclk_out</obj_property>
+      <obj_property name="ObjectShortName">ifclk_out</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/DQ">
+      <obj_property name="ElementShortName">DQ[15:0]</obj_property>
+      <obj_property name="ObjectShortName">DQ[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/A">
+      <obj_property name="ElementShortName">A[1:0]</obj_property>
+      <obj_property name="ObjectShortName">A[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/SLCS">
+      <obj_property name="ElementShortName">SLCS</obj_property>
+      <obj_property name="ObjectShortName">SLCS</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/SLWR">
+      <obj_property name="ElementShortName">SLWR</obj_property>
+      <obj_property name="ObjectShortName">SLWR</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/SLRD">
+      <obj_property name="ElementShortName">SLRD</obj_property>
+      <obj_property name="ObjectShortName">SLRD</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/SLOE">
+      <obj_property name="ElementShortName">SLOE</obj_property>
+      <obj_property name="ObjectShortName">SLOE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/PKTEND">
+      <obj_property name="ElementShortName">PKTEND</obj_property>
+      <obj_property name="ObjectShortName">PKTEND</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/FLAGA">
+      <obj_property name="ElementShortName">FLAGA</obj_property>
+      <obj_property name="ObjectShortName">FLAGA</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/FLAGB">
+      <obj_property name="ElementShortName">FLAGB</obj_property>
+      <obj_property name="ObjectShortName">FLAGB</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/zeabus_hydrphone_tb/RST">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/DQ_Out">
+      <obj_property name="ElementShortName">DQ_Out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">DQ_Out[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/DQ_In">
+      <obj_property name="ElementShortName">DQ_In[15:0]</obj_property>
+      <obj_property name="ObjectShortName">DQ_In[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/post_rd">
+      <obj_property name="ElementShortName">post_rd[1:0]</obj_property>
+      <obj_property name="ObjectShortName">post_rd[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/pre_rd">
+      <obj_property name="ElementShortName">pre_rd[1:0]</obj_property>
+      <obj_property name="ObjectShortName">pre_rd[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/FX3S_DMA_Size">
+      <obj_property name="ElementShortName">FX3S_DMA_Size[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FX3S_DMA_Size[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zeabus_hydrphone_tb/total_data">
+      <obj_property name="ElementShortName">total_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">total_data[31:0]</obj_property>
+   </wvobject>
+</wave_config>

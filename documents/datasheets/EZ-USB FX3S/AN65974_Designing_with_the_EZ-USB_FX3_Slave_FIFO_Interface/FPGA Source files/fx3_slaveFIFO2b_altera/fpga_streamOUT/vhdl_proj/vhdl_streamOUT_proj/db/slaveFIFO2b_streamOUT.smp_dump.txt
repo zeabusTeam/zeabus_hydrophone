@@ -1,0 +1,9 @@
+
+State Machine - |slaveFIFO2b_streamOUT|current_stream_out_state
+Name current_stream_out_state.stream_out_read_oe_delay current_stream_out_state.stream_out_read_rd_and_oe_delay current_stream_out_state.stream_out_read current_stream_out_state.stream_out_wait_flagd current_stream_out_state.stream_out_flagc_rcvd current_stream_out_state.stream_out_idle 
+current_stream_out_state.stream_out_idle 0 0 0 0 0 0 
+current_stream_out_state.stream_out_flagc_rcvd 0 0 0 0 1 1 
+current_stream_out_state.stream_out_wait_flagd 0 0 0 1 0 1 
+current_stream_out_state.stream_out_read 0 0 1 0 0 1 
+current_stream_out_state.stream_out_read_rd_and_oe_delay 0 1 0 0 0 1 
+current_stream_out_state.stream_out_read_oe_delay 1 0 0 0 0 1 

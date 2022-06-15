@@ -1,0 +1,14 @@
+
+State Machine - |slaveFIFO2b_loopback|current_loop_back_state
+Name current_loop_back_state.loop_back_flush_fifo current_loop_back_state.loop_back_write_wr_delay current_loop_back_state.loop_back_write current_loop_back_state.loop_back_wait_flagb current_loop_back_state.loop_back_wait_flaga current_loop_back_state.loop_back_read_oe_delay current_loop_back_state.loop_back_read_rd_and_oe_delay current_loop_back_state.loop_back_read current_loop_back_state.loop_back_wait_flagd current_loop_back_state.loop_back_flagc_rcvd current_loop_back_state.loop_back_idle 
+current_loop_back_state.loop_back_idle 0 0 0 0 0 0 0 0 0 0 0 
+current_loop_back_state.loop_back_flagc_rcvd 0 0 0 0 0 0 0 0 0 1 1 
+current_loop_back_state.loop_back_wait_flagd 0 0 0 0 0 0 0 0 1 0 1 
+current_loop_back_state.loop_back_read 0 0 0 0 0 0 0 1 0 0 1 
+current_loop_back_state.loop_back_read_rd_and_oe_delay 0 0 0 0 0 0 1 0 0 0 1 
+current_loop_back_state.loop_back_read_oe_delay 0 0 0 0 0 1 0 0 0 0 1 
+current_loop_back_state.loop_back_wait_flaga 0 0 0 0 1 0 0 0 0 0 1 
+current_loop_back_state.loop_back_wait_flagb 0 0 0 1 0 0 0 0 0 0 1 
+current_loop_back_state.loop_back_write 0 0 1 0 0 0 0 0 0 0 1 
+current_loop_back_state.loop_back_write_wr_delay 0 1 0 0 0 0 0 0 0 0 1 
+current_loop_back_state.loop_back_flush_fifo 1 0 0 0 0 0 0 0 0 0 1 

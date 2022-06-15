@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Thu Jun  9 10:35:38 2022
+# Process ID: 19959
+# Current directory: /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.sim/sim_trigger/synth/func/xsim
+# Command line: wbtcv -mode batch -source /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.sim/sim_trigger/synth/func/xsim/xsim.dir/hydrophone_trigger_tb_func_synth/webtalk/xsim_webtalk.tcl -notrace
+# Log file: /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.sim/sim_trigger/synth/func/xsim/webtalk.log
+# Journal file: /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.sim/sim_trigger/synth/func/xsim/webtalk.jou
+#-----------------------------------------------------------
+source /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.sim/sim_trigger/synth/func/xsim/xsim.dir/hydrophone_trigger_tb_func_synth/webtalk/xsim_webtalk.tcl -notrace

@@ -1,0 +1,8 @@
+
+State Machine - |slaveFIFO2b_partial|current_partial_state
+Name current_partial_state.partial_wait current_partial_state.partial_write_wr_delay current_partial_state.partial_write current_partial_state.partial_wait_flagb current_partial_state.partial_idle 
+current_partial_state.partial_idle 0 0 0 0 0 
+current_partial_state.partial_wait_flagb 0 0 0 1 1 
+current_partial_state.partial_write 0 0 1 0 1 
+current_partial_state.partial_write_wr_delay 0 1 0 0 1 
+current_partial_state.partial_wait 1 0 0 0 1 

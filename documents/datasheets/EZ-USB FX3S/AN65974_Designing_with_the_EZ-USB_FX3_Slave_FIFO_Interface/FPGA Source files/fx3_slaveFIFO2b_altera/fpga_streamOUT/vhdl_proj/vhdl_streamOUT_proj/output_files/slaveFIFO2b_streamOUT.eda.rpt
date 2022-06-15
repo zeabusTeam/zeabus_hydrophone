@@ -1,0 +1,107 @@
+EDA Netlist Writer report for slaveFIFO2b_streamOUT
+Mon Oct 27 16:03:16 2014
+Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. EDA Netlist Writer Summary
+  3. Simulation Settings
+  4. Simulation Generated Files
+  5. EDA Netlist Writer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------+
+; EDA Netlist Writer Summary                                        ;
++---------------------------+---------------------------------------+
+; EDA Netlist Writer Status ; Successful - Mon Oct 27 16:03:15 2014 ;
+; Revision Name             ; slaveFIFO2b_streamOUT                 ;
+; Top-level Entity Name     ; slaveFIFO2b_streamOUT                 ;
+; Family                    ; Cyclone III                           ;
+; Simulation Files Creation ; Successful                            ;
++---------------------------+---------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Simulation Settings                                                                                                        ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Option                                                                                            ; Setting                ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Tool Name                                                                                         ; ModelSim-Altera (VHDL) ;
+; Generate netlist for functional simulation only                                                   ; Off                    ;
+; Time scale                                                                                        ; 1 ps                   ;
+; Truncate long hierarchy paths                                                                     ; Off                    ;
+; Map illegal HDL characters                                                                        ; Off                    ;
+; Flatten buses into individual nodes                                                               ; Off                    ;
+; Maintain hierarchy                                                                                ; Off                    ;
+; Bring out device-wide set/reset signals as ports                                                  ; Off                    ;
+; Enable glitch filtering                                                                           ; Off                    ;
+; Do not write top level VHDL entity                                                                ; Off                    ;
+; Disable detection of setup and hold time violations in the input registers of bi-directional pins ; Off                    ;
+; Architecture name in VHDL output netlist                                                          ; structure              ;
+; Generate third-party EDA tool command script for RTL functional simulation                        ; Off                    ;
+; Generate third-party EDA tool command script for gate-level simulation                            ; Off                    ;
++---------------------------------------------------------------------------------------------------+------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Simulation Generated Files                                                                                                                                                                                                                    ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Generated Files                                                                                                                                                                                                                               ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT_6_1200mv_85c_slow.vho      ;
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT_6_1200mv_0c_slow.vho       ;
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT_min_1200mv_0c_fast.vho     ;
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT.vho                        ;
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT_6_1200mv_85c_vhd_slow.sdo  ;
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT_6_1200mv_0c_vhd_slow.sdo   ;
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT_min_1200mv_0c_vhd_fast.sdo ;
+; C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/slaveFIFO2b_streamOUT_vhd.sdo                    ;
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++-----------------------------+
+; EDA Netlist Writer Messages ;
++-----------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 32-bit EDA Netlist Writer
+    Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+    Info: Processing started: Mon Oct 27 16:03:12 2014
+Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off slaveFIFO2b_streamOUT -c slaveFIFO2b_streamOUT
+Info (204019): Generated file slaveFIFO2b_streamOUT_6_1200mv_85c_slow.vho in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file slaveFIFO2b_streamOUT_6_1200mv_0c_slow.vho in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file slaveFIFO2b_streamOUT_min_1200mv_0c_fast.vho in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file slaveFIFO2b_streamOUT.vho in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file slaveFIFO2b_streamOUT_6_1200mv_85c_vhd_slow.sdo in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file slaveFIFO2b_streamOUT_6_1200mv_0c_vhd_slow.sdo in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file slaveFIFO2b_streamOUT_min_1200mv_0c_vhd_fast.sdo in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file slaveFIFO2b_streamOUT_vhd.sdo in folder "C:/Users/Public/Pictures/Sample Pictures/AN65974_Source Files/AN65974_Source Files/FPGA Source files/fx3_slaveFIFO2b_altera/fpga_streamOUT/vhdl_proj/vhdl_streamOUT_proj/simulation/modelsim/" for EDA simulation tool
+Info: Quartus II 32-bit EDA Netlist Writer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 300 megabytes
+    Info: Processing ended: Mon Oct 27 16:03:16 2014
+    Info: Elapsed time: 00:00:04
+    Info: Total CPU time (on all processors): 00:00:02
+
+

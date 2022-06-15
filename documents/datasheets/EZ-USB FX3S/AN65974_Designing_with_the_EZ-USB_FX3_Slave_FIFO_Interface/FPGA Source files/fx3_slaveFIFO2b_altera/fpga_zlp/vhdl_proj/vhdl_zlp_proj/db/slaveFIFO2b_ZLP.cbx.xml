@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="slaveFIFO2b_ZLP">
+		<CBX_INST_ENTRY INSTANCE_NAME="|slaveFIFO2b_ZLP|ddr:ddr_inst|altddio_out:ALTDDIO_OUT_component" CBX_FILE_NAME="ddio_out_g8j.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|slaveFIFO2b_ZLP|pll:pll_inst|altpll:altpll_component" CBX_FILE_NAME="pll_altpll.v"/>
+	</PROJECT>
+</LOG_ROOT>

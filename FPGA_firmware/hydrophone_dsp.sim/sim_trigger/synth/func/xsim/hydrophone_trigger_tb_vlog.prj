@@ -1,0 +1,8 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"hydrophone_trigger_tb_func_synth.v" \
+"../../../../../sources/hydrophone_trigger/hydrophone_trigger.v" \
+"../../../../../sources/hydrophone_trigger_tb.v" \
+
+# Do not sort compile order
+nosort

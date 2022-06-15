@@ -1,0 +1,56 @@
+Release 14.1 ngdbuild P.15xf (nt64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+Command Line: C:\Xilinx\14.1\ISE_DS\ISE\bin\nt64\unwrapped\ngdbuild.exe
+-intstyle ise -dd _ngo -nt timestamp -uc
+C:/Users/savj/Desktop/AN65974/AN65974_Source Files/FPGA Source
+files/fx3_slaveFIFO2b_xilinx/fpga_slavefifo2b_vhdl/slaveFIFO2b_fpga_top.ucf -p
+xc6slx16-csg324-3 slaveFIFO2b_fpga_top.ngc slaveFIFO2b_fpga_top.ngd
+
+Reading NGO file "C:/Users/savj/Desktop/AN65974/AN65974_Source Files/FPGA Source
+files/fx3_slaveFIFO2b_xilinx/fpga_slavefifo2b_vhdl/fx3_slavefifo2b_vhdl_proj/sla
+veFIFO2b_fpga_top.ngc" ...
+Gathering constraint information from source properties...
+Done.
+
+Annotating constraints to design from ucf file
+"C:/Users/savj/Desktop/AN65974/AN65974_Source Files/FPGA Source
+files/fx3_slaveFIFO2b_xilinx/fpga_slavefifo2b_vhdl/slaveFIFO2b_fpga_top.ucf" ...
+Resolving constraint associations...
+Checking Constraint Associations...
+INFO:ConstraintSystem:178 - TNM 'clk', used in period specification 'TS_clk',
+   was traced into PLL_ADV instance PLL_ADV. The following new TNM groups and
+   period specifications were generated at the PLL_ADV output(s): 
+   CLKOUT0: <TIMESPEC TS_inst_clk_clkout0 = PERIOD "inst_clk_clkout0" TS_clk /
+   3.7 HIGH 50%>
+
+WARNING:ConstraintSystem - The Offset constraint <TIMEGRP "FDATA_IN" OFFSET = IN
+   2.5ns BEFORE "clk" RISING;> [C:/Users/savj/Desktop/AN65974/AN65974_Source
+   Files/FPGA Source
+   files/fx3_slaveFIFO2b_xilinx/fpga_slavefifo2b_vhdl/slaveFIFO2b_fpga_top.ucf(1
+   21)], is specified without a duration.  This will result in a lack of hold
+   time checks in timing reports.  If hold time checks are desired a duration
+   value should be specified following the 'VALID' keyword.
+
+Done...
+
+Checking expanded design ...
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:   1
+
+Total memory usage is 158172 kilobytes
+
+Writing NGD file "slaveFIFO2b_fpga_top.ngd" ...
+Total REAL time to NGDBUILD completion:  5 sec
+Total CPU time to NGDBUILD completion:   4 sec
+
+Writing NGDBUILD log file "slaveFIFO2b_fpga_top.bld"...

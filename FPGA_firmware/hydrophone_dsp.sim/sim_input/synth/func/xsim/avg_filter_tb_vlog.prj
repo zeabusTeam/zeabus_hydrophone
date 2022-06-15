@@ -1,0 +1,8 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"avg_filter_tb_func_synth.v" \
+"../../../../../sources/adc_filter/adc_filter.v" \
+"../../../../../sources/adc_interface_tb.v" \
+
+# Do not sort compile order
+nosort

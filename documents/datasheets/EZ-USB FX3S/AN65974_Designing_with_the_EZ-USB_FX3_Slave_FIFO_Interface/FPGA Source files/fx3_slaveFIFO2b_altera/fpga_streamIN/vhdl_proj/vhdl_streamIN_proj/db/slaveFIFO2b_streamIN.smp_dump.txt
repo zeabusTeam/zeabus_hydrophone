@@ -1,0 +1,7 @@
+
+State Machine - |slaveFIFO2b_streamIN|current_stream_in_state
+Name current_stream_in_state.stream_in_write_wr_delay current_stream_in_state.stream_in_write current_stream_in_state.stream_in_wait_flagb current_stream_in_state.stream_in_idle 
+current_stream_in_state.stream_in_idle 0 0 0 0 
+current_stream_in_state.stream_in_wait_flagb 0 0 1 1 
+current_stream_in_state.stream_in_write 0 1 0 1 
+current_stream_in_state.stream_in_write_wr_delay 1 0 0 1 

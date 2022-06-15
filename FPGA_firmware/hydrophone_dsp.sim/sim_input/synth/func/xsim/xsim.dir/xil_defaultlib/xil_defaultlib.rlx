@@ -1,0 +1,7 @@
+0.7
+2020.2
+Nov 18 2020
+09:20:35
+/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.sim/sim_input/synth/func/xsim/avg_filter_tb_func_synth.v,1654743327,verilog,,/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v,,adc_filter_1;adc_filter_21;adc_filter_22;adc_interface_0;avg64_binning_10;avg64_binning_23;avg64_binning_34;fx3s_interface;glbl;hydrophone_config_manager;hydrophone_trigger;i2c_master_bit_ctrl;i2c_master_byte_ctrl;median_filter_11;median_filter_24;median_filter_35;packetizer;poten_interface;reset_subs;sort_12;sort_13;sort_14;sort_15;sort_16;sort_17;sort_18;sort_19;sort_2;sort_20;sort_25;sort_26;sort_27;sort_28;sort_29;sort_3;sort_30;sort_31;sort_32;sort_33;sort_36;sort_37;sort_38;sort_39;sort_4;sort_40;sort_41;sort_42;sort_43;sort_44;sort_5;sort_6;sort_7;sort_8;sort_9;zeabus_hydrophone,,,,,,,,
+/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/adc_filter/adc_filter.v,1647836756,verilog,,/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/adc_interface_tb.v,,adc_filter;adc_interface;avg64_binning;median_filter;sort,,,,,,,,
+/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/adc_interface_tb.v,1654742816,verilog,,,,avg_filter_tb,,,,,,,,

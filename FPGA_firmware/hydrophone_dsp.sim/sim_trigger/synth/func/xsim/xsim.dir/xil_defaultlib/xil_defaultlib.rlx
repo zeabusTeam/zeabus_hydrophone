@@ -1,0 +1,7 @@
+0.7
+2020.2
+Nov 18 2020
+09:20:35
+/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.sim/sim_trigger/synth/func/xsim/hydrophone_trigger_tb_func_synth.v,1655193576,verilog,,/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v,,adc_filter;adc_filter_1;adc_filter__parameterized0;adc_filter__parameterized0_2;adc_interface;adc_interface_0;avg64_binning;avg64_binning_4;avg64_binning__parameterized0;avg64_binning__parameterized0_3;fx3s_interface;glbl;hydrophone_config_manager;i2c_master_bit_ctrl;i2c_master_byte_ctrl;packetizer;poten_interface;reset_subs;zeabus_hydrophone,,,,,,,,
+/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger/hydrophone_trigger.v,1654236472,verilog,,/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger_tb.v,,absolute;hydrophone_trigger,,,,,,,,
+/home/stp/seapup/zeabus_hydrophone/FPGA_firmware/sources/hydrophone_trigger_tb.v,1654745019,verilog,,,,hydrophone_trigger_tb,,,,,,,,

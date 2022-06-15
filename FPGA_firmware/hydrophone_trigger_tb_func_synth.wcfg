@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="hydrophone_trigger_tb_func_synth.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="hydrophone_trigger_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="112fs"></ZoomEndTime>
+      <Cursor1Time time="12252fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="298"></NameColumnWidth>
+      <ValueColumnWidth column_width="134"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="23" />
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/clk_toggle_period">
+      <obj_property name="ElementShortName">clk_toggle_period[31:0]</obj_property>
+      <obj_property name="ObjectShortName">clk_toggle_period[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/str_strobe">
+      <obj_property name="ElementShortName">str_strobe[31:0]</obj_property>
+      <obj_property name="ObjectShortName">str_strobe[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/end_strobe">
+      <obj_property name="ElementShortName">end_strobe[31:0]</obj_property>
+      <obj_property name="ObjectShortName">end_strobe[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/total_data">
+      <obj_property name="ElementShortName">total_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">total_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/cycle_count">
+      <obj_property name="ElementShortName">cycle_count[63:0]</obj_property>
+      <obj_property name="ObjectShortName">cycle_count[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/level">
+      <obj_property name="ElementShortName">level[15:0]</obj_property>
+      <obj_property name="ObjectShortName">level[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/in_data">
+      <obj_property name="ElementShortName">in_data[0:679][63:0]</obj_property>
+      <obj_property name="ObjectShortName">in_data[0:679][63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/d_in">
+      <obj_property name="ElementShortName">d_in[63:0]</obj_property>
+      <obj_property name="ObjectShortName">d_in[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/d_out">
+      <obj_property name="ElementShortName">d_out[63:0]</obj_property>
+      <obj_property name="ObjectShortName">d_out[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/trigged">
+      <obj_property name="ElementShortName">trigged</obj_property>
+      <obj_property name="ObjectShortName">trigged</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/strobe">
+      <obj_property name="ElementShortName">strobe</obj_property>
+      <obj_property name="ObjectShortName">strobe</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/output_strb">
+      <obj_property name="ElementShortName">output_strb</obj_property>
+      <obj_property name="ObjectShortName">output_strb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/strobe_count">
+      <obj_property name="ElementShortName">strobe_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">strobe_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/trigger_rdy">
+      <obj_property name="ElementShortName">trigger_rdy</obj_property>
+      <obj_property name="ObjectShortName">trigger_rdy</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/trigger_full">
+      <obj_property name="ElementShortName">trigger_full</obj_property>
+      <obj_property name="ObjectShortName">trigger_full</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/trigger_fifo_rdy">
+      <obj_property name="ElementShortName">trigger_fifo_rdy</obj_property>
+      <obj_property name="ObjectShortName">trigger_fifo_rdy</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/hydrophone_trigger_tb/trigger_strobe">
+      <obj_property name="ElementShortName">trigger_strobe</obj_property>
+      <obj_property name="ObjectShortName">trigger_strobe</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/backlog_size">
+      <obj_property name="ElementShortName">backlog_size[12:0]</obj_property>
+      <obj_property name="ObjectShortName">backlog_size[12:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/abs_data">
+      <obj_property name="ElementShortName">abs_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">abs_data[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/abs_trig">
+      <obj_property name="ElementShortName">abs_trig[15:0]</obj_property>
+      <obj_property name="ObjectShortName">abs_trig[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/hydrophone_trigger_tb/out_file">
+      <obj_property name="ElementShortName">out_file[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_file[31:0]</obj_property>
+   </wvobject>
+</wave_config>

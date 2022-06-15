@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"fx3_interface_tb_func_synth.v" \
+"../../../../../sources/cofig_manager/config_manager.v" \
+"../../../../../sources/fx3s_interface/fx3s_interface.v" \
+"../../../../../sources/hydrophone_trigger/hydrophone_trigger.v" \
+"../../../../../sources/packetizer/packetize.v" \
+"../../../../../sources/fx3s_interface_tb.v" \
+
+# Do not sort compile order
+nosort

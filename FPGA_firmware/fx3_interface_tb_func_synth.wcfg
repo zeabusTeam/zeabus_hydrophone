@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="fx3_interface_tb_func_synth.wdb" id="1">
+         <top_modules>
+            <top_module name="fx3_interface_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="140392fs"></ZoomStartTime>
+      <ZoomEndTime time="170143fs"></ZoomEndTime>
+      <Cursor1Time time="128000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="266"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="67" />
+   <wvobject type="array" fp_name="/fx3_interface_tb/out_file">
+      <obj_property name="ElementShortName">out_file[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_file[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/pkt_strobe_d">
+      <obj_property name="ElementShortName">pkt_strobe_d</obj_property>
+      <obj_property name="ObjectShortName">pkt_strobe_d</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/FX3S_DMA_Size">
+      <obj_property name="ElementShortName">FX3S_DMA_Size[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FX3S_DMA_Size[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/total_data">
+      <obj_property name="ElementShortName">total_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">total_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/clk_per_strobe">
+      <obj_property name="ElementShortName">clk_per_strobe[31:0]</obj_property>
+      <obj_property name="ObjectShortName">clk_per_strobe[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/cycle_count">
+      <obj_property name="ElementShortName">cycle_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycle_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/conf_index">
+      <obj_property name="ElementShortName">conf_index[31:0]</obj_property>
+      <obj_property name="ObjectShortName">conf_index[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/DMA_Counter">
+      <obj_property name="ElementShortName">DMA_Counter[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DMA_Counter[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/DMA_Wait">
+      <obj_property name="ElementShortName">DMA_Wait[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DMA_Wait[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/strobe_count">
+      <obj_property name="ElementShortName">strobe_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">strobe_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/conf_data">
+      <obj_property name="ElementShortName">conf_data[0:15][15:0]</obj_property>
+      <obj_property name="ObjectShortName">conf_data[0:15][15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/clk_64MHz">
+      <obj_property name="ElementShortName">clk_64MHz</obj_property>
+      <obj_property name="ObjectShortName">clk_64MHz</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/level">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">level[15:0]</obj_property>
+      <obj_property name="ObjectShortName">level[15:0]</obj_property>
+      <obj_property name="label">Trigger_Level[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/d_in">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">d_in[63:0]</obj_property>
+      <obj_property name="ObjectShortName">d_in[63:0]</obj_property>
+      <obj_property name="label">ADC_input[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/trigged">
+      <obj_property name="ElementShortName">trigged</obj_property>
+      <obj_property name="ObjectShortName">trigged</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/t_d_out">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">t_d_out[63:0]</obj_property>
+      <obj_property name="ObjectShortName">t_d_out[63:0]</obj_property>
+      <obj_property name="label">Trigger_out[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/output_strb">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">output_strb</obj_property>
+      <obj_property name="ObjectShortName">output_strb</obj_property>
+      <obj_property name="label">Trigger_output_strb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/pkt_main_state">
+      <obj_property name="ElementShortName">pkt_main_state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">pkt_main_state[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/current_pkt_size">
+      <obj_property name="ElementShortName">current_pkt_size[15:0]</obj_property>
+      <obj_property name="ObjectShortName">current_pkt_size[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/pkt_strb_d">
+      <obj_property name="ElementShortName">pkt_strb_d</obj_property>
+      <obj_property name="ObjectShortName">pkt_strb_d</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/p_d_out">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">p_d_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">p_d_out[15:0]</obj_property>
+      <obj_property name="label">pkt_d_out[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/packetize_strobe">
+      <obj_property name="ElementShortName">packetize_strobe</obj_property>
+      <obj_property name="ObjectShortName">packetize_strobe</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/pkt_sending">
+      <obj_property name="ElementShortName">pkt_sending</obj_property>
+      <obj_property name="ObjectShortName">pkt_sending</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/packet_ending">
+      <obj_property name="ElementShortName">packet_ending</obj_property>
+      <obj_property name="ObjectShortName">packet_ending</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/fx3s_state">
+      <obj_property name="ElementShortName">fx3s_state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">fx3s_state[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/fx3s_decision">
+      <obj_property name="ElementShortName">fx3s_decision[2:0]</obj_property>
+      <obj_property name="ObjectShortName">fx3s_decision[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/fx3s_fifo_rst">
+      <obj_property name="ElementShortName">fx3s_fifo_rst</obj_property>
+      <obj_property name="ObjectShortName">fx3s_fifo_rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/fx3s_pkt_end">
+      <obj_property name="ElementShortName">fx3s_pkt_end</obj_property>
+      <obj_property name="ObjectShortName">fx3s_pkt_end</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/sending">
+      <obj_property name="ElementShortName">sending</obj_property>
+      <obj_property name="ObjectShortName">sending</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/if_ready">
+      <obj_property name="ElementShortName">if_ready</obj_property>
+      <obj_property name="ObjectShortName">if_ready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/tx_empty">
+      <obj_property name="ElementShortName">tx_empty</obj_property>
+      <obj_property name="ObjectShortName">tx_empty</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/tx_full">
+      <obj_property name="ElementShortName">tx_full</obj_property>
+      <obj_property name="ObjectShortName">tx_full</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/tx_wr_en">
+      <obj_property name="ElementShortName">tx_wr_en</obj_property>
+      <obj_property name="ObjectShortName">tx_wr_en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/tx_rd_en">
+      <obj_property name="ElementShortName">tx_rd_en</obj_property>
+      <obj_property name="ObjectShortName">tx_rd_en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/rx_empty">
+      <obj_property name="ElementShortName">rx_empty</obj_property>
+      <obj_property name="ObjectShortName">rx_empty</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/rx_full">
+      <obj_property name="ElementShortName">rx_full</obj_property>
+      <obj_property name="ObjectShortName">rx_full</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/rx_wr_en">
+      <obj_property name="ElementShortName">rx_wr_en</obj_property>
+      <obj_property name="ObjectShortName">rx_wr_en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/rx_rd_en">
+      <obj_property name="ElementShortName">rx_rd_en</obj_property>
+      <obj_property name="ObjectShortName">rx_rd_en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/if_input_full">
+      <obj_property name="ElementShortName">if_input_full</obj_property>
+      <obj_property name="ObjectShortName">if_input_full</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/is_outgoing">
+      <obj_property name="ElementShortName">is_outgoing</obj_property>
+      <obj_property name="ObjectShortName">is_outgoing</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/ifclk">
+      <obj_property name="ElementShortName">ifclk</obj_property>
+      <obj_property name="ObjectShortName">ifclk</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/DQ">
+      <obj_property name="ElementShortName">DQ[15:0]</obj_property>
+      <obj_property name="ObjectShortName">DQ[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/A">
+      <obj_property name="ElementShortName">A[1:0]</obj_property>
+      <obj_property name="ObjectShortName">A[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/SLCS">
+      <obj_property name="ElementShortName">SLCS</obj_property>
+      <obj_property name="ObjectShortName">SLCS</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/SLWR">
+      <obj_property name="ElementShortName">SLWR</obj_property>
+      <obj_property name="ObjectShortName">SLWR</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/SLRD">
+      <obj_property name="ElementShortName">SLRD</obj_property>
+      <obj_property name="ObjectShortName">SLRD</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/SLOE">
+      <obj_property name="ElementShortName">SLOE</obj_property>
+      <obj_property name="ObjectShortName">SLOE</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/PKTEND">
+      <obj_property name="ElementShortName">PKTEND</obj_property>
+      <obj_property name="ObjectShortName">PKTEND</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/FLAGA">
+      <obj_property name="ElementShortName">FLAGA</obj_property>
+      <obj_property name="ObjectShortName">FLAGA</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/FLAGB">
+      <obj_property name="ElementShortName">FLAGB</obj_property>
+      <obj_property name="ObjectShortName">FLAGB</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/DQ_Out">
+      <obj_property name="ElementShortName">DQ_Out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">DQ_Out[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/DQ_In">
+      <obj_property name="ElementShortName">DQ_In[15:0]</obj_property>
+      <obj_property name="ObjectShortName">DQ_In[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/i_d_out">
+      <obj_property name="ElementShortName">i_d_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">i_d_out[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/i_output_valid">
+      <obj_property name="ElementShortName">i_output_valid</obj_property>
+      <obj_property name="ObjectShortName">i_output_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/i_oe">
+      <obj_property name="ElementShortName">i_oe</obj_property>
+      <obj_property name="ObjectShortName">i_oe</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/level">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">level[15:0]</obj_property>
+      <obj_property name="ObjectShortName">level[15:0]</obj_property>
+      <obj_property name="label">trigger_level[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/poten_1">
+      <obj_property name="ElementShortName">poten_1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">poten_1[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/poten_2">
+      <obj_property name="ElementShortName">poten_2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">poten_2[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/poten_3">
+      <obj_property name="ElementShortName">poten_3[7:0]</obj_property>
+      <obj_property name="ObjectShortName">poten_3[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/poten_4">
+      <obj_property name="ElementShortName">poten_4[7:0]</obj_property>
+      <obj_property name="ObjectShortName">poten_4[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/fx3_interface_tb/start_update">
+      <obj_property name="ElementShortName">start_update</obj_property>
+      <obj_property name="ObjectShortName">start_update</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/cfg_debug">
+      <obj_property name="ElementShortName">cfg_debug[8:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_debug[8:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/cfg_state">
+      <obj_property name="ElementShortName">cfg_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/pre_rd">
+      <obj_property name="ElementShortName">pre_rd[1:0]</obj_property>
+      <obj_property name="ObjectShortName">pre_rd[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/post_rd">
+      <obj_property name="ElementShortName">post_rd[1:0]</obj_property>
+      <obj_property name="ObjectShortName">post_rd[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/fx3_interface_tb/conf_index">
+      <obj_property name="ElementShortName">conf_index[31:0]</obj_property>
+      <obj_property name="ObjectShortName">conf_index[31:0]</obj_property>
+   </wvobject>
+</wave_config>

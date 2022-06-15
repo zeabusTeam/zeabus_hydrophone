@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:47 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Wed Jun 15 12:44:21 2022
+# Process ID: 41382
+# Current directory: /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/impl_1
+# Command line: vivado -log zeabus_hydrophone.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source zeabus_hydrophone.tcl -notrace
+# Log file: /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/impl_1/zeabus_hydrophone.vdi
+# Journal file: /home/stp/seapup/zeabus_hydrophone/FPGA_firmware/hydrophone_dsp.runs/impl_1/vivado.jou
+#-----------------------------------------------------------
+source zeabus_hydrophone.tcl -notrace

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="slaveFIFO2b_loopback">
+		<CBX_INST_ENTRY INSTANCE_NAME="|slaveFIFO2b_loopback|ddr:inst_ddr|altddio_out:ALTDDIO_OUT_component" CBX_FILE_NAME="ddio_out_g8j.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|slaveFIFO2b_loopback|fifo:fifo_inst|altsyncram:data_array_rtl_0" CBX_FILE_NAME="altsyncram_rug1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|slaveFIFO2b_loopback|pll:inst_clk|altpll:altpll_component" CBX_FILE_NAME="pll_altpll.v"/>
+	</PROJECT>
+</LOG_ROOT>

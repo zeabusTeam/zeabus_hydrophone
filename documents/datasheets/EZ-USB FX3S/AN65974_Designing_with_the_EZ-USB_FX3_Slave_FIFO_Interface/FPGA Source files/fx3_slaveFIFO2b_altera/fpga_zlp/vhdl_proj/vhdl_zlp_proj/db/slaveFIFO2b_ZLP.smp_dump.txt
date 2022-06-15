@@ -1,0 +1,8 @@
+
+State Machine - |slaveFIFO2b_ZLP|current_zlp_state
+Name current_zlp_state.zlp_wait current_zlp_state.zlp_write_wr_delay current_zlp_state.zlp_write current_zlp_state.zlp_wait_flagb current_zlp_state.zlp_idle 
+current_zlp_state.zlp_idle 0 0 0 0 0 
+current_zlp_state.zlp_wait_flagb 0 0 0 1 1 
+current_zlp_state.zlp_write 0 0 1 0 1 
+current_zlp_state.zlp_write_wr_delay 0 1 0 0 1 
+current_zlp_state.zlp_wait 1 0 0 0 1 
